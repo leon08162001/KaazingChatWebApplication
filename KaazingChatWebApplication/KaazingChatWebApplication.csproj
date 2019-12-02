@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1295ACF0-A29C-4913-A58E-1418560688E3}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KaazingChatWebApplication</RootNamespace>
+    <AssemblyName>KaazingChatWebApplication</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>0</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.2.0.30\lib\net461\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DocsByReflection, Version=1.0.8.0, Culture=neutral, PublicKeyToken=64d1e8338525e7be, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocsByReflection.1.0.11\lib\net40\DocsByReflection.dll</HintPath>
+    </Reference>
+    <Reference Include="HelperSharp, Version=1.0.5560.27038, Culture=neutral, PublicKeyToken=3d44152485e1a4e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\HelperSharp.0.0.4.2\lib\net35\HelperSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Core, Version=2.0.1.45000, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <HintPath>..\packages\Spring.Core.2.0.1\lib\net45\Spring.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebApiProxy.Core, Version=1.3.6021.11899, Culture=neutral, PublicKeyToken=6d05901e523675b1, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebApiProxy.CSharp.1.3.6021.11899\lib\net45\WebApiProxy.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="WebApiProxy.Server, Version=1.3.6021.8370, Culture=neutral, PublicKeyToken=e027108dc78234fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebApiProxy.1.3.6021.8370\lib\net45\WebApiProxy.Server.dll</HintPath>
+    </Reference>
+    <Reference Include="WebApiProxy.Tasks, Version=1.3.6021.11899, Culture=neutral, PublicKeyToken=e5f1ff9f00b5d4dc, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebApiProxy.CSharp.1.3.6021.11899\lib\net45\WebApiProxy.Tasks.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Asmx\ChatService.asmx" />
+    <Content Include="css\bootstrap.css" />
+    <Content Include="css\buttons.css" />
+    <Content Include="Default.aspx" />
+    <Content Include="Error\404-13.htm" />
+    <Content Include="Global.asax" />
+    <Content Include="images\Chrysanthemum.jpg" />
+    <Content Include="images\Desert.jpg" />
+    <Content Include="images\Hydrangeas.jpg" />
+    <Content Include="images\Jellyfish.jpg" />
+    <Content Include="images\Koala.jpg" />
+    <Content Include="images\Lighthouse.jpg" />
+    <Content Include="images\Penguins.jpg" />
+    <Content Include="images\Tulips.jpg" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="Kaazing1.aspx" />
+    <Content Include="Ashx\UploadFile1.ashx" />
+    <Content Include="lib\client\javascript\044B299E3B837324A1C39174F5BCE8A0.cache.js" />
+    <Content Include="lib\client\javascript\0D1754AC47916821D0CBE69DED4DB484.cache.js" />
+    <Content Include="lib\client\javascript\52D96B4F8585F9A9117EC18B3C071EEE.cache.js" />
+    <Content Include="lib\client\javascript\761092AC7AB921CC729D4A9A662951D2.cache.js" />
+    <Content Include="lib\client\javascript\9E7EF02171DCD8CC27F2FAB0AF52DBAD.cache.js" />
+    <Content Include="lib\client\javascript\DF5963E0C7FF945789FBBD2CCD142D2F.cache.js" />
+    <Content Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="common.ini">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Ashx\UploadFile2.ashx" />
+    <Content Include="Ashx\UploadFile.ashx" />
+    <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\KaazingChatWebApplication - Web Deploy.pubxml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <Content Include="WebApiProxy\WebApiProxy.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\client\javascript\jquery-3.4.1.min.js" />
+    <Content Include="WebChat.aspx" />
+    <Content Include="lib\client\javascript\JmsClient.js" />
+    <Content Include="lib\client\javascript\JmsClient.nocache.js" />
+    <Content Include="lib\client\javascript\jquery-1.9.1.min.js" />
+    <Content Include="lib\client\javascript\MessageClient.js" />
+    <Content Include="lib\client\javascript\PostMessageBridge.html" />
+    <Content Include="lib\client\javascript\ServerSentEvents.js" />
+    <Content Include="lib\client\javascript\StompJms.js" />
+    <Content Include="lib\client\javascript\StompJms.nocache.js" />
+    <Content Include="lib\client\javascript\WebSocket.js" />
+    <Content Include="lib\client\javascript\XMLHttpRequest.js" />
+    <Content Include="test.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="XMLHttpBridge.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Api\Controllers\WebChatController.cs" />
+    <Compile Include="Api\WebApiApConfig.cs" />
+    <Compile Include="Ashx\UploadFile.ashx.cs">
+      <DependentUpon>UploadFile.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Ashx\UploadFile2.ashx.cs">
+      <DependentUpon>UploadFile2.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Ashx\UploadFile1.ashx.cs">
+      <DependentUpon>UploadFile1.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Asmx\ChatService.asmx.cs">
+      <DependentUpon>ChatService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Connection\ConnectionFactory.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\MemoryCacher.cs" />
+    <Compile Include="Kaazing1.aspx.cs">
+      <DependentUpon>Kaazing1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Kaazing1.aspx.designer.cs">
+      <DependentUpon>Kaazing1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="KaazingChatWebApiException.cs" />
+    <Compile Include="Models\Chat.cs" />
+    <Compile Include="RequestValidatorDisabled.cs" />
+    <Compile Include="WebApiExceptionFilter.cs" />
+    <Compile Include="WebApiProxy\WebApiProxy.generated.cs" />
+    <Compile Include="WebChat.aspx.cs">
+      <DependentUpon>WebChat.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebChat.aspx.designer.cs">
+      <DependentUpon>WebChat.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{c2027887-2e05-482a-bf26-4fe86dffaf99}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="lib\client\javascript\Backup\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>3643</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:1443/KaazingChatWebApplication</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="..\packages\WebApiProxy.CSharp.1.3.6021.11899\build\WebApiProxy.CSharp.targets" Condition="Exists('..\packages\WebApiProxy.CSharp.1.3.6021.11899\build\WebApiProxy.CSharp.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>此專案參考這部電腦上所缺少的 NuGet 套件。請啟用 NuGet 套件還原，以下載該套件。如需詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的檔案是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\WebApiProxy.CSharp.1.3.6021.11899\build\WebApiProxy.CSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\WebApiProxy.CSharp.1.3.6021.11899\build\WebApiProxy.CSharp.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

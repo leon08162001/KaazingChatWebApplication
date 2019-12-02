@@ -1,0 +1,238 @@
+2019-12-01 14:32:55,297 [11] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 14:32:56,271 [5] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 14:32:57,130 [13] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_BBZ00200_投資到期計算.docx) from KaazingChatWebApplication
+2019-12-01 14:33:57,792 [5] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 14:33:58,355 [22] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_CREDIT_CHECK_REPROT_APPROVEMENT.docx) from KaazingChatWebApplication
+2019-12-01 14:33:58,501 [12] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 14:39:43,626 [39] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 14:39:43,831 [46] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 14:39:44,737 [44] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CB000120_企金徵信結果輸入.doc) from KaazingChatWebApplication
+2019-12-01 14:40:19,652 [30] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 14:40:19,853 [44] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 14:40:20,713 [50] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CD000300_Debit Note清冊.doc) from KaazingChatWebApplication
+2019-12-01 15:26:27,543 [8] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 15:26:28,341 [11] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 15:26:28,709 [12] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CB000100_待徵信案件清冊.doc) from KaazingChatWebApplication
+2019-12-01 15:28:42,665 [15] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 15:28:42,867 [8] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 15:28:44,580 [6] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CC000110_鑑估結果輸入.doc) from KaazingChatWebApplication
+2019-12-01 15:30:38,111 [24] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 15:30:38,280 [15] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 15:30:39,240 [11] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CDP00300_ Debit Note.doc) from KaazingChatWebApplication
+2019-12-01 15:37:13,068 [21] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 15:37:13,167 [6] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 15:37:14,128 [23] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CB000120_企金徵信結果輸入.doc) from KaazingChatWebApplication
+2019-12-01 15:40:06,027 [23] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 15:40:06,128 [13] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 15:40:07,035 [6] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_DA000100_待簽約清冊.doc) from KaazingChatWebApplication
+2019-12-01 15:47:16,207 [20] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 15:47:16,307 [37] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 15:47:17,271 [11] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_DA000120_簽約時間選擇.doc) from KaazingChatWebApplication
+2019-12-01 15:48:12,106 [15] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 15:48:12,178 [65] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 15:48:12,814 [66] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_FAP00100_支票收訖收據.doc) from KaazingChatWebApplication
+2019-12-01 16:40:27,615 [20] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 16:40:28,524 [8] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 16:40:28,598 [38] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_GA000210_暫收款處理.doc) from KaazingChatWebApplication
+2019-12-01 18:55:03,585 [10] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:55:04,599 [5] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CC_APPRAISAL_LAND.docx) from KaazingChatWebApplication
+2019-12-01 18:55:05,346 [11] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:55:13,170 [8] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:55:13,325 [13] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:55:14,380 [13] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(功能清冊.xlsx) from KaazingChatWebApplication
+2019-12-01 18:56:37,541 [32] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:56:38,096 [5] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:56:38,647 [31] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_SCORING_CARD_LEVEL.docx) from KaazingChatWebApplication
+2019-12-01 18:57:03,964 [8] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:57:04,064 [43] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:57:04,969 [47] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CC_APPRAISAL_LAND.docx) from KaazingChatWebApplication
+2019-12-01 18:57:11,066 [5] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:57:11,140 [5] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:57:12,475 [31] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(功能清冊.xlsx) from KaazingChatWebApplication
+2019-12-01 18:57:22,866 [42] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:57:23,018 [48] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:57:23,826 [48] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CC_APPRAISAL_REPORT.docx) from KaazingChatWebApplication
+2019-12-01 18:57:39,216 [8] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:57:39,349 [8] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:57:40,254 [42] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_SCORING_CARD_LEVEL.docx) from KaazingChatWebApplication
+2019-12-01 18:58:12,426 [82] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:58:12,580 [31] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:58:13,322 [77] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_CREDIT_RISK_RANK_VSESION.docx) from KaazingChatWebApplication
+2019-12-01 18:58:29,261 [77] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:58:29,362 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:58:30,201 [31] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CC_APPRAISAL_REPORT_APPROVEMENT.docx) from KaazingChatWebApplication
+2019-12-01 18:58:31,677 [77] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 18:58:31,829 [42] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:58:52,403 [98] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:58:52,477 [98] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:58:53,338 [98] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(DA_COLLECTION_SEAL_UP.docx) from KaazingChatWebApplication
+2019-12-01 18:58:54,672 [83] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 18:58:54,819 [99] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:58:57,210 [77] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 18:58:57,287 [83] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:59:00,488 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 18:59:00,662 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:59:02,974 [97] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 18:59:03,082 [98] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:59:54,970 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:59:55,056 [77] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 18:59:56,056 [98] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_CREDIT_CHECK_REPROT.docx) from KaazingChatWebApplication
+2019-12-01 19:00:00,729 [77] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:00:00,803 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:00:01,766 [98] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CC_APPRAISAL_BUILDING.docx) from KaazingChatWebApplication
+2019-12-01 19:00:16,738 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:00:16,839 [99] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:00:17,762 [99] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CC_APPRAISAL_REPORT.docx) from KaazingChatWebApplication
+2019-12-01 19:00:21,601 [77] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:00:21,685 [42] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:00:22,616 [99] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(DA_COLLECTION_LEGAL_PETITION.docx) from KaazingChatWebApplication
+2019-12-01 19:01:10,462 [77] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:01:12,392 [77] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:01:12,455 [98] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CC_APPRAISAL_LAND.docx) from KaazingChatWebApplication
+2019-12-01 19:01:20,018 [98] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:01:20,105 [27] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:01:21,055 [48] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_CREDIT_CHECK_SCORING.docx) from KaazingChatWebApplication
+2019-12-01 19:02:36,886 [52] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:02:36,964 [52] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:02:37,841 [27] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_CREDIT_RISK_RANK_VSESION.docx) from KaazingChatWebApplication
+2019-12-01 19:02:37,854 [27] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_SCORING_CARD_ASSEMBLAGE.docx) from KaazingChatWebApplication
+2019-12-01 19:02:37,863 [27] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_SCORING_CARD_ITEM.docx) from KaazingChatWebApplication
+2019-12-01 19:03:03,745 [77] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:03:03,817 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:03:04,676 [99] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(DA_COLLECTION_HOUSEHOLD_REGISTRATION_APPLICATION.docx) from KaazingChatWebApplication
+2019-12-01 19:03:04,692 [99] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(DA_COLLECTION_LEGAL_ATTEST_LETTERS.docx) from KaazingChatWebApplication
+2019-12-01 19:03:04,692 [99] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(DA_COLLECTION_LEGAL_PETITION.docx) from KaazingChatWebApplication
+2019-12-01 19:03:08,996 [99] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:03:09,111 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:03:34,271 [99] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:03:34,343 [98] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:03:35,347 [98] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(EB_HOUSEHOLD_REGISTRATION_APPLICATION_INVOICE.docx) from KaazingChatWebApplication
+2019-12-01 19:03:36,981 [77] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:03:37,045 [128] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:04:08,232 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:04:08,305 [98] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:04:09,260 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CC_APPRAISAL_BUILDING.docx) from KaazingChatWebApplication
+2019-12-01 19:04:11,199 [128] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:04:11,269 [128] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:05:45,139 [139] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:05:45,239 [122] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:05:46,101 [98] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_SCORING_CARD_VERSION.docx) from KaazingChatWebApplication
+2019-12-01 19:05:48,362 [98] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:05:48,437 [158] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:05:57,833 [98] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:05:57,933 [159] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:05:58,893 [159] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_SCORING_CARD_ITEM.docx) from KaazingChatWebApplication
+2019-12-01 19:06:01,007 [154] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:06:01,087 [154] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:06:08,455 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:06:08,555 [122] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:06:09,414 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CC_APPRAISAL_REPORT_APPROVEMENT.docx) from KaazingChatWebApplication
+2019-12-01 19:06:10,437 [154] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:06:10,569 [154] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:06:32,815 [139] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:06:32,889 [122] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:06:33,723 [189] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_SCORING_CARD_ITEM.docx) from KaazingChatWebApplication
+2019-12-01 19:06:35,132 [154] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:06:35,194 [189] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:07:21,300 [189] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:07:21,436 [159] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:07:22,322 [189] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_SCORING_CARD_LEVEL.docx) from KaazingChatWebApplication
+2019-12-01 19:09:05,810 [154] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:09:05,933 [154] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:09:06,822 [77] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_SCORING_CARD_VERSION.docx) from KaazingChatWebApplication
+2019-12-01 19:09:07,581 [122] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:09:07,621 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:12:20,214 [77] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:12:20,315 [221] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:12:21,327 [224] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CD000210_逾期未繳案件處理輸入.doc) from KaazingChatWebApplication
+2019-12-01 19:12:24,497 [139] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:12:25,001 [230] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:12:40,505 [231] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:12:40,607 [224] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:12:41,566 [214] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CC000110_鑑估結果輸入.doc) from KaazingChatWebApplication
+2019-12-01 19:12:44,395 [230] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:12:44,434 [230] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:14:04,113 [224] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:14:04,264 [77] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:14:05,081 [217] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CC000100_待鑑估案件清冊.doc) from KaazingChatWebApplication
+2019-12-01 19:14:41,216 [217] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:14:41,317 [77] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:14:42,523 [217] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(DA_CONTRACT_REPAYMENT_DETAILS_VOUCHER.docx) from KaazingChatWebApplication
+2019-12-01 19:34:33,393 [194] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:34:33,468 [182] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:34:34,399 [187] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(EB_TAXATION_INFORMATION_APPLICATION.docx) from KaazingChatWebApplication
+2019-12-01 19:34:38,786 [182] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:34:38,830 [201] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:34:39,791 [183] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_SCORING_CARD_VERSION.docx) from KaazingChatWebApplication
+2019-12-01 19:34:42,162 [187] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:34:42,256 [183] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:34:48,022 [185] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:34:48,153 [201] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:35:30,362 [194] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:35:30,409 [162] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:35:31,326 [156] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_SCORING_CARD_ITEM.docx) from KaazingChatWebApplication
+2019-12-01 19:35:31,337 [156] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_SCORING_CARD_LEVEL.docx) from KaazingChatWebApplication
+2019-12-01 19:35:36,354 [153] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:35:36,423 [152] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:35:59,972 [156] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:36:00,094 [201] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:36:04,077 [137] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:36:04,177 [201] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:36:05,021 [135] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_CREDIT_RISK_RANK_VSESION.docx) from KaazingChatWebApplication
+2019-12-01 19:36:05,868 [201] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:36:05,942 [194] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:36:28,210 [133] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:36:28,345 [135] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:36:29,265 [153] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_SCORING_CARD_ASSEMBLAGE.docx) from KaazingChatWebApplication
+2019-12-01 19:36:33,830 [194] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:36:33,910 [201] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:36:37,565 [151] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:36:37,685 [135] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:36:38,586 [135] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_SCORING_CARD_ASSEMBLAGE.docx) from KaazingChatWebApplication
+2019-12-01 19:36:39,231 [153] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:36:39,346 [194] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:37:49,219 [194] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:37:49,320 [134] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:37:50,226 [194] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_CREDIT_CHECK_REPROT.docx) from KaazingChatWebApplication
+2019-12-01 19:37:51,187 [134] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:37:51,287 [19] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:38:06,450 [201] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:38:06,523 [151] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:38:09,398 [23] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:38:09,398 [133] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_SCORING_CARD_VERSION.docx) from KaazingChatWebApplication
+2019-12-01 19:38:09,431 [201] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:38:15,214 [19] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:38:15,291 [194] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:38:24,535 [134] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:38:24,599 [23] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:38:27,476 [19] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:38:27,609 [40] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:38:28,514 [201] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_SCORING_CARD_ASSEMBLAGE.docx) from KaazingChatWebApplication
+2019-12-01 19:38:29,750 [194] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:38:29,879 [194] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:38:59,013 [194] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:38:59,058 [23] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:39:00,121 [133] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(107年度-李乃興-計算表.pdf) from KaazingChatWebApplication
+2019-12-01 19:39:00,980 [133] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:39:01,109 [194] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:40:13,366 [63] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:40:13,441 [40] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:40:14,761 [63] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(2019彭佳慧 - 流年(明月照我心插曲).mp3) from KaazingChatWebApplication
+2019-12-01 19:40:18,180 [23] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:40:18,230 [63] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:44:01,196 [54] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:44:01,268 [54] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:44:02,814 [54] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(2019彭佳慧 - 流年(明月照我心插曲).mp3) from KaazingChatWebApplication
+2019-12-01 19:44:21,905 [54] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-01 19:44:21,917 [54] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:2)
+2019-12-01 19:44:22,003 [70] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:44:22,979 [67] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:44:47,895 [37] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:44:48,057 [70] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:44:49,182 [43] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(2000彭佳慧 - 不一定.mp3) from KaazingChatWebApplication
+2019-12-01 19:51:36,797 [27] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:51:36,896 [22] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:51:37,754 [22] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(barcode.pdf) from KaazingChatWebApplication
+2019-12-01 19:52:10,780 [10] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:52:10,814 [108] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-01 19:52:11,813 [108] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(barcode.pdf) from KaazingChatWebApplication

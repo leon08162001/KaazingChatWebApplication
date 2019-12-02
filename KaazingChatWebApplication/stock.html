@@ -1,0 +1,346 @@
+﻿<!DOCTYPE html>
+<!--
+
+    Copyright (c) 2007-2014, Kaazing Corporation. All rights reserved.
+
+-->
+
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+    
+        <!-- Required for IE6/IE7 cross-origin support -->
+        <meta name="kaazing:postMessageBridgeURL" content="PostMessageBridge.html">
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <!--<link rel="icon" href="../../../resources/images/favicon.ico">-->
+        <title>Kaazing | Demos</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="../../../resources/css/normalize.css">
+        <link rel="stylesheet" href="../../../resources/css/dev.css">
+        <link rel="stylesheet" href="../../../resources/css/demo.css">
+        <!--[if lte IE 7]> <link rel="stylesheet" href="../../../resources/css/demo-ie.css"> <![endif]-->
+
+        <script src="lib/client/javascript/jquery-1.9.1.min.js"></script>
+        <script src="lib/client/javascript/modernizr.js"></script>
+        <!--[if lt IE 9]> <script src="../../../resources/js/jquery.backgroundSize.js"></script> <![endif]-->
+
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div class="header-container">
+            <header class="wrapper clearfix">
+                <a href="http://www.kaazing.com" target="_blank"><div class="title logo"></div></a>
+                <nav>
+                    <ul>
+                        <li><a href="../../../../index.html">Demos</a></li>
+                        <li><a class="commandCenterLink" href="#" target="_blank">Command Center</a></li>
+                        <li><a href="http://tech.kaazing.com/documentation/jms/4.0/index.html" target="_blank">Documentation</a></li>
+                        <li><a href="http://developer.kaazing.com/" target="_blank">Developer Home</a></li>
+                    </ul>
+                </nav>
+            </header>
+        </div>
+
+        <div class="main-container ">
+            <div class="main wrapper clearfix">
+            
+                <div class="powered-wrapper">
+                    <div class="powered-header"></div>
+                </div>
+                
+<!-- End header -->
+
+                <article>
+                
+                    <ul class="breadcrumbs clearfix">
+                       <li><a href="../../../index.html">Home</a></li>
+                       <li><a href="../../index.html">Demos</a></li>
+                       <li><a href="../../index.html#javascript">JavaScript</a></li>
+                       <li>JavaScript JMS Messaging Demo</li>
+                    </ul>
+
+                    <section>
+                    
+        <!--  Kaazing scripts -->
+		<script type="text/javascript" language="javascript" src="lib/client/javascript/WebSocket.js"></script>
+        <script type="text/javascript" language="javascript" src="lib/client/javascript/JmsClient.js"></script>
+
+        <script type="text/javascript">
+		$( document ).ready(function() {
+
+            // fix IE6 background flicker
+            if (typeof document.body.style.maxHeight == "undefined") {
+               try {
+                 document.execCommand('BackgroundImageCache', false, true);
+               } catch(e) { /* do nothing for other browsers */ }
+            }
+
+            var username = document.getElementById("username");
+            var password = document.getElementById("password");
+            var connect = document.getElementById("connect");
+            var url = document.getElementById("url");
+            var stockTable = document.getElementById("stockTable");
+            
+            username.value="leon";
+
+            var connection = null;
+            var stockRowIndexes = {};
+
+            function onMessage(message) {
+              var body = message.getText();
+
+              // extract the stock data fields
+              var fields = body.split(':');
+              var company = fields[0];
+              var ticker  = fields[1];
+              var price   = fields[2];
+
+              // lookup the table row
+              var stockRowIndex = stockRowIndexes[ticker];
+              var stockRow = stockTable.rows[stockRowIndex];
+
+              // lazily populate the table row, with 5 cells
+              if (stockRow === undefined) {
+                var stockRowIndex = stockTable.rows.length;
+                stockRow = stockTable.insertRow(stockRowIndex);
+                for (var cell=0; cell < 5; cell++) {
+                    stockRow.insertCell(cell);
+                }
+                stockRow.cells[0].className = 'company';
+                stockRow.cells[1].className = 'ticker';
+                stockRow.cells[2].className = 'price';
+                stockRow.cells[3].className = 'change';
+                stockRow.cells[4].className = 'percent';
+                stockRowIndexes[ticker] = stockRowIndex;
+              }
+
+              // detect price change
+              var oldPrice = Number(stockRow.cells[2].innerHTML);
+              var oldChange = Number(stockRow.cells[3].innerHTML);
+              var change = ((oldPrice != 0) ? (price - oldPrice) : 0).toFixed(2);
+              var percent = ((oldPrice != 0) ? (change / oldPrice * 100) : 0).toFixed(1);
+
+              // update the table row cell data
+              stockRow.cells[0].innerHTML = company;
+              stockRow.cells[1].innerHTML = ticker;
+              stockRow.cells[2].innerHTML = price;
+              stockRow.cells[3].innerHTML = change;
+              stockRow.cells[4].innerHTML = percent;
+
+              // update the table row cell styles
+              var oldSign = (oldChange != 0) ? oldChange / Math.abs(oldChange) : 0;
+              var sign = (change != 0) ? change / Math.abs(change) : 0;
+              if (sign != oldSign) {
+                switch (sign) {
+                case 1:
+                    stockRow.cells[3].className = 'upChange';
+                    stockRow.cells[4].className = 'upPercent';
+                    break;
+                case -1:
+                    stockRow.cells[3].className = 'downChange';
+                    stockRow.cells[4].className = 'downPercent';
+                    break;
+                }
+              }
+            }
+
+            connect.onclick = function() {
+                if (connection == null) {
+                    var connectionFactory = new JmsConnectionFactory(url.value);
+                    var connectionFuture = connectionFactory.createConnection(username.value, password.value, function () {
+                        try {
+                            connection = connectionFuture.getValue();
+                            connection.setExceptionListener = function(e) {
+                                alert("Error: "+e.getMessage());
+                            }
+
+                            connect.innerHTML = "Disconnect";
+                            var session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+                            var topic = session.createTopic("/topic/stock");
+                            var consumer = session.createConsumer(topic);
+
+                            consumer.setMessageListener(onMessage);
+
+                            connection.start(function () { /* Started */ });
+                            window.alert('connection success');
+                        }
+                        catch (e) {
+                            alert(e.message);
+                        }
+                    });
+                }
+                else {
+                    try {
+                        connection.close(function () {
+                            connect.innerHTML = "Connect";
+                        });
+                    }
+                    finally {
+                        connection = null;
+                    }
+                }
+            }
+
+            // default the location
+            var authority = location.host;
+            if (location.search) {
+                authority = location.search.slice(1) + "." + authority;
+            }
+            else {
+                var parts = authority.split(':');
+                var ports = { 'http:':80, 'https:':443 };
+                authority = parts[0] + ':' ;
+                if(parts.length == 1) {
+                    // use default port when no port specified
+                    port = ports[location.protocol] ;
+                }
+                else {
+                    port = parseInt(parts[1]) ;
+                }
+                authority += port;
+            }
+            url.value = location.protocol.replace("http", "ws") + "//" + authority + "/jms";
+        });
+    </script>
+
+<h1>JavaScript JMS Stock Demo</h1>
+<br />
+
+<div id="jms-javascript">
+
+    <div id="table_header">
+
+      <span class="info">This is a demo of a Web client that communicates directly with a message broker to receive streaming stock information. Both broker and quote service must be running.</span>
+
+<div id="jms-stock">
+
+        <div id="login_div">
+            <span class="info">User name and password are optional.</span><br/>
+            <label>Location</label><input id="url" size="25" ><br/>
+            <label>User Name</label><input id="username" size="25"><br/>
+            <label>Password</label><input type="password" id="password" size="25"><br/>
+            <button id="connect">Connect</button>
+        </div>
+
+      <table id="stockTable" class="stockTable" cellSpacing="0" >
+            <thead>
+                <tr>
+                    <th class="company" width="60%">Company</th>
+                    <th class="ticker" width="100px">Ticker</th>
+                    <th class="price" width="120px">Price</th>
+                    <th class="change" width="120px">Change</th>
+                    <th class="percent" width="120px">% Change</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+        <div>
+        </div>
+    </div> <!-- table_header -->
+
+  </div><!-- jms-stock -->
+
+</div>
+
+                    </section>
+                   
+                </article>
+
+<!-- Start footer -->
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+        <div class="footer-container">
+            <footer class="wrapper">
+
+<div class="section group">
+	<div class="items col span_1_of_5">
+                           <h3><a href="http://www.kaazing.com/products/">Kaazing.com</a></h3>
+                            <ul>
+                                <li><a href="http://www.kaazing.com/products/kaazing-websocket-gateway/">Overview</a></li>
+                                <li><a href="http://www.kaazing.com/products/editions/">Product Editions</a></li>
+                                <li><a href="http://www.kaazing.com/products/benefits-and-roi/">Benefits & ROI</a></li>
+                                <li><a href="http://www.kaazing.com/products/deployment-options/">Deployment Options</a></li>
+                                <li><a href="http://developer-stage.kaazing.com/product-demos/">Online Demos</a></li>
+                                <li><a href="http://www.kaazing.com/websocket/">WebSocket</a></li>
+                            </ul>
+	</div>
+	<div class="items col span_1_of_5">
+                            <h3><a href="http://developer.kaazing.com/">Developer</a></h3>
+                            <ul>
+                                <li><a href="http://developer.kaazing.com/whykaazing/">Why Kaazing</a></li>
+                                <li><a href="http://developer.kaazing.com/downloads/">Downloads</a></li>
+                                <li><a href="http://developer.kaazing.com/how-tos/">Tech Papers</a></li>
+                                <li><a href="http://developer.kaazing.com/forums/">Forums</a></li>
+                                <li><a href="http://developer.kaazing.com/product-demos/">Product Demos</a></li>
+                                <li><a href="http://tech.kaazing.com/documentation/faq.html">FAQ</a></li>
+                                <li><a href="http://tech.kaazing.com/documentation/index.html">Documentation</a></li>
+                            </ul>
+	</div>
+	<div class="items col span_1_of_5">
+                            <h3><a href="http://www.kaazing.com/services/">Services</a></h3>
+                            <ul>
+                                <li><a href="http://www.kaazing.com/services/kaazing-global-support/">Support</a></li>
+                                <li><a href="http://www.kaazing.com/services/consulting/">Consulting</a></li>
+                                <li><a href="http://www.kaazing.com/services/training/">Training</a></li>
+                            </ul>
+	</div>
+	<div class="items col span_1_of_5">
+                            <h3><a href="http://www.kaazing.com/cloud/">Cloud</a></h3>
+                            <ul>
+                                <li><a href="http://www.kaazing.com/cloud/amis/">AWS AMIS</a></li>
+                                <li><a href="http://www.kaazing.com/cloud/faq/">AWS FAQS</a></li>
+                            </ul>
+	</div>
+	<div id="contact" class="col span_1_of_5">
+                        <h3>Get in Touch</h3>
+                        <div class="contact-details">
+                            <p>T +1 (877)&shy; KAAZING<br />
+                            T +1 (877)&shy; 522-9464<br />
+                            F +1 (650)&shy; 960-8145</p>
+                            
+                            <p>Worldwide Headquarters<br />
+                            Kaazing Corporation<br />
+                            6001 America Center Drive<br/>
+                            Suite 201<br />
+                            San Jose, CA 95002, USA</p>
+                        </div>
+	</div>
+</div>
+           
+                <div class="k-bottom clearfix">
+                        <a href="#">
+			                <div class="logo"></div>
+                        </a>
+                        <div class="copyright"><!--[if lte IE 7]>&copy; 2007 - 2014 Kaazing Corporation. All Rights Reserved.<![endif]--></div>
+		                <div class="powered-footer"></div>
+                </div>
+            </footer>
+        </div>
+
+		<script>
+            $( document ).ready(function() {
+                $('.commandCenterLink').attr('href', "http://"+$(location).attr('hostname')+":8000/commandcenter");
+			
+				if( $("html").hasClass("lt-ie9") ) {
+					// Resize background CSS images for IE8 and lower.
+					$("header div.logo").css({backgroundSize: "contain"});
+					$("footer div.logo").css({backgroundSize: "contain"});
+				};
+            });
+        </script>
+
+    </body>
+</html>

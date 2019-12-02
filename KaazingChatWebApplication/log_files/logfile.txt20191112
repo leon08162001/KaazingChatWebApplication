@@ -1,0 +1,61 @@
+2019-11-12 19:48:45,372 [6] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 19:48:46,428 [14] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 19:48:57,668 [11] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 19:48:58,265 [23] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 19:49:16,100 [12] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 19:49:16,175 [12] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 19:49:38,209 [11] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 19:49:39,077 [28] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 19:49:48,610 [28] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 19:49:48,683 [9] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 19:50:53,273 [9] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 19:50:53,285 [9] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 19:50:53,377 [11] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 19:50:53,422 [50] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 19:52:17,224 [51] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 19:52:18,154 [51] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 19:52:20,204 [50] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 19:52:20,210 [28] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 19:59:08,956 [58] ERROR KaazingTestWebApplication.WebApiExceptionFilter [(null)] - TaskCanceledException:An unhandled exception was thrown by Customer Web API controller.context.(工作已取消。)
+System.Threading.Tasks.TaskCanceledException: 工作已取消。
+   於 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   於 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   於 System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- 先前擲回例外狀況之位置中的堆疊追蹤結尾 ---
+   於 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   於 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   於 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   於 System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- 先前擲回例外狀況之位置中的堆疊追蹤結尾 ---
+   於 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   於 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   於 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   於 System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()
+2019-11-12 20:00:19,306 [58] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 20:00:19,404 [57] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 20:00:32,651 [61] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 20:00:32,906 [47] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 20:01:31,290 [39] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 20:01:31,301 [39] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 20:01:32,224 [61] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 20:01:32,383 [47] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 20:01:53,991 [40] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 20:01:54,003 [40] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 20:01:54,099 [19] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 20:01:54,857 [47] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 20:55:58,562 [126] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 20:55:58,632 [131] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 20:56:09,998 [131] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 20:56:10,071 [84] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 20:57:39,780 [129] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 20:57:39,792 [129] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 20:57:39,868 [148] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 20:57:40,248 [74] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 20:59:42,735 [157] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 20:59:42,747 [157] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 20:59:43,445 [156] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 20:59:43,517 [157] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 21:00:07,166 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 21:00:07,242 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-12 21:00:24,368 [162] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-12 21:00:24,441 [84] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication

@@ -1,0 +1,1133 @@
+2019-11-16 11:13:13,977 [12] ERROR KaazingTestWebApplication.Controllers.WebChatController [(null)] - 無效的物件名稱 'dbo.ChatDialogue'。
+System.Data.SqlClient.SqlException (0x80131904): 無效的物件名稱 'dbo.ChatDialogue'。
+   於 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   於 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   於 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   於 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   於 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   於 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   於 System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   於 Dapper.SqlMapper.ExecuteReaderWithFlagsFallback(IDbCommand cmd, Boolean wasClosed, CommandBehavior behavior)
+   於 Dapper.SqlMapper.<QueryImpl>d__140`1.MoveNext()
+   於 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   於 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   於 Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType)
+   於 KaazingTestWebApplication.Controllers.WebChatController.GetChatHistory(Chat Message) 於 E:\KaazingChatWebApplication\KaazingChatWebApplication\Api\Controllers\WebChatController.cs: 行 449
+ClientConnectionId:abb54b51-09e3-412f-9ae3-5c6993a9d881
+Error Number:208,State:1,Class:16
+2019-11-16 11:13:13,977 [16] ERROR KaazingTestWebApplication.Controllers.WebChatController [(null)] - 無效的物件名稱 'dbo.ChatDialogue'。
+System.Data.SqlClient.SqlException (0x80131904): 無效的物件名稱 'dbo.ChatDialogue'。
+   於 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   於 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   於 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   於 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   於 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   於 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   於 System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   於 Dapper.SqlMapper.ExecuteReaderWithFlagsFallback(IDbCommand cmd, Boolean wasClosed, CommandBehavior behavior)
+   於 Dapper.SqlMapper.<QueryImpl>d__140`1.MoveNext()
+   於 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   於 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   於 Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType)
+   於 KaazingTestWebApplication.Controllers.WebChatController.GetChatToday(Chat Message) 於 E:\KaazingChatWebApplication\KaazingChatWebApplication\Api\Controllers\WebChatController.cs: 行 430
+ClientConnectionId:c3099a88-0057-4107-863c-4051135dafe4
+Error Number:208,State:1,Class:16
+2019-11-16 11:16:16,652 [10] ERROR KaazingTestWebApplication.Controllers.WebChatController [(null)] - 無效的物件名稱 'dbo.ChatDialogue'。
+System.Data.SqlClient.SqlException (0x80131904): 無效的物件名稱 'dbo.ChatDialogue'。
+   於 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   於 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   於 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   於 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   於 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   於 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   於 System.Data.SqlClient.SqlCommand.ExecuteScalar()
+   於 Dapper.SqlMapper.ExecuteScalarImpl[T](IDbConnection cnn, CommandDefinition& command)
+   於 Dapper.SqlMapper.ExecuteScalar[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType)
+   於 KaazingTestWebApplication.Controllers.WebChatController.ChatUpdate(Chat Message) 於 E:\KaazingChatWebApplication\KaazingChatWebApplication\Api\Controllers\WebChatController.cs: 行 401
+ClientConnectionId:39805c0e-6568-4cdd-9453-df685fc3097f
+Error Number:208,State:1,Class:16
+2019-11-16 11:16:29,749 [14] ERROR KaazingTestWebApplication.Controllers.WebChatController [(null)] - 無效的物件名稱 'dbo.ChatDialogue'。
+System.Data.SqlClient.SqlException (0x80131904): 無效的物件名稱 'dbo.ChatDialogue'。
+   於 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   於 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   於 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   於 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   於 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   於 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   於 System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   於 Dapper.SqlMapper.ExecuteReaderWithFlagsFallback(IDbCommand cmd, Boolean wasClosed, CommandBehavior behavior)
+   於 Dapper.SqlMapper.<QueryImpl>d__140`1.MoveNext()
+   於 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   於 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   於 Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType)
+   於 KaazingTestWebApplication.Controllers.WebChatController.GetChatToday(Chat Message) 於 E:\KaazingChatWebApplication\KaazingChatWebApplication\Api\Controllers\WebChatController.cs: 行 430
+ClientConnectionId:39805c0e-6568-4cdd-9453-df685fc3097f
+Error Number:208,State:1,Class:16
+2019-11-16 11:16:29,754 [13] ERROR KaazingTestWebApplication.Controllers.WebChatController [(null)] - 無效的物件名稱 'dbo.ChatDialogue'。
+System.Data.SqlClient.SqlException (0x80131904): 無效的物件名稱 'dbo.ChatDialogue'。
+   於 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   於 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   於 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   於 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   於 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   於 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   於 System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   於 Dapper.SqlMapper.ExecuteReaderWithFlagsFallback(IDbCommand cmd, Boolean wasClosed, CommandBehavior behavior)
+   於 Dapper.SqlMapper.<QueryImpl>d__140`1.MoveNext()
+   於 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   於 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   於 Dapper.SqlMapper.Query[T](IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Boolean buffered, Nullable`1 commandTimeout, Nullable`1 commandType)
+   於 KaazingTestWebApplication.Controllers.WebChatController.GetChatHistory(Chat Message) 於 E:\KaazingChatWebApplication\KaazingChatWebApplication\Api\Controllers\WebChatController.cs: 行 449
+ClientConnectionId:3a28cfe1-ec5b-4376-afcf-3eb2f91ae212
+Error Number:208,State:1,Class:16
+2019-11-16 12:14:15,576 [69] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:14:15,645 [69] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:14:16,686 [63] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:14:16,687 [59] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:14:36,690 [84] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:14:36,707 [84] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:14:36,826 [75] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:14:36,863 [50] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:14:53,607 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:14:53,633 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:14:53,740 [59] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:14:54,196 [65] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:16:51,494 [50] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:16:51,506 [50] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:16:54,384 [65] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:16:54,384 [82] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:17:11,674 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:17:11,685 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:17:11,812 [89] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:17:11,851 [84] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:17:20,767 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:17:21,445 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:17:22,954 [74] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:17:23,049 [89] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:19:33,216 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:19:33,228 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:19:33,329 [50] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:19:33,419 [49] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:19:44,770 [10] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:19:44,781 [10] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:19:44,862 [83] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:19:44,958 [49] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:19:55,691 [16] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:19:55,705 [16] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:19:55,813 [89] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:19:55,831 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:21:47,497 [50] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:21:47,509 [50] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:21:47,642 [50] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:21:47,656 [49] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:22:00,487 [74] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:22:00,497 [74] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:22:00,602 [83] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:22:00,654 [8] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:22:09,588 [51] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:22:09,601 [51] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:22:09,667 [84] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:22:09,689 [50] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:23:31,803 [50] ERROR KaazingTestWebApplication.Controllers.WebChatController [(null)] - 無法插入 NULL 值到資料行 'receiver'，資料表 'Chat.dbo.ChatDialogue'; 資料行不得有 Null。INSERT 失敗。
+陳述式已經結束。
+System.Data.SqlClient.SqlException (0x80131904): 無法插入 NULL 值到資料行 'receiver'，資料表 'Chat.dbo.ChatDialogue'; 資料行不得有 Null。INSERT 失敗。
+陳述式已經結束。
+   於 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   於 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   於 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   於 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   於 System.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, String methodName, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   於 System.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   於 Dapper.SqlMapper.ExecuteCommand(IDbConnection cnn, CommandDefinition& command, Action`2 paramReader)
+   於 Dapper.SqlMapper.ExecuteImpl(IDbConnection cnn, CommandDefinition& command)
+   於 Dapper.SqlMapper.Execute(IDbConnection cnn, String sql, Object param, IDbTransaction transaction, Nullable`1 commandTimeout, Nullable`1 commandType)
+   於 KaazingTestWebApplication.Controllers.WebChatController.ChatUpdate(Chat Message) 於 E:\KaazingChatWebApplication\KaazingChatWebApplication\Api\Controllers\WebChatController.cs: 行 411
+ClientConnectionId:0767e1d0-9db8-415f-92ce-06e88043de37
+Error Number:515,State:2,Class:16
+2019-11-16 12:25:20,021 [10] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:25:20,038 [10] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:25:21,908 [50] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:25:21,909 [8] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:25:36,290 [51] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:25:36,302 [51] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:25:36,425 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:25:36,435 [51] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:25:45,269 [89] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:25:45,282 [89] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:25:46,045 [8] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:25:46,142 [74] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:27:35,315 [82] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:27:35,327 [82] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:27:35,423 [89] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:27:35,434 [74] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:27:59,496 [83] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:27:59,504 [83] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:28:00,503 [152] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:28:00,504 [156] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:28:14,866 [153] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:28:14,877 [153] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 12:28:14,956 [152] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 12:28:14,994 [82] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:15:24,853 [166] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:15:24,863 [166] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:15:25,084 [178] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:15:25,085 [149] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:15:34,417 [89] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:15:34,421 [89] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:15:34,684 [188] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:15:34,717 [149] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:15:44,032 [82] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:15:44,046 [82] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:15:44,595 [166] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:15:44,946 [178] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:19:07,845 [198] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:19:07,857 [198] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:19:08,050 [190] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:19:08,060 [152] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:19:16,591 [177] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:19:16,613 [177] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:19:16,821 [152] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:19:16,844 [82] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:19:27,195 [175] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:19:27,207 [175] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:19:27,362 [152] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:19:27,362 [166] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:21:26,391 [166] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:21:26,402 [166] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:21:26,589 [190] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:21:26,599 [152] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:21:34,609 [198] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:21:34,623 [198] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:21:34,731 [173] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:21:34,751 [180] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:21:43,487 [197] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:21:43,502 [197] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:21:43,607 [188] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:21:43,622 [180] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:24:45,466 [180] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:24:45,478 [180] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:24:45,568 [176] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:24:55,957 [166] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:24:55,969 [166] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:24:56,044 [176] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:25:13,025 [166] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:25:13,038 [175] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:25:20,680 [198] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:25:20,694 [198] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 16:25:20,771 [176] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 16:25:20,771 [173] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 17:11:47,573 [89] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 17:11:47,586 [89] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 17:11:47,775 [149] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 17:11:47,775 [190] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 17:11:58,576 [175] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 17:11:58,596 [175] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 17:11:58,652 [176] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 17:11:58,663 [178] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 17:12:07,994 [152] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 17:12:08,007 [152] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 17:12:08,073 [149] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 17:12:08,123 [177] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 18:32:45,893 [76] ERROR KaazingTestWebApplication.WebApiExceptionFilter [(null)] - TaskCanceledException:An unhandled exception was thrown by Customer Web API controller.context.(工作已取消。)
+System.Threading.Tasks.TaskCanceledException: 工作已取消。
+   於 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   於 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   於 System.Web.Http.Controllers.ApiControllerActionInvoker.<InvokeActionAsyncCore>d__0.MoveNext()
+--- 先前擲回例外狀況之位置中的堆疊追蹤結尾 ---
+   於 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   於 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   於 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   於 System.Web.Http.Controllers.ActionFilterResult.<ExecuteAsync>d__2.MoveNext()
+--- 先前擲回例外狀況之位置中的堆疊追蹤結尾 ---
+   於 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   於 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   於 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   於 System.Web.Http.Controllers.ExceptionFilterResult.<ExecuteAsync>d__0.MoveNext()
+2019-11-16 18:59:46,847 [36] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 18:59:47,803 [13] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:02,663 [30] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 19:00:02,675 [30] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:2)
+2019-11-16 19:00:02,696 [30] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:3)
+2019-11-16 19:00:02,710 [30] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:4)
+2019-11-16 19:00:02,732 [30] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:5)
+2019-11-16 19:00:02,784 [30] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:6)
+2019-11-16 19:00:04,033 [30] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:7)
+2019-11-16 19:00:05,034 [30] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:8)
+2019-11-16 19:00:09,034 [30] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:9)
+2019-11-16 19:00:09,102 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:11,034 [30] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:10)
+2019-11-16 19:00:11,034 [13] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:11,729 [36] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:11,730 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:12,535 [15] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:12,535 [117] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:12,593 [114] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:12,593 [19] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:12,613 [30] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:12,631 [115] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:19,030 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 19:00:19,042 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:2)
+2019-11-16 19:00:19,061 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:3)
+2019-11-16 19:00:19,069 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:4)
+2019-11-16 19:00:19,078 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:5)
+2019-11-16 19:00:19,095 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:6)
+2019-11-16 19:00:19,146 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:7)
+2019-11-16 19:00:19,168 [108] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:19,206 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:8)
+2019-11-16 19:00:19,247 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:9)
+2019-11-16 19:00:19,293 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:10)
+2019-11-16 19:00:19,306 [15] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:19,334 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:11)
+2019-11-16 19:00:19,346 [184] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:19,403 [114] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:19,432 [13] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:19,404 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:12)
+2019-11-16 19:00:19,489 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:13)
+2019-11-16 19:00:19,556 [118] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:19,559 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:14)
+2019-11-16 19:00:19,561 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:20,285 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:15)
+2019-11-16 19:00:20,361 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:16)
+2019-11-16 19:00:20,372 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:17)
+2019-11-16 19:00:20,444 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:18)
+2019-11-16 19:00:21,044 [108] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:21,112 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:19)
+2019-11-16 19:00:21,122 [19] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:21,127 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:20)
+2019-11-16 19:00:21,565 [13] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:21,567 [154] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:21,566 [165] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:21,607 [101] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:21,608 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:21,690 [115] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:21,708 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:21,708 [150] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:21,736 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:21,745 [13] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:21,748 [36] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:31,777 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 19:00:31,791 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:2)
+2019-11-16 19:00:31,804 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:3)
+2019-11-16 19:00:31,831 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:4)
+2019-11-16 19:00:31,867 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:5)
+2019-11-16 19:00:31,870 [153] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:31,898 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:6)
+2019-11-16 19:00:31,905 [156] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:31,952 [108] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:31,965 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:7)
+2019-11-16 19:00:31,978 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:8)
+2019-11-16 19:00:31,986 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:9)
+2019-11-16 19:00:31,992 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:10)
+2019-11-16 19:00:32,028 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:11)
+2019-11-16 19:00:32,077 [117] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:32,077 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:12)
+2019-11-16 19:00:32,077 [15] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:32,118 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:13)
+2019-11-16 19:00:32,170 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:14)
+2019-11-16 19:00:32,171 [144] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:32,188 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:15)
+2019-11-16 19:00:32,225 [114] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:32,238 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:16)
+2019-11-16 19:00:32,246 [184] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:32,295 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:17)
+2019-11-16 19:00:32,304 [156] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:32,306 [108] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:32,306 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:18)
+2019-11-16 19:00:32,379 [165] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:32,380 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:19)
+2019-11-16 19:00:32,388 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:20)
+2019-11-16 19:00:32,402 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:21)
+2019-11-16 19:00:32,412 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:22)
+2019-11-16 19:00:32,421 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:23)
+2019-11-16 19:00:32,433 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:24)
+2019-11-16 19:00:32,450 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:25)
+2019-11-16 19:00:32,464 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:26)
+2019-11-16 19:00:32,478 [168] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:32,484 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:27)
+2019-11-16 19:00:32,536 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:28)
+2019-11-16 19:00:32,540 [148] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:32,545 [108] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:32,551 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:29)
+2019-11-16 19:00:32,579 [154] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:32,605 [117] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:32,608 [135] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:32,579 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:30)
+2019-11-16 19:00:32,637 [156] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:32,637 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:31)
+2019-11-16 19:00:32,700 [93] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:32,726 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:32)
+2019-11-16 19:00:32,746 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:33)
+2019-11-16 19:00:32,786 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:34)
+2019-11-16 19:00:32,791 [165] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:33,493 [162] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:33,514 [148] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:33,515 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:35)
+2019-11-16 19:00:33,529 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:36)
+2019-11-16 19:00:33,545 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:37)
+2019-11-16 19:00:33,577 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:38)
+2019-11-16 19:00:33,608 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:39)
+2019-11-16 19:00:33,611 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:33,766 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:40)
+2019-11-16 19:00:33,776 [184] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:33,790 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:41)
+2019-11-16 19:00:33,838 [93] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:33,878 [36] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:33,879 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:42)
+2019-11-16 19:00:33,891 [168] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:33,898 [148] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:33,892 [19] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:33,921 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:43)
+2019-11-16 19:00:33,936 [165] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:33,937 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:44)
+2019-11-16 19:00:33,962 [162] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:33,967 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:45)
+2019-11-16 19:00:33,977 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:46)
+2019-11-16 19:00:33,987 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:47)
+2019-11-16 19:00:34,040 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:48)
+2019-11-16 19:00:34,054 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:49)
+2019-11-16 19:00:34,059 [117] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:34,082 [30] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:34,082 [93] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:34,100 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:50)
+2019-11-16 19:00:34,120 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:51)
+2019-11-16 19:00:34,126 [148] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:34,127 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:52)
+2019-11-16 19:00:34,165 [168] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:34,167 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:53)
+2019-11-16 19:00:34,172 [184] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:34,175 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:54)
+2019-11-16 19:00:34,244 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:55)
+2019-11-16 19:00:34,283 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:56)
+2019-11-16 19:00:34,287 [145] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:34,293 [162] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:34,296 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:57)
+2019-11-16 19:00:34,328 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:58)
+2019-11-16 19:00:34,342 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:59)
+2019-11-16 19:00:34,347 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:60)
+2019-11-16 19:00:34,366 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:61)
+2019-11-16 19:00:34,387 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:62)
+2019-11-16 19:00:34,410 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:63)
+2019-11-16 19:00:34,421 [115] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:35,058 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:64)
+2019-11-16 19:00:35,108 [93] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:35,109 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:65)
+2019-11-16 19:00:37,679 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:66)
+2019-11-16 19:00:38,740 [13] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:39,699 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:67)
+2019-11-16 19:00:40,054 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:68)
+2019-11-16 19:00:40,091 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:69)
+2019-11-16 19:00:40,091 [19] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:40,747 [144] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:40,747 [21] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:40,749 [145] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:40,749 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:70)
+2019-11-16 19:00:45,819 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:71)
+2019-11-16 19:00:45,850 [165] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:45,854 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:72)
+2019-11-16 19:00:45,880 [154] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:45,919 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:73)
+2019-11-16 19:00:45,948 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:74)
+2019-11-16 19:00:45,987 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:75)
+2019-11-16 19:00:46,003 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:76)
+2019-11-16 19:00:46,021 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:77)
+2019-11-16 19:00:46,047 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:78)
+2019-11-16 19:00:46,056 [203] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,066 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:79)
+2019-11-16 19:00:46,119 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:80)
+2019-11-16 19:00:46,119 [115] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,189 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:81)
+2019-11-16 19:00:46,194 [153] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,205 [21] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,207 [200] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,214 [208] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,264 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:82)
+2019-11-16 19:00:46,283 [165] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,287 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:83)
+2019-11-16 19:00:46,264 [204] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,328 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:84)
+2019-11-16 19:00:46,358 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:85)
+2019-11-16 19:00:46,361 [154] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,372 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:86)
+2019-11-16 19:00:46,394 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:87)
+2019-11-16 19:00:46,406 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:88)
+2019-11-16 19:00:46,424 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:89)
+2019-11-16 19:00:46,447 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,458 [21] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,498 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:90)
+2019-11-16 19:00:46,565 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:91)
+2019-11-16 19:00:46,593 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:92)
+2019-11-16 19:00:46,596 [200] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,566 [184] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,566 [36] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,676 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:93)
+2019-11-16 19:00:46,680 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:94)
+2019-11-16 19:00:46,695 [162] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,695 [148] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,712 [62] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,696 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:95)
+2019-11-16 19:00:46,730 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:96)
+2019-11-16 19:00:46,752 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:97)
+2019-11-16 19:00:46,775 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:98)
+2019-11-16 19:00:46,788 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:99)
+2019-11-16 19:00:46,835 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:100)
+2019-11-16 19:00:46,840 [200] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,845 [147] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,912 [115] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,914 [21] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:46,916 [36] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,017 [184] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,095 [200] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,099 [55] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,104 [74] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,105 [115] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,161 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,165 [163] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,213 [156] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,214 [36] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,241 [115] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,296 [168] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,316 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,320 [81] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,879 [55] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,907 [202] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,908 [117] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,908 [156] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,955 [207] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,964 [81] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:47,999 [153] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:48,174 [147] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:48,176 [117] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:48,184 [55] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:48,185 [148] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:48,184 [156] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:48,219 [153] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:48,225 [135] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:48,248 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:48,250 [147] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:00:48,262 [204] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,294 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 19:01:12,306 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:2)
+2019-11-16 19:01:12,313 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:3)
+2019-11-16 19:01:12,319 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:4)
+2019-11-16 19:01:12,324 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:5)
+2019-11-16 19:01:12,333 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:6)
+2019-11-16 19:01:12,336 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:7)
+2019-11-16 19:01:12,340 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:8)
+2019-11-16 19:01:12,350 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:9)
+2019-11-16 19:01:12,370 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:10)
+2019-11-16 19:01:12,384 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:11)
+2019-11-16 19:01:12,392 [153] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,407 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:12)
+2019-11-16 19:01:12,437 [15] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,441 [81] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,453 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,472 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:13)
+2019-11-16 19:01:12,485 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:14)
+2019-11-16 19:01:12,502 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:15)
+2019-11-16 19:01:12,534 [154] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,536 [165] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,540 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:16)
+2019-11-16 19:01:12,556 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:17)
+2019-11-16 19:01:12,586 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:18)
+2019-11-16 19:01:12,607 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:19)
+2019-11-16 19:01:12,619 [81] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,634 [202] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,639 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:20)
+2019-11-16 19:01:12,643 [153] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,663 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,664 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:21)
+2019-11-16 19:01:12,675 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:22)
+2019-11-16 19:01:12,679 [15] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,687 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:23)
+2019-11-16 19:01:12,697 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:24)
+2019-11-16 19:01:12,713 [165] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,714 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:25)
+2019-11-16 19:01:12,745 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:26)
+2019-11-16 19:01:12,757 [248] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,764 [93] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,786 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:27)
+2019-11-16 19:01:12,810 [205] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,812 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:28)
+2019-11-16 19:01:12,817 [153] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,841 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:29)
+2019-11-16 19:01:12,887 [249] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,896 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:30)
+2019-11-16 19:01:12,915 [116] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,919 [252] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:12,920 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:31)
+2019-11-16 19:01:12,937 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:32)
+2019-11-16 19:01:12,956 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:33)
+2019-11-16 19:01:12,979 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:34)
+2019-11-16 19:01:12,981 [248] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,414 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:35)
+2019-11-16 19:01:13,498 [93] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,503 [165] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,504 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:36)
+2019-11-16 19:01:13,504 [116] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,510 [249] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,511 [15] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,521 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:37)
+2019-11-16 19:01:13,522 [153] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,532 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:38)
+2019-11-16 19:01:13,542 [256] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,555 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:39)
+2019-11-16 19:01:13,564 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:40)
+2019-11-16 19:01:13,586 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:41)
+2019-11-16 19:01:13,607 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:42)
+2019-11-16 19:01:13,619 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:43)
+2019-11-16 19:01:13,647 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:44)
+2019-11-16 19:01:13,673 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:45)
+2019-11-16 19:01:13,731 [256] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,736 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:46)
+2019-11-16 19:01:13,748 [249] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,750 [116] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,754 [165] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,756 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:47)
+2019-11-16 19:01:13,766 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:48)
+2019-11-16 19:01:13,783 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:49)
+2019-11-16 19:01:13,798 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:50)
+2019-11-16 19:01:13,818 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:51)
+2019-11-16 19:01:13,833 [15] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,837 [145] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,849 [163] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,855 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:52)
+2019-11-16 19:01:13,929 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:53)
+2019-11-16 19:01:13,929 [255] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,933 [249] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,963 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:54)
+2019-11-16 19:01:13,982 [251] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,985 [116] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:13,987 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:55)
+2019-11-16 19:01:14,007 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:56)
+2019-11-16 19:01:14,016 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:57)
+2019-11-16 19:01:14,033 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:58)
+2019-11-16 19:01:14,069 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:59)
+2019-11-16 19:01:14,075 [267] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:14,118 [252] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:14,120 [250] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:14,134 [118] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:14,166 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:60)
+2019-11-16 19:01:14,200 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:61)
+2019-11-16 19:01:14,245 [295] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:14,245 [255] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:14,247 [147] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:14,254 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:62)
+2019-11-16 19:01:14,272 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:63)
+2019-11-16 19:01:14,287 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:64)
+2019-11-16 19:01:14,298 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:65)
+2019-11-16 19:01:14,306 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:66)
+2019-11-16 19:01:14,323 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:67)
+2019-11-16 19:01:14,351 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:68)
+2019-11-16 19:01:14,358 [253] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:14,369 [252] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:14,372 [297] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:14,376 [147] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:14,398 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:69)
+2019-11-16 19:01:14,408 [81] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:14,408 [267] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:14,418 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:70)
+2019-11-16 19:01:14,429 [247] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:14,437 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:71)
+2019-11-16 19:01:14,448 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:72)
+2019-11-16 19:01:14,461 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:73)
+2019-11-16 19:01:14,465 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:74)
+2019-11-16 19:01:14,477 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:75)
+2019-11-16 19:01:14,845 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:76)
+2019-11-16 19:01:14,959 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:77)
+2019-11-16 19:01:14,977 [19] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:14,981 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:78)
+2019-11-16 19:01:14,998 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:79)
+2019-11-16 19:01:15,007 [255] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,012 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:80)
+2019-11-16 19:01:15,015 [81] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,023 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:81)
+2019-11-16 19:01:15,029 [297] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,037 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:82)
+2019-11-16 19:01:15,037 [298] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,040 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:83)
+2019-11-16 19:01:15,047 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:84)
+2019-11-16 19:01:15,053 [205] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,068 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:85)
+2019-11-16 19:01:15,068 [147] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,103 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:86)
+2019-11-16 19:01:15,144 [202] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,148 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:87)
+2019-11-16 19:01:15,168 [297] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,172 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:88)
+2019-11-16 19:01:15,200 [15] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,201 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:89)
+2019-11-16 19:01:15,207 [154] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,224 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:90)
+2019-11-16 19:01:15,246 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:91)
+2019-11-16 19:01:15,250 [207] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,266 [147] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,287 [168] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,288 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:92)
+2019-11-16 19:01:15,297 [202] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,309 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:93)
+2019-11-16 19:01:15,312 [267] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,346 [145] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,347 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:94)
+2019-11-16 19:01:15,351 [247] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,357 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:95)
+2019-11-16 19:01:15,383 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:96)
+2019-11-16 19:01:15,396 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:97)
+2019-11-16 19:01:15,415 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:98)
+2019-11-16 19:01:15,421 [93] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,426 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:99)
+2019-11-16 19:01:15,458 [254] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,461 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:100)
+2019-11-16 19:01:15,487 [273] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,496 [267] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,516 [207] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,528 [247] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,539 [249] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,654 [254] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,661 [253] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,686 [251] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:15,696 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,565 [148] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,566 [355] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,577 [295] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,580 [55] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,565 [93] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,604 [156] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,604 [167] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,613 [204] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,616 [15] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,696 [202] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,721 [309] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,770 [153] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,773 [147] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,781 [55] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,773 [253] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,787 [267] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,794 [273] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,814 [204] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:01:16,828 [165] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:20,725 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 19:04:20,792 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:2)
+2019-11-16 19:04:20,805 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:3)
+2019-11-16 19:04:20,815 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:4)
+2019-11-16 19:04:20,822 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:5)
+2019-11-16 19:04:20,828 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:6)
+2019-11-16 19:04:20,833 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:7)
+2019-11-16 19:04:20,841 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:8)
+2019-11-16 19:04:20,871 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:9)
+2019-11-16 19:04:20,893 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:10)
+2019-11-16 19:04:20,911 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:11)
+2019-11-16 19:04:20,926 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:12)
+2019-11-16 19:04:20,934 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:13)
+2019-11-16 19:04:20,945 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:14)
+2019-11-16 19:04:20,958 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:15)
+2019-11-16 19:04:20,963 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:16)
+2019-11-16 19:04:20,975 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:17)
+2019-11-16 19:04:20,987 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:18)
+2019-11-16 19:04:20,992 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:19)
+2019-11-16 19:04:21,004 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:20)
+2019-11-16 19:04:21,014 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:21)
+2019-11-16 19:04:21,025 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:22)
+2019-11-16 19:04:21,037 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:23)
+2019-11-16 19:04:21,048 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:24)
+2019-11-16 19:04:21,060 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:25)
+2019-11-16 19:04:21,071 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:26)
+2019-11-16 19:04:21,081 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:27)
+2019-11-16 19:04:21,092 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:28)
+2019-11-16 19:04:21,105 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:29)
+2019-11-16 19:04:21,116 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:30)
+2019-11-16 19:04:21,128 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:31)
+2019-11-16 19:04:21,139 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:32)
+2019-11-16 19:04:21,149 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:33)
+2019-11-16 19:04:21,164 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:34)
+2019-11-16 19:04:21,173 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:35)
+2019-11-16 19:04:21,209 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:36)
+2019-11-16 19:04:21,225 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:37)
+2019-11-16 19:04:21,243 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:38)
+2019-11-16 19:04:21,250 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:39)
+2019-11-16 19:04:21,265 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:40)
+2019-11-16 19:04:21,276 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:41)
+2019-11-16 19:04:21,291 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:42)
+2019-11-16 19:04:21,344 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:43)
+2019-11-16 19:04:21,367 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:44)
+2019-11-16 19:04:21,375 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:45)
+2019-11-16 19:04:21,382 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:46)
+2019-11-16 19:04:21,403 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:47)
+2019-11-16 19:04:21,408 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:48)
+2019-11-16 19:04:21,426 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:49)
+2019-11-16 19:04:21,430 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:50)
+2019-11-16 19:04:21,438 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:51)
+2019-11-16 19:04:21,442 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:52)
+2019-11-16 19:04:21,455 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:53)
+2019-11-16 19:04:21,461 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:54)
+2019-11-16 19:04:21,469 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:55)
+2019-11-16 19:04:21,478 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:56)
+2019-11-16 19:04:21,490 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:57)
+2019-11-16 19:04:21,503 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:58)
+2019-11-16 19:04:21,507 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:59)
+2019-11-16 19:04:21,521 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:60)
+2019-11-16 19:04:21,524 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:61)
+2019-11-16 19:04:21,529 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:62)
+2019-11-16 19:04:21,541 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:63)
+2019-11-16 19:04:21,548 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:64)
+2019-11-16 19:04:21,557 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:65)
+2019-11-16 19:04:21,560 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:66)
+2019-11-16 19:04:21,564 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:67)
+2019-11-16 19:04:21,576 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:68)
+2019-11-16 19:04:21,595 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:69)
+2019-11-16 19:04:21,604 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:70)
+2019-11-16 19:04:21,611 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:71)
+2019-11-16 19:04:21,621 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:72)
+2019-11-16 19:04:21,632 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:73)
+2019-11-16 19:04:21,643 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:74)
+2019-11-16 19:04:21,675 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:75)
+2019-11-16 19:04:21,683 [461] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:21,700 [457] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:21,708 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:76)
+2019-11-16 19:04:21,744 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:77)
+2019-11-16 19:04:21,805 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:78)
+2019-11-16 19:04:22,506 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:79)
+2019-11-16 19:04:22,632 [448] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:22,636 [445] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:22,647 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:80)
+2019-11-16 19:04:22,638 [458] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:22,638 [459] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:22,638 [449] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:22,737 [145] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:22,773 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:81)
+2019-11-16 19:04:22,809 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:82)
+2019-11-16 19:04:22,856 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:83)
+2019-11-16 19:04:22,881 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:84)
+2019-11-16 19:04:22,907 [461] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:22,915 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:85)
+2019-11-16 19:04:22,938 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:86)
+2019-11-16 19:04:22,967 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:87)
+2019-11-16 19:04:23,541 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:88)
+2019-11-16 19:04:23,554 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:89)
+2019-11-16 19:04:23,555 [427] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:23,564 [425] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:23,574 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:90)
+2019-11-16 19:04:23,586 [445] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:23,670 [146] ERROR Common.LinkLayer.BaseWebSocketAdapter [(null)] - BaseWebSocketAdapter SendMessage() Error
+Kaazing.JMS.JMSException: Message sent from client may not have been delivered
+   於 Common.LinkLayer.BaseWebSocketAdapter.SendMessage(String Text) 於 E:\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 1034
+2019-11-16 19:04:23,675 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:91)
+2019-11-16 19:04:23,693 [430] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:23,711 [437] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:23,720 [461] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:23,732 [449] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:23,860 [424] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:23,864 [425] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:23,881 [427] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:23,946 [458] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:24,047 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:92)
+2019-11-16 19:04:24,087 [459] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:24,141 [439] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:24,178 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:93)
+2019-11-16 19:04:24,180 [456] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:24,256 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:94)
+2019-11-16 19:04:24,274 [404] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:24,297 [395] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:24,324 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:95)
+2019-11-16 19:04:24,332 [410] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:24,342 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:96)
+2019-11-16 19:04:24,333 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:24,382 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:97)
+2019-11-16 19:04:24,882 [458] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:24,887 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:98)
+2019-11-16 19:04:24,907 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:99)
+2019-11-16 19:04:25,186 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:100)
+2019-11-16 19:04:25,195 [445] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,197 [428] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,187 [430] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,218 [405] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,273 [169] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,296 [448] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,332 [427] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,347 [404] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,366 [408] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,438 [456] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,438 [430] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,598 [389] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,600 [428] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,601 [444] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,628 [395] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,640 [427] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,672 [408] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,710 [146] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,757 [382] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,764 [430] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,878 [428] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,911 [436] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,924 [429] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:25,926 [444] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:26,967 [427] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:26,967 [382] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,073 [456] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,076 [461] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,098 [430] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,100 [389] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,104 [437] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,129 [447] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,165 [408] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,172 [395] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,208 [436] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,221 [382] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,385 [411] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,388 [457] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,435 [442] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,445 [395] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,462 [430] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,505 [382] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,506 [458] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,524 [389] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:27,602 [447] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:28,585 [428] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:28,587 [408] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:28,585 [436] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:31,757 [456] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:31,797 [423] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:31,801 [442] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:31,803 [449] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:31,805 [448] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:31,801 [424] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:31,802 [393] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:31,806 [405] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:31,802 [169] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:31,803 [457] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:31,941 [409] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:31,944 [459] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:32,010 [428] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:32,023 [383] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:32,034 [436] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:32,076 [393] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:32,091 [424] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:32,107 [446] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:32,119 [169] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:32,159 [457] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:32,253 [459] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:32,257 [427] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:32,286 [428] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:04:32,298 [404] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:20,104 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 19:05:20,116 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:2)
+2019-11-16 19:05:20,120 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:3)
+2019-11-16 19:05:20,123 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:4)
+2019-11-16 19:05:20,126 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:5)
+2019-11-16 19:05:20,148 [395] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:20,150 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:6)
+2019-11-16 19:05:20,153 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:7)
+2019-11-16 19:05:20,157 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:8)
+2019-11-16 19:05:20,164 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:9)
+2019-11-16 19:05:20,170 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:10)
+2019-11-16 19:05:20,174 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:11)
+2019-11-16 19:05:20,185 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:12)
+2019-11-16 19:05:20,197 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:13)
+2019-11-16 19:05:20,200 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:14)
+2019-11-16 19:05:20,204 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:15)
+2019-11-16 19:05:20,220 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:16)
+2019-11-16 19:05:20,229 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:17)
+2019-11-16 19:05:21,032 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:18)
+2019-11-16 19:05:21,123 [446] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,131 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:19)
+2019-11-16 19:05:21,138 [427] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,172 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:20)
+2019-11-16 19:05:21,206 [435] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,219 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:21)
+2019-11-16 19:05:21,208 [393] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,256 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:22)
+2019-11-16 19:05:21,260 [457] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,260 [263] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,268 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:23)
+2019-11-16 19:05:21,284 [383] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,287 [145] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,292 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:24)
+2019-11-16 19:05:21,322 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:25)
+2019-11-16 19:05:21,333 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:26)
+2019-11-16 19:05:21,360 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:27)
+2019-11-16 19:05:21,398 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:28)
+2019-11-16 19:05:21,406 [445] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,414 [427] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,423 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:29)
+2019-11-16 19:05:21,476 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:30)
+2019-11-16 19:05:21,480 [164] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,506 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:31)
+2019-11-16 19:05:21,509 [446] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,545 [261] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,557 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:32)
+2019-11-16 19:05:21,580 [383] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,580 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:33)
+2019-11-16 19:05:21,595 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:34)
+2019-11-16 19:05:21,609 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:35)
+2019-11-16 19:05:21,625 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:36)
+2019-11-16 19:05:21,627 [404] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,638 [263] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,640 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:37)
+2019-11-16 19:05:21,650 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:38)
+2019-11-16 19:05:21,656 [274] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,689 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:39)
+2019-11-16 19:05:21,695 [270] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,703 [258] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,714 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:40)
+2019-11-16 19:05:21,734 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:41)
+2019-11-16 19:05:21,753 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:42)
+2019-11-16 19:05:21,758 [383] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,759 [445] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,761 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:43)
+2019-11-16 19:05:21,764 [446] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,769 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:44)
+2019-11-16 19:05:21,778 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:45)
+2019-11-16 19:05:21,793 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:46)
+2019-11-16 19:05:21,822 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:47)
+2019-11-16 19:05:21,863 [286] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,870 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:48)
+2019-11-16 19:05:21,864 [268] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,869 [404] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:21,891 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:49)
+2019-11-16 19:05:21,900 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:50)
+2019-11-16 19:05:22,649 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:51)
+2019-11-16 19:05:22,753 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:52)
+2019-11-16 19:05:22,826 [263] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:22,839 [289] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:22,849 [459] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:22,849 [261] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:22,855 [274] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:22,849 [287] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:22,862 [290] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:22,839 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:53)
+2019-11-16 19:05:22,877 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:54)
+2019-11-16 19:05:22,904 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:55)
+2019-11-16 19:05:22,923 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:56)
+2019-11-16 19:05:22,923 [446] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:22,955 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:57)
+2019-11-16 19:05:22,990 [265] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:23,532 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:58)
+2019-11-16 19:05:23,581 [274] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:23,595 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:59)
+2019-11-16 19:05:23,601 [263] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:23,601 [459] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:23,603 [287] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:23,628 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:60)
+2019-11-16 19:05:23,670 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:61)
+2019-11-16 19:05:23,682 [289] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:23,685 [266] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:23,697 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:62)
+2019-11-16 19:05:23,737 [383] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:23,745 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:63)
+2019-11-16 19:05:23,765 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:64)
+2019-11-16 19:05:23,802 [393] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:23,817 [259] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:23,818 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:65)
+2019-11-16 19:05:23,840 [427] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:23,859 [288] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:23,864 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:66)
+2019-11-16 19:05:23,923 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:67)
+2019-11-16 19:05:23,935 [459] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:23,935 [257] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:23,958 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:68)
+2019-11-16 19:05:23,967 [266] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:23,973 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:69)
+2019-11-16 19:05:23,988 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:70)
+2019-11-16 19:05:23,995 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:71)
+2019-11-16 19:05:24,037 [427] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:24,060 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:72)
+2019-11-16 19:05:24,061 [258] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:24,061 [288] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:24,061 [393] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:24,727 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:73)
+2019-11-16 19:05:29,532 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:74)
+2019-11-16 19:05:30,532 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:75)
+2019-11-16 19:05:31,531 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:76)
+2019-11-16 19:05:31,631 [446] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:31,646 [383] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:36,539 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:77)
+2019-11-16 19:05:45,532 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:78)
+2019-11-16 19:05:49,533 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:79)
+2019-11-16 19:05:49,614 [270] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:49,635 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:80)
+2019-11-16 19:05:49,668 [382] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:49,694 [459] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:49,705 [393] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:49,727 [260] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:49,728 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:81)
+2019-11-16 19:05:49,774 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:82)
+2019-11-16 19:05:49,817 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:83)
+2019-11-16 19:05:49,819 [370] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:49,821 [275] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:49,825 [263] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:49,827 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:84)
+2019-11-16 19:05:49,891 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:85)
+2019-11-16 19:05:49,894 [270] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:49,898 [393] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:49,927 [382] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:49,934 [363] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:49,935 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:86)
+2019-11-16 19:05:49,957 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:87)
+2019-11-16 19:05:49,963 [272] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:49,972 [459] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:49,979 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:88)
+2019-11-16 19:05:50,005 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:89)
+2019-11-16 19:05:50,014 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:90)
+2019-11-16 19:05:50,033 [424] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,058 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:91)
+2019-11-16 19:05:50,060 [265] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,078 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:92)
+2019-11-16 19:05:50,095 [246] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,100 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:93)
+2019-11-16 19:05:50,133 [286] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,138 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:94)
+2019-11-16 19:05:50,142 [272] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,168 [459] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,179 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:95)
+2019-11-16 19:05:50,188 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:96)
+2019-11-16 19:05:50,198 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:97)
+2019-11-16 19:05:50,211 [145] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,215 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:98)
+2019-11-16 19:05:50,240 [415] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,249 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:99)
+2019-11-16 19:05:50,255 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:100)
+2019-11-16 19:05:50,264 [427] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,281 [272] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,362 [400] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,373 [286] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,380 [406] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,455 [447] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,462 [285] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,463 [427] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,498 [459] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,551 [447] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,568 [246] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,578 [459] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,599 [427] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,637 [428] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,678 [285] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,678 [415] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,750 [266] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,750 [369] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,761 [164] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,764 [447] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,844 [285] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,845 [246] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 19:05:50,861 [164] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 20:16:38,960 [12] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 20:16:40,734 [14] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 20:21:26,539 [14] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 20:21:27,007 [8] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-11-16 20:31:02,575 [7] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-11-16 20:31:03,573 [14] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
