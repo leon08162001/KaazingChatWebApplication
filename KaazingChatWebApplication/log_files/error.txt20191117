@@ -1,3 +1,0 @@
-2019-11-17 08:16:17,759 [492] ERROR Common.LinkLayer.BaseWebSocketAdapter [(null)] - BaseWebSocketAdapter SendMessage() Error
-Kaazing.JMS.JMSException: Message sent from client may not have been delivered
-   ©ó Common.LinkLayer.BaseWebSocketAdapter.SendMessage(String Text) ©ó E:\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: ¦æ 1034
