@@ -253,6 +253,16 @@ namespace Common.LinkLayer
                 //接收文字訊息
                 else
                 {
+                    if (_DataType.Equals(typeof (String)))
+                    {
+                        ITextMessage msg = message as ITextMessage;
+                        DataTable dt = new DataTable();
+                        dt.Columns.Add("message");
+                        DataRow dr = dt.NewRow();
+                        dr[0] = msg.Text;
+                        RunOnMessageHandleFinished(_ErrMsg, dr);
+                        return;
+                    }
                     Dictionary<string, string> MessageDictionary = new Dictionary<string, string>();
                     System.Collections.IEnumerator PropertyNames = message.PropertyNames;
                     PropertyNames.Reset();
