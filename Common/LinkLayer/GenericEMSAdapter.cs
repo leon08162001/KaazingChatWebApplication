@@ -63,6 +63,25 @@ namespace Common.LinkLayer
         {
             string Message = "";
             string _ErrMsg = "";
+            if (_DataType.Equals(typeof(String)))
+            {
+                TextMessage msg = message as TextMessage;
+                DataTable ResultTable = new DataTable();
+                ResultTable.Columns.Add("message");
+                DataRow dr = ResultTable.NewRow();
+                dr[0] = msg.Text;
+                ResultTable.Rows.Add(dr);
+                if (UISyncContext != null && IsEventInUIThread)
+                {
+                    UISyncContext.Post(OnEMSMessageHandleFinished, new MQMessageHandleFinishedEventArgs(_ErrMsg, dr));
+                }
+                else
+                {
+                    OnEMSMessageHandleFinished(new MQMessageHandleFinishedEventArgs(_ErrMsg, dr));
+                }
+                _Session.Commit();
+                return;
+            }
             Dictionary<string, string> EMSMessageDictionary = new Dictionary<string, string>();
             System.Collections.IEnumerator PropertyNames = message.PropertyNames;
             PropertyNames.Reset();

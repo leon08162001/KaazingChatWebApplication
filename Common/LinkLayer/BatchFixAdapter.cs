@@ -200,6 +200,21 @@ namespace Common.LinkLayer
                 ClearTimeOutReceivedMessage();
                  string Message = "";
                 string _ErrMsg = "";
+                if (_FixTagType.Equals(typeof(String)))
+                {
+                    ITextMessage msg = message as ITextMessage;
+                    DataTable ResultTable = new DataTable();
+                    ResultTable.Columns.Add("message");
+                    DataRow dr = ResultTable.NewRow();
+                    dr[0] = msg.Text;
+                    ResultTable.Rows.Add(dr);
+                    RunOnMessageHandleFinished(_ErrMsg, dr);
+                    _IsBatchFinished = true;
+                    _Session.Commit();
+                    RunOnBatchFinished(_ErrMsg, ResultTable);
+                    _IsBatchFinished = false;
+                    return;
+                }
                 Dictionary<string, string> MessageDictionary = new Dictionary<string, string>();
                 System.Collections.IEnumerator PropertyNames = message.PropertyNames;
                 PropertyNames.Reset();
@@ -237,14 +252,7 @@ namespace Common.LinkLayer
                 {
                     _ErrMsg = "not yet assigned Tag Type of Tag Data";
                     if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                    if (UISyncContext != null && IsEventInUIThread)
-                    {
-                        UISyncContext.Post(OnMessageHandleFinished, new MessageHandleFinishedEventArgs(_ErrMsg, null));
-                    }
-                    else
-                    {
-                        OnMessageHandleFinished(new MessageHandleFinishedEventArgs(_ErrMsg, null));
-                    }
+                    RunOnMessageHandleFinished(_ErrMsg, null);
                     return;
                 }
                 _DicTagType = Util.ConvertTagClassConstants(_FixTagType);
@@ -255,14 +263,7 @@ namespace Common.LinkLayer
                     {
                         _ErrMsg = string.Format("Tag Data's Tag[{0}] Not in the assigned type[{1}]", key, _FixTagType.Name);
                         if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                        if (UISyncContext != null && IsEventInUIThread)
-                        {
-                            UISyncContext.Post(OnMessageHandleFinished, new MessageHandleFinishedEventArgs(_ErrMsg, null));
-                        }
-                        else
-                        {
-                            OnMessageHandleFinished(new MessageHandleFinishedEventArgs(_ErrMsg, null));
-                        }
+                        RunOnMessageHandleFinished(_ErrMsg, null);
                         return;
                     }
                 }
@@ -325,6 +326,7 @@ namespace Common.LinkLayer
                             this.ReStartSender(this.SendName.Replace("#", ResultTable.Rows[0]["MacAddress"].ToString()));
                         }
                         _IsBatchFinished = true;
+                        _Session.Commit();
                         RunOnBatchFinished(_ErrMsg, ResultTable);
                         ClearGuidInDictionary(MessageDictionary[MessageID].ToString());
                         _IsBatchFinished = false;

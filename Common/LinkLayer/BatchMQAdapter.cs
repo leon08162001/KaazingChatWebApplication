@@ -252,6 +252,21 @@ namespace Common.LinkLayer
                 //接收文字訊息
                 else
                 {
+                    if (_DataType.Equals(typeof(String)))
+                    {
+                        ITextMessage msg = message as ITextMessage;
+                        DataTable ResultTable = new DataTable();
+                        ResultTable.Columns.Add("message");
+                        DataRow dr = ResultTable.NewRow();
+                        dr[0] = msg.Text;
+                        ResultTable.Rows.Add(dr);
+                        RunOnMQMessageHandleFinished(_ErrMsg, dr);
+                        _IsBatchFinished = true;
+                        _Session.Commit();
+                        RunOnMQBatchFinished(_ErrMsg, ResultTable);
+                        _IsBatchFinished = false;
+                        return;
+                    }
                     Dictionary<string, string> MQMessageDictionary = new Dictionary<string, string>();
                     foreach (object key in message.Properties.Keys)
                     {

@@ -67,6 +67,25 @@ namespace Common.LinkLayer
         {
             string Message = "";
             string _ErrMsg = "";
+            if (_DataType.Equals(typeof(String)))
+            {
+                ITextMessage msg = message as ITextMessage;
+                DataTable ResultTable = new DataTable();
+                ResultTable.Columns.Add("message");
+                DataRow dr = ResultTable.NewRow();
+                dr[0] = msg.Text;
+                ResultTable.Rows.Add(dr);
+                if (UISyncContext != null && IsEventInUIThread)
+                {
+                    UISyncContext.Post(OnMQMessageHandleFinished, new MQMessageHandleFinishedEventArgs(_ErrMsg, dr));
+                }
+                else
+                {
+                    OnMQMessageHandleFinished(new MQMessageHandleFinishedEventArgs(_ErrMsg, dr));
+                }
+                _Session.Commit();
+                return;
+            }
             Dictionary<string, string> MQMessageDictionary = new Dictionary<string, string>();
             foreach (object key in message.Properties.Keys)
             {

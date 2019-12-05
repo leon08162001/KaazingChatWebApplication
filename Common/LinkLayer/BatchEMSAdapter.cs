@@ -237,6 +237,7 @@ namespace Common.LinkLayer
                             this.Handler.WorkItemQueue.Enqueue(MessageDT);
                         }
                         _IsBatchFinished = true;
+                        _Session.Commit();
                         RunOnEMSBatchFinished(_ErrMsg, MessageDT);
                         _IsBatchFinished = false;
                     }
@@ -245,6 +246,7 @@ namespace Common.LinkLayer
                         _ErrMsg = ex1.Message;
                         RunOnEMSMessageHandleFinished(_ErrMsg, null);
                         _IsBatchFinished = true;
+                        _Session.Commit();
                         RunOnEMSBatchFinished(_ErrMsg, MessageDT);
                         _IsBatchFinished = false;
                         if (log.IsErrorEnabled) log.Error(ex1.Message, ex1);
@@ -253,6 +255,21 @@ namespace Common.LinkLayer
                 //接收文字訊息
                 else
                 {
+                    if (_DataType.Equals(typeof(String)))
+                    {
+                        TextMessage msg = message as TextMessage;
+                        DataTable ResultTable = new DataTable();
+                        ResultTable.Columns.Add("message");
+                        DataRow dr = ResultTable.NewRow();
+                        dr[0] = msg.Text;
+                        ResultTable.Rows.Add(dr);
+                        RunOnEMSMessageHandleFinished(_ErrMsg, dr);
+                        _IsBatchFinished = true;
+                        _Session.Commit();
+                        RunOnEMSBatchFinished(_ErrMsg, ResultTable);
+                        _IsBatchFinished = false;
+                        return;
+                    }
                     Dictionary<string, string> EMSMessageDictionary = new Dictionary<string, string>();
                     System.Collections.IEnumerator PropertyNames = message.PropertyNames;
                     PropertyNames.Reset();

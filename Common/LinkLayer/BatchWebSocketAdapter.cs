@@ -253,14 +253,19 @@ namespace Common.LinkLayer
                 //接收文字訊息
                 else
                 {
-                    if (_DataType.Equals(typeof (String)))
+                    if (_DataType.Equals(typeof(String)))
                     {
                         ITextMessage msg = message as ITextMessage;
-                        DataTable dt = new DataTable();
-                        dt.Columns.Add("message");
-                        DataRow dr = dt.NewRow();
+                        DataTable ResultTable = new DataTable();
+                        ResultTable.Columns.Add("message");
+                        DataRow dr = ResultTable.NewRow();
                         dr[0] = msg.Text;
+                        ResultTable.Rows.Add(dr);
                         RunOnMessageHandleFinished(_ErrMsg, dr);
+                        _IsBatchFinished = true;
+                        _Session.Commit();
+                        RunOnBatchFinished(_ErrMsg, ResultTable);
+                        _IsBatchFinished = false;
                         return;
                     }
                     Dictionary<string, string> MessageDictionary = new Dictionary<string, string>();
