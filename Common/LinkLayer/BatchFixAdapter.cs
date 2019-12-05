@@ -210,7 +210,6 @@ namespace Common.LinkLayer
                     ResultTable.Rows.Add(dr);
                     RunOnMessageHandleFinished(_ErrMsg, dr);
                     _IsBatchFinished = true;
-                    _Session.Commit();
                     RunOnBatchFinished(_ErrMsg, ResultTable);
                     _IsBatchFinished = false;
                     return;
@@ -326,7 +325,6 @@ namespace Common.LinkLayer
                             this.ReStartSender(this.SendName.Replace("#", ResultTable.Rows[0]["MacAddress"].ToString()));
                         }
                         _IsBatchFinished = true;
-                        _Session.Commit();
                         RunOnBatchFinished(_ErrMsg, ResultTable);
                         ClearGuidInDictionary(MessageDictionary[MessageID].ToString());
                         _IsBatchFinished = false;

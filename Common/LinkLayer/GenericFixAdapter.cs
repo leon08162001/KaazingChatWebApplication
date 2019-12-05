@@ -75,7 +75,6 @@ namespace Common.LinkLayer
                 {
                     OnMessageHandleFinished(new MessageHandleFinishedEventArgs(_ErrMsg, dr));
                 }
-                _Session.Commit();
                 return;
             }
             Dictionary<string, string> MessageDictionary = new Dictionary<string, string>();

@@ -324,7 +324,6 @@ namespace Common.LinkLayer
                                 this.ReStartSender(this.SendName.Replace("#", ResultTable.Rows[0]["MacAddress"].ToString()));
                             }
                             _IsResponseFinished = true;
-                            _Session.Commit();
                             RunOnResponseFinished(_ErrMsg, ResultTable);
                             ClearGuidInDictionary(MessageDictionary[MessageID].ToString());
                             _IsResponseFinished = false;

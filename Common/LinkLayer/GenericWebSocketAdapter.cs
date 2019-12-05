@@ -75,7 +75,6 @@ namespace Common.LinkLayer
                 {
                     OnMessageHandleFinished(new MessageHandleFinishedEventArgs(_ErrMsg, dr));
                 }
-                _Session.Commit();
                 return;
             }
             Dictionary<string, string> MessageDictionary = new Dictionary<string, string>();
@@ -154,7 +153,6 @@ namespace Common.LinkLayer
                 this.ReStartSender(this.SendName.Replace("#", MessageRow["MacAddress"].ToString()));
             }
             //觸發每筆Message資料處理完成事件
-            _Session.Commit();
             if (UISyncContext != null && IsEventInUIThread)
             {
                 UISyncContext.Post(OnMessageHandleFinished, new MessageHandleFinishedEventArgs(_ErrMsg, MessageRow));

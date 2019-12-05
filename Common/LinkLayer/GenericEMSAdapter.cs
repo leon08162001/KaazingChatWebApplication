@@ -79,7 +79,6 @@ namespace Common.LinkLayer
                 {
                     OnEMSMessageHandleFinished(new MQMessageHandleFinishedEventArgs(_ErrMsg, dr));
                 }
-                _Session.Commit();
                 return;
             }
             Dictionary<string, string> EMSMessageDictionary = new Dictionary<string, string>();

@@ -237,7 +237,6 @@ namespace Common.LinkLayer
                             this.Handler.WorkItemQueue.Enqueue(MessageDT);
                         }
                         _IsBatchFinished = true;
-                        _Session.Commit();
                         RunOnEMSBatchFinished(_ErrMsg, MessageDT);
                         _IsBatchFinished = false;
                     }
@@ -246,7 +245,6 @@ namespace Common.LinkLayer
                         _ErrMsg = ex1.Message;
                         RunOnEMSMessageHandleFinished(_ErrMsg, null);
                         _IsBatchFinished = true;
-                        _Session.Commit();
                         RunOnEMSBatchFinished(_ErrMsg, MessageDT);
                         _IsBatchFinished = false;
                         if (log.IsErrorEnabled) log.Error(ex1.Message, ex1);
@@ -265,7 +263,6 @@ namespace Common.LinkLayer
                         ResultTable.Rows.Add(dr);
                         RunOnEMSMessageHandleFinished(_ErrMsg, dr);
                         _IsBatchFinished = true;
-                        _Session.Commit();
                         RunOnEMSBatchFinished(_ErrMsg, ResultTable);
                         _IsBatchFinished = false;
                         return;
