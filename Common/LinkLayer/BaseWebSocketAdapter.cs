@@ -326,7 +326,7 @@ namespace Common.LinkLayer
                         if (log.IsErrorEnabled) log.Error("BaseWebSocketAdapter Start() Error", ex);
                         throw ex;
                     }
-                    _Session = _Connection.CreateSession(false, SessionConstants.DUPS_OK_ACKNOWLEDGE);
+                    _Session = _Connection.CreateSession(false, SessionConstants.AUTO_ACKNOWLEDGE);
                     StartListener();
                     StartSender();
                     _UISyncContext = SynchronizationContext.Current;

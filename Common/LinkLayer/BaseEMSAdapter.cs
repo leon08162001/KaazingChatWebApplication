@@ -330,7 +330,7 @@ namespace Common.LinkLayer
                     {
                         EMSSharedConnection.Open(Urls, ports, _UserName, _PassWord, _UseSSL, _IsDurableConsumer, _ClientID);
                     }
-                    _Session = EMSSharedConnection.GetConnection().CreateSession(false, SessionMode.DupsOkAcknowledge);
+                    _Session = EMSSharedConnection.GetConnection().CreateSession(false, SessionMode.AutoAcknowledge);
                     _Connection = EMSSharedConnection.GetConnection();
                     _Connection.ExceptionHandler += new EMSExceptionHandler(_Connection_ExceptionHandler);
                     StartListener();
@@ -380,7 +380,7 @@ namespace Common.LinkLayer
                         if (log.IsErrorEnabled) log.Error("BaseEMSAdapter Start() Error", ex);
                         throw ex;
                     }
-                    _Session = _Connection.CreateSession(false, SessionMode.DupsOkAcknowledge);
+                    _Session = _Connection.CreateSession(false, SessionMode.AutoAcknowledge);
                     StartListener();
                     StartSender();
                     _UISyncContext = SynchronizationContext.Current;
