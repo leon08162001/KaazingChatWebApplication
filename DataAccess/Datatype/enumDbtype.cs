@@ -1,4 +1,4 @@
-﻿public enum dbtype
+﻿public enum dbkind
     {
         Access,
         Excel,

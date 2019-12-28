@@ -1,31 +1,34 @@
-ï»¿using MySql.Data.MySqlClient;
+using Microsoft.Practices.EnterpriseLibrary.Data.Sql;
+using MySql.Data.MySqlClient;
+//using System.Data.OracleClient;
+using Oracle.ManagedDataAccess.Client;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.Common;
-//using Oracle.ManagedDataAccess.Client;
 using System.Data.OleDb;
-using System.Data.OracleClient;
 using System.Data.SqlClient;
 
 /// <summary>
-/// è³‡æ–™å­˜å–æ§åˆ¶å…ƒä»¶
+/// ¸ê®Æ¦s¨ú±±¨î¤¸¥ó
 /// </summary>
 namespace DataAccess.DB
 {
     [Serializable()]
     public class Dac : IDisposable
     {
-        private dbtype Datatype;
+        private dbkind Datatype;
         private IDbConnection DbCon;
         private IDbCommand Cmd;
         private IDbDataParameter Para;
         private IDataAdapter IDa;
         private int _CommandTimeOut = 600;
         private string _ConnectionConfigName = "Default";
+        private SqlDatabase db;
 
         /// <summary>
-        /// åŸ·è¡ŒSQLæŒ‡ä»¤TimeOutçš„æ™‚é–“(ç§’)
+        /// °õ¦æSQL«ü¥OTimeOutªº®É¶¡(¬í)
         /// </summary>
         public int CommandTimeOut
         {
@@ -39,7 +42,7 @@ namespace DataAccess.DB
             }
         }
         /// <summary>
-        /// çµ„æ…‹æª”è³‡æ–™åº«é€£ç·šåç¨±
+        /// ²ÕºAÀÉ¸ê®Æ®w³s½u¦WºÙ
         /// </summary>
         public string ConnectionConfigName
         {
@@ -53,42 +56,43 @@ namespace DataAccess.DB
             }
         }
 
-        public Dac(dbtype dbtype)
+        public Dac(dbkind dbkind)
         {
-            SetDBType(dbtype);
+            Setdbkind(dbkind);
         }
 
-        public Dac(dbtype dbtype, string ConnectionConfigName)
+        public Dac(dbkind dbkind, string ConnectionConfigName)
         {
-            SetDBType(dbtype);
+            Setdbkind(dbkind);
             this._ConnectionConfigName = ConnectionConfigName;
         }
 
-        private void SetDBType(dbtype dbtype)
+        private void Setdbkind(dbkind dbkind)
         {
-            Datatype = dbtype;
-            if (Datatype == dbtype.Access || Datatype == dbtype.Excel)
+            Datatype = dbkind;
+            if (Datatype == dbkind.Access || Datatype == dbkind.Excel)
             {
                 DbCon = new OleDbConnection();
                 Cmd = new OleDbCommand();
                 Para = new OleDbParameter();
                 IDa = new OleDbDataAdapter();
             }
-            else if (dbtype == dbtype.SQL_Server)
+            else if (dbkind == dbkind.SQL_Server)
             {
                 DbCon = new SqlConnection();
                 Cmd = new SqlCommand();
                 Para = new SqlParameter();
                 IDa = new SqlDataAdapter();
             }
-            else if (dbtype == dbtype.Oracle)
+            else if (dbkind == dbkind.Oracle)
             {
                 DbCon = new OracleConnection();
                 Cmd = new OracleCommand();
+                (Cmd as OracleCommand).FetchSize = (Cmd as OracleCommand).FetchSize * 8;
                 Para = new OracleParameter();
                 IDa = new OracleDataAdapter();
             }
-            else if (dbtype == dbtype.MySql)
+            else if (dbkind == dbkind.MySql)
             {
                 DbCon = new MySqlConnection();
                 Cmd = new MySqlCommand();
@@ -97,18 +101,19 @@ namespace DataAccess.DB
             }
         }
         /// <summary>
-        /// é–‹å•Ÿè³‡æ–™åº«
+        /// ¶}±Ò¸ê®Æ®w
         /// </summary>
-        /// <param name="ConnectionStr">å–å¾—connection string</param>
+        /// <param name="ConnectionStr">¨ú±oconnection string</param>
         private void Open(string ConnectionStr)
         {
             if (ConnectionStr == "") { ConnectionStr = ConfigurationManager.ConnectionStrings[this.ConnectionConfigName].ConnectionString; }
             DbCon.ConnectionString = ConnectionStr;
+            db = new SqlDatabase(DbCon.ConnectionString);
             DbCon.Open();
         }
 
         /// <summary>
-        /// <see cref="Dac"/> classå»ºæ§‹å­
+        /// <see cref="Dac"/> class«Øºc¤l
         /// </summary>
         /// <param name="UserInfo">The user info.</param>
         //public Dac(UserInformation UserInfo)
@@ -118,7 +123,7 @@ namespace DataAccess.DB
 
 
         /// <summary>
-        /// é—œé–‰è³‡æ–™åº«é€£ç·š
+        /// Ãö³¬¸ê®Æ®w³s½u
         /// </summary>
         private void CloseDB()
         {
@@ -129,16 +134,16 @@ namespace DataAccess.DB
         }
 
         /// <summary>
-        /// å…·é«”åŒ–Commandç‰©ä»¶,ä¸¦åŠ å…¥æ•´æ•¸å‹åˆ¥çš„Return Value(ä¸»è¦ç”¨æ–¼åŸ·è¡Œé å„²ç¨‹åºæ‰€å½±éŸ¿çš„åˆ—æ•¸)
+        /// ¨ãÅé¤ÆCommandª«¥ó,¨Ã¥[¤J¾ã¼Æ«¬§OªºReturn Value(¥D­n¥Î©ó°õ¦æ¹wÀxµ{§Ç©Ò¼vÅTªº¦C¼Æ)
         /// </summary>
         /// <example>
-        /// ä»¥ä¸‹ç‚ºä½¿ç”¨BuildIntCommandçš„ç¯„ä¾‹ç¨‹å¼ï¼š
+        /// ¥H¤U¬°¨Ï¥ÎBuildIntCommandªº½d¨Òµ{¦¡¡G
         /// <code>
         /// // Create parameter array
         ///	SqlParameter[] parameters =
         ///	{
-        ///		new SqlParameter( "@LOGIN_ID", SqlDbType.NVarChar, 50 ),	// 0
-        ///		new SqlParameter( "@DOMAIN", SqlDbType.NVarChar, 50 ),	// 1
+        ///		new SqlParameter( "@LOGIN_ID", Sqldbkind.NVarChar, 50 ),	// 0
+        ///		new SqlParameter( "@DOMAIN", Sqldbkind.NVarChar, 50 ),	// 1
         ///	};
         ///	
         ///	// Set parameter values and directions
@@ -148,38 +153,41 @@ namespace DataAccess.DB
         ///	SqlCommand cmd =BuildIntCommand("spCustomProcedure",parameters);
         /// </code>
         /// </example>
-        /// <param name="StoredProcName">é å­˜ç¨‹åºåç¨±</param>
-        /// <param name="Parameters">é å­˜ç¨‹åºçš„åƒæ•¸é™£åˆ—</param>
+        /// <param name="StoredProcName">¹w¦sµ{§Ç¦WºÙ</param>
+        /// <param name="Parameters">¹w¦sµ{§Çªº°Ñ¼Æ°}¦C</param>
         /// <returns></returns>
-        private IDbCommand BuildIntCommand(string StoredProcName, IDataParameter[] Parameters)
+        private IDbCommand BuildIntCommand(string StoredProcName, IDataParameter[] Parameters, bool hasReturnValue = false)
         {
             IDbCommand command = BuildQueryCommand(StoredProcName, Parameters);
-            IDbDataParameter Parameter = Para;
-            Parameter.ParameterName = "ReturnValue";
-            Parameter.DbType = DbType.Int32;
-            Parameter.Size = 4;
-            Parameter.Direction = ParameterDirection.ReturnValue;
-            Parameter.Precision = 0;
-            Parameter.Scale = 0;
-            Parameter.SourceColumn = string.Empty;
-            Parameter.SourceVersion = DataRowVersion.Default;
-            Parameter.Value = null;
-            command.Parameters.Add(Parameter);
+            if (hasReturnValue)
+            {
+                IDbDataParameter Parameter = Para;
+                Parameter.ParameterName = "ReturnValue";
+                Parameter.DbType = DbType.Int32;
+                Parameter.Size = 4;
+                Parameter.Direction = ParameterDirection.ReturnValue;
+                Parameter.Precision = 0;
+                Parameter.Scale = 0;
+                Parameter.SourceColumn = string.Empty;
+                Parameter.SourceVersion = DataRowVersion.Default;
+                Parameter.Value = null;
+                command.Parameters.Add(Parameter);
+            }
             return command;
         }
 
 
         /// <summary>
-        /// å…·é«”åŒ–Commandç‰©ä»¶
+        /// ¨ãÅé¤ÆCommandª«¥ó
         /// </summary>
         /// <example>
-        /// ä»¥ä¸‹ç‚ºä½¿ç”¨BuildQueryCommandçš„ç¯„ä¾‹ç¨‹å¼ï¼š
+        /// ¥H¤U¬°¨Ï¥ÎBuildQueryCommandªº½d¨Òµ{¦¡¡G
         /// <code>
         /// // Create parameter array
         ///	SqlParameter[] parameters =
         ///	{
-        ///		new SqlParameter( "@LOGIN_ID", SqlDbType.NVarChar, 50 ),	// 0
-        ///		new SqlParameter( "@DOMAIN", SqlDbType.NVarChar, 50 ),	// 1
+        ///		new SqlParameter( "@LOGIN_ID", Sqldbkind.NVarChar, 50 ),	// 0
+        ///		new SqlParameter( "@DOMAIN", Sqldbkind.NVarChar, 50 ),	// 1
         ///	};
         ///	
         ///	// Set parameter values and directions
@@ -189,8 +197,8 @@ namespace DataAccess.DB
         ///	SqlCommand cmd =BuildIntCommand("spQueryProcedure",parameters);
         /// </code>
         /// </example>
-        /// <param name="StoredProcName">é å­˜ç¨‹åºåç¨±</param>
-        /// <param name="Parameters">é å­˜ç¨‹åºåƒæ•¸é™£åˆ—</param>
+        /// <param name="StoredProcName">¹w¦sµ{§Ç¦WºÙ</param>
+        /// <param name="Parameters">¹w¦sµ{§Ç°Ñ¼Æ°}¦C</param>
         /// <returns></returns>
         private IDbCommand BuildQueryCommand(string StoredProcName, IDataParameter[] Parameters)
         {
@@ -212,16 +220,16 @@ namespace DataAccess.DB
 
 
         /// <summary>
-        /// åŸ·è¡Œé å„²ç¨‹åºä¸¦å‚³å›å½±éŸ¿çš„åˆ—æ•¸
+        /// °õ¦æ¹wÀxµ{§Ç¨Ã¶Ç¦^¼vÅTªº¦C¼Æ
         /// </summary>
         /// <example>
-        /// ä»¥ä¸‹ç‚ºä½¿ç”¨RunProcedureçš„ç¯„ä¾‹ç¨‹å¼ï¼š
+        /// ¥H¤U¬°¨Ï¥ÎRunProcedureªº½d¨Òµ{¦¡¡G
         /// <code>
         /// // Create parameter array
         ///	SqlParameter[] parameters =
         ///	{
-        ///		new SqlParameter( "@LOGIN_ID", SqlDbType.NVarChar, 50 ),	// 0
-        ///		new SqlParameter( "@DOMAIN", SqlDbType.NVarChar, 50 ),	// 1
+        ///		new SqlParameter( "@LOGIN_ID", Sqldbkind.NVarChar, 50 ),	// 0
+        ///		new SqlParameter( "@DOMAIN", Sqldbkind.NVarChar, 50 ),	// 1
         ///	};
         ///	
         ///	// Set parameter values and directions
@@ -231,15 +239,15 @@ namespace DataAccess.DB
         ///int rowsAffected=0; 
         ///BuildIntCommand("spUpdateProcedure",parameters,"Default",rowsAffected);
         ///if(rowsAffected==0)
-        ///		ShowErrorMessage("åŸ·è¡Œå¤±æ•—");
+        ///		ShowErrorMessage("°õ¦æ¥¢±Ñ");
         ///	else 
-        ///		ShowErrorMessage("åŸ·è¡ŒæˆåŠŸ");
+        ///		ShowErrorMessage("°õ¦æ¦¨¥\");
         /// </code>
         /// </example>
-        /// <param name="StoredProcName">é å­˜ç¨‹åºåç¨±</param>
-        /// <param name="Parameters">é å­˜ç¨‹åºåƒæ•¸é™£åˆ—</param>
-        /// <param name="Connection">Conncetionåç¨±</param>
-        /// <param name="rowsAffected">å½±éŸ¿çš„åˆ—æ•¸</param>
+        /// <param name="StoredProcName">¹w¦sµ{§Ç¦WºÙ</param>
+        /// <param name="Parameters">¹w¦sµ{§Ç°Ñ¼Æ°}¦C</param>
+        /// <param name="Connection">Conncetion¦WºÙ</param>
+        /// <param name="rowsAffected">¼vÅTªº¦C¼Æ</param>
         public void RunProcedure(string StoredProcName, IDataParameter[] Parameters, string Connection, out int rowsAffected)
         {
             IDbCommand command = BuildIntCommand(StoredProcName, Parameters);
@@ -262,7 +270,7 @@ namespace DataAccess.DB
         public void RunProcedure(string StoredProcName, IDataParameter[] Parameters, string Connection, out int rowsAffected, bool IsUseTransaction)
         {
             IDbCommand command = BuildIntCommand(StoredProcName, Parameters);
-            IDbTransaction trans; 
+            IDbTransaction trans;
             try
             {
                 Open(Connection);
@@ -297,16 +305,16 @@ namespace DataAccess.DB
         }
 
         /// <summary>
-        /// åŸ·è¡Œé å„²ç¨‹åºä¸¦å‚³å›DataReaaderç‰©ä»¶
+        /// °õ¦æ¹wÀxµ{§Ç¨Ã¶Ç¦^DataReaaderª«¥ó
         /// </summary>
         /// <example>
-        /// ä»¥ä¸‹ç‚ºä½¿ç”¨RunProcedureçš„ç¯„ä¾‹ç¨‹å¼ï¼š
+        /// ¥H¤U¬°¨Ï¥ÎRunProcedureªº½d¨Òµ{¦¡¡G
         /// <code>
         /// // Create parameter array
         ///	SqlParameter[] parameters =
         ///	{
-        ///		new SqlParameter( "@LOGIN_ID", SqlDbType.NVarChar, 50 ),	// 0
-        ///		new SqlParameter( "@DOMAIN", SqlDbType.NVarChar, 50 ),	// 1
+        ///		new SqlParameter( "@LOGIN_ID", Sqldbkind.NVarChar, 50 ),	// 0
+        ///		new SqlParameter( "@DOMAIN", Sqldbkind.NVarChar, 50 ),	// 1
         ///	};
         ///	
         ///	// Set parameter values and directions
@@ -316,13 +324,13 @@ namespace DataAccess.DB
         ///	SqlDataReader cmd =RunProcedure("spQueryProcedure",parameters,"Default");
         /// </code>
         /// </example>
-        /// <param name="StoredProcName">é å­˜ç¨‹åºåç¨±</param>
-        /// <param name="Parameters">é å­˜ç¨‹åºåƒæ•¸é™£åˆ—</param>
-        /// <param name="Connection">Connectionåç¨±</param>
+        /// <param name="StoredProcName">¹w¦sµ{§Ç¦WºÙ</param>
+        /// <param name="Parameters">¹w¦sµ{§Ç°Ñ¼Æ°}¦C</param>
+        /// <param name="Connection">Connection¦WºÙ</param>
         /// <returns></returns>
-        public IDataReader RunProcedure(string StoredProcName, IDataParameter[] Parameters, string Connection)
+        public IDataReader RunProcedure(string StoredProcName, IDataParameter[] Parameters, string Connection, bool hasReturnValue = false)
         {
-            IDbCommand command = BuildIntCommand(StoredProcName, Parameters);
+            IDbCommand command = BuildIntCommand(StoredProcName, Parameters, hasReturnValue);
             command.CommandType = CommandType.StoredProcedure;
             IDataReader sdr;
             try
@@ -336,22 +344,22 @@ namespace DataAccess.DB
             }
             finally
             {
-                CloseDB();
+                //CloseDB();
             }
             return sdr;
         }
 
         /// <summary>
-        /// åŸ·è¡Œé å„²ç¨‹åºä¸¦å‚³å›DataTableç‰©ä»¶
+        /// °õ¦æ¹wÀxµ{§Ç¨Ã¶Ç¦^DataTableª«¥ó
         /// </summary>
         /// <example>
-        /// ä»¥ä¸‹ç‚ºä½¿ç”¨RunProcedureçš„ç¯„ä¾‹ç¨‹å¼ï¼š
+        /// ¥H¤U¬°¨Ï¥ÎRunProcedureªº½d¨Òµ{¦¡¡G
         /// <code>
         /// // Create parameter array
         ///	SqlParameter[] parameters =
         ///	{
-        ///		new SqlParameter( "@LOGIN_ID", SqlDbType.NVarChar, 50 ),	// 0
-        ///		new SqlParameter( "@DOMAIN", SqlDbType.NVarChar, 50 ),	// 1
+        ///		new SqlParameter( "@LOGIN_ID", Sqldbkind.NVarChar, 50 ),	// 0
+        ///		new SqlParameter( "@DOMAIN", Sqldbkind.NVarChar, 50 ),	// 1
         ///	};
         ///	
         ///	// Set parameter values and directions
@@ -361,10 +369,10 @@ namespace DataAccess.DB
         ///	DataTable cmd =RunProcedure("spQueryProcedure",parameters,"Default");
         /// </code>
         /// </example>
-        /// <param name="StoredProcName">é å­˜ç¨‹åºåç¨±</param>
-        /// <param name="Parameters">é å­˜ç¨‹åºåƒæ•¸é™£åˆ—</param>
-        /// <param name="TableName">DataTableåç¨±</param>
-        /// <param name="Connection">Connectionåç¨±</param>
+        /// <param name="StoredProcName">¹w¦sµ{§Ç¦WºÙ</param>
+        /// <param name="Parameters">¹w¦sµ{§Ç°Ñ¼Æ°}¦C</param>
+        /// <param name="TableName">DataTable¦WºÙ</param>
+        /// <param name="Connection">Connection¦WºÙ</param>
         /// <returns></returns>
         public DataTable RunProcedure(string StoredProcName, IDataParameter[] Parameters, string TableName, string Connection)
         {
@@ -373,30 +381,30 @@ namespace DataAccess.DB
             try
             {
                 Open(Connection);
-                if (Datatype == dbtype.Access || Datatype == dbtype.Excel)
+                if (Datatype == dbkind.Access || Datatype == dbkind.Excel)
                 {
                     Da = (OleDbDataAdapter)IDa;
                     Da.SelectCommand = (OleDbCommand)BuildQueryCommand(StoredProcName, Parameters);
                     Da.Fill(dt);
                 }
-                else if (Datatype == dbtype.SQL_Server)
+                else if (Datatype == dbkind.SQL_Server)
                 {
                     Da = (SqlDataAdapter)IDa;
                     Da.SelectCommand = (SqlCommand)BuildQueryCommand(StoredProcName, Parameters);
                     Da.Fill(dt);
                 }
-                else if (Datatype == dbtype.Oracle)
+                else if (Datatype == dbkind.Oracle)
                 {
                     Da = (OracleDataAdapter)IDa;
                     Da.SelectCommand = (OracleCommand)BuildQueryCommand(StoredProcName, Parameters);
                     Da.Fill(dt);
                 }
-                else if (Datatype == dbtype.MySql)
+                else if (Datatype == dbkind.MySql)
                 {
                     Da = (MySqlDataAdapter)IDa;
                     Da.SelectCommand = (MySqlCommand)BuildQueryCommand(StoredProcName, Parameters);
                     Da.Fill(dt);
-                }   
+                }
             }
             catch (Exception ex)
             {
@@ -417,13 +425,13 @@ namespace DataAccess.DB
             try
             {
                 Open(Connection);
-                if (Datatype == dbtype.Access || Datatype == dbtype.Excel)
+                if (Datatype == dbkind.Access || Datatype == dbkind.Excel)
                 {
                     Da = (OleDbDataAdapter)IDa;
                     Da.SelectCommand = (OleDbCommand)BuildQueryCommand(StoredProcName, Parameters);
                     Da.Fill(dt);
                 }
-                else if (Datatype == dbtype.SQL_Server)
+                else if (Datatype == dbkind.SQL_Server)
                 {
                     Da = (SqlDataAdapter)IDa;
                     Da.SelectCommand = (SqlCommand)BuildQueryCommand(StoredProcName, Parameters);
@@ -447,7 +455,7 @@ namespace DataAccess.DB
                         Da.Fill(dt);
                     }
                 }
-                else if (Datatype == dbtype.Oracle)
+                else if (Datatype == dbkind.Oracle)
                 {
                     Da = (OracleDataAdapter)IDa;
                     Da.SelectCommand = (OracleCommand)BuildQueryCommand(StoredProcName, Parameters);
@@ -471,7 +479,7 @@ namespace DataAccess.DB
                         Da.Fill(dt);
                     }
                 }
-                else if (Datatype == dbtype.MySql)
+                else if (Datatype == dbkind.MySql)
                 {
                     Da = (MySqlDataAdapter)IDa;
                     Da.SelectCommand = (MySqlCommand)BuildQueryCommand(StoredProcName, Parameters);
@@ -490,16 +498,16 @@ namespace DataAccess.DB
         }
 
         /// <summary>
-        /// åŸ·è¡Œé å„²ç¨‹åºä¸¦å°‡çµæœåŠ å…¥ç¾æœ‰çš„Datasetä¸­
+        /// °õ¦æ¹wÀxµ{§Ç¨Ã±Nµ²ªG¥[¤J²{¦³ªºDataset¤¤
         /// </summary>
         /// <example>
-        /// ä»¥ä¸‹ç‚ºä½¿ç”¨RunProcedureçš„ç¯„ä¾‹ç¨‹å¼ï¼š
+        /// ¥H¤U¬°¨Ï¥ÎRunProcedureªº½d¨Òµ{¦¡¡G
         /// <code>
         /// // Create parameter array
         ///	SqlParameter[] parameters =
         ///	{
-        ///		new SqlParameter( "@LOGIN_ID", SqlDbType.NVarChar, 50 ),	// 0
-        ///		new SqlParameter( "@DOMAIN", SqlDbType.NVarChar, 50 ),	// 1
+        ///		new SqlParameter( "@LOGIN_ID", Sqldbkind.NVarChar, 50 ),	// 0
+        ///		new SqlParameter( "@DOMAIN", Sqldbkind.NVarChar, 50 ),	// 1
         ///	};
         ///	
         ///	// Set parameter values and directions
@@ -510,36 +518,36 @@ namespace DataAccess.DB
         ///	RunProcedure("spQueryProcedure",parameters,Ds,"Table1","Default");
         /// </code>
         /// </example>
-        /// <param name="StoredProcName">é å­˜ç¨‹åºåç¨±</param>
-        /// <param name="Parameters">é å­˜ç¨‹åºåƒæ•¸é™£åˆ—</param>
-        /// <param name="Ds">DataSetç‰©ä»¶</param>
-        /// <param name="TableName">DataTableåç¨±</param>
-        /// <param name="Connection">Connectionåç¨±</param>
+        /// <param name="StoredProcName">¹w¦sµ{§Ç¦WºÙ</param>
+        /// <param name="Parameters">¹w¦sµ{§Ç°Ñ¼Æ°}¦C</param>
+        /// <param name="Ds">DataSetª«¥ó</param>
+        /// <param name="TableName">DataTable¦WºÙ</param>
+        /// <param name="Connection">Connection¦WºÙ</param>
         public void RunProcedure(string StoredProcName, IDataParameter[] Parameters, ref DataSet Ds, string TableName, string Connection)
         {
             DbDataAdapter Da;
             try
             {
                 Open(Connection);
-                if (Datatype == dbtype.Access || Datatype == dbtype.Excel)
+                if (Datatype == dbkind.Access || Datatype == dbkind.Excel)
                 {
                     Da = new OleDbDataAdapter();
                     Da.SelectCommand = (OleDbCommand)BuildQueryCommand(StoredProcName, Parameters);
                     Da.Fill(Ds, TableName);
                 }
-                else if (Datatype == dbtype.SQL_Server)
+                else if (Datatype == dbkind.SQL_Server)
                 {
                     Da = new SqlDataAdapter();
                     Da.SelectCommand = (SqlCommand)BuildQueryCommand(StoredProcName, Parameters);
                     Da.Fill(Ds, TableName);
                 }
-                else if (Datatype == dbtype.Oracle)
+                else if (Datatype == dbkind.Oracle)
                 {
                     Da = new OracleDataAdapter();
                     Da.SelectCommand = (OracleCommand)BuildQueryCommand(StoredProcName, Parameters);
                     Da.Fill(Ds, TableName);
                 }
-                else if (Datatype == dbtype.MySql)
+                else if (Datatype == dbkind.MySql)
                 {
                     Da = new MySqlDataAdapter();
                     Da.SelectCommand = (MySqlCommand)BuildQueryCommand(StoredProcName, Parameters);
@@ -559,17 +567,17 @@ namespace DataAccess.DB
         public void RunProcedure(string StoredProcName, IDataParameter[] Parameters, ref DataSet Ds, string TableName, string Connection, bool IsUseTransaction)
         {
             DbDataAdapter Da;
-            IDbTransaction trans; 
+            IDbTransaction trans;
             try
             {
                 Open(Connection);
-                if (Datatype == dbtype.Access || Datatype == dbtype.Excel)
+                if (Datatype == dbkind.Access || Datatype == dbkind.Excel)
                 {
                     Da = new OleDbDataAdapter();
                     Da.SelectCommand = (OleDbCommand)BuildQueryCommand(StoredProcName, Parameters);
                     Da.Fill(Ds, TableName);
                 }
-                else if (Datatype == dbtype.SQL_Server)
+                else if (Datatype == dbkind.SQL_Server)
                 {
                     Da = new SqlDataAdapter();
                     Da.SelectCommand = (SqlCommand)BuildQueryCommand(StoredProcName, Parameters);
@@ -593,7 +601,7 @@ namespace DataAccess.DB
                         Da.Fill(Ds, TableName);
                     }
                 }
-                else if (Datatype == dbtype.Oracle)
+                else if (Datatype == dbkind.Oracle)
                 {
                     Da = new OracleDataAdapter();
                     Da.SelectCommand = (OracleCommand)BuildQueryCommand(StoredProcName, Parameters);
@@ -617,7 +625,7 @@ namespace DataAccess.DB
                         Da.Fill(Ds, TableName);
                     }
                 }
-                else if (Datatype == dbtype.MySql)
+                else if (Datatype == dbkind.MySql)
                 {
                     Da = new MySqlDataAdapter();
                     Da.SelectCommand = (MySqlCommand)BuildQueryCommand(StoredProcName, Parameters);
@@ -635,27 +643,32 @@ namespace DataAccess.DB
         }
 
         /// <summary>
-        /// åŸ·è¡ŒæŸ¥è©¢ï¼Œä¸¦å‚³å›æŸ¥è©¢æ‰€å‚³å›çš„çµæœé›†ç¬¬ä¸€å€‹è³‡æ–™åˆ—çš„ç¬¬ä¸€å€‹è³‡æ–™è¡Œã€‚æœƒå¿½ç•¥å…¶ä»–çš„è³‡æ–™è¡Œæˆ–è³‡æ–™åˆ—ã€‚ 
+        /// °õ¦æ¬d¸ß¡A¨Ã¶Ç¦^¬d¸ß©Ò¶Ç¦^ªºµ²ªG¶°²Ä¤@­Ó¸ê®Æ¦Cªº²Ä¤@­Ó¸ê®Æ¦æ¡C·|©¿²¤¨ä¥Lªº¸ê®Æ¦æ©Î¸ê®Æ¦C¡C 
         /// </summary>
         /// <example>
-        ///	ä¸€èˆ¬çš„ RunSQL æŸ¥è©¢å¯ä»¥å¦‚ä¸‹åˆ—çš„ç¯„ä¾‹æ ¼å¼åŒ–ï¼š 
+        ///	¤@¯ëªº RunSQL ¬d¸ß¥i¥H¦p¤U¦Cªº½d¨Ò®æ¦¡¤Æ¡G 
         /// <code>
         /// string strSQL = "SELECT COUNT(*) FROM dbo.region";
-        /// Int32 count = 0 ; //å–å¾—è³‡æ–™ç­†æ•¸
+        /// Int32 count = 0 ; //¨ú±o¸ê®Æµ§¼Æ
         /// RunSQL(strSQL,"Default",count);
         /// </code>
         /// </example>
-        /// <param name="strSQL">SQL èªæ³•</param>
-        /// <param name="Connection">Connectionåç¨±</param>
-        /// <param name="Returnobj">å›å‚³çµæœç‰©ä»¶</param>
-        public void RunSQL(string strSQL, string Connection, out object Returnobj)
+        /// <param name="strSQL">SQL »yªk</param>
+        /// <param name="Connection">Connection¦WºÙ</param>
+        /// <param name="Returnobj">¦^¶Çµ²ªGª«¥ó</param>
+        /// <param name="values">°Ñ¼Æ­È</param>
+        public void RunSQL(string strSQL, string Connection, out object Returnobj, object[] values = null)
         {
-            IDbCommand command = Cmd;
-            Cmd.CommandText = strSQL;
-            Cmd.Connection = DbCon;
+            //IDbCommand command = Cmd;
+            //Cmd.CommandText = strSQL;
+            //Cmd.Connection = DbCon;
+            IDbCommand command;
             try
             {
                 Open(Connection);
+                command = db.GetSqlStringCommand(strSQL);
+                BuildParameters(ref command, values);
+                command.Connection = DbCon;
                 Returnobj = command.ExecuteScalar();
             }
             catch (MySqlException ex) { Returnobj = null; throw new Exception(ex.Message, ex); }
@@ -667,46 +680,54 @@ namespace DataAccess.DB
                 CloseDB();
             }
         }
-
-
         /// <summary>
-        /// åŸ·è¡ŒSQL Commandä¸¦å‚³å›DataTable
+        /// °õ¦æSQL Command¨Ã¶Ç¦^DataTable
         /// </summary>
         ///<example>
-        ///	ä¸€èˆ¬çš„ RunSQL çš„ç¯„ä¾‹ï¼š
+        ///	¤@¯ëªº RunSQL ªº½d¨Ò¡G
         ///<code>
         ///		string strSQL = "SELECT * FROM dbo.region";
         ///		DataTable dt = RunSQL(strSQL,"region");
         ///</code>
         ///</example>
-        /// <param name="strSQL">SQLèªæ³•</param>
-        /// <param name="TableName">DataTableåç¨±</param>
+        /// <param name="strSQL">SQL»yªk</param>
+        /// <param name="TableName">DataTable¦WºÙ</param>
+        /// <param name="Connection">Connection¦WºÙ</param>
+        /// <param name="values">°Ñ¼Æ­È</param>
         /// <returns></returns>
-        public DataTable RunSQL(string strSQL, string TableName, string Connection)
+        public DataTable RunSQL(string strSQL, string TableName, string Connection, object[] values = null)
         {
             DataTable dt = new DataTable(TableName);
             DbDataAdapter Da;
             try
             {
                 Open(Connection);
-                if (Datatype == dbtype.Access || Datatype == dbtype.Excel)
+                IDbCommand command = db.GetSqlStringCommand(strSQL);
+                BuildParameters(ref command, values);
+                command.Connection = DbCon;
+                if (Datatype == dbkind.Access || Datatype == dbkind.Excel)
                 {
-                    Da = new OleDbDataAdapter(strSQL, (OleDbConnection)DbCon);
+                    //Da = new OleDbDataAdapter(strSQL, (OleDbConnection)DbCon);
+                    Da = new OleDbDataAdapter((OleDbCommand)command);
                     Da.Fill(dt);
                 }
-                else if (Datatype == dbtype.SQL_Server)
+                else if (Datatype == dbkind.SQL_Server)
                 {
-                    Da = new SqlDataAdapter(strSQL, (SqlConnection)DbCon);
+                    //Da = new SqlDataAdapter(strSQL, (SqlConnection)DbCon);
+                    Da = new SqlDataAdapter((SqlCommand)command);
                     Da.Fill(dt);
                 }
-                else if (Datatype == dbtype.Oracle)
+                else if (Datatype == dbkind.Oracle)
                 {
-                    Da = new OracleDataAdapter(strSQL, (OracleConnection)DbCon);
+                    //Da = new OracleDataAdapter(strSQL, (OracleConnection)DbCon);
+                    Da = new OracleDataAdapter((OracleCommand)command);
+                    (Da.SelectCommand as OracleCommand).FetchSize = (Da.SelectCommand as OracleCommand).FetchSize * 8;
                     Da.Fill(dt);
                 }
-                else if (Datatype == dbtype.MySql)
+                else if (Datatype == dbkind.MySql)
                 {
-                    Da = new MySqlDataAdapter(strSQL, (MySqlConnection)DbCon);
+                    //Da = new MySqlDataAdapter(strSQL, (MySqlConnection)DbCon);
+                    Da = new MySqlDataAdapter((MySqlCommand)command);
                     Da.Fill(dt);
                 }
             }
@@ -722,44 +743,53 @@ namespace DataAccess.DB
         }
 
         /// <summary>
-        /// åŸ·è¡ŒSQL Commandä¸¦å°‡DataTableåŠ å…¥åˆ°ç¾æœ‰çš„DataSet
+        /// °õ¦æSQL Command¨Ã±NDataTable¥[¤J¨ì²{¦³ªºDataSet
         /// </summary>
         ///<example>
-        ///	ä¸€èˆ¬çš„ RunSQL çš„ç¯„ä¾‹ï¼š
+        ///	¤@¯ëªº RunSQL ªº½d¨Ò¡G
         ///<code>
         ///		string strSQL = "SELECT * FROM dbo.region";
         ///		DataSet Ds= DataSet();
         ///		RunSQL(strSQL,Ds,"region","Default");
         ///</code>
         ///</example>
-        /// <param name="strSQL">SQLèªæ³•</param>
-        /// <param name="Ds">DataSetç‰©ä»¶</param>
-        /// <param name="TableName">DataTableåç¨±</param>
-        /// <param name="Connection">Connectionåç¨±</param>
-        public void RunSQL(string strSQL, ref DataSet Ds, string TableName, string Connection)
+        /// <param name="strSQL">SQL»yªk</param>
+        /// <param name="Ds">DataSetª«¥ó</param>
+        /// <param name="TableName">DataTable¦WºÙ</param>
+        /// <param name="Connection">Connection¦WºÙ</param>
+        /// <param name="values">°Ñ¼Æ­È</param>
+        public void RunSQL(string strSQL, ref DataSet Ds, string TableName, string Connection, object[] values = null)
         {
             try
             {
                 Open(Connection);
                 DbDataAdapter Da;
-                if (Datatype == dbtype.Access || Datatype == dbtype.Excel)
+                IDbCommand command = db.GetSqlStringCommand(strSQL);
+                BuildParameters(ref command, values);
+                command.Connection = DbCon;
+                if (Datatype == dbkind.Access || Datatype == dbkind.Excel)
                 {
-                    Da = new OleDbDataAdapter(strSQL, (OleDbConnection)DbCon);
+                    //Da = new OleDbDataAdapter(strSQL, (OleDbConnection)DbCon);
+                    Da = new OleDbDataAdapter((OleDbCommand)command);
                     Da.Fill(Ds, TableName);
                 }
-                else if (Datatype == dbtype.SQL_Server)
+                else if (Datatype == dbkind.SQL_Server)
                 {
-                    Da = new SqlDataAdapter(strSQL, (SqlConnection)DbCon);
+                    //Da = new SqlDataAdapter(strSQL, (SqlConnection)DbCon);
+                    Da = new SqlDataAdapter((SqlCommand)command);
                     Da.Fill(Ds, TableName);
                 }
-                else if (Datatype == dbtype.Oracle)
+                else if (Datatype == dbkind.Oracle)
                 {
-                    Da = new OracleDataAdapter(strSQL, (OracleConnection)DbCon);
+                    // Da = new OracleDataAdapter(strSQL, (OracleConnection)DbCon);
+                    Da = new OracleDataAdapter((OracleCommand)command);
+                    (Da.SelectCommand as OracleCommand).FetchSize = (Da.SelectCommand as OracleCommand).FetchSize * 8;
                     Da.Fill(Ds, TableName);
                 }
-                else if (Datatype == dbtype.MySql)
+                else if (Datatype == dbkind.MySql)
                 {
-                    Da = new MySqlDataAdapter(strSQL, (MySqlConnection)DbCon);
+                    //Da = new MySqlDataAdapter(strSQL, (MySqlConnection)DbCon);
+                    Da = new MySqlDataAdapter((MySqlCommand)command);
                     Da.Fill(Ds, TableName);
                 }
             }
@@ -772,52 +802,56 @@ namespace DataAccess.DB
                 CloseDB();
             }
         }
-
         /// <summary>
-        /// åŸ·è¡ŒSQL Commandä¸¦å‚³å›å½±éŸ¿çš„åˆ—æ•¸
+        /// °õ¦æSQL Command¨Ã¶Ç¦^¼vÅTªº¦C¼Æ
         /// </summary>
         ///<example>
-        ///	ä¸€èˆ¬çš„ RunSQL çš„ç¯„ä¾‹ï¼š
+        ///	¤@¯ëªº RunSQL ªº½d¨Ò¡G
         ///<code>
         ///		string strSQL = "Delete FROM dbo.region where regionid=1";
         ///		int RowsAffected=0;
         ///		RunSQL(strSQL,RowsAffected,"Default");
         ///</code>
         ///</example>
-        /// <param name="strSQL">T-SQLèªæ³•</param>
-        /// <param name="RowsAffected">å—å½±éŸ¿çš„åˆ—æ•¸</param>
-        /// <param name="Connection">é€£ç·šå­—ä¸²</param>
-        public void RunSQL(string strSQL, out int RowsAffected, string Connection)
+        /// <param name="strSQL">T-SQL»yªk</param>
+        /// <param name="RowsAffected">¨ü¼vÅTªº¦C¼Æ</param>
+        /// <param name="Connection">³s½u¦r¦ê</param>
+        /// <param name="values">°Ñ¼Æ­È</param>
+        public void RunSQL(string strSQL, out int RowsAffected, string Connection, object[] values = null)
         {
             RowsAffected = 0;
             try
             {
                 Open(Connection);
-                if (Datatype == dbtype.Access || Datatype == dbtype.Excel)
+                IDbCommand command = db.GetSqlStringCommand(strSQL);
+                BuildParameters(ref command, values);
+                command.Connection = DbCon;
+                if (Datatype == dbkind.Access || Datatype == dbkind.Excel)
                 {
-                    OleDbCommand command = new OleDbCommand(strSQL, (OleDbConnection)DbCon);
+                    //OleDbCommand command = new OleDbCommand(strSQL, (OleDbConnection)DbCon);
                     RowsAffected = command.ExecuteNonQuery();
                 }
-                else if (Datatype == dbtype.SQL_Server)
+                else if (Datatype == dbkind.SQL_Server)
                 {
-                    SqlCommand command = new SqlCommand(strSQL, (SqlConnection)DbCon);
+                    //SqlCommand command = new SqlCommand(strSQL, (SqlConnection)DbCon);
                     RowsAffected = command.ExecuteNonQuery();
                 }
-                else if (Datatype == dbtype.Oracle)
+                else if (Datatype == dbkind.Oracle)
                 {
-                    OracleCommand command = new OracleCommand(strSQL, (OracleConnection)DbCon);
+                    //OracleCommand command = new OracleCommand(strSQL, (OracleConnection)DbCon);
+                    (command as OracleCommand).FetchSize = (command as OracleCommand).FetchSize * 8;
                     RowsAffected = command.ExecuteNonQuery();
                 }
-                else if (Datatype == dbtype.MySql)
+                else if (Datatype == dbkind.MySql)
                 {
-                    MySqlCommand command = new MySqlCommand(strSQL, (MySqlConnection)DbCon);
+                    //MySqlCommand command = new MySqlCommand(strSQL, (MySqlConnection)DbCon);
                     RowsAffected = command.ExecuteNonQuery();
                 }
                 if (RowsAffected == 0) RowsAffected = 1;
             }
             catch (MySqlException ex) { RowsAffected = 0; throw new Exception(ex.Message, ex); }
             catch (OracleException ex) { RowsAffected = 0; throw new Exception(ex.Message, ex); }
-            catch (SqlException ex) { RowsAffected = 0; throw new Exception(ex.Message,ex); }
+            catch (SqlException ex) { RowsAffected = 0; throw new Exception(ex.Message, ex); }
             catch (Exception ex) { RowsAffected = 0; throw new Exception(ex.Message, ex); }
             finally
             {
@@ -827,21 +861,21 @@ namespace DataAccess.DB
 
 
         /// <summary>
-        /// åŸ·è¡ŒSQL Commandä¸¦å‚³å›æˆåŠŸæˆ–å¤±æ•—
+        /// °õ¦æSQL Command¨Ã¶Ç¦^¦¨¥\©Î¥¢±Ñ
         /// </summary>
         ///<example>
-        ///	ä¸€èˆ¬çš„ RunSQL çš„ç¯„ä¾‹ï¼š
+        ///	¤@¯ëªº RunSQL ªº½d¨Ò¡G
         ///<code>
         ///		string strSQL = "Delete FROM dbo.region where regionid=1";
         ///		
         ///		if(RunSQL(strSQL))
-        ///			ShowErrorMessage("åŸ·è¡ŒæˆåŠŸ");
+        ///			ShowErrorMessage("°õ¦æ¦¨¥\");
         ///		else 
-        ///			ShowErrorMessage("åŸ·è¡Œå¤±æ•—");
+        ///			ShowErrorMessage("°õ¦æ¥¢±Ñ");
         ///</code>
         ///</example>
         /// <param name="strSQL">The STR SQL.</param>
-        /// <param name="Connection">é€£ç·šå­—ä¸²</param>
+        /// <param name="Connection">³s½u¦r¦ê</param>
         /// <returns></returns>
         public bool RunSQL(string strSQL, string Connection)
         {
@@ -849,14 +883,13 @@ namespace DataAccess.DB
             RunSQL(strSQL, out i, Connection);
             return (i > 0);
         }
-
         public bool BulkAddToTable(DataTable DT, string TableName, string Connection)
         {
             bool IsInsertOk = false;
             try
             {
                 Open(Connection);
-                if (Datatype == dbtype.SQL_Server)
+                if (Datatype == dbkind.SQL_Server)
                 {
                     DataRow[] rowArray = DT.Select();
 
@@ -887,28 +920,28 @@ namespace DataAccess.DB
             }
             return IsInsertOk;
         }
-
         /// <summary>
-        /// åŸ·è¡ŒSQL Commandä¸¦å‚³å›æˆåŠŸæˆ–å¤±æ•—
+        /// °õ¦æSQL Command¨Ã¶Ç¦^¦¨¥\©Î¥¢±Ñ
         /// </summary>
         ///<example>
-        ///	ä¸€èˆ¬çš„ RunSQL çš„ç¯„ä¾‹ï¼š
+        ///	¤@¯ëªº RunSQL ªº½d¨Ò¡G
         ///<code>
         ///		string strSQL = "Delete FROM dbo.region where regionid=1";
         ///		
         ///		if(RunSQL(strSQL,"Default"))
-        ///			ShowErrorMessage("åŸ·è¡ŒæˆåŠŸ");
+        ///			ShowErrorMessage("°õ¦æ¦¨¥\");
         ///		else 
-        ///			ShowErrorMessage("åŸ·è¡Œå¤±æ•—");
+        ///			ShowErrorMessage("°õ¦æ¥¢±Ñ");
         ///</code>
         ///</example>
         /// <param name="strSQL">The STR SQL.</param>
-        /// <param name="strConnectionKey">The connectionstring.</param>
+        /// <param name="strConnection">The connectionstring.</param>
+        /// <param name="values">°Ñ¼Æ­È</param>
         /// <returns></returns>
-        public bool ExecuteSQL(string strSQL, string strConnection)
+        public bool ExecuteSQL(string strSQL, string strConnection, object[] values = null)
         {
             int i = 0;
-            RunSQL(strSQL, out i, strConnection);
+            RunSQL(strSQL, out i, strConnection, values);
             return (i > 0);
         }
 
@@ -916,17 +949,17 @@ namespace DataAccess.DB
         /// Generates the condition.
         /// </summary>
         /// <example>
-        /// GenerateConditionç¯„ä¾‹ï¼š
+        /// GenerateCondition½d¨Ò¡G
         ///	<code>
         ///		DataTable dt = RunSQL("select * from dbo.region","region");
         ///		strSQL = "select * from dbo.employee where " + 
         ///		GenerateCondition("regionid",FilterCollection.FilterType.Equal,"en",true); 
         ///	</code>
         /// </example>
-        /// <param name="FieldName">æ¬„ä½åç¨±</param>
-        /// <param name="Filter">ç¯©é¸æ–¹å¼</param>
-        /// <param name="KeyWord">å€¼</param>
-        /// <param name="AddQuote">å€¼æ˜¯å¦ä½¿ç”¨å–®å¼•è™Ÿ</param>
+        /// <param name="FieldName">Äæ¦ì¦WºÙ</param>
+        /// <param name="Filter">¿z¿ï¤è¦¡</param>
+        /// <param name="KeyWord">­È</param>
+        /// <param name="AddQuote">­È¬O§_¨Ï¥Î³æ¤Ş¸¹</param>
         /// <returns></returns>
         public string GenerateCondition(string FieldName, FilterCollection.FilterType Filter, string KeyWord, bool AddQuote)
         {
@@ -966,16 +999,16 @@ namespace DataAccess.DB
         }
 
         /// <summary>
-        /// åŸ·è¡Œ Transact-SQL äº¤æ˜“
+        /// °õ¦æ Transact-SQL ¥æ©ö
         /// </summary>
         /// <example>
-        /// Transactionç¯„ä¾‹ï¼š
+        /// Transaction½d¨Ò¡G
         ///	<code>
         ///		if(Transaction("insert into region('1','en')"
         ///							,"delete from region where regionid=2"))
-        ///			ShowErrorMessage("åŸ·è¡ŒæˆåŠŸ");
+        ///			ShowErrorMessage("°õ¦æ¦¨¥\");
         ///		else 
-        ///			ShowErrorMessage("åŸ·è¡Œå¤±æ•—");
+        ///			ShowErrorMessage("°õ¦æ¥¢±Ñ");
         ///	</code>
         /// </example>
         /// <param name="strSQLS">The STR SQLS.</param>
@@ -991,16 +1024,16 @@ namespace DataAccess.DB
                 {
                     if (strSQL != "" && strSQL != null)
                     {
-                        if (Datatype == dbtype.Access || Datatype == dbtype.Excel)
+                        if (Datatype == dbkind.Access || Datatype == dbkind.Excel)
                             new OleDbCommand(strSQL, (OleDbConnection)DbCon, (OleDbTransaction)transaction).ExecuteNonQuery();
-                        else if (Datatype == dbtype.SQL_Server)
+                        else if (Datatype == dbkind.SQL_Server)
                             new SqlCommand(strSQL, (SqlConnection)DbCon, (SqlTransaction)transaction).ExecuteNonQuery();
-                        else if (Datatype == dbtype.Oracle)
+                        else if (Datatype == dbkind.Oracle)
                         {
                             transaction = ((OracleConnection)DbCon).BeginTransaction();
                             new OracleCommand(strSQL, (OracleConnection)DbCon).ExecuteNonQuery();
                         }
-                        else if (Datatype == dbtype.MySql)
+                        else if (Datatype == dbkind.MySql)
                             new MySqlCommand(strSQL, (MySqlConnection)DbCon, (MySqlTransaction)transaction).ExecuteNonQuery();
                     }
                 }
@@ -1009,7 +1042,7 @@ namespace DataAccess.DB
             }
             catch (OracleException ex)
             {
-                if (transaction != null)transaction.Rollback();
+                if (transaction != null) transaction.Rollback();
                 return false;
                 throw new Exception(ex.Message, ex);
             }
@@ -1058,7 +1091,7 @@ namespace DataAccess.DB
             //  @"           ,'{3}'" + "\r\n" +
             //  @"           ,getdate())",userInfo.UserID,strSQL.Replace("'","''"),userInfo.CurrentPath,userInfo.PageLoginId)):"";
         }
-        #region IDisposable æˆå“¡
+        #region IDisposable ¦¨­û
 
         public void Dispose()
         {
@@ -1066,10 +1099,66 @@ namespace DataAccess.DB
             {
                 DbCon.Close();
                 DbCon.Dispose();
-                DbCon = null;  
+                DbCon = null;
             }
         }
 
         #endregion
+        private void BuildParameters(ref IDbCommand cmd, object[] values)
+        {
+            string sqlParamChar = string.Empty;
+            switch (Datatype)
+            {
+                case dbkind.SQL_Server:
+                case dbkind.Access:
+                case dbkind.Excel:
+                    sqlParamChar = "@";
+                    break;
+                case dbkind.Oracle:
+                    sqlParamChar = ":";
+                    break;
+                case dbkind.MySql:
+                    sqlParamChar = "?";
+                    break;
+            }
+            List<string> paramNames = BetweenStringsList(cmd.CommandText, sqlParamChar, " ");
+            if (values != null && values.Length > 0 && values.Length == paramNames.Count)
+            {
+                for (var i = 0; i < values.Length; i++)
+                {
+                    var parameter = cmd.CreateParameter();
+                    parameter.ParameterName = paramNames[i];
+                    parameter.Value = values[i];
+                    cmd.Parameters.Add(parameter);
+                }
+            }
+        }
+        private static List<string> BetweenStringsList(string text, string start, string end)
+        {
+            List<string> matched = new List<string>();
+
+            int indexStart = 0;
+            int indexEnd = 0;
+
+            bool exit = false;
+            while (!exit)
+            {
+                indexStart = text.IndexOf(start);
+
+                if (indexStart != -1)
+                {
+                    indexEnd = indexStart + text.Substring(indexStart).IndexOf(end);
+
+                    matched.Add(text.Substring(indexStart + start.Length, indexEnd - indexStart - start.Length));
+
+                    text = text.Substring(indexEnd + end.Length);
+                }
+                else
+                {
+                    exit = true;
+                }
+            }
+            return matched;
+        }
     }
 }

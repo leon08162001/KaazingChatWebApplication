@@ -19,7 +19,7 @@ namespace DataAccess.DB
         /// <param name="Connection">The connection.</param>
         public Transaction(string Connection)
         {
-            Conn = new SqlConnection(System.Configuration.ConfigurationManager.AppSettings[Connection]);
+            Conn = new SqlConnection(System.Configuration.ConfigurationSettings.AppSettings[Connection]);
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace DataAccess.DB
         /// </summary>
         public Transaction()
         {
-            Conn = new SqlConnection(System.Configuration.ConfigurationManager.AppSettings["Default"]);
+            Conn = new SqlConnection(System.Configuration.ConfigurationSettings.AppSettings["Default"]);
         }
 
 
@@ -70,7 +70,7 @@ namespace DataAccess.DB
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception Ex)
             {
                 Trans.Rollback();
                 return false;

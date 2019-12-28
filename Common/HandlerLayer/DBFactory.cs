@@ -6,7 +6,7 @@ namespace Common.HandlerLayer
 {
     public static class DBFactory
     {
-        //private static Dac DB = new Dac(dbtype.Oracle, "LOCALOMS");
+        //private static Dac DB = new Dac(dbkind.Oracle, "LOCALOMS");
         public static DataTable DoDBTask(TopicType TopicType, DataTable DT)
         {
             switch (TopicType)
@@ -28,8 +28,8 @@ namespace Common.HandlerLayer
         {
             try
             {
-                Dac DB = new Dac(dbtype.SQL_Server, "LOCALOMS");
-                //Dac DB = new Dac(dbtype.Oracle, "LOCALOMS");
+                Dac DB = new Dac(dbkind.SQL_Server, "LOCALOMS");
+                //Dac DB = new Dac(dbkind.Oracle, "LOCALOMS");
                 DataTable UserDT;
                 string MessageID = "";
                 if (DT.Rows.Count > 0)
@@ -64,8 +64,8 @@ namespace Common.HandlerLayer
         {
             try
             {
-                Dac DB = new Dac(dbtype.SQL_Server, "LOCALOMS");
-                //Dac DB = new Dac(dbtype.Oracle, "LOCALOMS");
+                Dac DB = new Dac(dbkind.SQL_Server, "LOCALOMS");
+                //Dac DB = new Dac(dbkind.Oracle, "LOCALOMS");
                 DataTable UserDT;
                 string MessageID = "";
                 if (DT.Rows.Count > 0)
@@ -100,8 +100,8 @@ namespace Common.HandlerLayer
         {
             try
             {
-                Dac DB = new Dac(dbtype.SQL_Server, "LOCALOMS");
-                //Dac DB = new Dac(dbtype.Oracle, "LOCALOMS");
+                Dac DB = new Dac(dbkind.SQL_Server, "LOCALOMS");
+                //Dac DB = new Dac(dbkind.Oracle, "LOCALOMS");
                 DataTable UserDT;
                 string MessageID = "";
                 if (DT.Rows.Count > 0)
@@ -135,8 +135,8 @@ namespace Common.HandlerLayer
         {
             try
             {
-                Dac DB = new Dac(dbtype.SQL_Server, "LOCALOMS");
-                //Dac DB = new Dac(dbtype.Oracle, "LOCALOMS");
+                Dac DB = new Dac(dbkind.SQL_Server, "LOCALOMS");
+                //Dac DB = new Dac(dbkind.Oracle, "LOCALOMS");
                 DataTable UserDT;
                 string MessageID = "";
                 if (DT.Rows.Count > 0)

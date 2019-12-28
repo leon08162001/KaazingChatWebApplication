@@ -11,16 +11,16 @@ namespace DataAccess.DB
     public class WriteLog
     {
         private Dac db;
-        private dbtype Datatype;
+        private dbkind Datatype;
         private string ConnStr;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WriteLog"/> class.
         /// </summary>
-        public WriteLog(dbtype dbtype,string ConnString)
+        public WriteLog(dbkind dbkind,string ConnString)
         {
-            db = new Dac(dbtype);
-            Datatype = dbtype;
+            db = new Dac(dbkind);
+            Datatype = dbkind;
             ConnStr = ConnString;
         }
 
@@ -42,7 +42,7 @@ namespace DataAccess.DB
             else { SPName = ""; }
             string StrSQL;
             StrSQL = "Insert Into [Exp]([ExpType],[SPName],[ErrMsg],[StackTrace],[Createdate]) Values('" + ex.GetType().Name.Replace("'", "''") + "','" + SPName.Replace("'", "''") + "','" + ex.Message.Replace("'", "''") + "','" + ex.StackTrace.Replace("'", "''") + "',getdate())";
-            if (Datatype == dbtype.SQL_Server)
+            if (Datatype == dbkind.SQL_Server)
             {
                 SqlConnection con = new SqlConnection(ConnStr);
                 con.Open();
@@ -50,7 +50,7 @@ namespace DataAccess.DB
                 command.ExecuteNonQuery();
                 con.Close();
             }
-            //else if (Datatype == dbtype.Oracle)
+            //else if (Datatype == dbkind.Oracle)
             //{
             //    OracleConnection con = new OracleConnection(ConnStr);
             //    con.Open();
