@@ -19,6 +19,10 @@
     <script src="lib/client/javascript/MessageClient.js" type="text/javascript"></script>
     <script type="text/javascript">
         // Variables you can change
+        var ajaxMessageTypeEnum = {
+            read: 1,
+            file: 2
+        };
 
         var failOverReconnectSecs = 15;
         var MY_WEBSOCKET_URL = "<%= KaazingJmsSvc %>";
@@ -67,7 +71,7 @@
         //var messageUploadFileUrl = "api/WebChat/UploadFile2";
 
         var jmsServiceType = JmsServiceTypeEnum.ActiveMQ;
-        var messageType = MessageTypeEnum.Queue;
+        var messageType = MessageTypeEnum.Topic;
         var IN_DEBUG_MODE = true;
         var DEBUG_TO_SCREEN = true;
         var allReceivedNum;
@@ -120,7 +124,7 @@
                     bindMessageToUI(uiObj, "<span style=\"background-color: yellow;\">" + message + "</span><br>");
                 }
                 else {
-                    sendAjaxMessage(message + readedHtml);
+                    sendAjaxMessage(message + readedHtml, ajaxMessageTypeEnum.read);
                     bindMessageToUI(uiObj, message + "<br>")
                 }
             }
@@ -253,7 +257,7 @@
                 messageClient.messageType = messageType;
                 messageClient.listenName = ("webchat." + $.trim($("#listenFrom").val())).toUpperCase();
                 //messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z-]+/g).filter(v => v).join(',').toUpperCase();
-                messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y}).join(',').toUpperCase();
+                messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
                 messageClient.onMessageReceived(handleMessage);
                 messageClient.onConnectionStarted(handleConnectStarted);
                 messageClient.onConnectionClosed(handleConnectClosed);
@@ -397,9 +401,9 @@
             data.topicOrQueueName = messageClient.sendName;
             data.messageType = Number(messageClient.messageType);
             data.mqUrl = messageClient.uri;
-            chat.id = messageClient.listenName;
-            chat.name = messageClient.listenName;
-            chat.receiver = messageClient.sendName;
+            chat.id = messageClient.listenName.replace(/webchat./ig, "");
+            chat.name = messageClient.listenName.replace(/webchat./ig, "");
+            chat.receiver = messageClient.sendName.replace(/webchat./ig, "");
             chat.htmlMessage = "";
             chat.date = getLocalDate().substring(0, 10);
             chat.oprTime = getLocalDate();
@@ -443,8 +447,8 @@
         var getChatToday = function () {
             var serviceUrl = "api/WebChat/GetChatToday";
             var chat = {};
-            chat.id = messageClient ? messageClient.listenName : "";
-            chat.receiver = messageClient ? messageClient.sendName : "";
+            chat.id = messageClient ? messageClient.listenName.replace(/webchat./ig, "") : "";
+            chat.receiver = messageClient ? messageClient.sendName.replace(/webchat./ig, "") : "";
             chat.date = getLocalDate().substring(0, 10);
             $("#divMsg").html("");
             CallAjax(serviceUrl, chat,
@@ -474,9 +478,9 @@
         var getChatHistory = function () {
             var serviceUrl = "api/WebChat/GetChatHistory";
             var chat = {};
-            chat.id = messageClient ? messageClient.listenName : "";
-            chat.name = messageClient ? messageClient.listenName : "";
-            chat.receiver = messageClient ? messageClient.sendName : "";
+            chat.id = messageClient ? messageClient.listenName.replace(/webchat./ig, "") : "";
+            chat.name = messageClient ? messageClient.listenName.replace(/webchat./ig, "") : "";
+            chat.receiver = messageClient ? messageClient.sendName.replace(/webchat./ig, "") : "";
             chat.htmlMessage = "";
             chat.date = getLocalDate().substring(0, 10);
             chat.oprTime = getLocalDate();
@@ -507,11 +511,16 @@
                     }
                 });
         }
-        var sendAjaxMessage = function (message) {
+        var sendAjaxMessage = function (message, ajaxMessageType) {
             var data = {};
             data.message = message;
             //data.topicOrQueueName = messageClient.sendName;
-            data.topicOrQueueName = messageClient.sendName.indexOf(",") > -1 ? ("webchat." + message.substr(0, message.indexOf("："))).toUpperCase() : messageClient.sendName;
+            if (ajaxMessageType == ajaxMessageTypeEnum.read) {
+                data.topicOrQueueName = messageClient.sendName.indexOf(",") > -1 ? ("webchat." + message.substr(0, message.indexOf("："))).toUpperCase() : messageClient.sendName;
+            }
+            else {
+                data.topicOrQueueName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
+            }
             data.messageType = Number(messageClient.messageType);
             data.mqUrl = messageClient.uri;
             ajaxProgress = $.ajax({
@@ -655,7 +664,7 @@
                 //    messageClient.sendFile(files[i].name, files[i], messageClient.listenName);
                 //}
 
-                data.append("sender", messageClient.listenName);
+                data.append("sender", messageClient.listenName.replace(/webchat./ig, ""));
                 data.append("topicOrQueueName", messageClient.sendName);
                 data.append("messageType", messageClient.messageType.toString());
                 data.append("mqUrl", messageClient.uri);
@@ -668,9 +677,9 @@
                 }
                 // Make Ajax request with the contentType = false, and procesDate = false
                 var messageTime = getNowFormatDate();
-                $("#divMsg").html("<span style=\"background-color: yellow;\">" + messageClient.listenName + "：傳送檔案中，請稍後...(" + messageTime + ")</span><br>" + $("#divMsg").html());
+                $("#divMsg").html("<span style=\"background-color: yellow;\">" + messageClient.listenName.replace(/webchat./ig, "") + "：傳送檔案中，請稍後...(" + messageTime + ")</span><br>" + $("#divMsg").html());
 
-                sendAjaxMessage(messageClient.listenName + "：傳送檔案中，請稍後...(" + messageTime + ")");
+                sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：傳送檔案中，請稍後...(" + messageTime + ")", ajaxMessageTypeEnum.file);
 
                 setTimeout(function () {
                     var ajaxProgress = $.ajax({
@@ -686,7 +695,7 @@
                             var brTag = document.createElement('br');
                             var spanTag = document.createElement('span');
                             spanTag.setAttribute("style", "background-color:yellow");
-                            spanTag.innerHTML = messageClient.listenName + "：" + fileNames + "(檔案傳送完成)(" + messageTime + ")";
+                            spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：" + fileNames + "(檔案傳送完成)(" + messageTime + ")";
                             uiObj.insertBefore(brTag, uiObj.firstChild);
                             uiObj.insertBefore(spanTag, uiObj.firstChild);
                             $("#fileUpload").val('');
@@ -697,10 +706,10 @@
                             var brTag = document.createElement('br');
                             var spanTag = document.createElement('span');
                             spanTag.setAttribute("style", "background-color:yellow");
-                            spanTag.innerHTML = messageClient.listenName + "：檔案傳送失敗(" + messageTime + ")";
+                            spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：檔案傳送失敗(" + messageTime + ")";
                             uiObj.insertBefore(brTag, uiObj.firstChild);
                             uiObj.insertBefore(spanTag, uiObj.firstChild);
-                            sendAjaxMessage(messageClient.listenName + "：檔案傳送失敗(" + messageTime + ")");
+                            sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：檔案傳送失敗(" + messageTime + ")", ajaxMessageTypeEnum.file);
                             //alert('檔案傳送失敗');
                         }
                     });
@@ -709,8 +718,8 @@
             $('#talkTo').change(function () {
                 if (messageClient) {
                     $("#divMsg").html("");
-                    //messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z-]+/g).filter(v=>v).join(',').toUpperCase();
-                    messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z-]+/g).filter(function (v) {return v }).join(',').toUpperCase();
+                    //messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z-]+/g).filter(function (v) {return v }).join(',').toUpperCase();
+                    messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
                     getChatToday();
                     getChatHistory();
                 }
@@ -718,9 +727,9 @@
             $(window).on("beforeunload", function () {
                 if ($("#divMsg").html().length > 0) {
                     var chat = {};
-                    chat.id = messageClient.listenName;
-                    chat.name = messageClient.listenName;
-                    chat.receiver = messageClient.sendName;
+                    chat.id = messageClient.listenName.replace(/webchat./ig, "");
+                    chat.name = messageClient.listenName.replace(/webchat./ig, "");
+                    chat.receiver = messageClient.sendName.replace(/webchat./ig, "");
                     chat.htmlMessage = $("#divMsg").html();
                     chat.date = getLocalDate().substring(0, 10);
                     chat.oprTime = getLocalDate();
@@ -794,7 +803,8 @@
                     setTimeout(function () {
                         if (a.text.indexOf("(已點擊下載)") == -1) {
                             window.navigator.msSaveOrOpenBlob(blob, obj.fileName); a.removeAttribute("href"); a.text = a.getAttribute("origintext") + "(已點擊下載)";
-                        }}, 150);
+                        }
+                    }, 150);
                 });
             }
             else {
@@ -880,10 +890,12 @@
         .tabbed {
             padding-left: 4.00em;
         }
+
         .defaultfont {
             font-size: medium;
             font-family: 標楷體, TimesNewRoman, "Times New Roman", Times, Arial, Georgia;
         }
+
         .Rounded {
             -moz-border-radius: 10px 10px 10px 10px;
             border-radius: 10px 10px 10px 10px;
@@ -891,7 +903,7 @@
             background-color: #acf;
             padding: 2px;
             text-align: center;
-            display:block;
+            display: block;
         }
     </style>
 </head>

@@ -79,7 +79,7 @@ namespace KaazingTestWebApplication.Controllers
                         for (int i = 0; i < Message.times; i++)
                         {
                             JefferiesExcuReport.SendMessage(Message.message);
-                            if (log.IsInfoEnabled) log.InfoFormat("Send JefferiesExcuReport Text Message from {0}(Count:{1})", Assembly.GetExecutingAssembly().GetName().Name, (i + 1).ToString());
+                            if (log.IsInfoEnabled) log.InfoFormat("SendTalkMessageToServer from {0}(Count:{1})", Assembly.GetExecutingAssembly().GetName().Name, (i + 1).ToString());
                         }
                     }
                 }
@@ -90,7 +90,7 @@ namespace KaazingTestWebApplication.Controllers
                     for (int i = 0; i < Message.times; i++)
                     {
                         JefferiesExcuReport.SendMessage(Message.message);
-                        if (log.IsInfoEnabled) log.InfoFormat("Send JefferiesExcuReport Text Message from {0}(Count:{1})", Assembly.GetExecutingAssembly().GetName().Name, (i + 1).ToString());
+                        if (log.IsInfoEnabled) log.InfoFormat("SendTalkMessageToServer from {0}(Count:{1})", Assembly.GetExecutingAssembly().GetName().Name, (i + 1).ToString());
                     }
                 }
                 //test code begin
@@ -121,8 +121,51 @@ namespace KaazingTestWebApplication.Controllers
             try
             {
                 JefferiesExcuReport.Start();
+                //多個人
+                if (Message.topicOrQueueName.IndexOf(",") != -1)
+                {
+                    string[] sendNames = Message.topicOrQueueName.Split(new char[] { ',' });
+                    foreach (string sendName in sendNames)
+                    {
+                        JefferiesExcuReport.ReStartSender(sendName.Trim());
+                        JefferiesExcuReport.SendMessage(Message.message);
+                    }
+                }
+                //只有一個人
+                else
+                {
+                    JefferiesExcuReport.SendMessage(Message.message);
+                }
+                if (log.IsInfoEnabled) log.InfoFormat("SendReadMessageToServer from {0}", Assembly.GetExecutingAssembly().GetName().Name);
+                apiResult = Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+            }
+            finally
+            {
+                JefferiesExcuReport.Close();
+            }
+            return apiResult;
+        }
+        [HttpPost]
+        [Route("SendReadMessageToServerOld")]
+        public IHttpActionResult SendReadMessageToServerOld(MessageModel Message)
+        {
+            IHttpActionResult apiResult = null;
+            config = (Config)applicationContext.GetObject("Config");
+            JefferiesExcuReport.WebSocketUri = Message.mqUrl.Replace("ws://", "").Replace("wss://", "");
+            JefferiesExcuReport.DestinationFeature = Message.messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
+            JefferiesExcuReport.SendName = Message.topicOrQueueName;
+            JefferiesExcuReport.UserName = config.KaazingWebSocketUserID;
+            JefferiesExcuReport.PassWord = config.KaazingWebSocketPwd;
+            try
+            {
+                JefferiesExcuReport.Start();
                 JefferiesExcuReport.SendMessage(Message.message);
-                if (log.IsInfoEnabled) log.InfoFormat("Send JefferiesExcuReport Text Message from {0}", Assembly.GetExecutingAssembly().GetName().Name);
+                if (log.IsInfoEnabled) log.InfoFormat("SendReadMessageToServer from {0}", Assembly.GetExecutingAssembly().GetName().Name);
                 apiResult = Ok(new { success = true });
             }
             catch (Exception ex)
