@@ -251,9 +251,9 @@
                 messageClient.WebUiObject = $("#divMsg")[0];
                 messageClient.jmsServiceType = jmsServiceType;
                 messageClient.messageType = messageType;
-                messageClient.listenName = $.trim($("#listenFrom").val()).toUpperCase();
+                messageClient.listenName = ("webchat." + $.trim($("#listenFrom").val())).toUpperCase();
                 //messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z-]+/g).filter(v => v).join(',').toUpperCase();
-                messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x}).join(',').toUpperCase();
+                messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y}).join(',').toUpperCase();
                 messageClient.onMessageReceived(handleMessage);
                 messageClient.onConnectionStarted(handleConnectStarted);
                 messageClient.onConnectionClosed(handleConnectClosed);
@@ -510,7 +510,8 @@
         var sendAjaxMessage = function (message) {
             var data = {};
             data.message = message;
-            data.topicOrQueueName = messageClient.sendName;
+            //data.topicOrQueueName = messageClient.sendName;
+            data.topicOrQueueName = messageClient.sendName.indexOf(",") > -1 ? ("webchat." + message.substr(0, message.indexOf("："))).toUpperCase() : messageClient.sendName;
             data.messageType = Number(messageClient.messageType);
             data.mqUrl = messageClient.uri;
             ajaxProgress = $.ajax({
