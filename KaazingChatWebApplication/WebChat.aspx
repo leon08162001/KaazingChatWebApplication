@@ -272,6 +272,17 @@
         var closeMessageClient = function () {
             try {
                 messageClient.close();
+                if ($("#divMsg").html().length > 0) {
+                    var chat = {};
+                    chat.id = messageClient.listenName.replace(/webchat./ig, "");
+                    chat.name = messageClient.listenName.replace(/webchat./ig, "");
+                    chat.receiver = messageClient.sendName.replace(/webchat./ig, "");
+                    chat.htmlMessage = $("#divMsg").html();
+                    chat.date = getLocalDate().substring(0, 10);
+                    chat.oprTime = getLocalDate();
+                    chat.oprIpAddress = messageClient.clientIp;
+                    chatUpdate(chat, true);
+                }
             }
             catch (e) {
                 $("#divMsg").append(e + "<br>");
