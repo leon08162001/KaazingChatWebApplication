@@ -71,7 +71,7 @@
         //var messageUploadFileUrl = "api/WebChat/UploadFile2";
 
         var jmsServiceType = JmsServiceTypeEnum.ActiveMQ;
-        var messageType = MessageTypeEnum.Topic;
+        var messageType = MessageTypeEnum.Queue;
         var IN_DEBUG_MODE = true;
         var DEBUG_TO_SCREEN = true;
         var allReceivedNum;

@@ -1,0 +1,42 @@
+2020-01-04 08:40:49,632 [107] ERROR Common.LinkLayer.BaseWebSocketAdapter [(null)] - BaseWebSocketAdapter Start() Error
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Kaazing.JMS.Stomp.GenericFuture`1.Await(Int64 timeout)
+   於 Kaazing.JMS.Stomp.StompConnection.Connect()
+   於 Kaazing.JMS.Stomp.StompConnectionFactory.CreateConnection(String username, String password, String clientID)
+   於 Kaazing.JMS.Stomp.StompConnectionFactory.CreateConnection()
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 299
+2020-01-04 08:40:49,646 [107] ERROR Common.LinkLayer.BaseWebSocketAdapter [(null)] - BaseWebSocketAdapter Start() Error
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 312
+2020-01-04 08:40:49,647 [107] ERROR KaazingTestWebApplication.Controllers.WebChatController [(null)] - WebSocket connection failed
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 342
+   於 KaazingTestWebApplication.Controllers.WebChatController.SendTalkMessageToServer(MessageModel Message) 於 F:\BitBucket\KaazingChatWebApplication\KaazingChatWebApplication\Api\Controllers\WebChatController.cs: 行 71
+2020-01-04 08:44:11,362 [73] ERROR Common.LinkLayer.BaseWebSocketAdapter [(null)] - BaseWebSocketAdapter Start() Error
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Kaazing.JMS.Stomp.GenericFuture`1.Await(Int64 timeout)
+   於 Kaazing.JMS.Stomp.StompConnection.Connect()
+   於 Kaazing.JMS.Stomp.StompConnectionFactory.CreateConnection(String username, String password, String clientID)
+   於 Kaazing.JMS.Stomp.StompConnectionFactory.CreateConnection()
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 299
+2020-01-04 08:44:11,364 [73] ERROR Common.LinkLayer.BaseWebSocketAdapter [(null)] - BaseWebSocketAdapter Start() Error
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 312
+2020-01-04 08:44:11,366 [73] ERROR KaazingTestWebApplication.Controllers.WebChatController [(null)] - WebSocket connection failed
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 342
+   於 KaazingTestWebApplication.Controllers.WebChatController.SendTalkMessageToServer(MessageModel Message) 於 F:\BitBucket\KaazingChatWebApplication\KaazingChatWebApplication\Api\Controllers\WebChatController.cs: 行 71
+2020-01-04 09:32:31,119 [16] ERROR Common.LinkLayer.BaseWebSocketAdapter [(null)] - BaseWebSocketAdapter Start() Error
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Kaazing.JMS.Stomp.GenericFuture`1.Await(Int64 timeout)
+   於 Kaazing.JMS.Stomp.StompConnection.Connect()
+   於 Kaazing.JMS.Stomp.StompConnectionFactory.CreateConnection(String username, String password, String clientID)
+   於 Kaazing.JMS.Stomp.StompConnectionFactory.CreateConnection()
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 299
+2020-01-04 09:32:31,125 [16] ERROR Common.LinkLayer.BaseWebSocketAdapter [(null)] - BaseWebSocketAdapter Start() Error
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 312
+2020-01-04 09:32:31,126 [16] ERROR KaazingTestWebApplication.Controllers.WebChatController [(null)] - WebSocket connection failed
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 342
+   於 KaazingTestWebApplication.Controllers.WebChatController.SendTalkMessageToServer(MessageModel Message) 於 F:\BitBucket\KaazingChatWebApplication\KaazingChatWebApplication\Api\Controllers\WebChatController.cs: 行 71

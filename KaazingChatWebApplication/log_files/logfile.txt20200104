@@ -1,0 +1,113 @@
+2020-01-04 08:12:24,321 [139] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:12:24,389 [139] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:12:24,462 [157] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:12:50,121 [138] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:12:50,131 [138] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:12:50,218 [195] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:16:26,048 [123] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:16:26,063 [123] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:16:26,251 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:18:06,514 [108] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:18:06,529 [108] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:18:06,623 [212] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:18:06,670 [135] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:18:12,107 [135] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:18:12,123 [135] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:18:12,357 [195] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:18:12,357 [116] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:18:18,873 [212] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:18:18,888 [212] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:18:18,982 [195] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:18:18,998 [197] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:19:10,355 [55] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:19:10,371 [55] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:19:10,465 [157] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:22:14,805 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:22:14,816 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:22:14,966 [107] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:22:14,966 [108] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:22:22,459 [108] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:22:22,470 [108] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:22:22,625 [108] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:22:22,626 [138] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:22:27,639 [212] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:22:27,650 [212] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:22:27,804 [135] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:22:27,808 [139] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:22:45,241 [107] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:22:45,252 [107] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:22:45,327 [216] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:22:59,452 [216] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:36:56,110 [55] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:36:56,121 [55] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:36:57,290 [113] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:36:57,290 [157] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:37:01,304 [123] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:37:01,315 [123] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:37:01,462 [108] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:37:01,873 [100] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:37:09,458 [197] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:37:09,469 [197] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:37:09,570 [138] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:37:09,651 [157] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:37:44,683 [138] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:37:44,791 [157] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:37:44,791 [216] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:37:45,748 [100] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_BZ000100_投資申請案件輸入清冊.doc) from KaazingChatWebApplication
+2020-01-04 08:37:45,784 [100] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_BZ000100_投資申請案件輸入清冊.doc) from KaazingChatWebApplication
+2020-01-04 08:40:23,002 [100] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:40:23,156 [137] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:40:25,925 [157] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:40:26,086 [138] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:40:49,632 [107] ERROR Common.LinkLayer.BaseWebSocketAdapter [(null)] - BaseWebSocketAdapter Start() Error
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Kaazing.JMS.Stomp.GenericFuture`1.Await(Int64 timeout)
+   於 Kaazing.JMS.Stomp.StompConnection.Connect()
+   於 Kaazing.JMS.Stomp.StompConnectionFactory.CreateConnection(String username, String password, String clientID)
+   於 Kaazing.JMS.Stomp.StompConnectionFactory.CreateConnection()
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 299
+2020-01-04 08:40:49,646 [107] ERROR Common.LinkLayer.BaseWebSocketAdapter [(null)] - BaseWebSocketAdapter Start() Error
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 312
+2020-01-04 08:40:49,647 [107] ERROR KaazingTestWebApplication.Controllers.WebChatController [(null)] - WebSocket connection failed
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 342
+   於 KaazingTestWebApplication.Controllers.WebChatController.SendTalkMessageToServer(MessageModel Message) 於 F:\BitBucket\KaazingChatWebApplication\KaazingChatWebApplication\Api\Controllers\WebChatController.cs: 行 71
+2020-01-04 08:43:48,698 [108] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 08:43:48,852 [157] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 08:44:11,362 [73] ERROR Common.LinkLayer.BaseWebSocketAdapter [(null)] - BaseWebSocketAdapter Start() Error
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Kaazing.JMS.Stomp.GenericFuture`1.Await(Int64 timeout)
+   於 Kaazing.JMS.Stomp.StompConnection.Connect()
+   於 Kaazing.JMS.Stomp.StompConnectionFactory.CreateConnection(String username, String password, String clientID)
+   於 Kaazing.JMS.Stomp.StompConnectionFactory.CreateConnection()
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 299
+2020-01-04 08:44:11,364 [73] ERROR Common.LinkLayer.BaseWebSocketAdapter [(null)] - BaseWebSocketAdapter Start() Error
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 312
+2020-01-04 08:44:11,366 [73] ERROR KaazingTestWebApplication.Controllers.WebChatController [(null)] - WebSocket connection failed
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 342
+   於 KaazingTestWebApplication.Controllers.WebChatController.SendTalkMessageToServer(MessageModel Message) 於 F:\BitBucket\KaazingChatWebApplication\KaazingChatWebApplication\Api\Controllers\WebChatController.cs: 行 71
+2020-01-04 09:31:46,254 [3] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 09:31:46,401 [17] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 09:32:31,119 [16] ERROR Common.LinkLayer.BaseWebSocketAdapter [(null)] - BaseWebSocketAdapter Start() Error
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Kaazing.JMS.Stomp.GenericFuture`1.Await(Int64 timeout)
+   於 Kaazing.JMS.Stomp.StompConnection.Connect()
+   於 Kaazing.JMS.Stomp.StompConnectionFactory.CreateConnection(String username, String password, String clientID)
+   於 Kaazing.JMS.Stomp.StompConnectionFactory.CreateConnection()
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 299
+2020-01-04 09:32:31,125 [16] ERROR Common.LinkLayer.BaseWebSocketAdapter [(null)] - BaseWebSocketAdapter Start() Error
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 312
+2020-01-04 09:32:31,126 [16] ERROR KaazingTestWebApplication.Controllers.WebChatController [(null)] - WebSocket connection failed
+Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   於 Common.LinkLayer.BaseWebSocketAdapter.Start() 於 F:\BitBucket\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs: 行 342
+   於 KaazingTestWebApplication.Controllers.WebChatController.SendTalkMessageToServer(MessageModel Message) 於 F:\BitBucket\KaazingChatWebApplication\KaazingChatWebApplication\Api\Controllers\WebChatController.cs: 行 71
+2020-01-04 09:42:53,209 [54] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 09:42:54,369 [67] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 09:46:49,534 [90] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 09:46:49,687 [60] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-04 09:47:02,101 [60] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-04 09:47:02,255 [102] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication

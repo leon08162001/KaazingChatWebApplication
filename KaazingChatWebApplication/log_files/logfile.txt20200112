@@ -1,0 +1,62 @@
+2020-01-12 08:34:35,249 [12] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:34:35,318 [12] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:34:35,445 [24] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:34:35,653 [13] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:35:15,803 [18] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:35:15,814 [18] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:35:15,974 [36] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:35:16,978 [13] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:35:35,327 [11] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:35:35,338 [11] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:35:35,428 [13] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:35:35,582 [17] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:36:21,341 [59] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:36:21,353 [59] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:36:21,952 [13] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:36:21,952 [56] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:37:07,781 [69] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:37:07,792 [69] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:37:07,865 [70] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:37:07,959 [75] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:37:22,222 [75] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:37:22,452 [70] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:37:22,721 [76] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:37:23,409 [61] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CD000210_逾期未繳案件處理輸入.doc) from KaazingChatWebApplication
+2020-01-12 08:37:23,455 [61] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CD000300_Debit Note清冊.doc) from KaazingChatWebApplication
+2020-01-12 08:37:23,545 [61] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CD000310_Debit Note填寫.doc) from KaazingChatWebApplication
+2020-01-12 08:37:23,733 [61] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CD000210_逾期未繳案件處理輸入.doc) from KaazingChatWebApplication
+2020-01-12 08:37:23,773 [61] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CD000300_Debit Note清冊.doc) from KaazingChatWebApplication
+2020-01-12 08:37:23,821 [61] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CD000310_Debit Note填寫.doc) from KaazingChatWebApplication
+2020-01-12 08:38:34,589 [56] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:38:34,600 [56] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:38:34,702 [13] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:38:34,856 [61] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:38:48,795 [70] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:38:48,949 [80] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:38:49,814 [61] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_BB000100_投資申請案件清冊.doc) from KaazingChatWebApplication
+2020-01-12 08:38:49,855 [61] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_BB000100_投資申請案件清冊.doc) from KaazingChatWebApplication
+2020-01-12 08:39:38,950 [28] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:40:54,421 [64] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:40:54,432 [64] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:40:54,505 [61] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:41:41,178 [86] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:41:49,600 [85] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:41:49,611 [85] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:41:49,772 [29] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:41:49,803 [72] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:42:13,756 [27] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:42:13,767 [27] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:42:13,840 [85] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:42:13,959 [26] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:42:57,220 [111] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:42:57,231 [111] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 08:42:57,319 [27] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 08:42:57,391 [115] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 09:06:30,062 [94] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 09:06:30,073 [94] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 09:06:30,202 [84] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 09:06:30,404 [94] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 09:06:40,055 [98] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 09:06:40,066 [98] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendTalkMessageToServer from KaazingChatWebApplication(Count:1)
+2020-01-12 09:06:40,181 [32] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication
+2020-01-12 09:06:40,207 [33] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - SendReadMessageToServer from KaazingChatWebApplication

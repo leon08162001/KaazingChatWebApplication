@@ -1,0 +1,17 @@
+2019-12-28 11:06:49,925 [18] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-28 11:06:51,236 [17] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-28 11:06:56,471 [14] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-28 11:06:56,612 [12] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-28 11:07:14,782 [14] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-28 11:07:14,943 [20] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-28 11:07:23,167 [14] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-28 11:07:23,321 [10] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-28 11:07:24,399 [18] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_BZ000110_投資申請輸入.doc) from KaazingChatWebApplication
+2019-12-28 11:07:24,437 [18] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CA000100_借款申請案件清冊.doc) from KaazingChatWebApplication
+2019-12-28 11:07:49,510 [14] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-28 11:07:49,636 [17] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-28 11:07:59,493 [17] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-28 11:07:59,633 [42] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-28 11:08:00,620 [5] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_CREDIT_CHECK_LEGAL_OPINION.docx) from KaazingChatWebApplication
+2019-12-28 11:08:00,653 [5] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_CREDIT_CHECK_REPROT.docx) from KaazingChatWebApplication
+2019-12-28 11:08:00,685 [5] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(CB_CREDIT_CHECK_REPROT_APPROVEMENT.docx) from KaazingChatWebApplication

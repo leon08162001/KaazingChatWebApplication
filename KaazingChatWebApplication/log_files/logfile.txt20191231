@@ -1,0 +1,7 @@
+2019-12-31 14:38:25,006 [15] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication(Count:1)
+2019-12-31 14:38:25,647 [13] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-31 14:38:37,886 [15] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-31 14:38:38,306 [9] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send JefferiesExcuReport Text Message from KaazingChatWebApplication
+2019-12-31 14:38:39,048 [5] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_BZ000100_投資申請案件輸入清冊.doc) from KaazingChatWebApplication
+2019-12-31 14:38:39,255 [5] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_BZ000110_投資申請輸入.doc) from KaazingChatWebApplication
+2019-12-31 14:38:39,339 [5] INFO  KaazingTestWebApplication.Controllers.WebChatController [(null)] - Send File(FNS_CA000100_借款申請案件清冊.doc) from KaazingChatWebApplication
