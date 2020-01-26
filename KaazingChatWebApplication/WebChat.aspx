@@ -26,6 +26,7 @@
 
         var failOverReconnectSecs = 15;
         var MY_WEBSOCKET_URL = "<%= KaazingJmsSvc %>";
+
         //var MY_WEBSOCKET_URL = "wss://192.168.43.114:9001/jms";
 
         //var messageTalkServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer";
@@ -70,7 +71,7 @@
         //EMSUploadFile
         //var messageUploadFileUrl = "api/WebChat/UploadFile2";
 
-        var jmsServiceType = JmsServiceTypeEnum.ActiveMQ;
+        var jmsServiceType = JmsServiceTypeEnum.TibcoEMS;
         var messageType = MessageTypeEnum.Queue;
         var IN_DEBUG_MODE = true;
         var DEBUG_TO_SCREEN = true;
@@ -97,7 +98,7 @@
         // Used for development and debugging. All logging can be turned
         // off by modifying this function.
         //
-        if (MY_WEBSOCKET_URL.length == 0) {
+        if (MY_WEBSOCKET_URL.length === 0) {
             window.alert("WebSocket 服務尚未啟動!");
         }
         var consoleLog = function (text) {
@@ -118,8 +119,8 @@
         };
 
         var handleMessage = function (uiObj, message) {
-            if (typeof message == "string") {
-                var hasReadedHtml = message.indexOf(readedHtml) == -1 ? false : true;
+            if (typeof message === "string") {
+                var hasReadedHtml = message.indexOf(readedHtml) === -1 ? false : true;
                 if (hasReadedHtml) {
                     bindMessageToUI(uiObj, "<span style=\"background-color: yellow;\">" + message + "</span><br>");
                 }
@@ -133,7 +134,7 @@
                     handleMessage(uiObj, message[key]);
                 }
             }
-            else if (typeof message == "object") {
+            else if (typeof message === "object") {
                 var sMessage = "";
                 if (message.hasOwnProperty('file')) {
                     var messageTime = getNowFormatDate();
@@ -158,7 +159,7 @@
         }
 
         var handleConnectStarted = function (errMsg) {
-            if (errMsg == "") {
+            if (errMsg === "") {
                 $('#openMessageClient').attr('disabled', true);
                 $('#btnUploadFile').attr('disabled', false);
                 $('#closeMessageClient').attr('disabled', false);
@@ -173,7 +174,7 @@
         }
 
         var handleConnectClosed = function (errMsg) {
-            if (errMsg == "") {
+            if (errMsg === "") {
                 $('#btnUploadFile').attr('disabled', true);
                 $("#closeMessageClient").attr('disabled', true);
                 $("#sendMessage").attr('disabled', true);
@@ -190,9 +191,9 @@
                 if (value.toString().indexOf('id') > -1) {
                     var messageID = $(value).find("span")[0].getAttribute("id");
                     //傳送一筆時(單人及多人適用)
-                    if ($("[id='" + messageID + "']").length == 1) {
+                    if ($("[id='" + messageID + "']").length === 1) {
                         //找不到已讀
-                        if ($("#" + messageID).html().indexOf("已讀") == -1) {
+                        if ($("#" + messageID).html().indexOf("已讀") === -1) {
                             $("#" + messageID).html($("#" + messageID).html() + readedHtml);
                         }
                         //找得到已讀
@@ -210,7 +211,7 @@
                     //傳送多筆時(單人及多人適用)
                     else {
                         //找不到已讀
-                        if ($("[id='" + messageID + "']").html().indexOf("已讀") == -1) {
+                        if ($("[id='" + messageID + "']").html().indexOf("已讀") === -1) {
                             $("[id='" + messageID + "']").html($("[id='" + messageID + "']").html() + readedHtml);
                         }
                         //找得到已讀
@@ -273,14 +274,7 @@
             try {
                 messageClient.close();
                 if ($("#divMsg").html().length > 0) {
-                    var chat = {};
-                    chat.id = messageClient.listenName.replace(/webchat./ig, "");
-                    chat.name = messageClient.listenName.replace(/webchat./ig, "");
-                    chat.receiver = messageClient.sendName.replace(/webchat./ig, "");
-                    chat.htmlMessage = $("#divMsg").html();
-                    chat.date = getLocalDate().substring(0, 10);
-                    chat.oprTime = getLocalDate();
-                    chat.oprIpAddress = messageClient.clientIp;
+                    var chat = getChat();
                     chatUpdate(chat, true);
                 }
             }
@@ -289,7 +283,7 @@
             }
         }
         var sendMessage = function () {
-            if ($.trim($("#message").val()).length == 0) {
+            if ($.trim($("#message").val()).length === 0) {
                 return false;
             }
             var uuid = getUuid();
@@ -316,7 +310,7 @@
                     },
                     function (xhr, textStatus, errorThrown) {
                         $("#sendMessage").attr('disabled', false);
-                        if (xhr.readyState == 0) {
+                        if (xhr.readyState === 0) {
                             console.log(xhr.statusText);
                             window.alert(xhr.statusText);
                         }
@@ -349,7 +343,7 @@
                             }
                         },
                         function (xhr, textStatus, errorThrown) {
-                            if (xhr.readyState == 0) {
+                            if (xhr.readyState === 0) {
                                 console.log(xhr.statusText);
                             }
                             else {
@@ -387,7 +381,7 @@
                 function (xhr, textStatus, errorThrown) {
                     //var err = JSON.parse(xhr.responseText);
                     $("#sendMessage").attr('disabled', false);
-                    if (xhr.readyState == 0) {
+                    if (xhr.readyState === 0) {
                         console.log(xhr.statusText);
                         window.alert(xhr.statusText);
                     }
@@ -400,25 +394,17 @@
         }
         var sendAjaxTalkMessage = function () {
             allReceivedNum = 0;
-            if ($.trim($("#message").val()).length == 0) {
+            if ($.trim($("#message").val()).length === 0) {
                 return false;
             }
             var uuid = getUuid();
             var messageTime = getNowFormatDate();
             var data = {};
-            var chat = {};
             data.message = $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\">" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span>";
             data.times = Number($("#times").val());
             data.topicOrQueueName = messageClient.sendName;
             data.messageType = Number(messageClient.messageType);
             data.mqUrl = messageClient.uri;
-            chat.id = messageClient.listenName.replace(/webchat./ig, "");
-            chat.name = messageClient.listenName.replace(/webchat./ig, "");
-            chat.receiver = messageClient.sendName.replace(/webchat./ig, "");
-            chat.htmlMessage = "";
-            chat.date = getLocalDate().substring(0, 10);
-            chat.oprTime = getLocalDate();
-            chat.oprIpAddress = messageClient.clientIp;
             $("#sendMessage").attr('disabled', true);
             for (var i = 0; i < Number($("#times").val()); i++) {
                 $("#divMsg").html("<span style=\"background-color: yellow;\">" + $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\">" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span></span><br>" + $("#divMsg").html());
@@ -432,7 +418,7 @@
                 success: function (result) {
                     if (result || result.d) {
                         $("#message").val("");
-                        chat.htmlMessage = $("#divMsg").html();
+                        var chat = getChat();
                         chatUpdate(chat, true);
                     }
                     else if (!result || !result.d) {
@@ -444,7 +430,7 @@
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     $("#sendMessage").attr('disabled', false);
-                    if (xhr.readyState == 0) {
+                    if (xhr.readyState === 0) {
                         console.log(xhr.statusText);
                         window.alert(xhr.statusText);
                     }
@@ -468,6 +454,20 @@
                         $.each(data, function () {
                             $("#divMsg").html($("#divMsg").html() + this.htmlMessage);
                         });
+                        $("a").each(function () {
+                            var a = $(this)[0];
+                            $(this).on('click', function () {
+                                setTimeout(function () {
+                                    if (a.text.indexOf("(已點擊下載)") === -1) {
+                                        a.removeAttribute("href"); a.text = a.getAttribute("origintext") + "(已點擊下載)";
+                                        if ($("#divMsg").html().length > 0) {
+                                            chat = getChat();
+                                            chatUpdate(chat, true);
+                                        }
+                                    }
+                                }, 150);
+                            });
+                        });
                     }
                     else if (!data || !data.d) {
                         console.log("getChatToday fail!");
@@ -476,7 +476,7 @@
                 },
                 function (xhr, textStatus, errorThrown) {
                     $("#sendMessage").attr('disabled', false);
-                    if (xhr.readyState == 0) {
+                    if (xhr.readyState === 0) {
                         console.log(xhr.statusText);
                         window.alert(xhr.statusText);
                     }
@@ -512,7 +512,7 @@
                 },
                 function (xhr, textStatus, errorThrown) {
                     $("#sendMessage").attr('disabled', false);
-                    if (xhr.readyState == 0) {
+                    if (xhr.readyState === 0) {
                         console.log(xhr.statusText);
                         window.alert(xhr.statusText);
                     }
@@ -526,7 +526,7 @@
             var data = {};
             data.message = message;
             //data.topicOrQueueName = messageClient.sendName;
-            if (ajaxMessageType == ajaxMessageTypeEnum.read) {
+            if (ajaxMessageType === ajaxMessageTypeEnum.read) {
                 data.topicOrQueueName = messageClient.sendName.indexOf(",") > -1 ? ("webchat." + message.substr(0, message.indexOf("："))).toUpperCase() : messageClient.sendName;
             }
             else {
@@ -541,7 +541,7 @@
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 error: function (xhr, textStatus, errorThrown) {
-                    if (xhr.readyState == 0) {
+                    if (xhr.readyState === 0) {
                         console.log(xhr.statusText);
                         window.alert(xhr.statusText);
                     }
@@ -586,7 +586,7 @@
                         $('#openMessageClient').click();
                     }
                     ajaxProgress = null;
-                    if (MY_WEBSOCKET_URL.length == 0) {
+                    if (MY_WEBSOCKET_URL.length === 0) {
                         console.log("WebSocket 服務尚未啟動!");
                         window.alert("WebSocket 服務尚未啟動!");
                     }
@@ -599,15 +599,15 @@
                 url: chkWebSocketLoadBalancerUrl,
                 contentType: "application/json; charset=utf-8",
                 success: function (result) {
-                    if ((result.length > 0 && MY_WEBSOCKET_URL.length > 0 && result.indexOf(MY_WEBSOCKET_URL) == -1) || (result.length > 0 && MY_WEBSOCKET_URL.length == 0)) {
+                    if ((result.length > 0 && MY_WEBSOCKET_URL.length > 0 && result.indexOf(MY_WEBSOCKET_URL) === -1) || (result.length > 0 && MY_WEBSOCKET_URL.length === 0)) {
                         MY_WEBSOCKET_URL = result[0];
                         //$('#closeMessageClient').click();
                         $('#openMessageClient').click();
                     }
-                    else if (result.length == 0) {
+                    else if (result.length === 0) {
                         MY_WEBSOCKET_URL = "";
                     }
-                    if (MY_WEBSOCKET_URL.length == 0) {
+                    if (MY_WEBSOCKET_URL.length === 0) {
                         $('#btnUploadFile').attr('disabled', true);
                         $("#closeMessageClient").attr('disabled', true);
                         $("#sendMessage").attr('disabled', true);
@@ -621,16 +621,16 @@
         };
         $(function () {
             //$("#message").keyup(function (e) {
-            //    if ((e.keyCode == 10 || e.keyCode == 13) && !e.ctrlKey) {
+            //    if ((e.keyCode === 10 || e.keyCode === 13) && !e.ctrlKey) {
             //        $("#message").val("");
             //    }
             //});
             $("#message").on('keypress', function (e) {
-                if ((e.keyCode == 10 || e.keyCode == 13) && e.ctrlKey) {
+                if ((e.keyCode === 10 || e.keyCode === 13) && e.ctrlKey) {
                     $("#sendMessage").click();
                     //$("#message").val($("#message").val() + "\n");
                 }
-                else if ((e.keyCode == 10 || e.keyCode == 13) && !e.ctrlKey) {
+                else if ((e.keyCode === 10 || e.keyCode === 13) && !e.ctrlKey) {
                     //$("#sendMessage").click();
                 }
             });
@@ -665,7 +665,7 @@
                     window.alert("聊天尚未啟動");
                     return;
                 }
-                if (files.length == 0) {
+                if (files.length === 0) {
                     window.alert("尚未指定傳送的檔案");
                     return;
                 }
@@ -728,6 +728,8 @@
             });
             $('#talkTo').change(function () {
                 if (messageClient) {
+                    var chat = getChat();
+                    chatUpdate(chat, true);
                     $("#divMsg").html("");
                     //messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z-]+/g).filter(function (v) {return v }).join(',').toUpperCase();
                     messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
@@ -737,14 +739,7 @@
             });
             $(window).on("beforeunload", function () {
                 if ($("#divMsg").html().length > 0) {
-                    var chat = {};
-                    chat.id = messageClient.listenName.replace(/webchat./ig, "");
-                    chat.name = messageClient.listenName.replace(/webchat./ig, "");
-                    chat.receiver = messageClient.sendName.replace(/webchat./ig, "");
-                    chat.htmlMessage = $("#divMsg").html();
-                    chat.date = getLocalDate().substring(0, 10);
-                    chat.oprTime = getLocalDate();
-                    chat.oprIpAddress = messageClient.clientIp;
+                    var chat = getChat();
                     chatUpdate(chat, false);
                     return null;
                 }
@@ -812,8 +807,12 @@
                 a.href = "#";
                 a.addEventListener('click', function () {
                     setTimeout(function () {
-                        if (a.text.indexOf("(已點擊下載)") == -1) {
+                        if (a.text.indexOf("(已點擊下載)") === -1) {
                             window.navigator.msSaveOrOpenBlob(blob, obj.fileName); a.removeAttribute("href"); a.text = a.getAttribute("origintext") + "(已點擊下載)";
+                            if ($("#divMsg").html().length > 0) {
+                                var chat = getChat();
+                                chatUpdate(chat, true);
+                            }
                         }
                     }, 150);
                 });
@@ -885,6 +884,17 @@
             var date = new Date();
             var localDateString = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON();
             return localDateString;
+        }
+        function getChat() {
+            var chat = {};
+            chat.id = messageClient.listenName.replace(/webchat./ig, "");
+            chat.name = messageClient.listenName.replace(/webchat./ig, "");
+            chat.receiver = messageClient.sendName.replace(/webchat./ig, "");
+            chat.htmlMessage = $("#divMsg").html();
+            chat.date = getLocalDate().substring(0, 10);
+            chat.oprTime = getLocalDate();
+            chat.oprIpAddress = messageClient.clientIp;
+            return chat;
         }
     </script>
     <style>
