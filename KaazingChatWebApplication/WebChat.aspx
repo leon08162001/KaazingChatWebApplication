@@ -304,11 +304,9 @@
                             console.log("ChatUpdate fail!");
                             window.alert("ChatUpdate fail!");
                         }
-                        $("#sendMessage").attr('disabled', false);
                         ajaxProgress = null;
                     },
                     function (xhr, textStatus, errorThrown) {
-                        $("#sendMessage").attr('disabled', false);
                         if (xhr.readyState == 0) {
                             console.log(xhr.statusText);
                             window.alert(xhr.statusText);
@@ -474,7 +472,6 @@
                     }
                 },
                 function (xhr, textStatus, errorThrown) {
-                    $("#sendMessage").attr('disabled', false);
                     if (xhr.readyState == 0) {
                         console.log(xhr.statusText);
                         window.alert(xhr.statusText);
@@ -510,7 +507,6 @@
                     }
                 },
                 function (xhr, textStatus, errorThrown) {
-                    $("#sendMessage").attr('disabled', false);
                     if (xhr.readyState == 0) {
                         console.log(xhr.statusText);
                         window.alert(xhr.statusText);
