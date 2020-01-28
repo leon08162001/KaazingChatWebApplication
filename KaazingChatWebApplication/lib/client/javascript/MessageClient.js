@@ -173,7 +173,7 @@ MessageClient.prototype = (function () {
                             });
                         } catch (e) {
                             handleException(e);
-                            triggerConnectionStarted.call(that, e);
+                            //triggerConnectionStarted.call(that, e);
                         }
                     } else {
                         if (loginMsg != "") {
@@ -181,12 +181,12 @@ MessageClient.prototype = (function () {
                             return;
                         }
                         handleException(connectionFuture.exception);
-                        triggerConnectionStarted.call(that, connectionFuture.exception);
+                        //triggerConnectionStarted.call(that, connectionFuture.exception);
                     }
                 });
             } catch (e) {
                 handleException(e);
-                triggerConnectionStarted.call(that, e);
+                //triggerConnectionStarted.call(that, e);
             }
         },
 
@@ -205,7 +205,7 @@ MessageClient.prototype = (function () {
             }
             catch (e) {
                 handleException(e);
-                triggerConnectionClosed.call(that, e);
+                //triggerConnectionClosed.call(that, e);
             }
         },
 
