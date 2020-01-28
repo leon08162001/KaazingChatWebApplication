@@ -397,14 +397,26 @@
             var uuid = getUuid();
             var messageTime = getNowFormatDate();
             var data = {};
-            data.message = $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\">" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span>";
+            if ($("#message").val().indexOf("https://") == 0 || $("#message").val().indexOf("http://") == 0) {
+                data.message = $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\"><a href=\"" + $("#message").val() + "\" target=\"_blank\">" + $("#message").val().replace(/\n/g, '<br>') + "</a></pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span>";
+            }
+            else {
+                data.message = $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\">" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span>";
+            }
             data.times = Number($("#times").val());
             data.topicOrQueueName = messageClient.sendName;
             data.messageType = Number(messageClient.messageType);
             data.mqUrl = messageClient.uri;
             $("#sendMessage").attr('disabled', true);
-            for (var i = 0; i < Number($("#times").val()); i++) {
-                $("#divMsg").html("<span style=\"background-color: yellow;\">" + $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\">" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span></span><br>" + $("#divMsg").html());
+            if ($("#message").val().indexOf("https://") == 0 || $("#message").val().indexOf("http://") == 0) {
+                for (var i = 0; i < Number($("#times").val()); i++) {
+                    $("#divMsg").html("<span style=\"background-color: yellow;\">" + $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\"><a href=\"" + $("#message").val() + "\" target=\"_blank\">" + $("#message").val().replace(/\n/g, '<br>') + "</a></pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span></span><br>" + $("#divMsg").html());
+                }
+            }
+            else {
+                for (var i = 0; i < Number($("#times").val()); i++) {
+                    $("#divMsg").html("<span style=\"background-color: yellow;\">" + $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\">" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span></span><br>" + $("#divMsg").html());
+                }
             }
             ajaxProgress = $.ajax({
                 url: messageTalkServiceUrl,
@@ -454,9 +466,12 @@
                         $("a").each(function () {
                             var a = $(this)[0];
                             $(this).on('click', function () {
-                                setTimeout(function () {
+                                setTimeout(function () {   
                                     if (a.text.indexOf("(已點擊下載)") == -1) {
-                                        a.removeAttribute("href"); a.text = a.getAttribute("origintext") + "(已點擊下載)";
+                                        if (a.href.indexOf("blob:") != -1 || a.getAttribute("origintext")) {
+                                            a.removeAttribute("href");
+                                            a.text = a.getAttribute("origintext") + "(已點擊下載)";
+                                        }
                                         if ($("#divMsg").html().length > 0) {
                                             chat = getChat();
                                             chatUpdate(chat, true);
@@ -806,7 +821,11 @@
                 a.addEventListener('click', function () {
                     setTimeout(function () {
                         if (a.text.indexOf("(已點擊下載)") == -1) {
-                            window.navigator.msSaveOrOpenBlob(blob, obj.fileName); a.removeAttribute("href"); a.text = a.getAttribute("origintext") + "(已點擊下載)";
+                            if (a.href.indexOf("blob:") != -1 || a.getAttribute("origintext")) {
+                                window.navigator.msSaveOrOpenBlob(blob, obj.fileName);
+                                a.removeAttribute("href");
+                                a.text = a.getAttribute("origintext") + "(已點擊下載)";
+                            }
                             if ($("#divMsg").html().length > 0) {
                                 var chat = getChat();
                                 chatUpdate(chat, true);
@@ -820,7 +839,11 @@
                 a.href = blobUrl;
                 a.addEventListener('click', function () {
                     setTimeout(function () {
-                        URL.revokeObjectURL(a.href); a.removeAttribute("href"); a.text = a.getAttribute("origintext") + "(已點擊下載)";
+                        if (a.href.indexOf("blob:") != -1 || a.getAttribute("origintext")) {
+                            URL.revokeObjectURL(a.href);
+                            a.removeAttribute("href");
+                            a.text = a.getAttribute("origintext") + "(已點擊下載)";
+                        }
                         if ($("#divMsg").html().length > 0) {
                             var chat = getChat();
                             chatUpdate(chat, true);
