@@ -400,6 +400,9 @@
             if ($("#message").val().indexOf("https://") == 0 || $("#message").val().indexOf("http://") == 0) {
                 data.message = $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\"><a href=\"" + $("#message").val() + "\" target=\"_blank\">" + $("#message").val().replace(/\n/g, '<br>') + "</a></pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span>";
             }
+            else if ($("#message").val().indexOf("<a href=https://") == 0 || $("#message").val().indexOf("<a href=http://") == 0) {
+                data.message = $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\">" + $("#message").val().replace('<a href', '<a target=_blank href') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span>";
+            }
             else {
                 data.message = $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\">" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span>";
             }
@@ -412,6 +415,9 @@
                 for (var i = 0; i < Number($("#times").val()); i++) {
                     $("#divMsg").html("<span style=\"background-color: yellow;\">" + $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\"><a href=\"" + $("#message").val() + "\" target=\"_blank\">" + $("#message").val().replace(/\n/g, '<br>') + "</a></pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span></span><br>" + $("#divMsg").html());
                 }
+            }
+            else if ($("#message").val().indexOf("<a href=https://") == 0 || $("#message").val().indexOf("<a href=http://") == 0) {
+                $("#divMsg").html("<span style=\"background-color: yellow;\">" + $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\">" + $("#message").val().replace('<a href', '<a target=_blank href') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span></span><br>" + $("#divMsg").html());
             }
             else {
                 for (var i = 0; i < Number($("#times").val()); i++) {
