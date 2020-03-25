@@ -580,7 +580,7 @@ namespace Common.LinkLayer
                     msg.SetStringProperty("filename", FileName);
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.JMSType = "file";
-                    _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
+                    _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_PRIORITY, 0);
                     isSend = true;
                 }
             }
@@ -617,7 +617,7 @@ namespace Common.LinkLayer
                     msg.SetStringProperty("filename", FileName);
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.JMSType = "file";
-                    _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
+                    _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_PRIORITY, 0);
                     isSend = true;
                 }
             }
