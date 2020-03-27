@@ -450,11 +450,9 @@
                         console.log("send ajax talk message fail!");
                         window.alert("send ajax talk message fail!");
                     }
-                    $("#sendMessage").attr('disabled', false);
                     ajaxProgress = null;
                 },
                 error: function (xhr, textStatus, errorThrown) {
-                    $("#sendMessage").attr('disabled', false);
                     if (xhr.readyState == 0) {
                         console.log(xhr.statusText);
                         window.alert(xhr.statusText);
@@ -463,6 +461,10 @@
                         console.log(xhr.responseText);
                         window.alert(xhr.responseText);
                     }
+                },
+                complete: function (XHR, TS) {
+                    $("#sendMessage").attr('disabled', false);
+                    XHR = null;
                 }
             });
         }
@@ -576,6 +578,9 @@
                         console.log(err.Message);
                         window.alert(err.Message);
                     }
+                },
+                complete: function (XHR, TS) {
+                    XHR = null;
                 }
             });
         }
@@ -616,6 +621,9 @@
                         console.log("WebSocket 服務尚未啟動!");
                         window.alert("WebSocket 服務尚未啟動!");
                     }
+                },
+                complete: function (XHR, TS) {
+                    XHR = null;
                 }
             });
         };
@@ -642,6 +650,9 @@
                         window.alert("WebSocket 服務尚未啟動!");
                     }
                     ajaxProgress = null;
+                },
+                complete: function (XHR, TS) {
+                    XHR = null;
                 }
             });
         };
@@ -718,6 +729,7 @@
                 var messageTime = getNowFormatDate();
                 $("#divMsg").html("<span style=\"background-color: yellow;\">" + messageClient.listenName.replace(/webchat./ig, "") + "：傳送檔案中，請稍後...(" + messageTime + ")</span><br>" + $("#divMsg").html());
 
+                $('#btnUploadFile').attr('disabled', true);
                 sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：傳送檔案中，請稍後...(" + messageTime + ")", ajaxMessageTypeEnum.file);
 
                 setTimeout(function () {
@@ -750,6 +762,10 @@
                             uiObj.insertBefore(spanTag, uiObj.firstChild);
                             sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：檔案傳送失敗(" + messageTime + ")", ajaxMessageTypeEnum.file);
                             //alert('檔案傳送失敗');
+                        },
+                        complete: function (XHR, TS) {
+                            $('#btnUploadFile').attr('disabled', false);
+                            XHR = null;
                         }
                     });
                 }, 1000);
@@ -906,7 +922,10 @@
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 success: okFunc,
-                error: failFunc
+                error: failFunc,
+                complete: function (XHR, TS) {
+                    XHR = null;
+                }
             });
         }
         function CallSyncAjax(url, data, okFunc, failFunc) {
@@ -918,7 +937,10 @@
                 async: false,
                 contentType: "application/json; charset=utf-8",
                 success: okFunc,
-                error: failFunc
+                error: failFunc,
+                complete: function (XHR, TS) {
+                    XHR = null;
+                }
             });
         }
         function getLocalDate() {
