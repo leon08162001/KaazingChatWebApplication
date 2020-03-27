@@ -729,6 +729,7 @@
                 var messageTime = getNowFormatDate();
                 $("#divMsg").html("<span style=\"background-color: yellow;\">" + messageClient.listenName.replace(/webchat./ig, "") + "：傳送檔案中，請稍後...(" + messageTime + ")</span><br>" + $("#divMsg").html());
 
+                $("#fileUpload").attr('disabled', true);
                 $('#btnUploadFile').attr('disabled', true);
                 sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：傳送檔案中，請稍後...(" + messageTime + ")", ajaxMessageTypeEnum.file);
 
@@ -764,6 +765,7 @@
                             //alert('檔案傳送失敗');
                         },
                         complete: function (XHR, TS) {
+                            $("#fileUpload").attr('disabled', false);
                             $('#btnUploadFile').attr('disabled', false);
                             XHR = null;
                         }
