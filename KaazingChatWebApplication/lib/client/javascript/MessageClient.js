@@ -70,27 +70,27 @@ MessageClient.prototype = (function () {
             }
         }
         else {
-            //if (message.getJMSType().toString() == "file") {
-            //    jsonObj = new Object();
-            //    jsonObj.id = message.getStringProperty("id");
-            //    jsonObj.dataType = message.getStringProperty("datatype");
-            //    jsonObj.fileName = message.getStringProperty("filename");
-            //    jsonObj.file = message.getText();
-            //    triggerMessageReceived.call(that, jsonObj);
-            //}
-
             if (message.getJMSType().toString() == "file") {
-                var length = message.getBodyLength();
-                var arrayBuffer = new ArrayBuffer(length);
-                var uint8Buffer = new Uint8Array(arrayBuffer);
-                message.readBytes(uint8Buffer, length);
                 jsonObj = new Object();
                 jsonObj.id = message.getStringProperty("id");
                 jsonObj.dataType = message.getStringProperty("datatype");
                 jsonObj.fileName = message.getStringProperty("filename");
-                jsonObj.file = arrayBuffer;
+                jsonObj.file = message;
                 triggerMessageReceived.call(that, jsonObj);
             }
+
+            //if (message.getJMSType().toString() == "file") {
+            //    var length = message.getBodyLength();
+            //    var arrayBuffer = new ArrayBuffer(length);
+            //    var uint8Buffer = new Uint8Array(arrayBuffer);
+            //    message.readBytes(uint8Buffer, length);
+            //    jsonObj = new Object();
+            //    jsonObj.id = message.getStringProperty("id");
+            //    jsonObj.dataType = message.getStringProperty("datatype");
+            //    jsonObj.fileName = message.getStringProperty("filename");
+            //    jsonObj.file = arrayBuffer;
+            //    triggerMessageReceived.call(that, jsonObj);
+            //}
         }
     };
 
