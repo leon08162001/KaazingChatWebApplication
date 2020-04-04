@@ -210,7 +210,7 @@ namespace KaazingTestWebApplication.Controllers
                         for (var i = 0; i < Files.Count; i++)
                         {
                             long sequence = 1;
-                            byte[] buffer = new byte[1024000];
+                            byte[] buffer = new byte[1536000];
                             int offset = 0;
                             long remaining = Files[i].InputStream.Length;
                             byte[] lstBuffer = new byte[remaining % buffer.Length];
@@ -243,7 +243,7 @@ namespace KaazingTestWebApplication.Controllers
                     for (var i = 0; i < Files.Count; i++)
                     {
                         long sequence = 1;
-                        byte[] buffer = new byte[1024000];
+                        byte[] buffer = new byte[1536000];
                         int offset = 0;
                         long remaining = Files[i].InputStream.Length;
                         byte[] lstBuffer = new byte[remaining % buffer.Length];
