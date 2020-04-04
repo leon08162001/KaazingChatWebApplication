@@ -209,10 +209,30 @@ namespace KaazingTestWebApplication.Controllers
                         JefferiesExcuReport.ReStartSender(sendName.Trim());
                         for (var i = 0; i < Files.Count; i++)
                         {
-                            byte[] bytes = new byte[Files[i].InputStream.Length];
-                            Files[i].InputStream.Read(bytes, 0, bytes.Length);
-                            JefferiesExcuReport.SendFile(Files[i].FileName, bytes, sender);
+                            long sequence = 1;
+                            byte[] buffer = new byte[1024000];
+                            int offset = 0;
+                            long remaining = Files[i].InputStream.Length;
+                            byte[] lstBuffer = new byte[remaining % buffer.Length];
+                            long totalSequence = remaining % buffer.Length > 0 ? (remaining / buffer.Length) + 1 : (remaining / buffer.Length);
+                            while (remaining > 0)
+                            {
+                                int read = 0;
+                                if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
+                                {
+                                    read = Files[i].InputStream.Read(buffer, 0, buffer.Length);
+                                    JefferiesExcuReport.SendFile(Files[i].FileName, buffer, sequence, totalSequence, sender);
+                                }
+                                else if (sequence == totalSequence && remaining % buffer.Length > 0)
+                                {
+                                    read = Files[i].InputStream.Read(lstBuffer, 0, lstBuffer.Length);
+                                    JefferiesExcuReport.SendFile(Files[i].FileName, lstBuffer, sequence, totalSequence, sender);
+                                }
+                                remaining -= read;
+                                sequence++;
+                            }
                             if (log.IsInfoEnabled) log.InfoFormat("Send File({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
+                            Files[i].InputStream.Seek(0, System.IO.SeekOrigin.Begin);
                         }
                     }
                 }
@@ -222,10 +242,30 @@ namespace KaazingTestWebApplication.Controllers
                     JefferiesExcuReport.ReStartSender(topicOrQueueName);
                     for (var i = 0; i < Files.Count; i++)
                     {
-                        byte[] bytes = new byte[Files[i].InputStream.Length];
-                        Files[i].InputStream.Read(bytes, 0, bytes.Length);
-                        JefferiesExcuReport.SendFile(Files[i].FileName, bytes, sender);
+                        long sequence = 1;
+                        byte[] buffer = new byte[1024000];
+                        int offset = 0;
+                        long remaining = Files[i].InputStream.Length;
+                        byte[] lstBuffer = new byte[remaining % buffer.Length];
+                        long totalSequence = remaining % buffer.Length > 0 ? (remaining / buffer.Length) + 1 : (remaining / buffer.Length);
+                        while (remaining > 0)
+                        {
+                            int read = 0;
+                            if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
+                            {
+                                read = Files[i].InputStream.Read(buffer, 0, buffer.Length);
+                                JefferiesExcuReport.SendFile(Files[i].FileName, buffer, sequence, totalSequence, sender);
+                            }
+                            else if(sequence == totalSequence && remaining % buffer.Length > 0)
+                            {
+                                read = Files[i].InputStream.Read(lstBuffer, 0, lstBuffer.Length);
+                                JefferiesExcuReport.SendFile(Files[i].FileName, lstBuffer, sequence, totalSequence, sender);
+                            }
+                            remaining -= read;
+                            sequence++;
+                        }
                         if (log.IsInfoEnabled) log.InfoFormat("Send File({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
+                        Files[i].InputStream.Seek(0, System.IO.SeekOrigin.Begin);
                     }
                 }
                 apiResult = Ok(new { success = true });

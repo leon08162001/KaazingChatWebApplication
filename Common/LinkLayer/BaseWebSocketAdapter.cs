@@ -580,7 +580,7 @@ namespace Common.LinkLayer
                     msg.SetStringProperty("filename", FileName);
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.JMSType = "file";
-                    _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_PRIORITY, 0);
+                    _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
                     isSend = true;
                 }
             }
@@ -617,7 +617,46 @@ namespace Common.LinkLayer
                     msg.SetStringProperty("filename", FileName);
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.JMSType = "file";
-                    _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_PRIORITY, 0);
+                    _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
+                    isSend = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMsg = "BaseWebSocketAdapter SendFile: Error(" + ex.Message + ")";
+                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                System.Environment.Exit(-1);
+            }
+            finally
+            {
+                if (_UISyncContext != null && IsEventInUIThread)
+                {
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+                else
+                {
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+            }
+            return isSend;
+        }
+        public bool SendFile(string FileName, byte[] FileBytes, long Sequence, long TotalSequence, string ID = "")
+        {
+            bool isSend = false;
+            string ErrorMsg = "";
+            try
+            {
+                if (_Producer != null)
+                {
+                    IBytesMessage msg = _Session.CreateBytesMessage();
+                    msg.WriteBytes(FileBytes);
+                    msg.SetStringProperty("sequence", Sequence.ToString());
+                    msg.SetStringProperty("totalSequence", TotalSequence.ToString());
+                    msg.SetStringProperty("id", ID);
+                    msg.SetStringProperty("filename", FileName);
+                    msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
+                    msg.JMSType = "file";
+                    _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
                     isSend = true;
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using Kaazing.JMS;
+using System;
 using System.Threading;
 namespace Common.LinkLayer
 {
@@ -66,6 +67,7 @@ namespace Common.LinkLayer
         void SendAsynMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiMessage);
         bool SendFile(string FileName, string FilePath, string ID = "");
         bool SendFile(string FileName, byte[] FileBytes, string ID = "");
+        bool SendFile(string FileName, byte[] FileBytes, long Sequence, long TotalSequence, string ID = "");
         bool SendBase64File(string FileName, string FilePath, string ID = "");
         bool SendBase64File(string FileName, byte[] FileBytes, string ID = "");
         void ReStartListener(string ListenName);

@@ -29,6 +29,7 @@ MessageClient.prototype = (function () {
     var topicOrQueueConsumer;
     var topicOrQueueProducer;
     var errLog = "";
+    var jsonObj;
 
     //var triggerMessageReceived = function (thisObj, msg) {
     //    var scope = thisObj || window;
@@ -62,7 +63,7 @@ MessageClient.prototype = (function () {
         if (message.getJMSType() == null) {
             if (isJson(message.getText())) {
                 var json = eval("(" + message.getText() + ")");
-                var jsonObj = JSON.parse(JSON.stringify(json));
+                jsonObj = JSON.parse(JSON.stringify(json));
                 triggerMessageReceived.call(that, jsonObj);
             }
             else {
@@ -71,12 +72,25 @@ MessageClient.prototype = (function () {
         }
         else {
             if (message.getJMSType().toString() == "file") {
-                jsonObj = new Object();
-                jsonObj.id = message.getStringProperty("id");
-                jsonObj.dataType = message.getStringProperty("datatype");
-                jsonObj.fileName = message.getStringProperty("filename");
-                jsonObj.file = message;
-                triggerMessageReceived.call(that, jsonObj);
+                var seq = parseInt(message.getStringProperty("sequence"));
+                var ttlSeq = parseInt(message.getStringProperty("totalSequence"));
+                var length = message.getBodyLength();
+                var arrayBuffer = new ArrayBuffer(length);
+                var uint8Buffer = new Uint8Array(arrayBuffer);
+                message.readBytes(uint8Buffer, length);
+                if (seq == 1) {
+                    jsonObj = new Object();
+                    jsonObj.id = message.getStringProperty("id");
+                    jsonObj.dataType = message.getStringProperty("datatype");
+                    jsonObj.fileName = message.getStringProperty("filename");
+                    jsonObj.file = arrayBuffer;
+                }
+                if (seq > 1 && seq <= ttlSeq) {
+                    jsonObj.file = concatBuffers(jsonObj.file, arrayBuffer);
+                }
+                if (seq == ttlSeq) {
+                    triggerMessageReceived.call(that, jsonObj);
+                }
             }
 
             //if (message.getJMSType().toString() == "file") {
@@ -418,4 +432,17 @@ function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
         if (!ice || !ice.candidate || !ice.candidate.candidate || !ice.candidate.candidate.match(ipRegex)) return;
         ice.candidate.candidate.match(ipRegex).forEach(iterateIP);
     };
+}
+
+function concatTypedArrays(a, b) { // a, b TypedArray of same type
+    var c = new (a.constructor)(a.length + b.length);
+    c.set(a, 0);
+    c.set(b, a.length);
+    return c;
+}
+function concatBuffers(a, b) {
+    return concatTypedArrays(
+        new Uint8Array(a.buffer || a),
+        new Uint8Array(b.buffer || b)
+    ).buffer;
 }
