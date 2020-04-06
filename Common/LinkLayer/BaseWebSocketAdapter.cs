@@ -575,12 +575,75 @@ namespace Common.LinkLayer
                         }
                     }
                     IBytesMessage msg = _Session.CreateBytesMessage();
-                    msg.WriteBytes(bytes);
                     msg.SetStringProperty("id", ID);
                     msg.SetStringProperty("filename", FileName);
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.JMSType = "file";
+                    msg.WriteBytes(bytes);
                     _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
+                    isSend = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMsg = "BaseWebSocketAdapter SendFile: Error(" + ex.Message + ")";
+                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                System.Environment.Exit(-1);
+            }
+            finally
+            {
+                if (_UISyncContext != null && IsEventInUIThread)
+                {
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+                else
+                {
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+            }
+            return isSend;
+        }
+        public bool SendFile(string FileName, string FilePath, int BufferSize, string ID = "")
+        {
+            bool isSend = false;
+            string ErrorMsg = "";
+            byte[] buffer = new byte[BufferSize];
+            try
+            {
+                if (_Producer != null)
+                {
+                    using (StreamReader sr = new StreamReader(FilePath))
+                    {
+                        long sequence = 1;
+                        long remaining = sr.BaseStream.Length;
+                        byte[] lstBuffer = new byte[remaining % buffer.Length];
+                        long totalSequence = remaining % buffer.Length > 0 ? (remaining / buffer.Length) + 1 : (remaining / buffer.Length);
+                        while (remaining > 0)
+                        {
+                            int read = 0;
+                            IBytesMessage msg = _Session.CreateBytesMessage();
+                            msg.SetStringProperty("sequence", sequence.ToString());
+                            msg.SetStringProperty("totalSequence", totalSequence.ToString());
+                            msg.SetStringProperty("id", ID);
+                            msg.SetStringProperty("filename", FileName);
+                            msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
+                            msg.JMSType = "file";
+                            if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
+                            {
+                                read = sr.BaseStream.Read(buffer, 0, buffer.Length);
+                                msg.WriteBytes(buffer);
+                            }
+                            else if (sequence == totalSequence && remaining % buffer.Length > 0)
+                            {
+                                read = sr.BaseStream.Read(lstBuffer, 0, lstBuffer.Length);
+                                msg.WriteBytes(lstBuffer);
+                            }
+
+                            _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
+                            remaining -= read;
+                            sequence++;
+                        }
+                    }
                     isSend = true;
                 }
             }
@@ -612,11 +675,11 @@ namespace Common.LinkLayer
                 if (_Producer != null)
                 {
                     IBytesMessage msg = _Session.CreateBytesMessage();
-                    msg.WriteBytes(FileBytes);
                     msg.SetStringProperty("id", ID);
                     msg.SetStringProperty("filename", FileName);
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.JMSType = "file";
+                    msg.WriteBytes(FileBytes);
                     _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
                     isSend = true;
                 }
@@ -649,13 +712,13 @@ namespace Common.LinkLayer
                 if (_Producer != null)
                 {
                     IBytesMessage msg = _Session.CreateBytesMessage();
-                    msg.WriteBytes(FileBytes);
                     msg.SetStringProperty("sequence", Sequence.ToString());
                     msg.SetStringProperty("totalSequence", TotalSequence.ToString());
                     msg.SetStringProperty("id", ID);
                     msg.SetStringProperty("filename", FileName);
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.JMSType = "file";
+                    msg.WriteBytes(FileBytes);
                     _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
                     isSend = true;
                 }
@@ -701,11 +764,11 @@ namespace Common.LinkLayer
                     }
                     String base64File = Convert.ToBase64String(bytes);
                     ITextMessage msg = _Session.CreateTextMessage();
-                    msg.Text = base64File;
                     msg.SetStringProperty("id", ID);
                     msg.SetStringProperty("datatype", Util.GetMimeType(FilePath));
                     msg.SetStringProperty("filename", FileName);
                     msg.JMSType = "file";
+                    msg.Text = base64File;
                     _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
                     isSend = true;
                 }
@@ -739,11 +802,11 @@ namespace Common.LinkLayer
                 {
                     String base64File = Convert.ToBase64String(FileBytes);
                     ITextMessage msg = _Session.CreateTextMessage();
-                    msg.Text = base64File;
                     msg.SetStringProperty("id", ID);
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.SetStringProperty("filename", FileName);
                     msg.JMSType = "file";
+                    msg.Text = base64File;
                     _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
                     isSend = true;
                 }
