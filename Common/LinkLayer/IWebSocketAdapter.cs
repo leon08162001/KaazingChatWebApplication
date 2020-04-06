@@ -66,6 +66,7 @@ namespace Common.LinkLayer
         void SendMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiMessage);
         void SendAsynMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiMessage);
         bool SendFile(string FileName, string FilePath, string ID = "");
+        bool SendFile(string FileName, string FilePath, int BufferSize, string ID = "");
         bool SendFile(string FileName, byte[] FileBytes, string ID = "");
         bool SendFile(string FileName, byte[] FileBytes, long Sequence, long TotalSequence, string ID = "");
         bool SendBase64File(string FileName, string FilePath, string ID = "");
