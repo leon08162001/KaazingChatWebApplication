@@ -1,0 +1,7 @@
+video
+
+關於使用video標籤時src網址blob型別的理解
+https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/433636/
+
+[教學]在網頁上加入HTML5 的Video Tag，直接播放MP4、OGG…等影片
+https://twweeb.org/html5-video-tag/
