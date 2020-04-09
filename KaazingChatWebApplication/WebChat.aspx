@@ -938,7 +938,8 @@
                     });
                 }
                 else if (obj.dataType.toUpperCase().indexOf('MPEG') != -1 || obj.dataType.toUpperCase().indexOf('WAV') != -1) {
-                    a.text = "(播放音訊)"
+                    a.text = obj.fileName.toUpperCase().indexOf('MP3') != -1 ||
+                             obj.fileName.toUpperCase().indexOf('WAV') != -1 ? "(播放音訊)" : "";
                     a.addEventListener('click', function () {
                         var audio = $("#audio")[0];
                         audio.onended = function () {
