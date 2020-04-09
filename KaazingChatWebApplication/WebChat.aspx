@@ -138,6 +138,7 @@
                 if (message.hasOwnProperty('file')) {
                     var messageTime = getNowFormatDate();
                     var brTag = document.createElement('br');
+                    playDownloadVideoFile(message);
                     var link = createDownloadFileLink(message);
                     var spanTag = document.createElement('span');
                     var timeSpanTag = document.createElement('span');
@@ -484,7 +485,7 @@
                         $("a").each(function () {
                             var a = $(this)[0];
                             $(this).on('click', function () {
-                                setTimeout(function () {   
+                                setTimeout(function () {
                                     if (a.text.indexOf("(已點擊下載)") == -1) {
                                         if (a.href.indexOf("blob:") != -1 || a.getAttribute("origintext")) {
                                             a.removeAttribute("href");
@@ -758,10 +759,10 @@
                             var brTag = document.createElement('br');
                             var spanTag = document.createElement('span');
                             spanTag.setAttribute("style", "background-color:yellow");
-                            spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：檔案傳送失敗(" + messageTime + ")";
+                            spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：檔案傳送失敗(" + messageTime + "):" + jqXHR.responseText;
                             uiObj.insertBefore(brTag, uiObj.firstChild);
                             uiObj.insertBefore(spanTag, uiObj.firstChild);
-                            sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：檔案傳送失敗(" + messageTime + ")", ajaxMessageTypeEnum.file);
+                            sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：檔案傳送失敗(" + messageTime + "):" + jqXHR.responseText, ajaxMessageTypeEnum.file);
                             //alert('檔案傳送失敗');
                         },
                         complete: function (XHR, TS) {
@@ -886,6 +887,20 @@
                 });
             }
             return a;
+        }
+        function playDownloadVideoFile(obj) {
+            if (obj.dataType.toUpperCase().indexOf('MP4')!=-1 || obj.dataType.toUpperCase().indexOf('OGG')!=-1 || obj.dataType.toUpperCase().indexOf('WEBM')!=-1) {
+                var blob = new Blob([obj.file], { type: obj.dataType });
+                var blobUrl = URL.createObjectURL(blob);
+                var video = $("#video")[0];
+                video.onended = function () {
+                    this.style.display = 'none';
+                };
+                video.src = blobUrl;
+                video.style.display = 'block';
+                video.load();
+                video.play();
+            }
         }
         function resetFileUploadText() {
             $('[id*=fileUpload]').next(".custom-file-label").attr('data-content', "未選擇任何檔案");
@@ -1056,6 +1071,11 @@
         <button id="closeMessageClient" class="blue button" type="button" disabled="disabled" onclick="closeMessageClient();">結束聊天</button>&nbsp;
         <button id="sendMessage" class="blue button" type="button" disabled="disabled" onclick="sendAjaxTalkMessage();">傳送訊息</button>&nbsp;
 <%--        <button id="sendClientMessage" class="blue button" type="button" disabled="disabled" onclick="sendMessage();">傳送訊息(javascript)</button>--%>
+    </div>
+    <div>
+    <video id="video" style="display:none; margin: auto; position:relative; top: 0px; left:0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="" controls="controls">
+        您的瀏覽器不支援<code>video</code>標籤!
+    </video>
     </div>
     <div id="divMsg" class="defaultfont"></div>
     <div id="divMsgHis" class="defaultfont"></div>

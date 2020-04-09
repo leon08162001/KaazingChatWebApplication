@@ -539,6 +539,7 @@ namespace Common.Utility
                 case "odp": return "application/vnd.oasis.opendocument.presentation";
                 case "ods": return "application/oleobject";
                 case "odt": return "application/vnd.oasis.opendocument.text";
+                case "ogg": return "video/ogg";
                 case "ogv": return "video/ogg";
                 case "one": return "application/onenote";
                 case "onea": return "application/onenote";
@@ -748,7 +749,7 @@ namespace Common.Utility
                 case "wdb": return "application/vnd.ms-works";
                 case "wdp": return "image/vnd.ms-photo";
                 case "webarchive": return "application/x-safari-webarchive";
-                case "webm": return "video/web";
+                case "webm": return "video/webm";
                 case "webtest": return "application/xml";
                 case "wiq": return "application/xml";
                 case "wiz": return "application/msword";
