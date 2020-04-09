@@ -922,11 +922,10 @@
                 var blobUrl = URL.createObjectURL(blob);
                 var a = document.createElement('a');
                 a.id = getUuid();
-                a.download = obj.fileName;
                 a.setAttribute("origintext", a.text);
                 a.href = "#";
                 if (obj.dataType.toUpperCase().indexOf('MP4') != -1 || obj.dataType.toUpperCase().indexOf('OGG') != -1 || obj.dataType.toUpperCase().indexOf('WEBM') != -1) {
-                    a.text = "(播放)"
+                    a.text = "(播放視訊)"
                     a.addEventListener('click', function () {
                         var video = $("#video")[0];
                         video.onended = function () {
@@ -939,10 +938,14 @@
                     });
                 }
                 else if (obj.dataType.toUpperCase().indexOf('MPEG') != -1 || obj.dataType.toUpperCase().indexOf('WAV') != -1) {
-                    a.text = "(聆聽)"
+                    a.text = "(播放音訊)"
                     a.addEventListener('click', function () {
                         var audio = $("#audio")[0];
+                        audio.onended = function () {
+                            this.style.display = 'none';
+                        };
                         audio.src = blobUrl;
+                        audio.style.display = 'block';
                         audio.load();
                         audio.play();
                     });
@@ -1128,7 +1131,7 @@
         <video id="video" style="display:none; margin: auto; position:relative; top: 0px; left:0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="" controls="controls">
             您的瀏覽器不支援<code>video</code>標籤!
         </video>
-        <audio id="audio" controls="controls">您的瀏覽器不支援audio標籤!</audio>
+        <audio id="audio" style="display:none;" controls="controls">您的瀏覽器不支援audio標籤!</audio>
     </div>
     <div id="divMsg" class="defaultfont"></div>
     <div id="divMsgHis" class="defaultfont"></div>
