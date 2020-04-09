@@ -138,7 +138,7 @@
                 if (message.hasOwnProperty('file')) {
                     var messageTime = getNowFormatDate();
                     var brTag = document.createElement('br');
-                    //playDownloadVideoOrAudioFile(message);
+                    //playForVideoOrAudioFile(message);
                     var link = createDownloadFileLink(message);
                     var playLink = playLinkForVideoOrAudioFile(message);
                     var spanTag = document.createElement('span');
@@ -892,7 +892,7 @@
             }
             return a;
         }
-        function playDownloadVideoOrAudioFile(obj) {
+        function playForVideoOrAudioFile(obj) {
             if (obj.dataType.toUpperCase().indexOf('MP4')!=-1 || obj.dataType.toUpperCase().indexOf('OGG')!=-1 || obj.dataType.toUpperCase().indexOf('WEBM')!=-1) {
                 var blob = new Blob([obj.file], { type: obj.dataType });
                 var blobUrl = URL.createObjectURL(blob);
