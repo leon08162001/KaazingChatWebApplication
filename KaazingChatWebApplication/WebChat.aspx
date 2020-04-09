@@ -138,14 +138,18 @@
                 if (message.hasOwnProperty('file')) {
                     var messageTime = getNowFormatDate();
                     var brTag = document.createElement('br');
-                    playDownloadVideoFile(message);
+                    //playDownloadVideoOrAudioFile(message);
                     var link = createDownloadFileLink(message);
+                    var playLink = playLinkForVideoOrAudioFile(message);
                     var spanTag = document.createElement('span');
                     var timeSpanTag = document.createElement('span');
                     spanTag.innerText = message.id + "：";
                     timeSpanTag.innerText = "(" + messageTime + ")";
                     uiObj.insertBefore(brTag, uiObj.firstChild);
                     uiObj.insertBefore(timeSpanTag, uiObj.firstChild);
+                    if (playLink != null) {
+                        uiObj.insertBefore(playLink, uiObj.firstChild);
+                    }
                     uiObj.insertBefore(link, uiObj.firstChild);
                     uiObj.insertBefore(spanTag, uiObj.firstChild);
                 }
@@ -888,7 +892,7 @@
             }
             return a;
         }
-        function playDownloadVideoFile(obj) {
+        function playDownloadVideoOrAudioFile(obj) {
             if (obj.dataType.toUpperCase().indexOf('MP4')!=-1 || obj.dataType.toUpperCase().indexOf('OGG')!=-1 || obj.dataType.toUpperCase().indexOf('WEBM')!=-1) {
                 var blob = new Blob([obj.file], { type: obj.dataType });
                 var blobUrl = URL.createObjectURL(blob);
@@ -900,6 +904,54 @@
                 video.style.display = 'block';
                 video.load();
                 video.play();
+            }
+            else if (obj.dataType.toUpperCase().indexOf('MPEG') != -1 || obj.dataType.toUpperCase().indexOf('WAV') != -1) {
+                var blob = new Blob([obj.file], { type: obj.dataType });
+                var blobUrl = URL.createObjectURL(blob);
+                var audio = $("#audio")[0];
+                audio.src = blobUrl;
+                audio.load();
+                audio.play();
+            }
+        }
+        function playLinkForVideoOrAudioFile(obj) {
+            if (obj.dataType.toUpperCase().indexOf('MP4') != -1 || obj.dataType.toUpperCase().indexOf('OGG') != -1 ||
+                obj.dataType.toUpperCase().indexOf('WEBM') != -1 || obj.dataType.toUpperCase().indexOf('MPEG') != -1 ||
+                obj.dataType.toUpperCase().indexOf('WAV') != -1) {
+                var blob = new Blob([obj.file], { type: obj.dataType });
+                var blobUrl = URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.id = getUuid();
+                a.download = obj.fileName;
+                a.setAttribute("origintext", a.text);
+                a.href = "#";
+                if (obj.dataType.toUpperCase().indexOf('MP4') != -1 || obj.dataType.toUpperCase().indexOf('OGG') != -1 || obj.dataType.toUpperCase().indexOf('WEBM') != -1) {
+                    a.text = "(播放)"
+                    a.addEventListener('click', function () {
+                        var video = $("#video")[0];
+                        video.onended = function () {
+                            this.style.display = 'none';
+                        };
+                        video.src = blobUrl;
+                        video.style.display = 'block';
+                        video.load();
+                        video.play();
+                    });
+                }
+                else if (obj.dataType.toUpperCase().indexOf('MPEG') != -1 || obj.dataType.toUpperCase().indexOf('WAV') != -1) {
+                    a.text = "(聆聽)"
+                    a.addEventListener('click', function () {
+                        var audio = $("#audio")[0];
+                        audio.src = blobUrl;
+                        audio.load();
+                        audio.play();
+                    });
+                }
+                return a;
+            }
+            else
+            {
+                return null;
             }
         }
         function resetFileUploadText() {
@@ -1072,10 +1124,11 @@
         <button id="sendMessage" class="blue button" type="button" disabled="disabled" onclick="sendAjaxTalkMessage();">傳送訊息</button>&nbsp;
 <%--        <button id="sendClientMessage" class="blue button" type="button" disabled="disabled" onclick="sendMessage();">傳送訊息(javascript)</button>--%>
     </div>
-    <div>
-    <video id="video" style="display:none; margin: auto; position:relative; top: 0px; left:0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="" controls="controls">
-        您的瀏覽器不支援<code>video</code>標籤!
-    </video>
+    <div id="mediaZone">
+        <video id="video" style="display:none; margin: auto; position:relative; top: 0px; left:0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="" controls="controls">
+            您的瀏覽器不支援<code>video</code>標籤!
+        </video>
+        <audio id="audio" controls="controls">您的瀏覽器不支援audio標籤!</audio>
     </div>
     <div id="divMsg" class="defaultfont"></div>
     <div id="divMsgHis" class="defaultfont"></div>
