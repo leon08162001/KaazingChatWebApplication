@@ -138,7 +138,7 @@
                 if (message.hasOwnProperty('file')) {
                     var messageTime = getNowFormatDate();
                     var brTag = document.createElement('br');
-                    playDownloadVideoFile(message);
+                    playDownloadVideoOrAudioFile(message);
                     var link = createDownloadFileLink(message);
                     var spanTag = document.createElement('span');
                     var timeSpanTag = document.createElement('span');
@@ -888,7 +888,7 @@
             }
             return a;
         }
-        function playDownloadVideoFile(obj) {
+        function playDownloadVideoOrAudioFile(obj) {
             if (obj.dataType.toUpperCase().indexOf('MP4')!=-1 || obj.dataType.toUpperCase().indexOf('OGG')!=-1 || obj.dataType.toUpperCase().indexOf('WEBM')!=-1) {
                 var blob = new Blob([obj.file], { type: obj.dataType });
                 var blobUrl = URL.createObjectURL(blob);
@@ -900,6 +900,14 @@
                 video.style.display = 'block';
                 video.load();
                 video.play();
+            }
+            else if (obj.dataType.toUpperCase().indexOf('MPEG') != -1 || obj.dataType.toUpperCase().indexOf('WAV') != -1) {
+                var blob = new Blob([obj.file], { type: obj.dataType });
+                var blobUrl = URL.createObjectURL(blob);
+                var audio = $("#audio")[0];
+                audio.src = blobUrl;
+                audio.load();
+                audio.play();
             }
         }
         function resetFileUploadText() {
@@ -1072,10 +1080,11 @@
         <button id="sendMessage" class="blue button" type="button" disabled="disabled" onclick="sendAjaxTalkMessage();">傳送訊息</button>&nbsp;
 <%--        <button id="sendClientMessage" class="blue button" type="button" disabled="disabled" onclick="sendMessage();">傳送訊息(javascript)</button>--%>
     </div>
-    <div>
-    <video id="video" style="display:none; margin: auto; position:relative; top: 0px; left:0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="" controls="controls">
-        您的瀏覽器不支援<code>video</code>標籤!
-    </video>
+    <div id="mediaZone">
+        <video id="video" style="display:none; margin: auto; position:relative; top: 0px; left:0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="" controls="controls">
+            您的瀏覽器不支援<code>video</code>標籤!
+        </video>
+        <audio id="audio" controls="controls">您的瀏覽器不支援audio標籤!</audio>
     </div>
     <div id="divMsg" class="defaultfont"></div>
     <div id="divMsgHis" class="defaultfont"></div>
