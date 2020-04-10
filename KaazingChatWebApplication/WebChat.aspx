@@ -931,6 +931,10 @@
                         video.onended = function () {
                             this.style.display = 'none';
                         };
+                        var audio = $("#audio")[0];
+                        audio.pause();
+                        audio.src = "";
+                        audio.style.display = 'none';
                         video.src = blobUrl;
                         video.style.display = 'block';
                         video.load();
@@ -945,6 +949,10 @@
                         audio.onended = function () {
                             this.style.display = 'none';
                         };
+                        var video = $("#video")[0];
+                        video.pause();
+                        video.src = "";
+                        video.style.display = 'none';
                         audio.src = blobUrl;
                         audio.style.display = 'block';
                         audio.load();
