@@ -1068,6 +1068,7 @@
                     },
                     function (err) {
                         console.log("The following error occurred: " + err.name);
+                        window.alert("The following error occurred: " + err.name);
                     }
                 );
             }
