@@ -130,6 +130,7 @@
     <Content Include="lib\client\javascript\761092AC7AB921CC729D4A9A662951D2.cache.js" />
     <Content Include="lib\client\javascript\9E7EF02171DCD8CC27F2FAB0AF52DBAD.cache.js" />
     <Content Include="lib\client\javascript\DF5963E0C7FF945789FBBD2CCD142D2F.cache.js" />
+    <Content Include="lib\client\javascript\MediaStreamRecorder.min.js" />
     <Content Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -150,6 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\client\javascript\jquery-3.4.1.min.js" />
+    <Content Include="WebCamTest.aspx" />
     <Content Include="WebChat.aspx" />
     <Content Include="lib\client\javascript\JmsClient.js" />
     <Content Include="lib\client\javascript\JmsClient.nocache.js" />
@@ -165,6 +167,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="WebChat_WebCam.aspx" />
     <Content Include="XMLHttpBridge.html" />
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +203,13 @@
     <Compile Include="RequestValidatorDisabled.cs" />
     <Compile Include="WebApiExceptionFilter.cs" />
     <Compile Include="WebApiProxy\WebApiProxy.generated.cs" />
+    <Compile Include="WebCamTest.aspx.cs">
+      <DependentUpon>WebCamTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebCamTest.aspx.designer.cs">
+      <DependentUpon>WebCamTest.aspx</DependentUpon>
+    </Compile>
     <Compile Include="WebChat.aspx.cs">
       <DependentUpon>WebChat.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -208,6 +218,13 @@
       <DependentUpon>WebChat.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebChat_WebCam.aspx.cs">
+      <DependentUpon>WebChat_WebCam.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebChat_WebCam.aspx.designer.cs">
+      <DependentUpon>WebChat_WebCam.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

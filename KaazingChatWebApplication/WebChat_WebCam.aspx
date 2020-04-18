@@ -16,12 +16,14 @@
     <!--<script src="lib/client/javascript/StompJms.js" type="text/javascript"></script>-->
     <script src="lib/client/javascript/WebSocket.js" type="text/javascript"></script>
     <script src="lib/client/javascript/JmsClient.js" type="text/javascript"></script>
+    <script src="lib/client/javascript/MediaStreamRecorder.min.js" type="text/javascript"></script>
     <script src="lib/client/javascript/MessageClient.js" type="text/javascript"></script>
     <script type="text/javascript">
         // Variables you can change
         var ajaxMessageTypeEnum = {
             read: 1,
-            file: 2
+            file: 2,
+            stream: 3
         };
 
         var failOverReconnectSecs = 15;
@@ -70,6 +72,9 @@
         //EMSUploadFile
         //var messageUploadFileUrl = "api/WebChat/UploadFile2";
 
+        //WebSocketUploadStream
+        var messageUploadStreamUrl = "api/WebChat/UploadStream";
+
         var jmsServiceType = JmsServiceTypeEnum.ActiveMQ;
         var messageType = MessageTypeEnum.Queue;
         var IN_DEBUG_MODE = true;
@@ -116,7 +121,6 @@
         var handleException = function (e) {
             consoleLog("EXCEPTION: " + e);
         };
-
         var handleMessage = function (uiObj, message) {
             if (typeof message == "string") {
                 var hasReadedHtml = message.indexOf(readedHtml) == -1 ? false : true;
@@ -152,6 +156,9 @@
                     }
                     uiObj.insertBefore(link, uiObj.firstChild);
                     uiObj.insertBefore(spanTag, uiObj.firstChild);
+                }
+                else if(message.hasOwnProperty('stream')){
+                    playStream(message);
                 }
                 else {
                     for (var field in message) {
@@ -966,6 +973,20 @@
                 return null;
             }
         }
+        function playStream(obj) {
+            if (obj.dataType.toUpperCase().indexOf('WEBM') != -1) {
+                var blob = new Blob([obj.stream], { type: obj.dataType });
+                var blobUrl = URL.createObjectURL(blob);
+                var video = $("#video1")[0];
+                video.width = 640;
+                video.height = 480;
+                video.src = blobUrl;
+                video.style.display = 'block';
+                video.controls = false;
+                video.load();
+                video.play();
+            }
+        }
         function resetFileUploadText() {
             $('[id*=fileUpload]').next(".custom-file-label").attr('data-content', "未選擇任何檔案");
             $('[id*=fileUpload]').next(".custom-file-label").text("Choose files");
@@ -1040,11 +1061,12 @@
             chat.oprIpAddress = messageClient.clientIp;
             return chat;
         }
+        var multiStreamRecorder;
         var mediaStream = null;
         function startLiveVideo() {
             navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
             if (navigator.getUserMedia) {
-                navigator.getUserMedia({ audio: true, video: { width: 1280, height: 720 } },
+                navigator.getUserMedia({ audio: false, video: { width: 640, height: 480 } },
                     function (stream) {
                         mediaStream = stream;
                         mediaStream.stop = function () {
@@ -1062,6 +1084,69 @@
                             video.src = window.URL.createObjectURL(stream);
                         }
                         video.onloadedmetadata = function (e) {
+                            //if (multiStreamRecorder && multiStreamRecorder.stream) return;
+                            multiStreamRecorder = new MultiStreamRecorder([stream]);
+                            multiStreamRecorder.mimeType = 'video/webm';
+                            multiStreamRecorder.stream = stream;
+
+                            //multiStreamRecorder.previewStream = function (stream) {
+                            //    try {
+                            //        video.srcObject = stream;
+                            //    } catch (error) {
+                            //        video.src = window.URL.createObjectURL(stream);
+                            //    }
+                            //    video.play();
+                            //};
+                            multiStreamRecorder.ondataavailable = function (blob) {
+                                //using ajax send media stream
+                                var data = new FormData();
+                                data.append("sender", messageClient.listenName.replace(/webchat./ig, ""));
+                                data.append("topicOrQueueName", messageClient.sendName);
+                                data.append("messageType", messageClient.messageType.toString());
+                                data.append("mqUrl", messageClient.uri);
+                                data.append("mimetype", multiStreamRecorder.mimeType);
+                                data.append("stream", blob);
+                                var messageTime = getNowFormatDate();
+                                //$("#divMsg").html("<span style=\"background-color: yellow;\">" + messageClient.listenName.replace(/webchat./ig, "") + "：傳送串流中，請稍後...(" + messageTime + ")</span><br>" + $("#divMsg").html());
+                                //sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：傳送串流中，請稍後...(" + messageTime + ")", ajaxMessageTypeEnum.stream);
+                                setTimeout(function () {
+                                    var ajaxProgress = $.ajax({
+                                        type: "POST",
+                                        url: messageUploadStreamUrl,
+                                        data: data,
+                                        contentType: false,
+                                        processData: false,
+                                        success: function () {
+                                            messageTime = getNowFormatDate();
+                                            var uiObj = $("#divMsg")[0];
+                                            var brTag = document.createElement('br');
+                                            var spanTag = document.createElement('span');
+                                            spanTag.setAttribute("style", "background-color:yellow");
+                                            //spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送完成(" + messageTime + ")";
+                                            uiObj.insertBefore(brTag, uiObj.firstChild);
+                                            uiObj.insertBefore(spanTag, uiObj.firstChild);
+                                        },
+                                        error: function (jqXHR, textStatus, errorThrown) {
+                                            messageTime = getNowFormatDate();
+                                            var uiObj = $("#divMsg")[0];
+                                            var brTag = document.createElement('br');
+                                            var spanTag = document.createElement('span');
+                                            spanTag.setAttribute("style", "background-color:yellow");
+                                            spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送失敗(" + messageTime + "):" + jqXHR.responseText;
+                                            uiObj.insertBefore(brTag, uiObj.firstChild);
+                                            uiObj.insertBefore(spanTag, uiObj.firstChild);
+                                            sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送失敗(" + messageTime + "):" + jqXHR.responseText, ajaxMessageTypeEnum.file);
+                                            //alert('串流傳送失敗');
+                                        },
+                                        complete: function (XHR, TS) {
+                                            XHR = null;
+                                        }
+                                    });
+                                }, 0);
+
+                            };
+                            //get blob after specific time interval
+                           multiStreamRecorder.start(7000);
                             video.style.display = 'block';
                             video.play();
                         };
@@ -1078,11 +1163,27 @@
         }
         function closeLiveVideo() {
             var video = document.querySelector('#video');
-            mediaStream.stop();
-            video.src = "";
+            //multiStreamRecorder.stop();
+            //multiStreamRecorder.stream.stop();
+            //multiStreamRecorder = null;
+            //multiStreamRecorder.stream = null;
+            //mediaStream.stop();
+            try {
+                video.srcObject = "";
+            } catch (error) {
+                video.src = "";
+            }
             video.style.display = 'none';
+            multiStreamRecorder.stop();
+            multiStreamRecorder.stream.stop();
+            mediaStream.stop();
+            //multiStreamRecorder.stream = null;
+            //multiStreamRecorder = null;
         }
-
+        var video1 = document.querySelector('#video1');
+        video1.onended = (event) => {
+            video1.pause();
+        };
         //navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
         //if (navigator.getUserMedia) {
         //    navigator.getUserMedia({ audio: true, video: { width: 1280, height: 720 } },
@@ -1204,8 +1305,11 @@
 <%--        <button id="sendClientMessage" class="blue button" type="button" disabled="disabled" onclick="sendMessage();">傳送訊息(javascript)</button>--%>
     </div>
     <br />
-    <div id="mediaZone">
+    <div id="mediaZone" style="display:inline">
         <video id="video" style="display:none; margin: auto; position:relative; top: 0px; left:0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="" controls="controls">
+            您的瀏覽器不支援<code>video</code>標籤!
+        </video>
+        <video id="video1" style="display:none; margin: auto; position:relative; top: 0px; left:0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="">
             您的瀏覽器不支援<code>video</code>標籤!
         </video>
         <audio id="audio" style="display:none;" controls="controls">您的瀏覽器不支援audio標籤!</audio>

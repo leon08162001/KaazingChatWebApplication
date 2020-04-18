@@ -1,4 +1,4 @@
-﻿using Common.HandlerLayer;
+using Common.HandlerLayer;
 using Common.Utility;
 using Kaazing.JMS;
 using Kaazing.JMS.Stomp;
@@ -719,6 +719,45 @@ namespace Common.LinkLayer
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.JMSType = "file";
                     msg.WriteBytes(FileBytes);
+                    _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
+                    isSend = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMsg = "BaseWebSocketAdapter SendFile: Error(" + ex.Message + ")";
+                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                System.Environment.Exit(-1);
+            }
+            finally
+            {
+                if (_UISyncContext != null && IsEventInUIThread)
+                {
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+                else
+                {
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+            }
+            return isSend;
+        }
+        public bool SendStream(string StreamName, byte[] StreamBytes, long Sequence, long TotalSequence, string ID = "")
+        {
+            bool isSend = false;
+            string ErrorMsg = "";
+            try
+            {
+                if (_Producer != null)
+                {
+                    IBytesMessage msg = _Session.CreateBytesMessage();
+                    msg.SetStringProperty("sequence", Sequence.ToString());
+                    msg.SetStringProperty("totalSequence", TotalSequence.ToString());
+                    msg.SetStringProperty("id", ID);
+                    msg.SetStringProperty("streamname", StreamName);
+                    msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + StreamName));
+                    msg.JMSType = "stream";
+                    msg.WriteBytes(StreamBytes);
                     _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
                     isSend = true;
                 }

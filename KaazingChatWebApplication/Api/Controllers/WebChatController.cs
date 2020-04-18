@@ -1,4 +1,4 @@
-﻿using Common;
+using Common;
 using Common.LinkLayer;
 using KaazingChatWebApplication.Connection;
 using KaazingChatWebApplication.Models;
@@ -360,6 +360,109 @@ namespace KaazingTestWebApplication.Controllers
             finally
             {
                 JefferiesExcuReport2.Close();
+            }
+            return apiResult;
+        }
+        [HttpPost]
+        [Route("UploadStream")]
+        public IHttpActionResult UploadStream()
+        {
+            IHttpActionResult apiResult = null;
+            HttpContext.Current.Response.ContentType = "application/octet-stream";
+            try
+            {
+                String sender = HttpContext.Current.Request["sender"].ToString();
+                String topicOrQueueName = HttpContext.Current.Request["topicOrQueueName"].ToString();
+                MessageType messageType = (MessageType)int.Parse(HttpContext.Current.Request["messageType"].ToString());
+                String mqUrl = HttpContext.Current.Request["mqUrl"].ToString();
+                String mimetype = HttpContext.Current.Request["mimetype"].ToString();
+                HttpPostedFile File = HttpContext.Current.Request.Files["stream"];
+
+                config = (Config)applicationContext.GetObject("Config");
+                JefferiesExcuReport.WebSocketUri = mqUrl.Replace("ws://", "").Replace("wss://", "");
+                JefferiesExcuReport.DestinationFeature = messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
+                //JefferiesExcuReport.SendName = topicOrQueueName;
+                JefferiesExcuReport.UserName = config.KaazingWebSocketUserID;
+                JefferiesExcuReport.PassWord = config.KaazingWebSocketPwd;
+                JefferiesExcuReport.Start();
+                //多個人
+                if (topicOrQueueName.IndexOf(",") != -1)
+                {
+                    string[] sendNames = topicOrQueueName.Split(new char[] { ',' });
+                    foreach (string sendName in sendNames)
+                    {
+                        JefferiesExcuReport.ReStartSender(sendName.Trim());
+                        if (File != null)
+                        {
+                            long sequence = 1;
+                            byte[] buffer = new byte[2048000];
+                            int offset = 0;
+                            long remaining = File.InputStream.Length;
+                            byte[] lstBuffer = new byte[remaining % buffer.Length];
+                            long totalSequence = remaining % buffer.Length > 0 ? (remaining / buffer.Length) + 1 : (remaining / buffer.Length);
+                            while (remaining > 0)
+                            {
+                                int read = 0;
+                                if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
+                                {
+                                    read = File.InputStream.Read(buffer, 0, buffer.Length);
+                                    JefferiesExcuReport.SendStream("STREAM." + mimetype.Split(new char[] {'/' })[1], buffer, sequence, totalSequence, sender);
+                                }
+                                else if (sequence == totalSequence && remaining % buffer.Length > 0)
+                                {
+                                    read = File.InputStream.Read(lstBuffer, 0, lstBuffer.Length);
+                                    JefferiesExcuReport.SendStream("STREAM." + mimetype.Split(new char[] { '/' })[1], lstBuffer, sequence, totalSequence, sender);
+                                }
+                                remaining -= read;
+                                sequence++;
+                            }
+                            if (log.IsInfoEnabled) log.InfoFormat("Send Stream({0}) from {1}", File.FileName, Assembly.GetExecutingAssembly().GetName().Name);
+                            File.InputStream.Seek(0, System.IO.SeekOrigin.Begin);
+                        }
+                    }
+                }
+                //只有一個人
+                else
+                {
+                    JefferiesExcuReport.ReStartSender(topicOrQueueName);
+                    if (File != null)
+                    {
+                        long sequence = 1;
+                        byte[] buffer = new byte[2048000];
+                        int offset = 0;
+                        long remaining = File.InputStream.Length;
+                        byte[] lstBuffer = new byte[remaining % buffer.Length];
+                        long totalSequence = remaining % buffer.Length > 0 ? (remaining / buffer.Length) + 1 : (remaining / buffer.Length);
+                        while (remaining > 0)
+                        {
+                            int read = 0;
+                            if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
+                            {
+                                read = File.InputStream.Read(buffer, 0, buffer.Length);
+                                JefferiesExcuReport.SendStream("STREAM." + mimetype.Split(new char[] { '/' })[1], buffer, sequence, totalSequence, sender);
+                            }
+                            else if (sequence == totalSequence && remaining % buffer.Length > 0)
+                            {
+                                read = File.InputStream.Read(lstBuffer, 0, lstBuffer.Length);
+                                JefferiesExcuReport.SendStream("STREAM." + mimetype.Split(new char[] { '/' })[1], lstBuffer, sequence, totalSequence, sender);
+                            }
+                            remaining -= read;
+                            sequence++;
+                        }
+                        if (log.IsInfoEnabled) log.InfoFormat("Send Stream({0}) from {1}", File.FileName, Assembly.GetExecutingAssembly().GetName().Name);
+                        File.InputStream.Seek(0, System.IO.SeekOrigin.Begin);
+                    }
+                }
+                apiResult = Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+            }
+            finally
+            {
+                JefferiesExcuReport.Close();
             }
             return apiResult;
         }

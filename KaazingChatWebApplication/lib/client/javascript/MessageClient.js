@@ -1,4 +1,4 @@
-﻿var JmsServiceTypeEnum = {
+var JmsServiceTypeEnum = {
     ActiveMQ: 1,
     TibcoEMS: 2
 };
@@ -92,7 +92,27 @@ MessageClient.prototype = (function () {
                     triggerMessageReceived.call(that, jsonObj);
                 }
             }
-
+            else if (message.getJMSType().toString() == "stream") {
+                var seq = parseInt(message.getStringProperty("sequence"));
+                var ttlSeq = parseInt(message.getStringProperty("totalSequence"));
+                var length = message.getBodyLength();
+                var arrayBuffer = new ArrayBuffer(length);
+                var uint8Buffer = new Uint8Array(arrayBuffer);
+                message.readBytes(uint8Buffer, length);
+                if (seq == 1) {
+                    jsonObj = new Object();
+                    jsonObj.id = message.getStringProperty("id");
+                    jsonObj.dataType = message.getStringProperty("datatype");
+                    jsonObj.streamName = message.getStringProperty("streamname");
+                    jsonObj.stream = arrayBuffer;
+                }
+                if (seq > 1 && seq <= ttlSeq) {
+                    jsonObj.stream = concatBuffers(jsonObj.stream, arrayBuffer);
+                }
+                if (seq == ttlSeq) {
+                    triggerMessageReceived.call(that, jsonObj);
+                }
+            }
             //if (message.getJMSType().toString() == "file") {
             //    var length = message.getBodyLength();
             //    var arrayBuffer = new ArrayBuffer(length);
