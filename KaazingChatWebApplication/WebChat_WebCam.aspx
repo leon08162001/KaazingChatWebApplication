@@ -1066,7 +1066,7 @@
         function startLiveVideo() {
             navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
             if (navigator.getUserMedia) {
-                navigator.getUserMedia({ audio: false, video: { width: 640, height: 480 } },
+                navigator.getUserMedia({ audio: true, video: { width: 640, height: 480 } },
                     function (stream) {
                         mediaStream = stream;
                         mediaStream.stop = function () {
@@ -1117,14 +1117,14 @@
                                         contentType: false,
                                         processData: false,
                                         success: function () {
-                                            messageTime = getNowFormatDate();
-                                            var uiObj = $("#divMsg")[0];
-                                            var brTag = document.createElement('br');
-                                            var spanTag = document.createElement('span');
-                                            spanTag.setAttribute("style", "background-color:yellow");
+                                            //messageTime = getNowFormatDate();
+                                            //var uiObj = $("#divMsg")[0];
+                                            //var brTag = document.createElement('br');
+                                            //var spanTag = document.createElement('span');
+                                            //spanTag.setAttribute("style", "background-color:yellow");
                                             //spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送完成(" + messageTime + ")";
-                                            uiObj.insertBefore(brTag, uiObj.firstChild);
-                                            uiObj.insertBefore(spanTag, uiObj.firstChild);
+                                            //uiObj.insertBefore(brTag, uiObj.firstChild);
+                                            //uiObj.insertBefore(spanTag, uiObj.firstChild);
                                         },
                                         error: function (jqXHR, textStatus, errorThrown) {
                                             messageTime = getNowFormatDate();
@@ -1132,10 +1132,10 @@
                                             var brTag = document.createElement('br');
                                             var spanTag = document.createElement('span');
                                             spanTag.setAttribute("style", "background-color:yellow");
-                                            spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送失敗(" + messageTime + "):" + jqXHR.responseText;
+                                            spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送失敗:" + textStatus + "(" + messageTime + "):" + jqXHR.responseText;
                                             uiObj.insertBefore(brTag, uiObj.firstChild);
                                             uiObj.insertBefore(spanTag, uiObj.firstChild);
-                                            sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送失敗(" + messageTime + "):" + jqXHR.responseText, ajaxMessageTypeEnum.file);
+                                            sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送失敗:" + textStatus + "(" + messageTime + "):" + jqXHR.responseText, ajaxMessageTypeEnum.file);
                                             //alert('串流傳送失敗');
                                         },
                                         complete: function (XHR, TS) {
@@ -1146,7 +1146,7 @@
 
                             };
                             //get blob after specific time interval
-                           multiStreamRecorder.start(7000);
+                           multiStreamRecorder.start(6000);
                             video.style.display = 'block';
                             video.play();
                         };
