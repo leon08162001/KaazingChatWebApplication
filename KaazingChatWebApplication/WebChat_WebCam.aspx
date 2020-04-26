@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Kaazing Web Socket Test</title>
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet" />
@@ -1180,10 +1180,13 @@
             //multiStreamRecorder.stream = null;
             //multiStreamRecorder = null;
         }
-        var video1 = document.querySelector('#video1');
-        video1.onended = (event) => {
+        document.addEventListener("DOMContentLoaded", function() { 
+            var video1 = document.querySelector('#video1');
+            video1.onended = (event) => {
             video1.pause();
-        };
+            };
+        });
+        
         //navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
         //if (navigator.getUserMedia) {
         //    navigator.getUserMedia({ audio: true, video: { width: 1280, height: 720 } },
@@ -1206,7 +1209,7 @@
         //} else {
         //    console.log("getUserMedia not supported");
         //}
-        </script>
+    </script>
     <style>
         body {
             padding: 5px;
@@ -1267,7 +1270,6 @@
                     </td>
                     <td>
                         <textarea id="message" class="form-control" style='font-family:標楷體, TimesNewRoman, "Times New Roman", Times, Arial, Georgia;' rows="6" line-height: 1.5em;" placeholder="Write something here..."></textarea>
-<%--                            <asp:TextBox id="message" runat="server" ValidateRequestMode="Disabled" class="form-control" style='font-family:標楷體, TimesNewRoman, "Times New Roman", Times, Arial, Georgia;line-height: 1.5em;' TextMode="MultiLine" Rows="6" placeholder="Write something here..."/>--%>
                     </td>
                 </tr>
                 <tr>
@@ -1302,17 +1304,17 @@
         <button id="sendMessage" class="blue button" type="button" disabled="disabled" onclick="sendAjaxTalkMessage();">傳送訊息</button>&nbsp;
         <button id="startLiveVideo" class="blue button" type="button" onclick="startLiveVideo();">開啟即時視訊</button>&nbsp;
         <button id="closeLiveVideo" class="blue button" type="button" onclick="closeLiveVideo();">關閉即時視訊</button>&nbsp;
-<%--        <button id="sendClientMessage" class="blue button" type="button" disabled="disabled" onclick="sendMessage();">傳送訊息(javascript)</button>--%>
+        <%--        <button id="sendClientMessage" class="blue button" type="button" disabled="disabled" onclick="sendMessage();">傳送訊息(javascript)</button>--%>
     </div>
     <br />
-    <div id="mediaZone" style="display:inline">
-        <video id="video" style="display:none; margin: auto; position:relative; top: 0px; left:0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="" controls="controls">
+    <div id="mediaZone" style="display: inline">
+        <video id="video" style="display: none; margin: auto; position: relative; top: 0px; left: 0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="" controls="controls">
             您的瀏覽器不支援<code>video</code>標籤!
         </video>
-        <video id="video1" style="display:none; margin: auto; position:relative; top: 0px; left:0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="">
+        <video id="video1" style="display: none; margin: auto; position: relative; top: 0px; left: 0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="">
             您的瀏覽器不支援<code>video</code>標籤!
         </video>
-        <audio id="audio" style="display:none;" controls="controls">您的瀏覽器不支援audio標籤!</audio>
+        <audio id="audio" style="display: none;" controls="controls">您的瀏覽器不支援audio標籤!</audio>
     </div>
     <div id="divMsg" class="defaultfont"></div>
     <div id="divMsgHis" class="defaultfont"></div>

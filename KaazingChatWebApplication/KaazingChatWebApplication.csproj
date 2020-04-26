@@ -151,7 +151,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\client\javascript\jquery-3.4.1.min.js" />
-    <Content Include="WebCamTest.aspx" />
     <Content Include="WebChat.aspx" />
     <Content Include="lib\client\javascript\JmsClient.js" />
     <Content Include="lib\client\javascript\JmsClient.nocache.js" />
@@ -203,13 +202,6 @@
     <Compile Include="RequestValidatorDisabled.cs" />
     <Compile Include="WebApiExceptionFilter.cs" />
     <Compile Include="WebApiProxy\WebApiProxy.generated.cs" />
-    <Compile Include="WebCamTest.aspx.cs">
-      <DependentUpon>WebCamTest.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="WebCamTest.aspx.designer.cs">
-      <DependentUpon>WebCamTest.aspx</DependentUpon>
-    </Compile>
     <Compile Include="WebChat.aspx.cs">
       <DependentUpon>WebChat.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
