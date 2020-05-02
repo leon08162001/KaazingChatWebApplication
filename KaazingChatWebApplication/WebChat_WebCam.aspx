@@ -974,12 +974,12 @@
             }
         }
         function playStream(obj) {
-            if (obj.dataType.toUpperCase().indexOf('WEBM') != -1) {
+            if (obj.dataType.toUpperCase().indexOf('WEBM') != -1 || obj.dataType.toUpperCase().indexOf('MP4') != -1) {
                 var blob = new Blob([obj.stream], { type: obj.dataType });
                 var blobUrl = URL.createObjectURL(blob);
                 var video = $("#video1")[0];
-                video.width = 640;
-                video.height = 480;
+                video.width =1280;
+                video.height = 720;
                 video.src = blobUrl;
                 video.style.display = 'block';
                 video.controls = false;
@@ -1064,9 +1064,9 @@
         var multiStreamRecorder;
         var mediaStream = null;
         function startLiveVideo() {
-            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
             if (navigator.getUserMedia) {
-                navigator.getUserMedia({ audio: true, video: { width: 640, height: 480 } },
+                navigator.getUserMedia({ audio: true, video: { width: 1280, height: 720 } },
                     function (stream) {
                         mediaStream = stream;
                         mediaStream.stop = function () {
@@ -1086,9 +1086,10 @@
                         video.onloadedmetadata = function (e) {
                             //if (multiStreamRecorder && multiStreamRecorder.stream) return;
                             multiStreamRecorder = new MultiStreamRecorder([stream]);
+                            multiStreamRecorder.width = 1280;
+                            multiStreamRecorder.heigth = 720;
                             multiStreamRecorder.mimeType = 'video/webm';
                             multiStreamRecorder.stream = stream;
-
                             //multiStreamRecorder.previewStream = function (stream) {
                             //    try {
                             //        video.srcObject = stream;
@@ -1146,7 +1147,7 @@
 
                             };
                             //get blob after specific time interval
-                           multiStreamRecorder.start(6000);
+                            multiStreamRecorder.start(15000);
                             video.style.display = 'block';
                             video.play();
                         };
