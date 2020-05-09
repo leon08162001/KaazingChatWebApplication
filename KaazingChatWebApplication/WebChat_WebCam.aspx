@@ -170,32 +170,32 @@
             }
         }
 
-        var handleConnectStarted = function (errMsg) {
-            if (errMsg == "") {
+        var handleConnectStarted = function (funcName) {
+            //if (errMsg == "") {
                 $('#openMessageClient').attr('disabled', true);
                 $('#btnUploadFile').attr('disabled', false);
                 $('#closeMessageClient').attr('disabled', false);
                 $("#sendMessage").attr('disabled', false);
                 getChatToday();
                 getChatHistory();
-                window.alert("聊天已啟動!");
-            }
-            else {
-                window.alert(errMsg);
-            }
+                window.alert(funcName + "已啟動!");
+            //}
+            //else {
+            //    window.alert(errMsg);
+            //}
         }
 
-        var handleConnectClosed = function (errMsg) {
-            if (errMsg == "") {
+        var handleConnectClosed = function (funcName) {
+            //if (errMsg == "") {
                 $('#btnUploadFile').attr('disabled', true);
                 $("#closeMessageClient").attr('disabled', true);
                 $("#sendMessage").attr('disabled', true);
                 $("#openMessageClient").attr('disabled', false);
-                window.alert("聊天已關閉!");
-            }
-            else {
-                window.alert(errMsg);
-            }
+                window.alert(funcName + "已關閉!");
+            //}
+            //else {
+            //    window.alert(errMsg);
+            //}
         }
         var bindMessageToUI = function (uiObj, value) {
             allReceivedNum += 1;
@@ -254,7 +254,7 @@
 
         //var messageClient = new MessageClient(MY_WEBSOCKET_URL, "leon", "880816", MessageTypeEnum.Topic, "DEMO.NUOMS.JefferiesReport.Resp", document.getElementById("divMsg"));
         var messageClient;
-        var openMessageClient = function () {
+        var openMessageClient = function (funcName) {
             try {
                 if (!$.trim($("#talkTo").val()) || !$.trim($("#listenFrom").val())) {
                     alert('My Name & TalkTo must key in');
@@ -269,6 +269,7 @@
                 messageClient.jmsServiceType = jmsServiceType;
                 messageClient.messageType = messageType;
                 messageClient.listenName = ("webchat." + $.trim($("#listenFrom").val())).toUpperCase();
+                messageClient.funcName = funcName;
                 //messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z-]+/g).filter(v => v).join(',').toUpperCase();
                 messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
                 messageClient.onMessageReceived(handleMessage);
@@ -1071,7 +1072,7 @@
                     function (stream) {
                         closeMessageClient();
                         messageType = MessageTypeEnum.Topic;
-                        openMessageClient();
+                        openMessageClient("視訊");
                         mediaStream = stream;
                         $('#startLiveVideo').attr('disabled', true);
                         $('#closeLiveVideo').attr('disabled', false);
@@ -1174,7 +1175,7 @@
             mediaStream.stop();
             closeMessageClient();
             messageType = defaultMessageType;
-            openMessageClient();
+            openMessageClient("聊天");
         }
         document.addEventListener("DOMContentLoaded", function() { 
             var video1 = document.querySelector('#video1');
@@ -1295,7 +1296,7 @@
         </div>
     </form>
     <div style="text-align: center">
-        <button id="openMessageClient" class="blue button" type="button" onclick="openMessageClient();">啟動聊天</button>&nbsp;
+        <button id="openMessageClient" class="blue button" type="button" onclick="openMessageClient('聊天');">啟動聊天</button>&nbsp;
         <button id="closeMessageClient" class="blue button" type="button" disabled="disabled" onclick="closeMessageClient();">結束聊天</button>&nbsp;
         <button id="sendMessage" class="blue button" type="button" disabled="disabled" onclick="sendAjaxTalkMessage();">傳送訊息</button>&nbsp;
         <button id="startLiveVideo" class="blue button" type="button" onclick="startLiveVideo();">開啟即時視訊</button>&nbsp;

@@ -14,6 +14,7 @@ function MessageClient(uri, userName, passWord, jmsServiceType, messageType, lis
     this.jmsServiceType = jmsServiceType;
     this.messageType = messageType;
     this.listenName = listenName;
+    this.funcName = "";
     this.sendName = sendName;
     this.WebUiObject = WebUiObject;
     this.messageReceivedHandlers = [];
@@ -45,17 +46,17 @@ MessageClient.prototype = (function () {
         });
     };
 
-    var triggerConnectionStarted = function (errorMsg) {
+    var triggerConnectionStarted = function (funcName) {
         var scope = this;
         this.connectionStartedHandlers.forEach(function (item) {
-            item.call(scope, errorMsg);
+            item.call(scope, funcName);
         });
     };
 
-    var triggerConnectionClosed = function (errorMsg) {
+    var triggerConnectionClosed = function (funcName) {
         var scope = this;
         this.connectionClosedHandlers.forEach(function (item) {
-            item.call(scope, errorMsg);
+            item.call(scope, funcName);
         });
     };
 
@@ -149,6 +150,7 @@ MessageClient.prototype = (function () {
             var messageType = this.messageType;
             var listenName = messageType == 1 ? "/topic/" + this.listenName : "/queue/" + this.listenName;
             var sendName = messageType == 1 ? "/topic/" + this.sendName : "/queue/" + this.sendName;
+            var funcName = this.funcName;
             var clientIp = this.clientIp;
             //var macAddr;
             try {
@@ -203,7 +205,7 @@ MessageClient.prototype = (function () {
 
                             connection.start(function () {
                                 // Put any callback logic here.
-                                triggerConnectionStarted.call(that, "");
+                                triggerConnectionStarted.call(that, funcName);
                             });
                         } catch (e) {
                             handleException(e);
@@ -225,6 +227,7 @@ MessageClient.prototype = (function () {
         },
 
         close: function () {
+            var funcName = this.funcName;
             try {
                 if (topicOrQueueConsumer) {
                     topicOrQueueConsumer.close(null);
@@ -234,7 +237,7 @@ MessageClient.prototype = (function () {
                 }
                 connection.close(function () {
                     errLog = "";
-                    triggerConnectionClosed.call(that, "");
+                    triggerConnectionClosed.call(that, funcName);
                 });
             }
             catch (e) {
