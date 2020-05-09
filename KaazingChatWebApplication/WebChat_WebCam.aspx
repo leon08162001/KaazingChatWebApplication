@@ -1300,7 +1300,7 @@
         <button id="closeMessageClient" class="blue button" type="button" disabled="disabled" onclick="closeMessageClient();">結束聊天</button>&nbsp;
         <button id="sendMessage" class="blue button" type="button" disabled="disabled" onclick="sendAjaxTalkMessage();">傳送訊息</button>&nbsp;
         <button id="startLiveVideo" class="blue button" type="button" onclick="startLiveVideo();">開啟即時視訊</button>&nbsp;
-        <button id="closeLiveVideo" class="blue button" type="button" onclick="closeLiveVideo();">關閉即時視訊</button>&nbsp;
+        <button id="closeLiveVideo" class="blue button" type="button" disabled="disabled" onclick="closeLiveVideo();">關閉即時視訊</button>&nbsp;
         <%--        <button id="sendClientMessage" class="blue button" type="button" disabled="disabled" onclick="sendMessage();">傳送訊息(javascript)</button>--%>
     </div>
     <br />
