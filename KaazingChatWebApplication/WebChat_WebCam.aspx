@@ -77,6 +77,7 @@
 
         var jmsServiceType = JmsServiceTypeEnum.ActiveMQ;
         var messageType = MessageTypeEnum.Queue;
+        var defaultMessageType = messageType;
         var IN_DEBUG_MODE = true;
         var DEBUG_TO_SCREEN = true;
         var allReceivedNum;
@@ -157,7 +158,7 @@
                     uiObj.insertBefore(link, uiObj.firstChild);
                     uiObj.insertBefore(spanTag, uiObj.firstChild);
                 }
-                else if(message.hasOwnProperty('stream')){
+                else if (message.hasOwnProperty('stream')) {
                     playStream(message);
                 }
                 else {
@@ -974,17 +975,17 @@
             }
         }
         function playStream(obj) {
-            if (obj.dataType.toUpperCase().indexOf('WEBM') != -1) {
+            if ($('#startLiveVideo').prop('disabled') && obj.dataType.toUpperCase().indexOf('WEBM') != -1) {
                 var blob = new Blob([obj.stream], { type: obj.dataType });
                 var blobUrl = URL.createObjectURL(blob);
-                var video = $("#video1")[0];
-                video.width = 640;
-                video.height = 480;
-                video.src = blobUrl;
-                video.style.display = 'block';
-                video.controls = false;
-                video.load();
-                video.play();
+                var video1 = $("#video1")[0];
+                video1.width = 640;
+                video1.height = 480;
+                video1.src = blobUrl;
+                video1.style.display = 'block';
+                video1.controls = false;
+                video1.load();
+                video1.play();
             }
         }
         function resetFileUploadText() {
@@ -1068,7 +1069,12 @@
             if (navigator.getUserMedia) {
                 navigator.getUserMedia({ audio: true, video: { width: 640, height: 480 } },
                     function (stream) {
+                        closeMessageClient();
+                        messageType = MessageTypeEnum.Topic;
+                        openMessageClient();
                         mediaStream = stream;
+                        $('#startLiveVideo').attr('disabled', true);
+                        $('#closeLiveVideo').attr('disabled', false);
                         mediaStream.stop = function () {
                             this.getAudioTracks().forEach(function (track) {
                                 track.stop();
@@ -1088,6 +1094,10 @@
                             multiStreamRecorder = new MultiStreamRecorder([stream]);
                             multiStreamRecorder.mimeType = 'video/webm';
                             multiStreamRecorder.stream = stream;
+
+                            //multiStreamRecorder = new MediaStreamRecorder(stream);
+                            //multiStreamRecorder.mimeType = 'video/webm';
+                            //multiStreamRecorder.stream = stream;
 
                             //multiStreamRecorder.previewStream = function (stream) {
                             //    try {
@@ -1143,10 +1153,9 @@
                                         }
                                     });
                                 }, 0);
-
                             };
                             //get blob after specific time interval
-                           multiStreamRecorder.start(6000);
+                           multiStreamRecorder.start(15000);
                             video.style.display = 'block';
                             video.play();
                         };
@@ -1163,22 +1172,17 @@
         }
         function closeLiveVideo() {
             var video = document.querySelector('#video');
-            //multiStreamRecorder.stop();
-            //multiStreamRecorder.stream.stop();
-            //multiStreamRecorder = null;
-            //multiStreamRecorder.stream = null;
-            //mediaStream.stop();
-            try {
-                video.srcObject = "";
-            } catch (error) {
-                video.src = "";
-            }
-            video.style.display = 'none';
+            var video1 = document.querySelector('#video1');
             multiStreamRecorder.stop();
             multiStreamRecorder.stream.stop();
             mediaStream.stop();
-            //multiStreamRecorder.stream = null;
-            //multiStreamRecorder = null;
+            video.style.display = 'none';
+            video1.style.display = 'none';
+            $('#startLiveVideo').attr('disabled', false);
+            $('#closeLiveVideo').attr('disabled', true);
+            closeMessageClient();
+            messageType = defaultMessageType;
+            openMessageClient(); 
         }
         document.addEventListener("DOMContentLoaded", function() { 
             var video1 = document.querySelector('#video1');
@@ -1303,7 +1307,7 @@
         <button id="closeMessageClient" class="blue button" type="button" disabled="disabled" onclick="closeMessageClient();">結束聊天</button>&nbsp;
         <button id="sendMessage" class="blue button" type="button" disabled="disabled" onclick="sendAjaxTalkMessage();">傳送訊息</button>&nbsp;
         <button id="startLiveVideo" class="blue button" type="button" onclick="startLiveVideo();">開啟即時視訊</button>&nbsp;
-        <button id="closeLiveVideo" class="blue button" type="button" onclick="closeLiveVideo();">關閉即時視訊</button>&nbsp;
+        <button id="closeLiveVideo" class="blue button" type="button" disabled="disabled" onclick="closeLiveVideo();">關閉即時視訊</button>&nbsp;
         <%--        <button id="sendClientMessage" class="blue button" type="button" disabled="disabled" onclick="sendMessage();">傳送訊息(javascript)</button>--%>
     </div>
     <br />
