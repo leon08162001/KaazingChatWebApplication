@@ -77,6 +77,7 @@
 
         var jmsServiceType = JmsServiceTypeEnum.ActiveMQ;
         var messageType = MessageTypeEnum.Queue;
+        var defaultMessageType = messageType;
         var IN_DEBUG_MODE = true;
         var DEBUG_TO_SCREEN = true;
         var allReceivedNum;
@@ -157,8 +158,8 @@
                     uiObj.insertBefore(link, uiObj.firstChild);
                     uiObj.insertBefore(spanTag, uiObj.firstChild);
                 }
-                else if(message.hasOwnProperty('stream')){
-                    playStream(message);
+                else if (message.hasOwnProperty('stream')) {
+                    playStream(message); 
                 }
                 else {
                     for (var field in message) {
@@ -974,17 +975,17 @@
             }
         }
         function playStream(obj) {
-            if (obj.dataType.toUpperCase().indexOf('WEBM') != -1 || obj.dataType.toUpperCase().indexOf('MP4') != -1) {
+            if ($('#startLiveVideo').prop('disabled') && (obj.dataType.toUpperCase().indexOf('WEBM') != -1 || obj.dataType.toUpperCase().indexOf('MP4') != -1)) {
                 var blob = new Blob([obj.stream], { type: obj.dataType });
                 var blobUrl = URL.createObjectURL(blob);
-                var video = $("#video1")[0];
-                video.width =1280;
-                video.height = 720;
-                video.src = blobUrl;
-                video.style.display = 'block';
-                video.controls = false;
-                video.load();
-                video.play();
+                var video1 = $("#video1")[0];
+                video1.width = 640;
+                video1.height = 480;
+                video1.src = blobUrl;
+                video1.style.display = 'block';
+                video1.controls = false;
+                video1.load();
+                video1.play();
             }
         }
         function resetFileUploadText() {
@@ -1064,11 +1065,16 @@
         var multiStreamRecorder;
         var mediaStream = null;
         function startLiveVideo() {
-            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mediaDevices.mozGetUserMedia;
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
             if (navigator.getUserMedia) {
-                navigator.getUserMedia({ audio: true, video: { width: 1280, height: 720 } },
+                navigator.getUserMedia({ audio: true, video: { width: 640, height: 480 } },
                     function (stream) {
+                        closeMessageClient();
+                        messageType = MessageTypeEnum.Topic;
+                        openMessageClient();
                         mediaStream = stream;
+                        $('#startLiveVideo').attr('disabled', true);
+                        $('#closeLiveVideo').attr('disabled', false);
                         mediaStream.stop = function () {
                             this.getAudioTracks().forEach(function (track) {
                                 track.stop();
@@ -1086,18 +1092,13 @@
                         video.onloadedmetadata = function (e) {
                             //if (multiStreamRecorder && multiStreamRecorder.stream) return;
                             multiStreamRecorder = new MultiStreamRecorder([stream]);
-                            multiStreamRecorder.width = 1280;
-                            multiStreamRecorder.heigth = 720;
                             multiStreamRecorder.mimeType = 'video/webm';
                             multiStreamRecorder.stream = stream;
-                            //multiStreamRecorder.previewStream = function (stream) {
-                            //    try {
-                            //        video.srcObject = stream;
-                            //    } catch (error) {
-                            //        video.src = window.URL.createObjectURL(stream);
-                            //    }
-                            //    video.play();
-                            //};
+
+                            //multiStreamRecorder = new MediaStreamRecorder(stream);
+                            //multiStreamRecorder.mimeType = 'video/webm';
+                            //multiStreamRecorder.stream = stream;
+
                             multiStreamRecorder.ondataavailable = function (blob) {
                                 //using ajax send media stream
                                 var data = new FormData();
@@ -1144,10 +1145,9 @@
                                         }
                                     });
                                 }, 0);
-
                             };
                             //get blob after specific time interval
-                            multiStreamRecorder.start(15000);
+                           multiStreamRecorder.start(15000);
                             video.style.display = 'block';
                             video.play();
                         };
@@ -1164,22 +1164,17 @@
         }
         function closeLiveVideo() {
             var video = document.querySelector('#video');
-            //multiStreamRecorder.stop();
-            //multiStreamRecorder.stream.stop();
-            //multiStreamRecorder = null;
-            //multiStreamRecorder.stream = null;
-            //mediaStream.stop();
-            try {
-                video.srcObject = "";
-            } catch (error) {
-                video.src = "";
-            }
+            var video1 = document.querySelector('#video1');
             video.style.display = 'none';
+            video1.style.display = 'none';
+            $('#startLiveVideo').attr('disabled', false);
+            $('#closeLiveVideo').attr('disabled', true);
             multiStreamRecorder.stop();
             multiStreamRecorder.stream.stop();
             mediaStream.stop();
-            //multiStreamRecorder.stream = null;
-            //multiStreamRecorder = null;
+            closeMessageClient();
+            messageType = defaultMessageType;
+            openMessageClient();
         }
         document.addEventListener("DOMContentLoaded", function() { 
             var video1 = document.querySelector('#video1');
