@@ -980,8 +980,8 @@
                 var blob = new Blob([obj.stream], { type: obj.dataType });
                 var blobUrl = URL.createObjectURL(blob);
                 var video1 = $("#video1")[0];
-                video1.width = 640;
-                video1.height = 480;
+                video1.width = 800;
+                video1.height = 600;
                 video1.src = blobUrl;
                 video1.style.display = 'block';
                 video1.controls = false;
@@ -1068,7 +1068,7 @@
         function startLiveVideo() {
             navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
             if (navigator.getUserMedia) {
-                navigator.getUserMedia({ audio: true, video: { width: 640, height: 480 } },
+                navigator.getUserMedia({ audio: true, video: { width: 800, height: 600 } },
                     function (stream) {
                         closeMessageClient();
                         messageType = MessageTypeEnum.Topic;
@@ -1092,13 +1092,13 @@
                         }
                         video.onloadedmetadata = function (e) {
                             //if (multiStreamRecorder && multiStreamRecorder.stream) return;
-                            multiStreamRecorder = new MultiStreamRecorder([stream]);
-                            multiStreamRecorder.mimeType = 'video/webm';
-                            multiStreamRecorder.stream = stream;
-
-                            //multiStreamRecorder = new MediaStreamRecorder(stream);
+                            //multiStreamRecorder = new MultiStreamRecorder([stream]);
                             //multiStreamRecorder.mimeType = 'video/webm';
                             //multiStreamRecorder.stream = stream;
+
+                            multiStreamRecorder = new MediaStreamRecorder(stream);
+                            multiStreamRecorder.mimeType = 'video/webm';
+                            multiStreamRecorder.stream = stream;
 
                             multiStreamRecorder.ondataavailable = function (blob) {
                                 //using ajax send media stream
@@ -1182,30 +1182,7 @@
             video1.onended = (event) => {
             video1.pause();
             };
-        });
-        
-        //navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        //if (navigator.getUserMedia) {
-        //    navigator.getUserMedia({ audio: true, video: { width: 1280, height: 720 } },
-        //        function (stream) {
-        //            var video = document.querySelector('#video');
-        //            try {
-        //                video.srcObject = stream;
-        //            } catch (error) {
-        //                video.src = window.URL.createObjectURL(stream);
-        //            }
-        //            video.onloadedmetadata = function (e) {
-        //                video.style.display = 'block';
-        //                video.play();
-        //            };
-        //        },
-        //        function (err) {
-        //            console.log("The following error occurred: " + err.name);
-        //        }
-        //    );
-        //} else {
-        //    console.log("getUserMedia not supported");
-        //}
+        });      
     </script>
     <style>
         body {
