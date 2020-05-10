@@ -171,31 +171,19 @@
         }
 
         var handleConnectStarted = function (funcName) {
-            //if (errMsg == "") {
-                $('#openMessageClient').attr('disabled', true);
-                $('#btnUploadFile').attr('disabled', false);
-                $('#closeMessageClient').attr('disabled', false);
-                $("#sendMessage").attr('disabled', false);
-                getChatToday();
-                getChatHistory();
-                window.alert(funcName + "已啟動!");
-            //}
-            //else {
-            //    window.alert(errMsg);
-            //}
+            $('#openMessageClient').attr('disabled', true);
+            $('#btnUploadFile').attr('disabled', false);
+            $('#closeMessageClient').attr('disabled', false);
+            $("#sendMessage").attr('disabled', false);
+            window.alert(funcName + "已啟動!");
         }
 
         var handleConnectClosed = function (funcName) {
-            //if (errMsg == "") {
-                $('#btnUploadFile').attr('disabled', true);
-                $("#closeMessageClient").attr('disabled', true);
-                $("#sendMessage").attr('disabled', true);
-                $("#openMessageClient").attr('disabled', false);
-                window.alert(funcName + "已關閉!");
-            //}
-            //else {
-            //    window.alert(errMsg);
-            //}
+            $('#btnUploadFile').attr('disabled', true);
+            $("#closeMessageClient").attr('disabled', true);
+            $("#sendMessage").attr('disabled', true);
+            $("#openMessageClient").attr('disabled', false);
+            window.alert(funcName + "已關閉!");
         }
         var bindMessageToUI = function (uiObj, value) {
             allReceivedNum += 1;
@@ -262,7 +250,7 @@
                 }
                 messageClient = new MessageClient();
                 messageClient.uri = MY_WEBSOCKET_URL;
-                messageClient.clientIp ="<%= ClientIp %>"
+                messageClient.clientIp = "<%= ClientIp %>"
                 messageClient.userName = $("#userID").val();
                 messageClient.passWord = $("#pwd").val();
                 messageClient.WebUiObject = $("#divMsg")[0];
@@ -276,6 +264,10 @@
                 messageClient.onConnectionStarted(handleConnectStarted);
                 messageClient.onConnectionClosed(handleConnectClosed);
                 messageClient.start();
+                if (event && event.target.id == "openMessageClient") {
+                    getChatToday();
+                    getChatHistory();
+                }
             }
             catch (e) {
                 window.alert(e);
@@ -905,14 +897,14 @@
             if (obj.dataType.toUpperCase().indexOf('MP4') != -1 || obj.dataType.toUpperCase().indexOf('OGG') != -1 || obj.dataType.toUpperCase().indexOf('WEBM') != -1) {
                 var blob = new Blob([obj.file], { type: obj.dataType });
                 var blobUrl = URL.createObjectURL(blob);
-                var video = $("#video")[0];
-                video.onended = function () {
+                var video3 = $("#video3")[0];
+                video3.onended = function () {
                     this.style.display = 'none';
                 };
-                video.src = blobUrl;
-                video.style.display = 'block';
-                video.load();
-                video.play();
+                video3.src = blobUrl;
+                video3.style.display = 'block';
+                video3.load();
+                video3.play();
             }
             else if (obj.dataType.toUpperCase().indexOf('MPEG') != -1 || obj.dataType.toUpperCase().indexOf('WAV') != -1) {
                 var blob = new Blob([obj.file], { type: obj.dataType });
@@ -936,18 +928,18 @@
                 if (obj.dataType.toUpperCase().indexOf('MP4') != -1 || obj.dataType.toUpperCase().indexOf('OGG') != -1 || obj.dataType.toUpperCase().indexOf('WEBM') != -1) {
                     a.text = "(播放視訊)"
                     a.addEventListener('click', function () {
-                        var video = $("#video")[0];
-                        video.onended = function () {
+                        var video3 = $("#video3")[0];
+                        video3.onended = function () {
                             this.style.display = 'none';
                         };
                         var audio = $("#audio")[0];
                         audio.pause();
                         audio.src = "";
                         audio.style.display = 'none';
-                        video.src = blobUrl;
-                        video.style.display = 'block';
-                        video.load();
-                        video.play();
+                        video3.src = blobUrl;
+                        video3.style.display = 'block';
+                        video3.load();
+                        video3.play();
                     });
                 }
                 else if (obj.dataType.toUpperCase().indexOf('MPEG') != -1 || obj.dataType.toUpperCase().indexOf('WAV') != -1) {
@@ -958,10 +950,10 @@
                         audio.onended = function () {
                             this.style.display = 'none';
                         };
-                        var video = $("#video")[0];
-                        video.pause();
-                        video.src = "";
-                        video.style.display = 'none';
+                        var video3 = $("#video3")[0];
+                        video3.pause();
+                        video3.src = "";
+                        video3.style.display = 'none';
                         audio.src = blobUrl;
                         audio.style.display = 'block';
                         audio.load();
@@ -979,14 +971,14 @@
             if ($('#startLiveVideo').prop('disabled') && (obj.dataType.toUpperCase().indexOf('WEBM') != -1 || obj.dataType.toUpperCase().indexOf('MP4') != -1)) {
                 var blob = new Blob([obj.stream], { type: obj.dataType });
                 var blobUrl = URL.createObjectURL(blob);
-                var video1 = $("#video1")[0];
-                video1.width = 720;
-                video1.height = 480;
-                video1.src = blobUrl;
-                video1.style.display = 'block';
-                video1.controls = false;
-                video1.load();
-                video1.play();
+                var video2 = $("#video2")[0];
+                video2.width = 720;
+                video2.height = 480;
+                video2.src = blobUrl;
+                video2.style.display = 'block';
+                video2.controls = false;
+                video2.load();
+                video2.play();
             }
         }
         function resetFileUploadText() {
@@ -1084,13 +1076,13 @@
                                 track.stop();
                             });
                         };
-                        var video = document.querySelector('#video');
+                        var video1 = document.querySelector('#video1');
                         try {
-                            video.srcObject = stream;
+                            video1.srcObject = stream;
                         } catch (error) {
-                            video.src = window.URL.createObjectURL(stream);
+                            video1.src = window.URL.createObjectURL(stream);
                         }
-                        video.onloadedmetadata = function (e) {
+                        video1.onloadedmetadata = function (e) {
                             //if (multiStreamRecorder && multiStreamRecorder.stream) return;
                             //multiStreamRecorder = new MultiStreamRecorder([stream]);
                             //multiStreamRecorder.mimeType = 'video/webm';
@@ -1149,10 +1141,10 @@
                             };
                             //get blob after specific time interval
                             multiStreamRecorder.start(16000);
-                            video.width =720;
-                            video.height = 480;
-                            video.style.display = 'block';
-                            video.play();
+                            video1.width =720;
+                            video1.height = 480;
+                            video1.style.display = 'block';
+                            video1.play();
                         };
                     },
                     function (err) {
@@ -1166,10 +1158,10 @@
             }
         }
         function closeLiveVideo() {
-            var video = document.querySelector('#video');
             var video1 = document.querySelector('#video1');
-            video.style.display = 'none';
+            var video2 = document.querySelector('#video2');
             video1.style.display = 'none';
+            video2.style.display = 'none';
             $('#startLiveVideo').attr('disabled', false);
             $('#closeLiveVideo').attr('disabled', true);
             multiStreamRecorder.stop();
@@ -1180,9 +1172,9 @@
             openMessageClient("聊天");
         }
         document.addEventListener("DOMContentLoaded", function() { 
-            var video1 = document.querySelector('#video1');
-            video1.onended = (event) => {
-            video1.pause();
+            var video2 = document.querySelector('#video2');
+            video2.onended = (event) => {
+                video2.pause();
             };
         });      
     </script>
@@ -1284,10 +1276,13 @@
     </div>
     <br />
     <div id="mediaZone" style="display: inline">
-        <video id="video" style="display: none; margin: auto; position: relative; top: 0px; left: 0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="" controls="controls">
+        <video id="video1" style="display: none; margin: auto; position: relative; top: 0px; left: 0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="" controls="controls">
             您的瀏覽器不支援<code>video</code>標籤!
         </video>
-        <video id="video1" style="display: none; margin: auto; position: relative; top: 0px; left: 0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="">
+        <video id="video2" style="display: none; margin: auto; position: relative; top: 0px; left: 0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="">
+            您的瀏覽器不支援<code>video</code>標籤!
+        </video>
+        <video id="video3" style="display: none; margin: auto; position: relative; top: 0px; left: 0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="">
             您的瀏覽器不支援<code>video</code>標籤!
         </video>
         <audio id="audio" style="display: none;" controls="controls">您的瀏覽器不支援audio標籤!</audio>
