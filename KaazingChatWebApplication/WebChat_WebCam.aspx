@@ -980,8 +980,8 @@
                 var blob = new Blob([obj.stream], { type: obj.dataType });
                 var blobUrl = URL.createObjectURL(blob);
                 var video1 = $("#video1")[0];
-                video1.width = 800;
-                video1.height = 600;
+                video1.width = 720;
+                video1.height = 480;
                 video1.src = blobUrl;
                 video1.style.display = 'block';
                 video1.controls = false;
@@ -1068,7 +1068,7 @@
         function startLiveVideo() {
             navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
             if (navigator.getUserMedia) {
-                navigator.getUserMedia({ audio: true, video: { width: 800, height: 600 } },
+                navigator.getUserMedia({ audio: true, video: { width: 1280, height: 720 } },
                     function (stream) {
                         closeMessageClient();
                         messageType = MessageTypeEnum.Topic;
@@ -1148,7 +1148,9 @@
                                 }, 0);
                             };
                             //get blob after specific time interval
-                           multiStreamRecorder.start(15000);
+                            multiStreamRecorder.start(16000);
+                            video.width =720;
+                            video.height = 480;
                             video.style.display = 'block';
                             video.play();
                         };
