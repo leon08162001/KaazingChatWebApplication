@@ -175,6 +175,14 @@
             $('#btnUploadFile').attr('disabled', false);
             $('#closeMessageClient').attr('disabled', false);
             $("#sendMessage").attr('disabled', false);
+            if (funcName == "聊天") {
+                $('#startLiveVideo').attr('disabled', false);
+                $('#closeLiveVideo').attr('disabled', true);
+            }
+            else if (funcName == "視訊") {
+                $('#startLiveVideo').attr('disabled', true);
+                $('#closeLiveVideo').attr('disabled', false);
+            }
             window.alert(funcName + "已啟動!");
         }
 
@@ -183,6 +191,14 @@
             $("#closeMessageClient").attr('disabled', true);
             $("#sendMessage").attr('disabled', true);
             $("#openMessageClient").attr('disabled', false);
+            if (funcName == "聊天") {
+                $('#startLiveVideo').attr('disabled', true);
+                $('#closeLiveVideo').attr('disabled', true);
+            }
+            else if (funcName == "視訊") {
+                $('#startLiveVideo').attr('disabled', false);
+                $('#closeLiveVideo').attr('disabled', true);
+            }
             window.alert(funcName + "已關閉!");
         }
         var bindMessageToUI = function (uiObj, value) {
@@ -277,6 +293,10 @@
 
         var closeMessageClient = function () {
             try {
+                if (video1.style.display == 'block') {
+                    alert("視訊開啟中，請先關閉視訊!")
+                    return;
+                }
                 if (messageClient) {
                     messageClient.close();
                     if ($("#divMsg").html().length > 0) {
@@ -1294,7 +1314,7 @@
         <button id="openMessageClient" class="blue button" type="button" onclick="openMessageClient('聊天');">啟動聊天</button>&nbsp;
         <button id="closeMessageClient" class="blue button" type="button" disabled="disabled" onclick="closeMessageClient();">結束聊天</button>&nbsp;
         <button id="sendMessage" class="blue button" type="button" disabled="disabled" onclick="sendAjaxTalkMessage();">傳送訊息</button>&nbsp;
-        <button id="startLiveVideo" class="blue button" type="button">開啟即時視訊</button>&nbsp;
+        <button id="startLiveVideo" class="blue button" type="button" disabled="disabled">開啟即時視訊</button>&nbsp;
         <button id="closeLiveVideo" class="blue button" type="button" disabled="disabled">關閉即時視訊</button>&nbsp;
         <%--        <button id="sendClientMessage" class="blue button" type="button" disabled="disabled" onclick="sendMessage();">傳送訊息(javascript)</button>--%>
     </div>
