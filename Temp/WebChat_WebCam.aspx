@@ -277,10 +277,12 @@
 
         var closeMessageClient = function () {
             try {
-                messageClient.close();
-                if ($("#divMsg").html().length > 0) {
-                    var chat = getChat();
-                    chatUpdate(chat, true);
+                if (messageClient) {
+                    messageClient.close();
+                    if ($("#divMsg").html().length > 0) {
+                        var chat = getChat();
+                        chatUpdate(chat, true);
+                    }
                 }
             }
             catch (e) {
@@ -1179,6 +1181,10 @@
         });
         $(document).ready(function () {
             $('#startLiveVideo').bind("click", function () {
+                if (!$.trim($("#talkTo").val()) || !$.trim($("#listenFrom").val())) {
+                    alert('My Name & TalkTo must key in');
+                    return;
+                }
                 closeMessageClient();
                 messageType = MessageTypeEnum.Topic;
                 openMessageClient("視訊");
