@@ -277,10 +277,12 @@
 
         var closeMessageClient = function () {
             try {
-                messageClient.close();
-                if ($("#divMsg").html().length > 0) {
-                    var chat = getChat();
-                    chatUpdate(chat, true);
+                if (messageClient) {
+                    messageClient.close();
+                    if ($("#divMsg").html().length > 0) {
+                        var chat = getChat();
+                        chatUpdate(chat, true);
+                    }
                 }
             }
             catch (e) {
@@ -1062,9 +1064,9 @@
             if (navigator.getUserMedia) {
                 navigator.getUserMedia({ audio: true, video: { width: 1280, height: 720 } },
                     function (stream) {
-                        closeMessageClient();
-                        messageType = MessageTypeEnum.Topic;
-                        openMessageClient("視訊");
+                        //closeMessageClient();
+                        //messageType = MessageTypeEnum.Topic;
+                        //openMessageClient("視訊");
                         mediaStream = stream;
                         $('#startLiveVideo').attr('disabled', true);
                         $('#closeLiveVideo').attr('disabled', false);
@@ -1167,17 +1169,39 @@
             multiStreamRecorder.stop();
             multiStreamRecorder.stream.stop();
             mediaStream.stop();
-            closeMessageClient();
-            messageType = defaultMessageType;
-            openMessageClient("聊天");
+            //closeMessageClient();
+            //messageType = defaultMessageType;
+            //openMessageClient("聊天");
         }
         document.addEventListener("DOMContentLoaded", function() { 
             var video2 = document.querySelector('#video2');
             video2.onended = (event) => {
                 video2.pause();
             };
-        });      
-    </script>
+        });
+        $(document).ready(function () {
+            $('#startLiveVideo').bind("click", function () {
+                if (!$.trim($("#talkTo").val()) || !$.trim($("#listenFrom").val())) {
+                    alert('My Name & TalkTo must key in');
+                    return;
+                }
+                closeMessageClient();
+                messageType = MessageTypeEnum.Topic;
+                openMessageClient("視訊");
+                startLiveVideo();
+            });
+            $('#closeLiveVideo').bind("click", function () {
+                if (!$.trim($("#talkTo").val()) || !$.trim($("#listenFrom").val())) {
+                    alert('My Name & TalkTo must key in');
+                    return;
+                }
+                closeLiveVideo();
+                closeMessageClient();
+                messageType = defaultMessageType;
+                openMessageClient("聊天");
+            });
+        });
+        </script>
     <style>
         body {
             padding: 5px;
@@ -1270,19 +1294,19 @@
         <button id="openMessageClient" class="blue button" type="button" onclick="openMessageClient('聊天');">啟動聊天</button>&nbsp;
         <button id="closeMessageClient" class="blue button" type="button" disabled="disabled" onclick="closeMessageClient();">結束聊天</button>&nbsp;
         <button id="sendMessage" class="blue button" type="button" disabled="disabled" onclick="sendAjaxTalkMessage();">傳送訊息</button>&nbsp;
-        <button id="startLiveVideo" class="blue button" type="button" onclick="startLiveVideo();">開啟即時視訊</button>&nbsp;
-        <button id="closeLiveVideo" class="blue button" type="button" disabled="disabled" onclick="closeLiveVideo();">關閉即時視訊</button>&nbsp;
+        <button id="startLiveVideo" class="blue button" type="button">開啟即時視訊</button>&nbsp;
+        <button id="closeLiveVideo" class="blue button" type="button" disabled="disabled">關閉即時視訊</button>&nbsp;
         <%--        <button id="sendClientMessage" class="blue button" type="button" disabled="disabled" onclick="sendMessage();">傳送訊息(javascript)</button>--%>
     </div>
     <br />
     <div id="mediaZone" style="display: inline">
-        <video id="video1" style="display: none; margin: auto; position: relative; top: 0px; left: 0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="" controls="controls">
+        <video id="video1" style="display: none; margin: auto; position: relative; top: 0px; left: 0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="">
             您的瀏覽器不支援<code>video</code>標籤!
         </video>
         <video id="video2" style="display: none; margin: auto; position: relative; top: 0px; left: 0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="">
             您的瀏覽器不支援<code>video</code>標籤!
         </video>
-        <video id="video3" style="display: none; margin: auto; position: relative; top: 0px; left: 0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="">
+        <video id="video3" style="display: none; margin: auto; position: relative; top: 0px; left: 0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="" controls="controls">
             您的瀏覽器不支援<code>video</code>標籤!
         </video>
         <audio id="audio" style="display: none;" controls="controls">您的瀏覽器不支援audio標籤!</audio>
