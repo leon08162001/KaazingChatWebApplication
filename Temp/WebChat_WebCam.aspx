@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Kaazing Web Socket Test</title>
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet" />
@@ -16,7 +16,7 @@
     <!--<script src="lib/client/javascript/StompJms.js" type="text/javascript"></script>-->
     <script src="lib/client/javascript/WebSocket.js" type="text/javascript"></script>
     <script src="lib/client/javascript/JmsClient.js" type="text/javascript"></script>
-    <script src="https://cdn.webrtc-experiment.com/MediaStreamRecorder.js" type="text/javascript"></script>
+    <script src="lib/client/javascript/MediaStreamRecorder.min.js" type="text/javascript"></script>
     <script src="lib/client/javascript/MessageClient.js" type="text/javascript"></script>
     <script type="text/javascript">
         // Variables you can change
@@ -77,6 +77,7 @@
 
         var jmsServiceType = JmsServiceTypeEnum.ActiveMQ;
         var messageType = MessageTypeEnum.Queue;
+        var defaultMessageType = messageType;
         var IN_DEBUG_MODE = true;
         var DEBUG_TO_SCREEN = true;
         var allReceivedNum;
@@ -121,7 +122,6 @@
         var handleException = function (e) {
             consoleLog("EXCEPTION: " + e);
         };
-
         var handleMessage = function (uiObj, message) {
             if (typeof message == "string") {
                 var hasReadedHtml = message.indexOf(readedHtml) == -1 ? false : true;
@@ -158,8 +158,8 @@
                     uiObj.insertBefore(link, uiObj.firstChild);
                     uiObj.insertBefore(spanTag, uiObj.firstChild);
                 }
-                else if(message.hasOwnProperty('stream')){
-                    playStream(message);
+                else if (message.hasOwnProperty('stream')) {
+                    playStream(message); 
                 }
                 else {
                     for (var field in message) {
@@ -170,32 +170,20 @@
             }
         }
 
-        var handleConnectStarted = function (errMsg) {
-            if (errMsg == "") {
-                $('#openMessageClient').attr('disabled', true);
-                $('#btnUploadFile').attr('disabled', false);
-                $('#closeMessageClient').attr('disabled', false);
-                $("#sendMessage").attr('disabled', false);
-                getChatToday();
-                getChatHistory();
-                window.alert("聊天已啟動!");
-            }
-            else {
-                window.alert(errMsg);
-            }
+        var handleConnectStarted = function (funcName) {
+            $('#openMessageClient').attr('disabled', true);
+            $('#btnUploadFile').attr('disabled', false);
+            $('#closeMessageClient').attr('disabled', false);
+            $("#sendMessage").attr('disabled', false);
+            window.alert(funcName + "已啟動!");
         }
 
-        var handleConnectClosed = function (errMsg) {
-            if (errMsg == "") {
-                $('#btnUploadFile').attr('disabled', true);
-                $("#closeMessageClient").attr('disabled', true);
-                $("#sendMessage").attr('disabled', true);
-                $("#openMessageClient").attr('disabled', false);
-                window.alert("聊天已關閉!");
-            }
-            else {
-                window.alert(errMsg);
-            }
+        var handleConnectClosed = function (funcName) {
+            $('#btnUploadFile').attr('disabled', true);
+            $("#closeMessageClient").attr('disabled', true);
+            $("#sendMessage").attr('disabled', true);
+            $("#openMessageClient").attr('disabled', false);
+            window.alert(funcName + "已關閉!");
         }
         var bindMessageToUI = function (uiObj, value) {
             allReceivedNum += 1;
@@ -254,7 +242,7 @@
 
         //var messageClient = new MessageClient(MY_WEBSOCKET_URL, "leon", "880816", MessageTypeEnum.Topic, "DEMO.NUOMS.JefferiesReport.Resp", document.getElementById("divMsg"));
         var messageClient;
-        var openMessageClient = function () {
+        var openMessageClient = function (funcName) {
             try {
                 if (!$.trim($("#talkTo").val()) || !$.trim($("#listenFrom").val())) {
                     alert('My Name & TalkTo must key in');
@@ -262,19 +250,24 @@
                 }
                 messageClient = new MessageClient();
                 messageClient.uri = MY_WEBSOCKET_URL;
-                messageClient.clientIp ="<%= ClientIp %>"
+                messageClient.clientIp = "<%= ClientIp %>"
                 messageClient.userName = $("#userID").val();
                 messageClient.passWord = $("#pwd").val();
                 messageClient.WebUiObject = $("#divMsg")[0];
                 messageClient.jmsServiceType = jmsServiceType;
                 messageClient.messageType = messageType;
                 messageClient.listenName = ("webchat." + $.trim($("#listenFrom").val())).toUpperCase();
+                messageClient.funcName = funcName;
                 //messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z-]+/g).filter(v => v).join(',').toUpperCase();
                 messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
                 messageClient.onMessageReceived(handleMessage);
                 messageClient.onConnectionStarted(handleConnectStarted);
                 messageClient.onConnectionClosed(handleConnectClosed);
                 messageClient.start();
+                if (event && event.target.id == "openMessageClient") {
+                    getChatToday();
+                    getChatHistory();
+                }
             }
             catch (e) {
                 window.alert(e);
@@ -904,14 +897,14 @@
             if (obj.dataType.toUpperCase().indexOf('MP4') != -1 || obj.dataType.toUpperCase().indexOf('OGG') != -1 || obj.dataType.toUpperCase().indexOf('WEBM') != -1) {
                 var blob = new Blob([obj.file], { type: obj.dataType });
                 var blobUrl = URL.createObjectURL(blob);
-                var video = $("#video")[0];
-                video.onended = function () {
+                var video3 = $("#video3")[0];
+                video3.onended = function () {
                     this.style.display = 'none';
                 };
-                video.src = blobUrl;
-                video.style.display = 'block';
-                video.load();
-                video.play();
+                video3.src = blobUrl;
+                video3.style.display = 'block';
+                video3.load();
+                video3.play();
             }
             else if (obj.dataType.toUpperCase().indexOf('MPEG') != -1 || obj.dataType.toUpperCase().indexOf('WAV') != -1) {
                 var blob = new Blob([obj.file], { type: obj.dataType });
@@ -935,18 +928,18 @@
                 if (obj.dataType.toUpperCase().indexOf('MP4') != -1 || obj.dataType.toUpperCase().indexOf('OGG') != -1 || obj.dataType.toUpperCase().indexOf('WEBM') != -1) {
                     a.text = "(播放視訊)"
                     a.addEventListener('click', function () {
-                        var video = $("#video")[0];
-                        video.onended = function () {
+                        var video3 = $("#video3")[0];
+                        video3.onended = function () {
                             this.style.display = 'none';
                         };
                         var audio = $("#audio")[0];
                         audio.pause();
                         audio.src = "";
                         audio.style.display = 'none';
-                        video.src = blobUrl;
-                        video.style.display = 'block';
-                        video.load();
-                        video.play();
+                        video3.src = blobUrl;
+                        video3.style.display = 'block';
+                        video3.load();
+                        video3.play();
                     });
                 }
                 else if (obj.dataType.toUpperCase().indexOf('MPEG') != -1 || obj.dataType.toUpperCase().indexOf('WAV') != -1) {
@@ -957,10 +950,10 @@
                         audio.onended = function () {
                             this.style.display = 'none';
                         };
-                        var video = $("#video")[0];
-                        video.pause();
-                        video.src = "";
-                        video.style.display = 'none';
+                        var video3 = $("#video3")[0];
+                        video3.pause();
+                        video3.src = "";
+                        video3.style.display = 'none';
                         audio.src = blobUrl;
                         audio.style.display = 'block';
                         audio.load();
@@ -975,15 +968,17 @@
             }
         }
         function playStream(obj) {
-            if (obj.dataType.toUpperCase().indexOf('WEBM') != -1)
-            {
-                var blob = new Blob([obj.file], { type: obj.dataType });
+            if ($('#startLiveVideo').prop('disabled') && (obj.dataType.toUpperCase().indexOf('WEBM') != -1 || obj.dataType.toUpperCase().indexOf('MP4') != -1)) {
+                var blob = new Blob([obj.stream], { type: obj.dataType });
                 var blobUrl = URL.createObjectURL(blob);
-                var video = $("#video")[0];
-                video.src = blobUrl;
-                video.style.display = 'block';
-                video.load();
-                video.play();
+                var video2 = $("#video2")[0];
+                video2.width = 720;
+                video2.height = 480;
+                video2.src = blobUrl;
+                video2.style.display = 'block';
+                video2.controls = false;
+                video2.load();
+                video2.play();
             }
         }
         function resetFileUploadText() {
@@ -1067,7 +1062,12 @@
             if (navigator.getUserMedia) {
                 navigator.getUserMedia({ audio: true, video: { width: 1280, height: 720 } },
                     function (stream) {
+                        //closeMessageClient();
+                        //messageType = MessageTypeEnum.Topic;
+                        //openMessageClient("視訊");
                         mediaStream = stream;
+                        $('#startLiveVideo').attr('disabled', true);
+                        $('#closeLiveVideo').attr('disabled', false);
                         mediaStream.stop = function () {
                             this.getAudioTracks().forEach(function (track) {
                                 track.stop();
@@ -1076,21 +1076,22 @@
                                 track.stop();
                             });
                         };
-                        var video = document.querySelector('#video');
+                        var video1 = document.querySelector('#video1');
                         try {
-                            video.srcObject = stream;
+                            video1.srcObject = stream;
                         } catch (error) {
-                            video.src = window.URL.createObjectURL(stream);
+                            video1.src = window.URL.createObjectURL(stream);
                         }
-                        video.onloadedmetadata = function (e) {
-                            if (multiStreamRecorder && multiStreamRecorder.stream) return;
-                            multiStreamRecorder = new MultiStreamRecorder([stream, stream]);
+                        video1.onloadedmetadata = function (e) {
+                            //if (multiStreamRecorder && multiStreamRecorder.stream) return;
+                            //multiStreamRecorder = new MultiStreamRecorder([stream]);
+                            //multiStreamRecorder.mimeType = 'video/webm';
+                            //multiStreamRecorder.stream = stream;
+
+                            multiStreamRecorder = new MediaStreamRecorder(stream);
+                            multiStreamRecorder.mimeType = 'video/webm';
                             multiStreamRecorder.stream = stream;
 
-                            multiStreamRecorder.previewStream = function (stream) {
-                                video.src = URL.createObjectURL(stream);
-                                video.play();
-                            };
                             multiStreamRecorder.ondataavailable = function (blob) {
                                 //using ajax send media stream
                                 var data = new FormData();
@@ -1100,8 +1101,9 @@
                                 data.append("mqUrl", messageClient.uri);
                                 data.append("mimetype", multiStreamRecorder.mimeType);
                                 data.append("stream", blob);
-                                sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：傳送串流中，請稍後...(" + messageTime + ")", ajaxMessageTypeEnum.stream);
-
+                                var messageTime = getNowFormatDate();
+                                //$("#divMsg").html("<span style=\"background-color: yellow;\">" + messageClient.listenName.replace(/webchat./ig, "") + "：傳送串流中，請稍後...(" + messageTime + ")</span><br>" + $("#divMsg").html());
+                                //sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：傳送串流中，請稍後...(" + messageTime + ")", ajaxMessageTypeEnum.stream);
                                 setTimeout(function () {
                                     var ajaxProgress = $.ajax({
                                         type: "POST",
@@ -1110,14 +1112,14 @@
                                         contentType: false,
                                         processData: false,
                                         success: function () {
-                                            messageTime = getNowFormatDate();
-                                            var uiObj = $("#divMsg")[0];
-                                            var brTag = document.createElement('br');
-                                            var spanTag = document.createElement('span');
-                                            spanTag.setAttribute("style", "background-color:yellow");
-                                            spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送完成(" + messageTime + ")";
-                                            uiObj.insertBefore(brTag, uiObj.firstChild);
-                                            uiObj.insertBefore(spanTag, uiObj.firstChild);
+                                            //messageTime = getNowFormatDate();
+                                            //var uiObj = $("#divMsg")[0];
+                                            //var brTag = document.createElement('br');
+                                            //var spanTag = document.createElement('span');
+                                            //spanTag.setAttribute("style", "background-color:yellow");
+                                            //spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送完成(" + messageTime + ")";
+                                            //uiObj.insertBefore(brTag, uiObj.firstChild);
+                                            //uiObj.insertBefore(spanTag, uiObj.firstChild);
                                         },
                                         error: function (jqXHR, textStatus, errorThrown) {
                                             messageTime = getNowFormatDate();
@@ -1125,23 +1127,24 @@
                                             var brTag = document.createElement('br');
                                             var spanTag = document.createElement('span');
                                             spanTag.setAttribute("style", "background-color:yellow");
-                                            spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送失敗(" + messageTime + "):" + jqXHR.responseText;
+                                            spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送失敗:" + textStatus + "(" + messageTime + "):" + jqXHR.responseText;
                                             uiObj.insertBefore(brTag, uiObj.firstChild);
                                             uiObj.insertBefore(spanTag, uiObj.firstChild);
-                                            sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送失敗(" + messageTime + "):" + jqXHR.responseText, ajaxMessageTypeEnum.file);
+                                            sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送失敗:" + textStatus + "(" + messageTime + "):" + jqXHR.responseText, ajaxMessageTypeEnum.file);
                                             //alert('串流傳送失敗');
                                         },
                                         complete: function (XHR, TS) {
                                             XHR = null;
                                         }
                                     });
-                                }, 1000);
-
+                                }, 0);
                             };
                             //get blob after specific time interval
-                            multiStreamRecorder.start(5000);
-                            video.style.display = 'block';
-                            video.play();
+                            multiStreamRecorder.start(16000);
+                            video1.width =720;
+                            video1.height = 480;
+                            video1.style.display = 'block';
+                            video1.play();
                         };
                     },
                     function (err) {
@@ -1155,34 +1158,38 @@
             }
         }
         function closeLiveVideo() {
-            var video = document.querySelector('#video');
+            var video1 = document.querySelector('#video1');
+            var video2 = document.querySelector('#video2');
+            video1.style.display = 'none';
+            video2.style.display = 'none';
+            $('#startLiveVideo').attr('disabled', false);
+            $('#closeLiveVideo').attr('disabled', true);
+            multiStreamRecorder.stop();
+            multiStreamRecorder.stream.stop();
             mediaStream.stop();
-            video.src = "";
-            video.style.display = 'none';
+            //closeMessageClient();
+            //messageType = defaultMessageType;
+            //openMessageClient("聊天");
         }
-
-        //navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        //if (navigator.getUserMedia) {
-        //    navigator.getUserMedia({ audio: true, video: { width: 1280, height: 720 } },
-        //        function (stream) {
-        //            var video = document.querySelector('#video');
-        //            try {
-        //                video.srcObject = stream;
-        //            } catch (error) {
-        //                video.src = window.URL.createObjectURL(stream);
-        //            }
-        //            video.onloadedmetadata = function (e) {
-        //                video.style.display = 'block';
-        //                video.play();
-        //            };
-        //        },
-        //        function (err) {
-        //            console.log("The following error occurred: " + err.name);
-        //        }
-        //    );
-        //} else {
-        //    console.log("getUserMedia not supported");
-        //}
+        document.addEventListener("DOMContentLoaded", function() { 
+            var video2 = document.querySelector('#video2');
+            video2.onended = (event) => {
+                video2.pause();
+            };
+        });
+        $(document).ready(function () {
+            $('#startLiveVideo').bind("click", function () {
+                closeMessageClient();
+                messageType = MessageTypeEnum.Topic;
+                openMessageClient("視訊");
+                startLiveVideo();
+            });
+            $('#closeLiveVideo').bind("click", function () {
+                closeLiveVideo();
+                messageType = defaultMessageType;
+                openMessageClient('聊天');
+            });
+        });
         </script>
     <style>
         body {
@@ -1244,7 +1251,6 @@
                     </td>
                     <td>
                         <textarea id="message" class="form-control" style='font-family:標楷體, TimesNewRoman, "Times New Roman", Times, Arial, Georgia;' rows="6" line-height: 1.5em;" placeholder="Write something here..."></textarea>
-<%--                            <asp:TextBox id="message" runat="server" ValidateRequestMode="Disabled" class="form-control" style='font-family:標楷體, TimesNewRoman, "Times New Roman", Times, Arial, Georgia;line-height: 1.5em;' TextMode="MultiLine" Rows="6" placeholder="Write something here..."/>--%>
                     </td>
                 </tr>
                 <tr>
@@ -1274,19 +1280,25 @@
         </div>
     </form>
     <div style="text-align: center">
-        <button id="openMessageClient" class="blue button" type="button" onclick="openMessageClient();">啟動聊天</button>&nbsp;
+        <button id="openMessageClient" class="blue button" type="button" onclick="openMessageClient('聊天');">啟動聊天</button>&nbsp;
         <button id="closeMessageClient" class="blue button" type="button" disabled="disabled" onclick="closeMessageClient();">結束聊天</button>&nbsp;
         <button id="sendMessage" class="blue button" type="button" disabled="disabled" onclick="sendAjaxTalkMessage();">傳送訊息</button>&nbsp;
-        <button id="startLiveVideo" class="blue button" type="button" onclick="startLiveVideo();">開啟即時視訊</button>&nbsp;
-        <button id="closeLiveVideo" class="blue button" type="button" onclick="closeLiveVideo();">關閉即時視訊</button>&nbsp;
-<%--        <button id="sendClientMessage" class="blue button" type="button" disabled="disabled" onclick="sendMessage();">傳送訊息(javascript)</button>--%>
+        <button id="startLiveVideo" class="blue button" type="button">開啟即時視訊</button>&nbsp;
+        <button id="closeLiveVideo" class="blue button" type="button" disabled="disabled">關閉即時視訊</button>&nbsp;
+        <%--        <button id="sendClientMessage" class="blue button" type="button" disabled="disabled" onclick="sendMessage();">傳送訊息(javascript)</button>--%>
     </div>
     <br />
-    <div id="mediaZone">
-        <video id="video" style="display:none; margin: auto; position:relative; top: 0px; left:0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="" controls="controls">
+    <div id="mediaZone" style="display: inline">
+        <video id="video1" style="display: none; margin: auto; position: relative; top: 0px; left: 0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="" controls="controls">
             您的瀏覽器不支援<code>video</code>標籤!
         </video>
-        <audio id="audio" style="display:none;" controls="controls">您的瀏覽器不支援audio標籤!</audio>
+        <video id="video2" style="display: none; margin: auto; position: relative; top: 0px; left: 0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="">
+            您的瀏覽器不支援<code>video</code>標籤!
+        </video>
+        <video id="video3" style="display: none; margin: auto; position: relative; top: 0px; left: 0px; bottom: 0px; right: 0px; max-width: 100%; max-height: 100%;" autoplay="">
+            您的瀏覽器不支援<code>video</code>標籤!
+        </video>
+        <audio id="audio" style="display: none;" controls="controls">您的瀏覽器不支援audio標籤!</audio>
     </div>
     <div id="divMsg" class="defaultfont"></div>
     <div id="divMsgHis" class="defaultfont"></div>
