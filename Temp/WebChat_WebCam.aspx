@@ -1191,9 +1191,14 @@
                 startLiveVideo();
             });
             $('#closeLiveVideo').bind("click", function () {
+                if (!$.trim($("#talkTo").val()) || !$.trim($("#listenFrom").val())) {
+                    alert('My Name & TalkTo must key in');
+                    return;
+                }
                 closeLiveVideo();
+                closeMessageClient();
                 messageType = defaultMessageType;
-                openMessageClient('聊天');
+                openMessageClient("聊天");
             });
         });
         </script>
