@@ -293,8 +293,8 @@
 
         var closeMessageClient = function () {
             try {
-                if (video1.style.display == 'block') {
-                    alert("視訊開啟中，請先關閉視訊!")
+                if (multiStreamRecorder != null){
+                    alert("視訊開啟中，請先關閉視訊!");
                     return;
                 }
                 if (messageClient) {
@@ -1077,16 +1077,13 @@
             chat.oprIpAddress = messageClient.clientIp;
             return chat;
         }
-        var multiStreamRecorder;
+        var multiStreamRecorder = null;
         var mediaStream = null;
         function startLiveVideo() {
             navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
             if (navigator.getUserMedia) {
                 navigator.getUserMedia({ audio: true, video: { width: 1280, height: 720 } },
                     function (stream) {
-                        //closeMessageClient();
-                        //messageType = MessageTypeEnum.Topic;
-                        //openMessageClient("視訊");
                         mediaStream = stream;
                         $('#startLiveVideo').attr('disabled', true);
                         $('#closeLiveVideo').attr('disabled', false);
@@ -1134,14 +1131,6 @@
                                         contentType: false,
                                         processData: false,
                                         success: function () {
-                                            //messageTime = getNowFormatDate();
-                                            //var uiObj = $("#divMsg")[0];
-                                            //var brTag = document.createElement('br');
-                                            //var spanTag = document.createElement('span');
-                                            //spanTag.setAttribute("style", "background-color:yellow");
-                                            //spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送完成(" + messageTime + ")";
-                                            //uiObj.insertBefore(brTag, uiObj.firstChild);
-                                            //uiObj.insertBefore(spanTag, uiObj.firstChild);
                                         },
                                         error: function (jqXHR, textStatus, errorThrown) {
                                             messageTime = getNowFormatDate();
@@ -1168,14 +1157,19 @@
                             video1.style.display = 'block';
                             video1.play();
                         };
+                        return true;
                     },
                     function (err) {
-                        console.log("The following error occurred: " + err.name);
-                        window.alert("The following error occurred: " + err.name);
+                        $('#startLiveVideo').attr('disabled', false);
+                        $('#closeLiveVideo').attr('disabled', true);
+                        console.log("The following error occurred: " + err.message);
+                        window.alert("The following error occurred: " + err.message);
+                        return false;
                     }
                 );
             }
             else {
+                return false;
                 console.log("getUserMedia not supported");
             }
         }
@@ -1189,9 +1183,8 @@
             multiStreamRecorder.stop();
             multiStreamRecorder.stream.stop();
             mediaStream.stop();
-            //closeMessageClient();
-            //messageType = defaultMessageType;
-            //openMessageClient("聊天");
+            multiStreamRecorder = null;
+            mediaStream = null;
         }
         document.addEventListener("DOMContentLoaded", function() { 
             var video2 = document.querySelector('#video2');
@@ -1205,10 +1198,13 @@
                     alert('My Name & TalkTo must key in');
                     return;
                 }
+                if (!startLiveVideo()){
+                    return;
+                }
                 closeMessageClient();
                 messageType = MessageTypeEnum.Topic;
                 openMessageClient("視訊");
-                startLiveVideo();
+                
             });
             $('#closeLiveVideo').bind("click", function () {
                 if (!$.trim($("#talkTo").val()) || !$.trim($("#listenFrom").val())) {
