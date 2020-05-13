@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebChat_WebCam.aspx.cs" Inherits="KaazingChatWebApplication.WebChat_WebCam" %>
+﻿    <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebChat_WebCam.aspx.cs" Inherits="KaazingChatWebApplication.WebChat_WebCam" %>
 
 <!DOCTYPE html>
 
@@ -293,8 +293,8 @@
 
         var closeMessageClient = function () {
             try {
-                if (multiStreamRecorder != null){
-                    alert("視訊開啟中，請先關閉視訊!");
+                if (multiStreamRecorder != null) {
+                    alert("視訊開啟中，請先關閉視訊!")
                     return;
                 }
                 if (messageClient) {
@@ -1157,19 +1157,14 @@
                             video1.style.display = 'block';
                             video1.play();
                         };
-                        return true;
                     },
                     function (err) {
-                        $('#startLiveVideo').attr('disabled', false);
-                        $('#closeLiveVideo').attr('disabled', true);
                         console.log("The following error occurred: " + err.message);
                         window.alert("The following error occurred: " + err.message);
-                        return false;
                     }
                 );
             }
             else {
-                return false;
                 console.log("getUserMedia not supported");
             }
         }
@@ -1198,13 +1193,10 @@
                     alert('My Name & TalkTo must key in');
                     return;
                 }
-                if (!startLiveVideo()){
-                    return;
-                }
+                startLiveVideo();
                 closeMessageClient();
                 messageType = MessageTypeEnum.Topic;
                 openMessageClient("視訊");
-                
             });
             $('#closeLiveVideo').bind("click", function () {
                 if (!$.trim($("#talkTo").val()) || !$.trim($("#listenFrom").val())) {
