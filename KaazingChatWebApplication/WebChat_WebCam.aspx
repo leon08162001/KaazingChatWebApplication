@@ -1079,6 +1079,7 @@
         }
         var multiStreamRecorder = null;
         var mediaStream = null;
+        var result;
         function startLiveVideo() {
             navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
             if (navigator.getUserMedia) {
@@ -1152,20 +1153,23 @@
                             };
                             //get blob after specific time interval
                             multiStreamRecorder.start(16000);
-                            video1.width =720;
+                            video1.width = 720;
                             video1.height = 480;
                             video1.style.display = 'block';
                             video1.play();
                         };
+                        result = true;
                     },
                     function (err) {
                         console.log("The following error occurred: " + err.message);
                         window.alert("The following error occurred: " + err.message);
+                        result = false;
                     }
                 );
             }
             else {
                 console.log("getUserMedia not supported");
+                result = false;
             }
         }
         function closeLiveVideo() {
@@ -1194,9 +1198,13 @@
                     return;
                 }
                 startLiveVideo();
-                closeMessageClient();
-                messageType = MessageTypeEnum.Topic;
-                openMessageClient("視訊");
+                setTimeout(function () {
+                    if (result) {
+                        closeMessageClient();
+                        messageType = MessageTypeEnum.Topic;
+                        openMessageClient("視訊");
+                    }
+                }, 100);
             });
             $('#closeLiveVideo').bind("click", function () {
                 if (!$.trim($("#talkTo").val()) || !$.trim($("#listenFrom").val())) {
