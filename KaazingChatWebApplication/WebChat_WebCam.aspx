@@ -1204,7 +1204,7 @@
                         messageType = MessageTypeEnum.Topic;
                         openMessageClient("視訊");
                     }
-                }, 1000);
+                }, 1500);
             });
             $('#closeLiveVideo').bind("click", function () {
                 if (!$.trim($("#talkTo").val()) || !$.trim($("#listenFrom").val())) {
