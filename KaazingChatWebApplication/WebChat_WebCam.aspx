@@ -293,7 +293,7 @@
 
         var closeMessageClient = function () {
             try {
-                if (multiStreamRecorder != null) {
+                if (event && multiStreamRecorder != null) {
                     alert("視訊開啟中，請先關閉視訊!")
                     return;
                 }
@@ -1204,7 +1204,7 @@
                         messageType = MessageTypeEnum.Topic;
                         openMessageClient("視訊");
                     }
-                }, 100);
+                }, 1000);
             });
             $('#closeLiveVideo').bind("click", function () {
                 if (!$.trim($("#talkTo").val()) || !$.trim($("#listenFrom").val())) {
@@ -1249,7 +1249,7 @@
         }
     </style>
 </head>
-<body onunload="messageClient.close();">
+<body>
     <div id="logMsgs"></div>
     <form id="form1" runat="server">
         <div class="form-group">
