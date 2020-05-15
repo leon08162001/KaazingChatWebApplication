@@ -1079,7 +1079,6 @@
         }
         var multiStreamRecorder = null;
         var mediaStream = null;
-        var result;
         function startLiveVideo() {
             navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
             if (navigator.getUserMedia) {
@@ -1158,18 +1157,18 @@
                             video1.style.display = 'block';
                             video1.play();
                         };
-                        result = true;
+                        closeMessageClient();
+                        messageType = MessageTypeEnum.Topic;
+                        openMessageClient("視訊");
                     },
                     function (err) {
                         console.log("The following error occurred: " + err.message);
                         window.alert("The following error occurred: " + err.message);
-                        result = false;
                     }
                 );
             }
             else {
                 console.log("getUserMedia not supported");
-                result = false;
             }
         }
         function closeLiveVideo() {
@@ -1198,13 +1197,6 @@
                     return;
                 }
                 startLiveVideo();
-                setTimeout(function () {
-                    if (result) {
-                        closeMessageClient();
-                        messageType = MessageTypeEnum.Topic;
-                        openMessageClient("視訊");
-                    }
-                }, 1200);
             });
             $('#closeLiveVideo').bind("click", function () {
                 if (!$.trim($("#talkTo").val()) || !$.trim($("#listenFrom").val())) {
