@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/buttons.css" />
     <script src="lib/client/javascript/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="lib/client/javascript/browser-detect.umd.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
     <!--<script src="lib/client/javascript/StompJms.js" type="text/javascript"></script>-->
     <script src="lib/client/javascript/WebSocket.js" type="text/javascript"></script>
@@ -1079,10 +1080,11 @@
         }
         var multiStreamRecorder = null;
         var mediaStream = null;
+        var browser = browserDetect();
         function startLiveVideo() {
             navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
             if (navigator.getUserMedia) {
-                navigator.getUserMedia({ audio: true, video: { width: 1280, height: 720 } },
+                navigator.getUserMedia({ audio: true, video: { width: 720, height: 480 } },
                     function (stream) {
                         mediaStream = stream;
                         $('#startLiveVideo').attr('disabled', true);
@@ -1103,14 +1105,16 @@
                         }
                         video1.onloadedmetadata = function (e) {
                             //if (multiStreamRecorder && multiStreamRecorder.stream) return;
-                            //multiStreamRecorder = new MultiStreamRecorder([stream]);
-                            //multiStreamRecorder.mimeType = 'video/webm';
-                            //multiStreamRecorder.stream = stream;
-
-                            multiStreamRecorder = new MediaStreamRecorder(stream);
-                            multiStreamRecorder.mimeType = 'video/webm';
-                            multiStreamRecorder.stream = stream;
-
+                            if (browser.name != 'firefox') {
+                                multiStreamRecorder = new MultiStreamRecorder([stream]);
+                                multiStreamRecorder.mimeType = 'video/webm';
+                                multiStreamRecorder.stream = stream;
+                            }
+                            else {
+                                multiStreamRecorder = new MediaStreamRecorder(stream);
+                                multiStreamRecorder.mimeType = 'video/webm';
+                                multiStreamRecorder.stream = stream;
+                            }
                             multiStreamRecorder.ondataavailable = function (blob) {
                                 //using ajax send media stream
                                 var data = new FormData();
