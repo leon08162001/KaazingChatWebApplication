@@ -1155,7 +1155,7 @@
                                 }, 0);
                             };
                             //get blob after specific time interval
-                            multiStreamRecorder.start(16000);
+                            multiStreamRecorder.start(31000);
                             video1.width = 720;
                             video1.height = 480;
                             video1.style.display = 'block';
