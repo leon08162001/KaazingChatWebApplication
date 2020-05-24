@@ -132,6 +132,7 @@
     <Content Include="lib\client\javascript\browser-detect.umd.js" />
     <Content Include="lib\client\javascript\DF5963E0C7FF945789FBBD2CCD142D2F.cache.js" />
     <Content Include="lib\client\javascript\MediaStreamRecorder.min.js" />
+    <Content Include="lib\client\javascript\moment.min.js" />
     <Content Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

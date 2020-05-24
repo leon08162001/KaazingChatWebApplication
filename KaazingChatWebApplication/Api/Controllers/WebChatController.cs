@@ -478,7 +478,7 @@ namespace KaazingTestWebApplication.Controllers
             return apiResult;
         }
         private void WriteVideoStreamToFile(byte[] streamByteAry, string VideoName){
-            using (FileStream fs = new FileStream(@"D:\VideoStream\" + VideoName + ".webm", File.Exists(@"D:\VideoStream\" + VideoName + ".webm") ? FileMode.Append : FileMode.OpenOrCreate)){
+            using (FileStream fs = new FileStream(@"D:\VideoStream\" + VideoName, File.Exists(@"D:\VideoStream\" + VideoName) ? FileMode.Append : FileMode.OpenOrCreate)){
                 fs.Write(streamByteAry, 0, streamByteAry.Length);
             }
         }
