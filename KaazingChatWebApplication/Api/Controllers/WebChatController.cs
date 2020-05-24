@@ -15,6 +15,7 @@ using System.Web.Http;
 using Dapper;
 using System.Linq;
 using KaazingChatWebApplication.Helper;
+using System.IO;
 
 namespace KaazingTestWebApplication.Controllers
 {
@@ -377,6 +378,7 @@ namespace KaazingTestWebApplication.Controllers
                 String mqUrl = HttpContext.Current.Request["mqUrl"].ToString();
                 String mimetype = HttpContext.Current.Request["mimetype"].ToString();
                 HttpPostedFile File = HttpContext.Current.Request.Files["stream"];
+                String videoName = HttpContext.Current.Request["videoname"] != null ? HttpContext.Current.Request["videoname"].ToString() : "";
 
                 config = (Config)applicationContext.GetObject("Config");
                 JefferiesExcuReport.WebSocketUri = mqUrl.Replace("ws://", "").Replace("wss://", "");
@@ -385,6 +387,7 @@ namespace KaazingTestWebApplication.Controllers
                 JefferiesExcuReport.UserName = config.KaazingWebSocketUserID;
                 JefferiesExcuReport.PassWord = config.KaazingWebSocketPwd;
                 JefferiesExcuReport.Start();
+
                 //多個人
                 if (topicOrQueueName.IndexOf(",") != -1)
                 {
@@ -439,11 +442,19 @@ namespace KaazingTestWebApplication.Controllers
                             if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
                             {
                                 read = File.InputStream.Read(buffer, 0, buffer.Length);
+                                if (!videoName.Equals(""))
+                                {
+                                    WriteVideoStreamToFile(buffer, videoName);
+                                }
                                 JefferiesExcuReport.SendStream("STREAM." + mimetype.Split(new char[] { '/' })[1], buffer, sequence, totalSequence, sender);
                             }
                             else if (sequence == totalSequence && remaining % buffer.Length > 0)
                             {
                                 read = File.InputStream.Read(lstBuffer, 0, lstBuffer.Length);
+                                if (!videoName.Equals(""))
+                                {
+                                    WriteVideoStreamToFile(lstBuffer, videoName);
+                                }
                                 JefferiesExcuReport.SendStream("STREAM." + mimetype.Split(new char[] { '/' })[1], lstBuffer, sequence, totalSequence, sender);
                             }
                             remaining -= read;
@@ -465,6 +476,11 @@ namespace KaazingTestWebApplication.Controllers
                 JefferiesExcuReport.Close();
             }
             return apiResult;
+        }
+        private void WriteVideoStreamToFile(byte[] streamByteAry, string VideoName){
+            using (FileStream fs = new FileStream(@"D:\VideoStream\" + VideoName + ".webm", File.Exists(@"D:\VideoStream\" + VideoName + ".webm") ? FileMode.Append : FileMode.OpenOrCreate)){
+                fs.Write(streamByteAry, 0, streamByteAry.Length);
+            }
         }
         [HttpPost]
         [Route("GetWebSocketLoadBalancerUrlOld")]

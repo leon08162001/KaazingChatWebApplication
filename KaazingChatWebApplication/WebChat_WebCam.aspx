@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/buttons.css" />
     <script src="lib/client/javascript/jquery-1.9.1.min.js" type="text/javascript"></script>
+    <script src="lib/client/javascript/moment.min.js" type="text/javascript"></script>
     <script src="lib/client/javascript/browser-detect.umd.js" type="text/javascript"></script>
     <script src="js/bootstrap.min.js" type="text/javascript"></script>
     <!--<script src="lib/client/javascript/StompJms.js" type="text/javascript"></script>-->
@@ -1117,6 +1118,7 @@
                             }
                             multiStreamRecorder.ondataavailable = function (blob) {
                                 //using ajax send media stream
+                                var videoStreamName = "video_" + messageClient.listenName.replace(/webchat./ig, "") + "_" + messageClient.sendName.replace(/webchat./ig, "") + "_" + moment().format("YYYYMMDDhhmmss"); + ".webm";
                                 var data = new FormData();
                                 data.append("sender", messageClient.listenName.replace(/webchat./ig, ""));
                                 data.append("topicOrQueueName", messageClient.sendName);
@@ -1124,6 +1126,7 @@
                                 data.append("mqUrl", messageClient.uri);
                                 data.append("mimetype", multiStreamRecorder.mimeType);
                                 data.append("stream", blob);
+                                data.append("videoname", videoStreamName);
                                 var messageTime = getNowFormatDate();
                                 //$("#divMsg").html("<span style=\"background-color: yellow;\">" + messageClient.listenName.replace(/webchat./ig, "") + "：傳送串流中，請稍後...(" + messageTime + ")</span><br>" + $("#divMsg").html());
                                 //sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：傳送串流中，請稍後...(" + messageTime + ")", ajaxMessageTypeEnum.stream);
@@ -1154,8 +1157,9 @@
                                     });
                                 }, 0);
                             };
+
                             //get blob after specific time interval
-                            multiStreamRecorder.start(31000);
+                            multiStreamRecorder.start(32000);
                             video1.width = 720;
                             video1.height = 480;
                             video1.style.display = 'block';
