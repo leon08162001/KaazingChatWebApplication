@@ -996,8 +996,8 @@
                 var blob = new Blob([obj.stream], { type: obj.dataType });
                 var blobUrl = URL.createObjectURL(blob);
                 var video2 = $("#video2")[0];
-                video2.width = 720;
-                video2.height = 480;
+                video2.width = 1280;
+                video2.height = 720;
                 video2.src = blobUrl;
                 video2.style.display = 'block';
                 video2.controls = false;
@@ -1085,7 +1085,7 @@
         function startLiveVideo() {
             navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
             if (navigator.getUserMedia) {
-                navigator.getUserMedia({ audio: true, video: { width: 720, height: 480 } },
+                navigator.getUserMedia({ audio: true, video: { width: 1280, height: 720 } },
                     function (stream) {
                         mediaStream = stream;
                         $('#startLiveVideo').attr('disabled', true);
@@ -1160,8 +1160,8 @@
 
                             //get blob after specific time interval
                             multiStreamRecorder.start(32000);
-                            video1.width = 720;
-                            video1.height = 480;
+                            video1.width = 1280;
+                            video1.height = 720;
                             video1.style.display = 'block';
                             video1.play();
                         };
