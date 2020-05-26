@@ -1106,19 +1106,22 @@
                         }
                         video1.onloadedmetadata = function (e) {
                             //if (multiStreamRecorder && multiStreamRecorder.stream) return;
-                            if (browser.name != 'firefox') {
-                                multiStreamRecorder = new MultiStreamRecorder([stream]);
-                                multiStreamRecorder.mimeType = 'video/webm';
-                                multiStreamRecorder.stream = stream;
-                            }
-                            else {
-                                multiStreamRecorder = new MediaStreamRecorder(stream);
-                                multiStreamRecorder.mimeType = 'video/webm';
-                                multiStreamRecorder.stream = stream;
-                            }
+                            //if (browser.name != 'firefox') {
+                            //    multiStreamRecorder = new MultiStreamRecorder([stream]);
+                            //    multiStreamRecorder.mimeType = 'video/webm';
+                            //    multiStreamRecorder.stream = stream;
+                            //}
+                            //else {
+                            //    multiStreamRecorder = new MediaStreamRecorder(stream);
+                            //    multiStreamRecorder.mimeType = 'video/webm;codecs=vp9';
+                            //    multiStreamRecorder.stream = stream;
+                            //}
+                            multiStreamRecorder = new MediaStreamRecorder(stream);
+                            multiStreamRecorder.mimeType = 'video/webm';
+                            multiStreamRecorder.stream = stream;
                             multiStreamRecorder.ondataavailable = function (blob) {
                                 //using ajax send media stream
-                                var videoStreamName = "video_" + messageClient.listenName.replace(/webchat./ig, "") + "_" + messageClient.sendName.replace(/webchat./ig, "") + "_" + moment().format("YYYYMMDDhhmmss"); + ".webm";
+                                var videoStreamName = "video_" + messageClient.listenName.replace(/webchat./ig, "") + "_" + messageClient.sendName.replace(/webchat./ig, "") + "_" + moment().format("YYYYMMDDhhmmss") + ".webm";
                                 var data = new FormData();
                                 data.append("sender", messageClient.listenName.replace(/webchat./ig, ""));
                                 data.append("topicOrQueueName", messageClient.sendName);
