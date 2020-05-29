@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 
 namespace Common
@@ -18,6 +18,9 @@ namespace Common
         public string WebSocketReceivedMessageReservedSeconds = "20";
         public string Mq_port;
         public string Ems_port;
+
+        //WebChat Setting
+        public bool IsSaveVideoStreamToServer = false;
 
         //Tibco RV Setting
         public string Tibco_service;
@@ -120,6 +123,12 @@ namespace Common
                             {
                                 bool TestValue;
                                 IsUseSSL = bool.TryParse(config_value, out TestValue) ? TestValue : IsUseSSL;
+                                break;
+                            }
+                        case "ISSAVEVIDEOSTREAMTOSERVER":
+                            {
+                                bool TestValue;
+                                IsSaveVideoStreamToServer = bool.TryParse(config_value, out TestValue) ? TestValue : IsSaveVideoStreamToServer;
                                 break;
                             }
                         case "WEBSOCKETRECEIVEDMESSAGERESERVEDSECONDS":

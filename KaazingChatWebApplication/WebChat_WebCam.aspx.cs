@@ -19,6 +19,7 @@ namespace KaazingChatWebApplication
 
         protected string ClientIp = "";
         protected string KaazingJmsSvc = "";
+        protected bool IsSaveVideoStreamToServer = false;
         protected void Page_Load(object sender, EventArgs e)
         {
             applicationContext = ContextRegistry.GetContext();
@@ -26,6 +27,7 @@ namespace KaazingChatWebApplication
             //KaazingJmsSvc = config.IsUseSSL ? 
             //                "wss://" + config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service + "/jms" : 
             //                "ws://" + config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service + "/jms";
+            IsSaveVideoStreamToServer = config.IsSaveVideoStreamToServer;
             GetWebSocketLoadBalancerUrl();
             ClientIp = GetClientIp();
         }

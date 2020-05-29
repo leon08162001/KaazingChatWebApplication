@@ -30,6 +30,7 @@
 
         var failOverReconnectSecs = 15;
         var MY_WEBSOCKET_URL = "<%= KaazingJmsSvc %>";
+        var isSaveVideoStreamToServer = <%= IsSaveVideoStreamToServer.ToString().ToLower() %>;
         //var MY_WEBSOCKET_URL = "wss://192.168.43.114:9001/jms";
 
         //var messageTalkServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer";
@@ -1129,7 +1130,9 @@
                                 data.append("mqUrl", messageClient.uri);
                                 data.append("mimetype", multiStreamRecorder.mimeType);
                                 data.append("stream", blob);
-                                data.append("videoname", videoStreamName);
+                                if (isSaveVideoStreamToServer) {
+                                    data.append("videoname", videoStreamName);
+                                }
                                 var messageTime = getNowFormatDate();
                                 //$("#divMsg").html("<span style=\"background-color: yellow;\">" + messageClient.listenName.replace(/webchat./ig, "") + "：傳送串流中，請稍後...(" + messageTime + ")</span><br>" + $("#divMsg").html());
                                 //sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：傳送串流中，請稍後...(" + messageTime + ")", ajaxMessageTypeEnum.stream);
