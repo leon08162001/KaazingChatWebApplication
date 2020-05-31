@@ -157,6 +157,36 @@
                     uiObj.insertBefore(timeSpanTag, uiObj.firstChild);
                     if (playLink != null) {
                         uiObj.insertBefore(playLink, uiObj.firstChild);
+                        $("body").on("click", "#" + playLink.id, function () {
+                            if (event.target.text.indexOf("視訊") != -1) {
+                                var video3 = $("#video3")[0];
+                                video3.onended = function () {
+                                    this.style.display = 'none';
+                                };
+                                var audio = $("#audio")[0];
+                                audio.pause();
+                                audio.src = "";
+                                audio.style.display = 'none';
+                                video3.src = mediaSourceList.find(x => x.id === event.target.id).url;
+                                video3.style.display = 'block';
+                                video3.load();
+                                video3.play();
+                            }
+                            else if (event.target.text.indexOf("音訊") != -1) {
+                                var audio = $("#audio")[0];
+                                audio.onended = function () {
+                                    this.style.display = 'none';
+                                };
+                                var video3 = $("#video3")[0];
+                                video3.pause();
+                                video3.src = "";
+                                video3.style.display = 'none';
+                                audio.src = mediaSourceList.find(x => x.id === event.target.id).url;
+                                audio.style.display = 'block';
+                                audio.load();
+                                audio.play();
+                            }
+                        });
                     }
                     uiObj.insertBefore(link, uiObj.firstChild);
                     uiObj.insertBefore(spanTag, uiObj.firstChild);
@@ -940,6 +970,7 @@
                 audio.play();
             }
         }
+        var mediaSourceList = [];
         function playLinkForVideoOrAudioFile(obj) {
             if (obj.dataType.toUpperCase().indexOf('MP4') != -1 || obj.dataType.toUpperCase().indexOf('OGG') != -1 ||
                 obj.dataType.toUpperCase().indexOf('WEBM') != -1 || obj.dataType.toUpperCase().indexOf('MPEG') != -1 ||
@@ -950,40 +981,43 @@
                 a.id = getUuid();
                 a.setAttribute("origintext", a.text);
                 a.href = "#";
+                a.blobUrl = blobUrl;
+                var mediaSource = { "id": a.id, "url": blobUrl };
+                mediaSourceList.push(mediaSource);
                 if (obj.dataType.toUpperCase().indexOf('MP4') != -1 || obj.dataType.toUpperCase().indexOf('OGG') != -1 || obj.dataType.toUpperCase().indexOf('WEBM') != -1) {
                     a.text = "(播放視訊)"
-                    a.addEventListener('click', function () {
-                        var video3 = $("#video3")[0];
-                        video3.onended = function () {
-                            this.style.display = 'none';
-                        };
-                        var audio = $("#audio")[0];
-                        audio.pause();
-                        audio.src = "";
-                        audio.style.display = 'none';
-                        video3.src = blobUrl;
-                        video3.style.display = 'block';
-                        video3.load();
-                        video3.play();
-                    });
+                    //a.addEventListener('click', function () {
+                    //    var video3 = $("#video3")[0];
+                    //    video3.onended = function () {
+                    //        this.style.display = 'none';
+                    //    };
+                    //    var audio = $("#audio")[0];
+                    //    audio.pause();
+                    //    audio.src = "";
+                    //    audio.style.display = 'none';
+                    //    video3.src = blobUrl;
+                    //    video3.style.display = 'block';
+                    //    video3.load();
+                    //    video3.play();
+                    //});
                 }
                 else if (obj.dataType.toUpperCase().indexOf('MPEG') != -1 || obj.dataType.toUpperCase().indexOf('WAV') != -1) {
                     a.text = obj.fileName.toUpperCase().indexOf('MP3') != -1 ||
                              obj.fileName.toUpperCase().indexOf('WAV') != -1 ? "(播放音訊)" : "";
-                    a.addEventListener('click', function () {
-                        var audio = $("#audio")[0];
-                        audio.onended = function () {
-                            this.style.display = 'none';
-                        };
-                        var video3 = $("#video3")[0];
-                        video3.pause();
-                        video3.src = "";
-                        video3.style.display = 'none';
-                        audio.src = blobUrl;
-                        audio.style.display = 'block';
-                        audio.load();
-                        audio.play();
-                    });
+                    //a.addEventListener('click', function () {
+                    //    var audio = $("#audio")[0];
+                    //    audio.onended = function () {
+                    //        this.style.display = 'none';
+                    //    };
+                    //    var video3 = $("#video3")[0];
+                    //    video3.pause();
+                    //    video3.src = "";
+                    //    video3.style.display = 'none';
+                    //    audio.src = blobUrl;
+                    //    audio.style.display = 'block';
+                    //    audio.load();
+                    //    audio.play();
+                    //});
                 }
                 return a;
             }
