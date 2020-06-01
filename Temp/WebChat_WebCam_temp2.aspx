@@ -172,7 +172,7 @@
                                 audio.pause();
                                 audio.src = "";
                                 audio.style.display = 'none';
-                                video3.src = mediaSourceList.find(x => x.id === event.target.id).url;
+                                video3.src = mediaSourceList.find(x => x.id == event.target.id).url;
                                 video3.style.display = 'block';
                                 video3.load();
                                 video3.play();
@@ -186,7 +186,7 @@
                                 video3.pause();
                                 video3.src = "";
                                 video3.style.display = 'none';
-                                audio.src = mediaSourceList.find(x => x.id === event.target.id).url;
+                                audio.src = mediaSourceList.find(x => x.id == event.target.id).url;
                                 audio.style.display = 'block';
                                 audio.load();
                                 audio.play();
@@ -1259,7 +1259,7 @@
                 }, 1000);
             });
 
-            $('#startLiveVideo').bind("click", function () {
+            $('#startLiveVideo').on("click", function () {
                 if (!$.trim($("#talkTo").val()) || !$.trim($("#listenFrom").val())) {
                     alert('My Name & TalkTo must key in');
                     return;
@@ -1267,7 +1267,7 @@
                 startLiveVideo();
             });
 
-            $('#closeLiveVideo').bind("click", function () {
+            $('#closeLiveVideo').on("click", function () {
                 if (!$.trim($("#talkTo").val()) || !$.trim($("#listenFrom").val())) {
                     alert('My Name & TalkTo must key in');
                     return;
