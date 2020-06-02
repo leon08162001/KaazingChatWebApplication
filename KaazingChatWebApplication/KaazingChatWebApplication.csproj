@@ -129,8 +129,10 @@
     <Content Include="lib\client\javascript\52D96B4F8585F9A9117EC18B3C071EEE.cache.js" />
     <Content Include="lib\client\javascript\761092AC7AB921CC729D4A9A662951D2.cache.js" />
     <Content Include="lib\client\javascript\9E7EF02171DCD8CC27F2FAB0AF52DBAD.cache.js" />
+    <Content Include="lib\client\javascript\browser-detect.umd.js" />
     <Content Include="lib\client\javascript\DF5963E0C7FF945789FBBD2CCD142D2F.cache.js" />
     <Content Include="lib\client\javascript\MediaStreamRecorder.min.js" />
+    <Content Include="lib\client\javascript\moment.min.js" />
     <Content Include="lib\client\javascript\WebChat.js" />
     <Content Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
