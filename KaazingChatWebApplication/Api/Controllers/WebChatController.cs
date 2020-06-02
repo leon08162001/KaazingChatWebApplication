@@ -444,7 +444,7 @@ namespace KaazingTestWebApplication.Controllers
                                 read = File.InputStream.Read(buffer, 0, buffer.Length);
                                 if (!videoName.Equals(""))
                                 {
-                                    WriteVideoStreamToFile(buffer, videoName);
+                                    WriteVideoStreamToFile(config.VideoStreamFileFolder, buffer, videoName);
                                 }
                                 JefferiesExcuReport.SendStream("STREAM." + mimetype.Split(new char[] { '/' })[1], buffer, sequence, totalSequence, sender);
                             }
@@ -453,7 +453,7 @@ namespace KaazingTestWebApplication.Controllers
                                 read = File.InputStream.Read(lstBuffer, 0, lstBuffer.Length);
                                 if (!videoName.Equals(""))
                                 {
-                                    WriteVideoStreamToFile(lstBuffer, videoName);
+                                    WriteVideoStreamToFile(config.VideoStreamFileFolder, lstBuffer, videoName);
                                 }
                                 JefferiesExcuReport.SendStream("STREAM." + mimetype.Split(new char[] { '/' })[1], lstBuffer, sequence, totalSequence, sender);
                             }
@@ -477,8 +477,14 @@ namespace KaazingTestWebApplication.Controllers
             }
             return apiResult;
         }
-        private void WriteVideoStreamToFile(byte[] streamByteAry, string VideoName){
-            using (FileStream fs = new FileStream(@"D:\VideoStream\" + VideoName, File.Exists(@"D:\VideoStream\" + VideoName) ? FileMode.Append : FileMode.OpenOrCreate)){
+        private void WriteVideoStreamToFile(string folderPath, byte[] streamByteAry, string VideoName){
+            DirectoryInfo folderInfo = new DirectoryInfo(folderPath);
+            if(!folderInfo.Exists)
+            {
+                folderInfo.Create();
+            }
+            using (FileStream fs = new FileStream(Path.Combine(folderInfo.FullName, VideoName), File.Exists(Path.Combine(folderInfo.FullName, VideoName)) ? FileMode.Append : FileMode.OpenOrCreate))
+            {
                 fs.Write(streamByteAry, 0, streamByteAry.Length);
             }
         }

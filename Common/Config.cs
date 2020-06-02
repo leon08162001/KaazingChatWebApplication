@@ -11,7 +11,7 @@ namespace Common
 
         //Kaazing WebSocket Setting
         public string KaazingWebSocketUserID = "";
-         public string KaazingWebSocketPwd = "";
+        public string KaazingWebSocketPwd = "";
         public string KaazingWebSocket_service;
         public string KaazingWebSocket_network;
         public bool IsUseSSL = false;
@@ -21,6 +21,7 @@ namespace Common
 
         //WebChat Setting
         public bool IsSaveVideoStreamToServer = false;
+        public string VideoStreamFileFolder = "";
 
         //Tibco RV Setting
         public string Tibco_service;
@@ -131,6 +132,9 @@ namespace Common
                                 IsSaveVideoStreamToServer = bool.TryParse(config_value, out TestValue) ? TestValue : IsSaveVideoStreamToServer;
                                 break;
                             }
+                        case "VIDEOSTREAMFILEFOLDER":
+                            VideoStreamFileFolder = config_value;
+                            break;
                         case "WEBSOCKETRECEIVEDMESSAGERESERVEDSECONDS":
                             {
                                 int TestValue;
