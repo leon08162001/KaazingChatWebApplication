@@ -14,6 +14,7 @@ function MessageClient(uri, userName, passWord, jmsServiceType, messageType, lis
     this.jmsServiceType = jmsServiceType;
     this.messageType = messageType;
     this.listenName = listenName;
+    this.funcName = "";
     this.sendName = sendName;
     this.WebUiObject = WebUiObject;
     this.messageReceivedHandlers = [];
@@ -45,22 +46,22 @@ MessageClient.prototype = (function () {
         });
     };
 
-    var triggerConnectionStarted = function (errorMsg) {
+    var triggerConnectionStarted = function (funcName) {
         var scope = this;
         this.connectionStartedHandlers.forEach(function (item) {
-            item.call(scope, errorMsg);
+            item.call(scope, funcName);
         });
     };
 
-    var triggerConnectionClosed = function (errorMsg) {
+    var triggerConnectionClosed = function (funcName) {
         var scope = this;
         this.connectionClosedHandlers.forEach(function (item) {
-            item.call(scope, errorMsg);
+            item.call(scope, funcName);
         });
     };
 
     var processMessage = function (message) {
-        if (message.getJMSType() == null) {
+        if (message.getJMSType() === null) {
             if (isJson(message.getText())) {
                 var json = eval("(" + message.getText() + ")");
                 jsonObj = JSON.parse(JSON.stringify(json));
@@ -71,14 +72,15 @@ MessageClient.prototype = (function () {
             }
         }
         else {
-            if (message.getJMSType().toString() == "file") {
-                var seq = parseInt(message.getStringProperty("sequence"));
-                var ttlSeq = parseInt(message.getStringProperty("totalSequence"));
-                var length = message.getBodyLength();
-                var arrayBuffer = new ArrayBuffer(length);
-                var uint8Buffer = new Uint8Array(arrayBuffer);
+            var seq, ttlSeq, length, arrayBuffer, uint8Buffer;
+            if (message.getJMSType().toString() === "file") {
+                seq = parseInt(message.getStringProperty("sequence"));
+                ttlSeq = parseInt(message.getStringProperty("totalSequence"));
+                length = message.getBodyLength();
+                arrayBuffer = new ArrayBuffer(length);
+                uint8Buffer = new Uint8Array(arrayBuffer);
                 message.readBytes(uint8Buffer, length);
-                if (seq == 1) {
+                if (seq === 1) {
                     jsonObj = new Object();
                     jsonObj.id = message.getStringProperty("id");
                     jsonObj.dataType = message.getStringProperty("datatype");
@@ -88,28 +90,28 @@ MessageClient.prototype = (function () {
                 if (seq > 1 && seq <= ttlSeq) {
                     jsonObj.file = concatBuffers(jsonObj.file, arrayBuffer);
                 }
-                if (seq == ttlSeq) {
+                if (seq === ttlSeq) {
                     triggerMessageReceived.call(that, jsonObj);
                 }
             }
-            else if (message.getJMSType().toString() == "stream") {
-                var seq = parseInt(message.getStringProperty("sequence"));
-                var ttlSeq = parseInt(message.getStringProperty("totalSequence"));
-                var length = message.getBodyLength();
-                var arrayBuffer = new ArrayBuffer(length);
-                var uint8Buffer = new Uint8Array(arrayBuffer);
+            else if (message.getJMSType().toString() === "stream") {
+                seq = parseInt(message.getStringProperty("sequence"));
+                ttlSeq = parseInt(message.getStringProperty("totalSequence"));
+                length = message.getBodyLength();
+                arrayBuffer = new ArrayBuffer(length);
+                uint8Buffer = new Uint8Array(arrayBuffer);
                 message.readBytes(uint8Buffer, length);
-                if (seq == 1) {
+                if (seq === 1) {
                     jsonObj = new Object();
                     jsonObj.id = message.getStringProperty("id");
                     jsonObj.dataType = message.getStringProperty("datatype");
-                    jsonObj.fileName = message.getStringProperty("filename");
-                    jsonObj.file = arrayBuffer;
+                    jsonObj.streamName = message.getStringProperty("streamname");
+                    jsonObj.stream = arrayBuffer;
                 }
                 if (seq > 1 && seq <= ttlSeq) {
-                    jsonObj.file = concatBuffers(jsonObj.file, arrayBuffer);
+                    jsonObj.stream = concatBuffers(jsonObj.stream, arrayBuffer);
                 }
-                if (seq == ttlSeq) {
+                if (seq === ttlSeq) {
                     triggerMessageReceived.call(that, jsonObj);
                 }
             }
@@ -129,7 +131,7 @@ MessageClient.prototype = (function () {
     };
 
     var handleException = function (e) {
-        if (e.type != "ConnectionDroppedException" && e.type != "ConnectionRestoredException" && e.type != "ReconnectFailedException" && e.type != "IllegalStateException") {
+        if (e.type !== "ConnectionDroppedException" && e.type !== "ConnectionRestoredException" && e.type !== "ReconnectFailedException" && e.type !== "IllegalStateException") {
             errLog = "EXCEPTION: " + e;
             console.error(errLog);
             window.alert(errLog);
@@ -147,8 +149,9 @@ MessageClient.prototype = (function () {
             var sendTopicOrQueue;
             var jmsServiceType = this.jmsServiceType;
             var messageType = this.messageType;
-            var listenName = messageType == 1 ? "/topic/" + this.listenName : "/queue/" + this.listenName;
-            var sendName = messageType == 1 ? "/topic/" + this.sendName : "/queue/" + this.sendName;
+            var listenName = messageType === 1 ? "/topic/" + this.listenName : "/queue/" + this.listenName;
+            var sendName = messageType === 1 ? "/topic/" + this.sendName : "/queue/" + this.sendName;
+            var funcName = this.funcName;
             var clientIp = this.clientIp;
             //var macAddr;
             try {
@@ -161,7 +164,7 @@ MessageClient.prototype = (function () {
                             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
                             // *** Task 3 ***
                             // Creating topic or queue
-                            if (messageType == 1) {
+                            if (messageType === 1) {
                                 listenTopicOrQueue = session.createTopic(listenName);
                                 sendTopicOrQueue = session.createTopic(sendName);
                             }
@@ -174,8 +177,8 @@ MessageClient.prototype = (function () {
 
                             // *** Task 4 ***
                             // Creating topic or queue Consumer
-                            if (messageType == 1) {
-                                if (jmsServiceType == 1) {
+                            if (messageType === 1) {
+                                if (jmsServiceType === 1) {
                                     topicOrQueueConsumer = session.createConsumer(listenTopicOrQueue);
                                 }
                                 else {
@@ -203,14 +206,14 @@ MessageClient.prototype = (function () {
 
                             connection.start(function () {
                                 // Put any callback logic here.
-                                triggerConnectionStarted.call(that, "");
+                                triggerConnectionStarted.call(that, funcName);
                             });
                         } catch (e) {
                             handleException(e);
                             //triggerConnectionStarted.call(that, e);
                         }
                     } else {
-                        if (loginMsg != "") {
+                        if (loginMsg !== "") {
                             handleException(loginMsg);
                             return;
                         }
@@ -225,6 +228,7 @@ MessageClient.prototype = (function () {
         },
 
         close: function () {
+            var funcName = this.funcName;
             try {
                 if (topicOrQueueConsumer) {
                     topicOrQueueConsumer.close(null);
@@ -234,7 +238,7 @@ MessageClient.prototype = (function () {
                 }
                 connection.close(function () {
                     errLog = "";
-                    triggerConnectionClosed.call(that, "");
+                    triggerConnectionClosed.call(that, funcName);
                 });
             }
             catch (e) {
@@ -291,12 +295,12 @@ MessageClient.prototype = (function () {
         onMessageReceived: function (fn) {
             var chkExistFunc = this.messageReceivedHandlers.filter(
                 function (item) {
-                    if (item == fn) {
+                    if (item === fn) {
                         return item;
                     }
                 }
             );
-            if (chkExistFunc.length == 0) {
+            if (chkExistFunc.length === 0) {
                 this.messageReceivedHandlers.push(fn);
             }
         },
@@ -314,12 +318,12 @@ MessageClient.prototype = (function () {
         onConnectionStarted: function (fn) {
             var chkExistFunc = this.connectionStartedHandlers.filter(
                 function (item) {
-                    if (item == fn) {
+                    if (item === fn) {
                         return item;
                     }
                 }
             );
-            if (chkExistFunc.length == 0) {
+            if (chkExistFunc.length === 0) {
                 this.connectionStartedHandlers.push(fn);
             }
         },
@@ -337,12 +341,12 @@ MessageClient.prototype = (function () {
         onConnectionClosed: function (fn) {
             var chkExistFunc = this.connectionClosedHandlers.filter(
                 function (item) {
-                    if (item == fn) {
+                    if (item === fn) {
                         return item;
                     }
                 }
             );
-            if (chkExistFunc.length == 0) {
+            if (chkExistFunc.length === 0) {
                 this.connectionClosedHandlers.push(fn);
             }
         },
@@ -413,11 +417,7 @@ function _uuid() {
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
 }
-/**
- * Get the user IP throught the webkitRTCPeerConnection
- * @param onNewIP {Function} listener function to expose the IP locally
- * @return undefined
- */
+//Get the user IP throught the webkitRTCPeerConnection
 function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
     //compatibility for firefox and chrome
     var myPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
