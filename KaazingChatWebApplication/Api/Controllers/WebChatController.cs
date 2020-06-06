@@ -95,7 +95,7 @@ namespace KaazingTestWebApplication.Controllers
                     }
                 }
                 //test code begin
-                apiResult = Ok(new { success = true });
+                apiResult = Ok(new { Id="0000", Message = "" });
             }
             catch (Exception ex)
             {
@@ -138,7 +138,7 @@ namespace KaazingTestWebApplication.Controllers
                     JefferiesExcuReport.SendMessage(Message.message);
                 }
                 if (log.IsInfoEnabled) log.InfoFormat("SendReadMessageToServer from {0}", Assembly.GetExecutingAssembly().GetName().Name);
-                apiResult = Ok(new { success = true });
+                apiResult = Ok(new { Id = "0000", Message = "" });
             }
             catch (Exception ex)
             {
@@ -269,7 +269,7 @@ namespace KaazingTestWebApplication.Controllers
                         Files[i].InputStream.Seek(0, System.IO.SeekOrigin.Begin);
                     }
                 }
-                apiResult = Ok(new { success = true });
+                apiResult = Ok(new { Id = "0000", Message = "" });
             }
             catch (Exception ex)
             {
@@ -310,7 +310,7 @@ namespace KaazingTestWebApplication.Controllers
                     JefferiesExcuReport1.SendFile(Files[i].FileName, bytes, sender);
                     if (log.IsInfoEnabled) log.InfoFormat("Send File({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
                 }
-                apiResult = Ok(new { success = true });
+                apiResult = Ok(new { Id = "0000", Message = "" });
             }
             catch (Exception ex)
             {
@@ -351,7 +351,7 @@ namespace KaazingTestWebApplication.Controllers
                     JefferiesExcuReport2.SendFile(Files[i].FileName, bytes, sender);
                     if (log.IsInfoEnabled) log.InfoFormat("Send File({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
                 }
-                apiResult = Ok(new { success = true });
+                apiResult = Ok(new { Id = "0000", Message = "" });
             }
             catch (Exception ex)
             {
@@ -464,7 +464,7 @@ namespace KaazingTestWebApplication.Controllers
                         File.InputStream.Seek(0, System.IO.SeekOrigin.Begin);
                     }
                 }
-                apiResult = Ok(new { success = true });
+                apiResult = Ok(new { Id = "0000", Message = "" });
             }
             catch (Exception ex)
             {
@@ -651,7 +651,7 @@ namespace KaazingTestWebApplication.Controllers
                     sql = "UPDATE [ChatDialogue] set htmlMessage=@htmlMessage,oprTime=@oprTime,oprIpAddress=@oprIpAddress where id=@id AND receiver=@receiver AND date=@date";
                 }
                 int iRows = cn.Execute(sql, Message);
-                apiResult = Ok(new { success = true });
+                apiResult = Ok(new { Id = "0000", Message = "" });
             }
             catch (Exception ex)
             {
@@ -716,7 +716,7 @@ namespace KaazingTestWebApplication.Controllers
                     sql = "UPDATE [ChatDialogue] set htmlMessage=@htmlMessage,oprTime=@oprTime,oprIpAddress=@oprIpAddress where id=@id AND receiver=@receiver AND date=@date";
                 }
                 int iRows = cn.Execute(sql, Message);
-                apiResult = Ok(new { success = true });
+                apiResult = Ok(new { Id = "0000", Message = "" });
             }
             catch (Exception ex)
             {
