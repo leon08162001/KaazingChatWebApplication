@@ -144,7 +144,8 @@ var handleMessage = function (uiObj, message) {
                         audio.pause();
                         audio.src = "";
                         audio.style.display = 'none';
-                        video3.src = mediaSourceList.find(x => x.id === event.target.id).url;
+                        //video3.src = mediaSourceList.find(x => x.id === event.target.id).url;
+                        video3.src = mediaSourceList.filter(function (x) { return x.id === event.target.id })[0].url;
                         video3.style.display = 'block';
                         video3.load();
                         video3.play();
@@ -158,7 +159,8 @@ var handleMessage = function (uiObj, message) {
                         video3.pause();
                         video3.src = "";
                         video3.style.display = 'none';
-                        audio.src = mediaSourceList.find(x => x.id === event.target.id).url;
+                        //audio.src = mediaSourceList.find(x => x.id === event.target.id).url;
+                        audio.src = mediaSourceList.filter(function (x) { return x.id === event.target.id })[0].url;
                         audio.style.display = 'block';
                         audio.load();
                         audio.play();
@@ -1092,7 +1094,10 @@ function closeLiveVideo() {
 $(document).ready(function () {
     var video2 = document.querySelector('#video2');
 
-    video2.onended = (event) => {
+    //video2.onended = (event) => {
+    //    video2.pause();
+    //};
+    video2.onended = function(event) {
         video2.pause();
     };
 
