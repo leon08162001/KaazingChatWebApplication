@@ -6,7 +6,7 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Kaazing Web Socket Test</title>
+    <title>WebSocket網頁聊天室</title>
     <link href="https://afeld.github.io/emoji-css/emoji.css" rel="stylesheet" />
     <link href='https://unpkg.com/emoji.css/dist/emoji.min.css' rel='stylesheet' />
     <link rel="stylesheet" href="css/bootstrap.css" />
