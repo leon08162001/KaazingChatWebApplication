@@ -115,7 +115,7 @@ MessageClient.prototype = (function () {
                     triggerMessageReceived.call(that, jsonObj);
                 }
             }
-            //if (message.getJMSType().toString() == "file") {
+            //if (message.getJMSType().toString() === "file") {
             //    var length = message.getBodyLength();
             //    var arrayBuffer = new ArrayBuffer(length);
             //    var uint8Buffer = new Uint8Array(arrayBuffer);
