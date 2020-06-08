@@ -322,7 +322,7 @@ var closeMessageClient = function () {
     catch (e) {
         $("#divMsg").append(e + "<br>");
     }
-}
+};
 
 var sendMessage = function () {
     if ($.trim($("#message").val()).length === 0) {
@@ -332,7 +332,7 @@ var sendMessage = function () {
     var messageTime = getNowFormatDate();
     $("#divMsg").html("<span style=\"background-color: yellow;\"><pre>" + $.trim($("#listenFrom").val()).toUpperCase() + "：" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span></span><br>" + $("#divMsg").html());
     messageClient.sendMessage(JSON.stringify("<pre>" + $.trim($("#listenFrom").val()).toUpperCase() + "：" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span>"));
-}
+};
 //../KaazingChatWebService/ChatService.asmx/SendMessageToServer
 //https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer
 
@@ -384,7 +384,7 @@ var chatUpdate = function (chat, isAsync) {
                 });
         }
     }
-}
+};
 
 var sendAjaxTalkMessage1 = function () {
     var uuid = getUuid();
@@ -425,7 +425,7 @@ var sendAjaxTalkMessage1 = function () {
             }
             //window.alert(err.Message);
         });
-}
+};
 
 var sendAjaxTalkMessage = function () {
     allReceivedNum = 0;
@@ -507,7 +507,7 @@ var sendAjaxTalkMessage = function () {
             XHR = null;
         }
     });
-}
+};
 
 var getChatToday = function () {
     var serviceUrl = "api/WebChat/GetChatToday";
@@ -556,7 +556,7 @@ var getChatToday = function () {
                 window.alert(obj.Message);
             }
         });
-}
+};
 
 var getChatHistory = function () {
     var serviceUrl = "api/WebChat/GetChatHistory";
@@ -593,7 +593,7 @@ var getChatHistory = function () {
                 window.alert(obj.Message);
             }
         });
-}
+};
 
 var sendAjaxMessage = function (message, ajaxMessageType) {
     var data = {};
@@ -628,7 +628,7 @@ var sendAjaxMessage = function (message, ajaxMessageType) {
             XHR = null;
         }
     });
-}
+};
 
 var b64toBlob = function (b64Data, contentType, sliceSize) {
     contentType !== undefined ? contentType : '';
