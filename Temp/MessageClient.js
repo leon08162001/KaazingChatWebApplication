@@ -396,7 +396,7 @@ function setupSSO(webSocketFactory, userID, Pwd) {
         else {
             login(callback, userID, Pwd);
         }
-    }
+    };
     webSocketFactory.setChallengeHandler(basicHandler);
     //ChallengeHandlers.setDefault(basicHandler);
 }
