@@ -110,7 +110,7 @@ var handleMessage = function (uiObj, message) {
         }
         else {
             sendAjaxMessage(message + readedHtml, ajaxMessageTypeEnum.read);
-            bindMessageToUI(uiObj, message + "<br>")
+            bindMessageToUI(uiObj, message + "<br>");
         }
     }
     else if (Object.prototype.toString.call(message) === '[object Array]') {
@@ -178,10 +178,10 @@ var handleMessage = function (uiObj, message) {
             for (var field in message) {
                 sMessage += field.toString() + "=" + message[field] + "<br>";
             }
-            bindMessageToUI(uiObj, sMessage)
+            bindMessageToUI(uiObj, sMessage);
         }
     }
-}
+};
 
 var handleConnectStarted = function (funcName) {
     $('#openMessageClient').attr('disabled', true);
@@ -197,7 +197,7 @@ var handleConnectStarted = function (funcName) {
         $('#closeLiveVideo').attr('disabled', false);
     }
     window.alert(funcName + "已啟動!");
-}
+};
 
 var handleConnectClosed = function (funcName) {
     $('#btnUploadFile').attr('disabled', true);
@@ -213,7 +213,7 @@ var handleConnectClosed = function (funcName) {
         $('#closeLiveVideo').attr('disabled', true);
     }
     window.alert(funcName + "已關閉!");
-}
+};
 
 var bindMessageToUI = function (uiObj, value) {
     allReceivedNum += 1;
@@ -262,11 +262,11 @@ var bindMessageToUI = function (uiObj, value) {
         helper.innerHTML = value;
         uiObj.insertBefore(helper, uiObj.firstChild);
     }
-}
+};
 
 var bindLinkToUI = function (uiObj, link) {
     uiObj.innerHTML = link.outerHTML + "<br>" + uiObj.innerHTML;
-}
+};
 
 var clickHandler = function (item) {
     log.add("fired: " + item);
@@ -289,7 +289,7 @@ var openMessageClient = function (funcName) {
         messageClient.listenName = ("webchat." + $.trim($("#listenFrom").val())).toUpperCase();
         messageClient.funcName = funcName;
         //messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z-]+/g).filter(v => v).join(',').toUpperCase();
-        messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
+        messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
         messageClient.onMessageReceived(handleMessage);
         messageClient.onConnectionStarted(handleConnectStarted);
         messageClient.onConnectionClosed(handleConnectClosed);
@@ -450,9 +450,12 @@ var sendAjaxTalkMessage = function () {
         data.message = $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\">" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span>";
     }
     data.times = Number($("#times").val());
-    data.topicOrQueueName = messageClient.sendName;
-    data.messageType = Number(messageClient.messageType);
-    data.mqUrl = messageClient.uri;
+    //data.topicOrQueueName = messageClient.sendName;
+    data.topicOrQueueName = "";
+    //data.messageType = Number(messageClient.messageType);
+    data.messageType = 1;
+    //data.mqUrl = messageClient.uri;
+    data.mqUrl = "";
     $("#sendMessage").attr('disabled', true);
     var i;
     if ($("#message").val().indexOf("https://") === 0 || $("#message").val().indexOf("http://") === 0) {
@@ -603,7 +606,7 @@ var sendAjaxMessage = function (message, ajaxMessageType) {
         data.topicOrQueueName = messageClient.sendName.indexOf(",") > -1 ? ("webchat." + message.substr(0, message.indexOf("："))).toUpperCase() : messageClient.sendName;
     }
     else {
-        data.topicOrQueueName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
+        data.topicOrQueueName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
     }
     data.messageType = Number(messageClient.messageType);
     data.mqUrl = messageClient.uri;
@@ -840,7 +843,7 @@ function playLinkForVideoOrAudioFile(obj) {
         var mediaSource = { "id": a.id, "url": blobUrl };
         mediaSourceList.push(mediaSource);
         if (obj.dataType.toUpperCase().indexOf('MP4') !== -1 || obj.dataType.toUpperCase().indexOf('OGG') !== -1 || obj.dataType.toUpperCase().indexOf('WEBM') !== -1) {
-            a.text = "(播放視訊)"
+            a.text = "(播放視訊)";
             //a.addEventListener('click', function () {
             //    var video3 = $("#video3")[0];
             //    video3.onended = function () {
@@ -1154,7 +1157,7 @@ $(document).ready(function () {
             chatUpdate(chat, true);
             $("#divMsg").html("");
             //messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z-]+/g).filter(function (v) {return v }).join(',').toUpperCase();
-            messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
+            messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
             getChatToday();
             getChatHistory();
         }
