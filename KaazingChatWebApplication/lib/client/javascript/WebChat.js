@@ -110,7 +110,7 @@ var handleMessage = function (uiObj, message) {
         }
         else {
             sendAjaxMessage(message + readedHtml, ajaxMessageTypeEnum.read);
-            bindMessageToUI(uiObj, message + "<br>")
+            bindMessageToUI(uiObj, message + "<br>");
         }
     }
     else if (Object.prototype.toString.call(message) === '[object Array]') {
@@ -132,35 +132,36 @@ var handleMessage = function (uiObj, message) {
             timeSpanTag.innerText = "(" + messageTime + ")";
             uiObj.insertBefore(brTag, uiObj.firstChild);
             uiObj.insertBefore(timeSpanTag, uiObj.firstChild);
-            if (playLink != null) {
+            if (playLink !== null) {
                 uiObj.insertBefore(playLink, uiObj.firstChild);
                 $("body").on("click", "#" + playLink.id, function () {
-                    if (event.target.text.indexOf("視訊") != -1) {
-                        var video3 = $("#video3")[0];
+                    var video3, audio;
+                    if (event.target.text.indexOf("視訊") !== -1) {
+                        video3 = $("#video3")[0];
                         video3.onended = function () {
                             this.style.display = 'none';
                         };
-                        var audio = $("#audio")[0];
+                        audio = $("#audio")[0];
                         audio.pause();
                         audio.src = "";
                         audio.style.display = 'none';
                         //video3.src = mediaSourceList.find(x => x.id === event.target.id).url;
-                        video3.src = mediaSourceList.filter(function (x) { return x.id === event.target.id })[0].url;
+                        video3.src = mediaSourceList.filter(function (x) { return x.id === event.target.id; })[0].url;
                         video3.style.display = 'block';
                         video3.load();
                         video3.play();
                     }
-                    else if (event.target.text.indexOf("音訊") != -1) {
-                        var audio = $("#audio")[0];
+                    else if (event.target.text.indexOf("音訊") !== -1) {
+                        audio = $("#audio")[0];
                         audio.onended = function () {
                             this.style.display = 'none';
                         };
-                        var video3 = $("#video3")[0];
+                        video3 = $("#video3")[0];
                         video3.pause();
                         video3.src = "";
                         video3.style.display = 'none';
                         //audio.src = mediaSourceList.find(x => x.id === event.target.id).url;
-                        audio.src = mediaSourceList.filter(function (x) { return x.id === event.target.id })[0].url;
+                        audio.src = mediaSourceList.filter(function (x) { return x.id === event.target.id; })[0].url;
                         audio.style.display = 'block';
                         audio.load();
                         audio.play();
@@ -177,10 +178,10 @@ var handleMessage = function (uiObj, message) {
             for (var field in message) {
                 sMessage += field.toString() + "=" + message[field] + "<br>";
             }
-            bindMessageToUI(uiObj, sMessage)
+            bindMessageToUI(uiObj, sMessage);
         }
     }
-}
+};
 
 var handleConnectStarted = function (funcName) {
     $('#openMessageClient').attr('disabled', true);
@@ -196,7 +197,7 @@ var handleConnectStarted = function (funcName) {
         $('#closeLiveVideo').attr('disabled', false);
     }
     window.alert(funcName + "已啟動!");
-}
+};
 
 var handleConnectClosed = function (funcName) {
     $('#btnUploadFile').attr('disabled', true);
@@ -212,11 +213,12 @@ var handleConnectClosed = function (funcName) {
         $('#closeLiveVideo').attr('disabled', true);
     }
     window.alert(funcName + "已關閉!");
-}
+};
 
 var bindMessageToUI = function (uiObj, value) {
     allReceivedNum += 1;
     if (value.toString().indexOf(readedHtml) > 0) {
+        var num, iNum;
         if (value.toString().indexOf('id') > -1) {
             var messageID = $(value).find("span")[0].getAttribute("id");
             //傳送一筆時(單人及多人適用)
@@ -227,12 +229,12 @@ var bindMessageToUI = function (uiObj, value) {
                 }
                 //找得到已讀
                 else {
-                    var num = $("#" + messageID).html().match("已讀(.*)</span>")[1];
+                    num = $("#" + messageID).html().match("已讀(.*)</span>")[1];
                     if (!$.isNumeric(num)) {
                         $("#" + messageID).html($("#" + messageID).html().replace("已讀", "已讀2"));
                     }
                     else {
-                        var iNum = parseInt(num) + 1;
+                        iNum = parseInt(num) + 1;
                         $("#" + messageID).html($("#" + messageID).html().replace("已讀" + num, "已讀" + iNum.toString()));
                     }
                 }
@@ -246,8 +248,8 @@ var bindMessageToUI = function (uiObj, value) {
                 //找得到已讀
                 else {
                     var times = $.isNumeric($("#times").val()) ? parseInt($("#times").val()) : 0;
-                    var num = $("[id='" + messageID + "']").html().match("已讀(.*)</span>")[1];
-                    var iNum = parseInt(allReceivedNum / times);
+                    num = $("[id='" + messageID + "']").html().match("已讀(.*)</span>")[1];
+                    iNum = parseInt(allReceivedNum / times);
                     if (iNum > 1) {
                         $("[id='" + messageID + "']").html($("[id='" + messageID + "']").html().replace("已讀" + num, "已讀" + iNum.toString()));
                     }
@@ -260,11 +262,11 @@ var bindMessageToUI = function (uiObj, value) {
         helper.innerHTML = value;
         uiObj.insertBefore(helper, uiObj.firstChild);
     }
-}
+};
 
 var bindLinkToUI = function (uiObj, link) {
     uiObj.innerHTML = link.outerHTML + "<br>" + uiObj.innerHTML;
-}
+};
 
 var clickHandler = function (item) {
     log.add("fired: " + item);
@@ -287,7 +289,7 @@ var openMessageClient = function (funcName) {
         messageClient.listenName = ("webchat." + $.trim($("#listenFrom").val())).toUpperCase();
         messageClient.funcName = funcName;
         //messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z-]+/g).filter(v => v).join(',').toUpperCase();
-        messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
+        messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
         messageClient.onMessageReceived(handleMessage);
         messageClient.onConnectionStarted(handleConnectStarted);
         messageClient.onConnectionClosed(handleConnectClosed);
@@ -305,8 +307,8 @@ var openMessageClient = function (funcName) {
 
 var closeMessageClient = function () {
     try {
-        if (event && multiStreamRecorder != null) {
-            alert("視訊開啟中，請先關閉視訊!")
+        if (event && multiStreamRecorder !== null) {
+            alert("視訊開啟中，請先關閉視訊!");
             return;
         }
         if (messageClient) {
@@ -320,7 +322,7 @@ var closeMessageClient = function () {
     catch (e) {
         $("#divMsg").append(e + "<br>");
     }
-}
+};
 
 var sendMessage = function () {
     if ($.trim($("#message").val()).length === 0) {
@@ -330,7 +332,7 @@ var sendMessage = function () {
     var messageTime = getNowFormatDate();
     $("#divMsg").html("<span style=\"background-color: yellow;\"><pre>" + $.trim($("#listenFrom").val()).toUpperCase() + "：" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span></span><br>" + $("#divMsg").html());
     messageClient.sendMessage(JSON.stringify("<pre>" + $.trim($("#listenFrom").val()).toUpperCase() + "：" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span>"));
-}
+};
 //../KaazingChatWebService/ChatService.asmx/SendMessageToServer
 //https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer
 
@@ -382,7 +384,7 @@ var chatUpdate = function (chat, isAsync) {
                 });
         }
     }
-}
+};
 
 var sendAjaxTalkMessage1 = function () {
     var uuid = getUuid();
@@ -423,7 +425,7 @@ var sendAjaxTalkMessage1 = function () {
             }
             //window.alert(err.Message);
         });
-}
+};
 
 var sendAjaxTalkMessage = function () {
     allReceivedNum = 0;
@@ -452,8 +454,9 @@ var sendAjaxTalkMessage = function () {
     data.messageType = Number(messageClient.messageType);
     data.mqUrl = messageClient.uri;
     $("#sendMessage").attr('disabled', true);
+    var i;
     if ($("#message").val().indexOf("https://") === 0 || $("#message").val().indexOf("http://") === 0) {
-        for (var i = 0; i < Number($("#times").val()); i++) {
+        for (i = 0; i < Number($("#times").val()); i++) {
             $("#divMsg").html("<span style=\"background-color: yellow;\">" + $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\"><a href=\"" + $("#message").val() + "\" target=\"_blank\">" + $("#message").val().replace(/\n/g, '<br>') + "</a></pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span></span><br>" + $("#divMsg").html());
         }
     }
@@ -466,7 +469,7 @@ var sendAjaxTalkMessage = function () {
         $("#divMsg").html("<span style=\"background-color: yellow;\">" + $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\">" + $("#message").val().replace('<a href', '<a target=_blank href') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span></span><br>" + $("#divMsg").html());
     }
     else {
-        for (var i = 0; i < Number($("#times").val()); i++) {
+        for (i = 0; i < Number($("#times").val()); i++) {
             $("#divMsg").html("<span style=\"background-color: yellow;\">" + $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\">" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span></span><br>" + $("#divMsg").html());
         }
     }
@@ -504,7 +507,7 @@ var sendAjaxTalkMessage = function () {
             XHR = null;
         }
     });
-}
+};
 
 var getChatToday = function () {
     var serviceUrl = "api/WebChat/GetChatToday";
@@ -524,7 +527,7 @@ var getChatToday = function () {
                     $(this).on('click', function () {
                         setTimeout(function () {
                             if (a.text.indexOf("(已點擊下載)") === -1) {
-                                if (a.href.indexOf("blob:") != -1 || a.getAttribute("origintext")) {
+                                if (a.href.indexOf("blob:") !== -1 || a.getAttribute("origintext")) {
                                     a.removeAttribute("href");
                                     a.text = a.getAttribute("origintext") + "(已點擊下載)";
                                 }
@@ -553,7 +556,7 @@ var getChatToday = function () {
                 window.alert(obj.Message);
             }
         });
-}
+};
 
 var getChatHistory = function () {
     var serviceUrl = "api/WebChat/GetChatHistory";
@@ -590,7 +593,7 @@ var getChatHistory = function () {
                 window.alert(obj.Message);
             }
         });
-}
+};
 
 var sendAjaxMessage = function (message, ajaxMessageType) {
     var data = {};
@@ -600,7 +603,7 @@ var sendAjaxMessage = function (message, ajaxMessageType) {
         data.topicOrQueueName = messageClient.sendName.indexOf(",") > -1 ? ("webchat." + message.substr(0, message.indexOf("："))).toUpperCase() : messageClient.sendName;
     }
     else {
-        data.topicOrQueueName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
+        data.topicOrQueueName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
     }
     data.messageType = Number(messageClient.messageType);
     data.mqUrl = messageClient.uri;
@@ -625,7 +628,7 @@ var sendAjaxMessage = function (message, ajaxMessageType) {
             XHR = null;
         }
     });
-}
+};
 
 var b64toBlob = function (b64Data, contentType, sliceSize) {
     contentType !== undefined ? contentType : '';
@@ -655,7 +658,7 @@ var getWebSocketLoadBalancerUrlOld = function () {
         url: chkWebSocketLoadBalancerUrl,
         contentType: "application/json; charset=utf-8",
         success: function (result) {
-            if (MY_WEBSOCKET_URL != result && MY_WEBSOCKET_URL.length > 0) {
+            if (MY_WEBSOCKET_URL !== result && MY_WEBSOCKET_URL.length > 0) {
                 MY_WEBSOCKET_URL = result;
                 $('#closeMessageClient').click();
                 $('#openMessageClient').click();
@@ -766,7 +769,7 @@ function createDownloadFileLink(obj) {
         a.addEventListener('click', function () {
             setTimeout(function () {
                 if (a.text.indexOf("(已點擊下載)") === -1) {
-                    if (a.href.indexOf("blob:") != -1 || a.getAttribute("origintext")) {
+                    if (a.href.indexOf("blob:") !== -1 || a.getAttribute("origintext")) {
                         window.navigator.msSaveOrOpenBlob(blob, obj.fileName);
                         a.removeAttribute("href");
                         a.text = a.getAttribute("origintext") + "(已點擊下載)";
@@ -784,7 +787,7 @@ function createDownloadFileLink(obj) {
         a.href = blobUrl;
         a.addEventListener('click', function () {
             setTimeout(function () {
-                if (a.href.indexOf("blob:") != -1 || a.getAttribute("origintext")) {
+                if (a.href.indexOf("blob:") !== -1 || a.getAttribute("origintext")) {
                     URL.revokeObjectURL(a.href);
                     a.removeAttribute("href");
                     a.text = a.getAttribute("origintext") + "(已點擊下載)";
@@ -800,9 +803,10 @@ function createDownloadFileLink(obj) {
 }
 
 function playDownloadVideoOrAudioFile(obj) {
-    if (obj.dataType.toUpperCase().indexOf('MP4') != -1 || obj.dataType.toUpperCase().indexOf('OGG') != -1 || obj.dataType.toUpperCase().indexOf('WEBM') != -1) {
-        var blob = new Blob([obj.file], { type: obj.dataType });
-        var blobUrl = URL.createObjectURL(blob);
+    var blob, blobUrl;
+    if (obj.dataType.toUpperCase().indexOf('MP4') !== -1 || obj.dataType.toUpperCase().indexOf('OGG') !== -1 || obj.dataType.toUpperCase().indexOf('WEBM') !== -1) {
+        blob = new Blob([obj.file], { type: obj.dataType });
+        blobUrl = URL.createObjectURL(blob);
         var video3 = $("#video3")[0];
         video3.onended = function () {
             this.style.display = 'none';
@@ -812,9 +816,9 @@ function playDownloadVideoOrAudioFile(obj) {
         video3.load();
         video3.play();
     }
-    else if (obj.dataType.toUpperCase().indexOf('MPEG') != -1 || obj.dataType.toUpperCase().indexOf('WAV') != -1) {
-        var blob = new Blob([obj.file], { type: obj.dataType });
-        var blobUrl = URL.createObjectURL(blob);
+    else if (obj.dataType.toUpperCase().indexOf('MPEG') !== -1 || obj.dataType.toUpperCase().indexOf('WAV') !== -1) {
+        blob = new Blob([obj.file], { type: obj.dataType });
+        blobUrl = URL.createObjectURL(blob);
         var audio = $("#audio")[0];
         audio.src = blobUrl;
         audio.load();
@@ -823,9 +827,9 @@ function playDownloadVideoOrAudioFile(obj) {
 }
 
 function playLinkForVideoOrAudioFile(obj) {
-    if (obj.dataType.toUpperCase().indexOf('MP4') != -1 || obj.dataType.toUpperCase().indexOf('OGG') != -1 ||
-        obj.dataType.toUpperCase().indexOf('WEBM') != -1 || obj.dataType.toUpperCase().indexOf('MPEG') != -1 ||
-        obj.dataType.toUpperCase().indexOf('WAV') != -1) {
+    if (obj.dataType.toUpperCase().indexOf('MP4') !== -1 || obj.dataType.toUpperCase().indexOf('OGG') !== -1 ||
+        obj.dataType.toUpperCase().indexOf('WEBM') !== -1 || obj.dataType.toUpperCase().indexOf('MPEG') !== -1 ||
+        obj.dataType.toUpperCase().indexOf('WAV') !== -1) {
         var blob = new Blob([obj.file], { type: obj.dataType });
         var blobUrl = URL.createObjectURL(blob);
         var a = document.createElement('a');
@@ -835,8 +839,8 @@ function playLinkForVideoOrAudioFile(obj) {
         a.blobUrl = blobUrl;
         var mediaSource = { "id": a.id, "url": blobUrl };
         mediaSourceList.push(mediaSource);
-        if (obj.dataType.toUpperCase().indexOf('MP4') != -1 || obj.dataType.toUpperCase().indexOf('OGG') != -1 || obj.dataType.toUpperCase().indexOf('WEBM') != -1) {
-            a.text = "(播放視訊)"
+        if (obj.dataType.toUpperCase().indexOf('MP4') !== -1 || obj.dataType.toUpperCase().indexOf('OGG') !== -1 || obj.dataType.toUpperCase().indexOf('WEBM') !== -1) {
+            a.text = "(播放視訊)";
             //a.addEventListener('click', function () {
             //    var video3 = $("#video3")[0];
             //    video3.onended = function () {
@@ -852,9 +856,9 @@ function playLinkForVideoOrAudioFile(obj) {
             //    video3.play();
             //});
         }
-        else if (obj.dataType.toUpperCase().indexOf('MPEG') != -1 || obj.dataType.toUpperCase().indexOf('WAV') != -1) {
-            a.text = obj.fileName.toUpperCase().indexOf('MP3') != -1 ||
-                obj.fileName.toUpperCase().indexOf('WAV') != -1 ? "(播放音訊)" : "";
+        else if (obj.dataType.toUpperCase().indexOf('MPEG') !== -1 || obj.dataType.toUpperCase().indexOf('WAV') !== -1) {
+            a.text = obj.fileName.toUpperCase().indexOf('MP3') !== -1 ||
+                obj.fileName.toUpperCase().indexOf('WAV') !== -1 ? "(播放音訊)" : "";
             //a.addEventListener('click', function () {
             //    var audio = $("#audio")[0];
             //    audio.onended = function () {
@@ -878,7 +882,7 @@ function playLinkForVideoOrAudioFile(obj) {
 }
 
 function playStream(obj) {
-    if ($('#startLiveVideo').prop('disabled') && (obj.dataType.toUpperCase().indexOf('WEBM') != -1 || obj.dataType.toUpperCase().indexOf('MP4') != -1)) {
+    if ($('#startLiveVideo').prop('disabled') && (obj.dataType.toUpperCase().indexOf('WEBM') !== -1 || obj.dataType.toUpperCase().indexOf('MP4') !== -1)) {
         var blob = new Blob([obj.stream], { type: obj.dataType });
         var blobUrl = URL.createObjectURL(blob);
         var video2 = $("#video2")[0];
@@ -1097,7 +1101,7 @@ $(document).ready(function () {
     //video2.onended = (event) => {
     //    video2.pause();
     //};
-    video2.onended = function(event) {
+    video2.onended = function (event) {
         video2.pause();
     };
 
@@ -1115,7 +1119,7 @@ $(document).ready(function () {
         // Change the node's value by removing the fake path (Chrome)
         fieldVal = fieldVal.replace("C:\\fakepath\\", "");
 
-        if (fieldVal != "") {
+        if (fieldVal !== "") {
             $(this).next(".custom-file-label").attr('data-content', fieldVal);
             $(this).next(".custom-file-label").text(fieldVal);
         }
@@ -1123,9 +1127,9 @@ $(document).ready(function () {
             $(this).next(".custom-file-label").text("Choose files");
         }
 
-        if (typeof (FileReader) != "undefined") {
+        if (typeof (FileReader) !== "undefined") {
             var files = $("#fileUpload")[0].files;
-            if (files[0] != null) {
+            if (files[0] !== null) {
                 fileName = files[0].name;
                 reader.readAsDataURL(files[0]);
             }
@@ -1150,7 +1154,7 @@ $(document).ready(function () {
             chatUpdate(chat, true);
             $("#divMsg").html("");
             //messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z-]+/g).filter(function (v) {return v }).join(',').toUpperCase();
-            messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
+            messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
             getChatToday();
             getChatHistory();
         }

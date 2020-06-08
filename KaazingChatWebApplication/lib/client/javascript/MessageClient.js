@@ -72,12 +72,13 @@ MessageClient.prototype = (function () {
             }
         }
         else {
+            var seq, ttlSeq, length, arrayBuffer, uint8Buffer;
             if (message.getJMSType().toString() === "file") {
-                var seq = parseInt(message.getStringProperty("sequence"));
-                var ttlSeq = parseInt(message.getStringProperty("totalSequence"));
-                var length = message.getBodyLength();
-                var arrayBuffer = new ArrayBuffer(length);
-                var uint8Buffer = new Uint8Array(arrayBuffer);
+                seq = parseInt(message.getStringProperty("sequence"));
+                ttlSeq = parseInt(message.getStringProperty("totalSequence"));
+                length = message.getBodyLength();
+                arrayBuffer = new ArrayBuffer(length);
+                uint8Buffer = new Uint8Array(arrayBuffer);
                 message.readBytes(uint8Buffer, length);
                 if (seq === 1) {
                     jsonObj = new Object();
@@ -94,11 +95,11 @@ MessageClient.prototype = (function () {
                 }
             }
             else if (message.getJMSType().toString() === "stream") {
-                var seq = parseInt(message.getStringProperty("sequence"));
-                var ttlSeq = parseInt(message.getStringProperty("totalSequence"));
-                var length = message.getBodyLength();
-                var arrayBuffer = new ArrayBuffer(length);
-                var uint8Buffer = new Uint8Array(arrayBuffer);
+                seq = parseInt(message.getStringProperty("sequence"));
+                ttlSeq = parseInt(message.getStringProperty("totalSequence"));
+                length = message.getBodyLength();
+                arrayBuffer = new ArrayBuffer(length);
+                uint8Buffer = new Uint8Array(arrayBuffer);
                 message.readBytes(uint8Buffer, length);
                 if (seq === 1) {
                     jsonObj = new Object();
@@ -130,7 +131,7 @@ MessageClient.prototype = (function () {
     };
 
     var handleException = function (e) {
-        if (e.type != "ConnectionDroppedException" && e.type != "ConnectionRestoredException" && e.type != "ReconnectFailedException" && e.type != "IllegalStateException") {
+        if (e.type !== "ConnectionDroppedException" && e.type !== "ConnectionRestoredException" && e.type !== "ReconnectFailedException" && e.type !== "IllegalStateException") {
             errLog = "EXCEPTION: " + e;
             console.error(errLog);
             window.alert(errLog);
@@ -212,7 +213,7 @@ MessageClient.prototype = (function () {
                             //triggerConnectionStarted.call(that, e);
                         }
                     } else {
-                        if (loginMsg != "") {
+                        if (loginMsg !== "") {
                             handleException(loginMsg);
                             return;
                         }
@@ -395,7 +396,7 @@ function setupSSO(webSocketFactory, userID, Pwd) {
         else {
             login(callback, userID, Pwd);
         }
-    }
+    };
     webSocketFactory.setChallengeHandler(basicHandler);
     //ChallengeHandlers.setDefault(basicHandler);
 }
@@ -416,11 +417,7 @@ function _uuid() {
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
 }
-/**
- * Get the user IP throught the webkitRTCPeerConnection
- * @param onNewIP {Function} listener function to expose the IP locally
- * @return undefined
- */
+//Get the user IP throught the webkitRTCPeerConnection
 function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
     //compatibility for firefox and chrome
     var myPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
