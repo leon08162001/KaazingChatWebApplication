@@ -22,12 +22,12 @@ namespace KaazingTestWebApplication
             string sErrorMsg = "";
             foreach (string key in actionArgs.Keys)
             {
-                var dictObj = ToDictionary<string>(actionArgs[key]);
+                var dictObj = ToDictionary<object>(actionArgs[key]);
                 foreach (Type iType in dictObj.GetType().GetInterfaces())
                 {
                     if (iType.IsGenericType && iType.GetGenericTypeDefinition() == typeof(IDictionary<,>))
                     {
-                        actionValue = GetDictContents(dictObj);
+                        actionValue = GetDictContents<string, object>(dictObj);
                         break;
                     }
                 }
