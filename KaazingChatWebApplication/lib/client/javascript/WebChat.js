@@ -401,10 +401,10 @@ var sendAjaxTalkMessage1 = function () {
     }
     CallAjax(messageTalkServiceUrl, data,
         function (result) {
-            if (result.Id === "0000") {
+            if (result.MessageId === "0000") {
                 $("#message").val("");
             }
-            else if (result.Id !== "0000") {
+            else if (result.MessageId !== "0000") {
                 console.log(result.Message);
                 window.alert(result.Message);
             }
@@ -480,12 +480,12 @@ var sendAjaxTalkMessage = function () {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         success: function (result) {
-            if (result.Id === "0000") {
+            if (result.MessageId === "0000") {
                 $("#message").val("");
                 var chat = getChat();
                 chatUpdate(chat, true);
             }
-            else if (result.Id !== "0000") {
+            else if (result.MessageId !== "0000") {
                 console.log(result.Message);
                 window.alert(result.Message);
             }

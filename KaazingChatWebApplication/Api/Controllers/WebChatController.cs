@@ -95,12 +95,13 @@ namespace KaazingTestWebApplication.Controllers
                     }
                 }
                 //test code begin
-                apiResult = Ok(new { Id="0000", Message = "" });
+                apiResult = Ok(new { MessageId = "0000", Message = "" });
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                throw ex;
+                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             finally
             {
@@ -138,12 +139,13 @@ namespace KaazingTestWebApplication.Controllers
                     JefferiesExcuReport.SendMessage(Message.message);
                 }
                 if (log.IsInfoEnabled) log.InfoFormat("SendReadMessageToServer from {0}", Assembly.GetExecutingAssembly().GetName().Name);
-                apiResult = Ok(new { Id = "0000", Message = "" });
+                apiResult = Ok(new { MessageId = "0000", Message = "" });
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                throw ex;
+                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             finally
             {
@@ -167,12 +169,13 @@ namespace KaazingTestWebApplication.Controllers
                 JefferiesExcuReport.Start();
                 JefferiesExcuReport.SendMessage(Message.message);
                 if (log.IsInfoEnabled) log.InfoFormat("SendReadMessageToServer from {0}", Assembly.GetExecutingAssembly().GetName().Name);
-                apiResult = Ok(new { success = true });
+                apiResult = Ok(new { MessageId = "0000", Message = "" });
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                throw ex;
+                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             finally
             {
@@ -269,12 +272,13 @@ namespace KaazingTestWebApplication.Controllers
                         Files[i].InputStream.Seek(0, System.IO.SeekOrigin.Begin);
                     }
                 }
-                apiResult = Ok(new { Id = "0000", Message = "" });
+                apiResult = Ok(new { MessageId = "0000", Message = "" });
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                throw ex;
+                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             finally
             {
@@ -310,12 +314,13 @@ namespace KaazingTestWebApplication.Controllers
                     JefferiesExcuReport1.SendFile(Files[i].FileName, bytes, sender);
                     if (log.IsInfoEnabled) log.InfoFormat("Send File({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
                 }
-                apiResult = Ok(new { Id = "0000", Message = "" });
+                apiResult = Ok(new { MessageId = "0000", Message = "" });
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                throw ex;
+                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             finally
             {
@@ -351,12 +356,13 @@ namespace KaazingTestWebApplication.Controllers
                     JefferiesExcuReport2.SendFile(Files[i].FileName, bytes, sender);
                     if (log.IsInfoEnabled) log.InfoFormat("Send File({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
                 }
-                apiResult = Ok(new { Id = "0000", Message = "" });
+                apiResult = Ok(new { MessageId = "0000", Message = "" });
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                throw ex;
+                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             finally
             {
@@ -464,12 +470,13 @@ namespace KaazingTestWebApplication.Controllers
                         File.InputStream.Seek(0, System.IO.SeekOrigin.Begin);
                     }
                 }
-                apiResult = Ok(new { Id = "0000", Message = "" });
+                apiResult = Ok(new { MessageId = "0000", Message = "" });
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                throw ex;
+                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             finally
             {
@@ -543,7 +550,6 @@ namespace KaazingTestWebApplication.Controllers
             {
                 WebSocketUrl = "";
             }
-            //apiResult = Ok(new { success = true });
             apiResult = ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, WebSocketUrl));
             return apiResult;
         }
@@ -599,7 +605,6 @@ namespace KaazingTestWebApplication.Controllers
             {
 
             }
-            //apiResult = Ok(new { success = true });
             apiResult = ResponseMessage(Request.CreateResponse(HttpStatusCode.OK, availWebSocketUrls));
             return apiResult;
         }
@@ -651,12 +656,13 @@ namespace KaazingTestWebApplication.Controllers
                     sql = "UPDATE [ChatDialogue] set htmlMessage=@htmlMessage,oprTime=@oprTime,oprIpAddress=@oprIpAddress where id=@id AND receiver=@receiver AND date=@date";
                 }
                 int iRows = cn.Execute(sql, Message);
-                apiResult = Ok(new { Id = "0000", Message = "" });
+                apiResult = Ok(new { MessageId = "0000", Message = "" });
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                throw ex;
+                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             return apiResult;
         }
@@ -716,12 +722,13 @@ namespace KaazingTestWebApplication.Controllers
                     sql = "UPDATE [ChatDialogue] set htmlMessage=@htmlMessage,oprTime=@oprTime,oprIpAddress=@oprIpAddress where id=@id AND receiver=@receiver AND date=@date";
                 }
                 int iRows = cn.Execute(sql, Message);
-                apiResult = Ok(new { Id = "0000", Message = "" });
+                apiResult = Ok(new { MessageId = "0000", Message = "" });
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                throw ex;
+                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             return apiResult;
         }
