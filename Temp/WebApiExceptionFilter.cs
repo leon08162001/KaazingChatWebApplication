@@ -73,6 +73,7 @@ namespace KaazingTestWebApplication
             {
                 result += pair.Key + " = " + pair.Value + Environment.NewLine;
             }
+            result = result.TrimEnd(Environment.NewLine.ToCharArray());
             return result;
         }
     }
