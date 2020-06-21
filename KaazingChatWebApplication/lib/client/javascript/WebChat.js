@@ -432,6 +432,10 @@ var sendAjaxTalkMessage = function () {
     if ($.trim($("#message").val()).length === 0) {
         return false;
     }
+    if (isContainHtml($('#message').val())) {
+        alert("請勿輸入html內容!");
+        return false;
+    }
     var uuid = getUuid();
     var messageTime = getNowFormatDate();
     var data = {};
@@ -1094,6 +1098,14 @@ function closeLiveVideo() {
     multiStreamRecorder = null;
     mediaStream = null;
 }
+function isContainHtml(str) {
+    if (/<[a-z][\s\S]*>|<[/][a-z][\s\S]*>/i.test(str)) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 
 $(document).ready(function () {
     var video2 = document.querySelector('#video2');
@@ -1147,7 +1159,6 @@ $(document).ready(function () {
             //$("#sendMessage").click();
         }
     });
-
     $('#talkTo').change(function () {
         if (messageClient) {
             var chat = getChat();
