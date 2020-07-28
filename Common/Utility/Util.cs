@@ -108,7 +108,7 @@ namespace Common.Utility
         {
             Dictionary<string, string> MessageMap = new Dictionary<string, string>();
             IEnumerable<string> IEnumData = Message.Split(DataSplitChar.ToCharArray()).AsEnumerable();
-            string TempLostData = "";
+            string TempData = "";
             foreach (string Data in IEnumData)
             {
                 if (Data.Contains(DataMapChar))
@@ -117,10 +117,10 @@ namespace Common.Utility
                     string LeftStr = Data.Substring(0, Data.IndexOf("="));
                     if (int.TryParse(LeftStr, out fixTag))
                     {
-                        if (TempLostData != "")
+                        if (TempData != "")
                         {
-                            MessageMap[MessageMap.ElementAt(MessageMap.Count - 1).Key] += TempLostData;
-                            TempLostData = "";
+                            MessageMap[MessageMap.ElementAt(MessageMap.Count - 1).Key] += TempData;
+                            TempData = "";
                         }
                         string[] AryKeyValue = Data.Split(DataMapChar.ToCharArray());
                         if (AryKeyValue.Length == 2 && AryKeyValue[0] != "" && AryKeyValue[1] != "")
@@ -129,24 +129,24 @@ namespace Common.Utility
                         }
                         else
                         {
-                            TempLostData = "";
+                            TempData = "";
                             for (int i = 1; i < AryKeyValue.Length; i++)
                             {
-                                TempLostData += AryKeyValue[i] + "=";
+                                TempData += AryKeyValue[i] + "=";
                             }
-                            TempLostData = TempLostData.Substring(0, TempLostData.Length - 1);
-                            MessageMap.Add(AryKeyValue[0], TempLostData);
-                            TempLostData = "";
+                            TempData = TempData.Substring(0, TempData.Length - 1);
+                            MessageMap.Add(AryKeyValue[0], TempData);
+                            TempData = "";
                         }
                     }
                     else
                     {
-                        TempLostData += " " + Data;
+                        TempData += " " + Data;
                     }
                 }
                 else
                 {
-                    TempLostData += " " + Data;
+                    TempData += " " + Data;
                     continue;
                 }
             }
