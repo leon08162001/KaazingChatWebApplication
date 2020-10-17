@@ -83,8 +83,6 @@ if (MY_WEBSOCKET_URL.length === 0) {
     window.alert("WebSocket 服務尚未啟動!");
 }
 
-setInterval(getWebSocketLoadBalancerUrl, failOverReconnectSecs * 1000);
-
 var consoleLog = function (text) {
     if (IN_DEBUG_MODE) {
         if (runningOnJSFiddle || DEBUG_TO_SCREEN) {
@@ -708,6 +706,8 @@ var getWebSocketLoadBalancerUrl = function () {
         }
     });
 };
+
+setInterval(getWebSocketLoadBalancerUrl, failOverReconnectSecs * 1000);
 
 function sleep(milliseconds) {
     var start = new Date().getTime();
