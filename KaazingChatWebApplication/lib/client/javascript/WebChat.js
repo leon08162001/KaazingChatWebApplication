@@ -194,7 +194,9 @@ var handleConnectStarted = function (funcName) {
         $('#startLiveVideo').attr('disabled', true);
         $('#closeLiveVideo').attr('disabled', false);
     }
-    window.alert(funcName + "已啟動!");
+    if (messageClient.isShowMsgWhenOpenAndClose) {
+        window.alert(funcName + "已啟動!");
+    }
 };
 
 var handleConnectClosed = function (funcName) {
@@ -210,7 +212,9 @@ var handleConnectClosed = function (funcName) {
         $('#startLiveVideo').attr('disabled', false);
         $('#closeLiveVideo').attr('disabled', true);
     }
-    window.alert(funcName + "已關閉!");
+    if (messageClient.isShowMsgWhenOpenAndClose) {
+        window.alert(funcName + "已關閉!");
+    }
 };
 
 var bindMessageToUI = function (uiObj, value) {
@@ -270,7 +274,7 @@ var clickHandler = function (item) {
     log.add("fired: " + item);
 };
 
-var openMessageClient = function (funcName) {
+var openMessageClient = function (funcName, isShowMsgWhenOpenAndClose) {
     try {
         if (!$.trim($("#talkTo").val()) || !$.trim($("#listenFrom").val())) {
             alert('My Name & TalkTo must key in');
@@ -286,8 +290,9 @@ var openMessageClient = function (funcName) {
         messageClient.messageType = messageType;
         messageClient.listenName = ("webchat." + $.trim($("#listenFrom").val())).toUpperCase();
         messageClient.funcName = funcName;
+        messageClient.isShowMsgWhenOpenAndClose = isShowMsgWhenOpenAndClose;
         //messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z-]+/g).filter(v => v).join(',').toUpperCase();
-        messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
+        messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_.]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
         messageClient.onMessageReceived(handleMessage);
         messageClient.onConnectionStarted(handleConnectStarted);
         messageClient.onConnectionClosed(handleConnectClosed);
@@ -605,7 +610,7 @@ var sendAjaxMessage = function (message, ajaxMessageType) {
         data.topicOrQueueName = messageClient.sendName.indexOf(",") > -1 ? ("webchat." + message.substr(0, message.indexOf("："))).toUpperCase() : messageClient.sendName;
     }
     else {
-        data.topicOrQueueName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
+        data.topicOrQueueName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_.]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
     }
     data.messageType = Number(messageClient.messageType);
     data.mqUrl = messageClient.uri;
@@ -1072,7 +1077,7 @@ function startLiveVideo() {
                 };
                 closeMessageClient();
                 messageType = MessageTypeEnum.Topic;
-                openMessageClient("視訊");
+                openMessageClient("視訊", true);
             },
             function (err) {
                 console.log("The following error occurred: " + err.message);
@@ -1165,9 +1170,23 @@ $(document).ready(function () {
             chatUpdate(chat, true);
             $("#divMsg").html("");
             //messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z-]+/g).filter(function (v) {return v }).join(',').toUpperCase();
-            messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
+            messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z1-9-_.]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
             getChatToday();
             getChatHistory();
+            closeMessageClient();
+            openMessageClient("聊天", false);
+        }
+    });
+    $('#listenFrom').change(function () {
+        if (messageClient) {
+            var chat = getChat();
+            chatUpdate(chat, true);
+            $("#divMsg").html("");
+            messageClient.listenName = ("webchat." + $.trim($("#listenFrom").val())).toUpperCase();
+            getChatToday();
+            getChatHistory();
+            closeMessageClient();
+            openMessageClient("聊天", false);
         }
     });
 
@@ -1265,6 +1284,6 @@ $(document).ready(function () {
         closeLiveVideo();
         closeMessageClient();
         messageType = defaultMessageType;
-        openMessageClient("聊天");
+        openMessageClient("聊天", true);
     });
 });

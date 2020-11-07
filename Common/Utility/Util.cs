@@ -150,9 +150,9 @@ namespace Common.Utility
                     continue;
                 }
             }
-            if (TempLostData != "")
+            if (TempData != "")
             {
-                MessageMap[MessageMap.ElementAt(MessageMap.Count - 1).Key] += TempLostData;
+                MessageMap[MessageMap.ElementAt(MessageMap.Count - 1).Key] += TempData;
             }
             return MessageMap;
         }

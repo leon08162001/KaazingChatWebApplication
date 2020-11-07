@@ -115,7 +115,7 @@
         </div>
     </form>
     <div style="text-align: center">
-        <button id="openMessageClient" class="blue button" type="button" onclick="openMessageClient('聊天');">啟動聊天</button>&nbsp;
+        <button id="openMessageClient" class="blue button" type="button" onclick="openMessageClient('聊天', true);">啟動聊天</button>&nbsp;
        
         <button id="closeMessageClient" class="blue button" type="button" disabled="disabled" onclick="closeMessageClient();">結束聊天</button>&nbsp;
        

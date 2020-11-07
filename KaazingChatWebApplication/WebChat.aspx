@@ -170,7 +170,9 @@
                 $("#sendMessage").attr('disabled', false);
                 getChatToday();
                 getChatHistory();
-                window.alert("聊天已啟動!");
+                if (messageClient.isShowMsgWhenOpenAndClose) {
+                    window.alert("聊天已啟動!");
+                }
             }
             else {
                 window.alert(errMsg);
@@ -183,7 +185,9 @@
                 $("#closeMessageClient").attr('disabled', true);
                 $("#sendMessage").attr('disabled', true);
                 $("#openMessageClient").attr('disabled', false);
-                window.alert("聊天已關閉!");
+                if (messageClient.isShowMsgWhenOpenAndClose) {
+                    window.alert("聊天已關閉!");
+                }              
             }
             else {
                 window.alert(errMsg);
@@ -246,7 +250,7 @@
 
         //var messageClient = new MessageClient(MY_WEBSOCKET_URL, "leon", "880816", MessageTypeEnum.Topic, "DEMO.NUOMS.JefferiesReport.Resp", document.getElementById("divMsg"));
         var messageClient;
-        var openMessageClient = function () {
+        var openMessageClient = function (isShowMsgWhenOpenAndClose) {
             try {
                 if (!$.trim($("#talkTo").val()) || !$.trim($("#listenFrom").val())) {
                     alert('My Name & TalkTo must key in');
@@ -261,8 +265,9 @@
                 messageClient.jmsServiceType = jmsServiceType;
                 messageClient.messageType = messageType;
                 messageClient.listenName = ("webchat." + $.trim($("#listenFrom").val())).toUpperCase();
+                messageClient.isShowMsgWhenOpenAndClose = isShowMsgWhenOpenAndClose;
                 //messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z-]+/g).filter(v => v).join(',').toUpperCase();
-                messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
+                messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_.]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
                 messageClient.onMessageReceived(handleMessage);
                 messageClient.onConnectionStarted(handleConnectStarted);
                 messageClient.onConnectionClosed(handleConnectClosed);
@@ -563,7 +568,7 @@
                 data.topicOrQueueName = messageClient.sendName.indexOf(",") > -1 ? ("webchat." + message.substr(0, message.indexOf("："))).toUpperCase() : messageClient.sendName;
             }
             else {
-                data.topicOrQueueName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
+                data.topicOrQueueName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_.]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
             }
             data.messageType = Number(messageClient.messageType);
             data.mqUrl = messageClient.uri;
@@ -783,9 +788,23 @@
                     chatUpdate(chat, true);
                     $("#divMsg").html("");
                     //messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z-]+/g).filter(function (v) {return v }).join(',').toUpperCase();
-                    messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z1-9-_]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
+                    messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z1-9-_.]+/g).filter(function (x) { return x }).map(function (y) { return "webchat." + y }).join(',').toUpperCase();
                     getChatToday();
                     getChatHistory();
+                    closeMessageClient();
+                    openMessageClient(false);
+                }
+            });
+            $('#listenFrom').change(function () {
+                if (messageClient) {
+                    var chat = getChat();
+                    chatUpdate(chat, true);
+                    $("#divMsg").html("");
+                    messageClient.listenName = ("webchat." + $.trim($("#listenFrom").val())).toUpperCase();
+                    getChatToday();
+                    getChatHistory();
+                    closeMessageClient();
+                    openMessageClient(false);
                 }
             });
             $(window).on("beforeunload", function () {
@@ -1131,7 +1150,7 @@
         </div>
     </form>
     <div style="text-align: center">
-        <button id="openMessageClient" class="blue button" type="button" onclick="openMessageClient();">啟動聊天</button>&nbsp;
+        <button id="openMessageClient" class="blue button" type="button" onclick="openMessageClient(true);">啟動聊天</button>&nbsp;
         <button id="closeMessageClient" class="blue button" type="button" disabled="disabled" onclick="closeMessageClient();">結束聊天</button>&nbsp;
         <button id="sendMessage" class="blue button" type="button" disabled="disabled" onclick="sendAjaxTalkMessage();">傳送訊息</button>&nbsp;
 <%--        <button id="sendClientMessage" class="blue button" type="button" disabled="disabled" onclick="sendMessage();">傳送訊息(javascript)</button>--%>

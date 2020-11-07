@@ -7,6 +7,23 @@ var MessageTypeEnum = {
     Queue: 2
 };
 
+function MessageClient() {
+    this.uri = "";
+    this.userName = "";
+    this.passWord = "";
+    this.jmsServiceType = "";
+    this.messageType = "";
+    this.listenName = "";
+    this.funcName = "";
+    this.sendName = "";
+    this.WebUiObject = "";
+    this.messageReceivedHandlers = [];
+    this.connectionStartedHandlers = [];
+    this.connectionClosedHandlers = [];
+    this.clientIp = "";
+    this.isShowMsgWhenOpenAndClose = true;
+}
+
 function MessageClient(uri, userName, passWord, jmsServiceType, messageType, listenName, sendName, WebUiObject) {
     this.uri = uri;
     this.userName = userName;
@@ -21,6 +38,7 @@ function MessageClient(uri, userName, passWord, jmsServiceType, messageType, lis
     this.connectionStartedHandlers = [];
     this.connectionClosedHandlers = [];
     this.clientIp = "";
+    this.isShowMsgWhenOpenAndClose = true;
 }
 
 MessageClient.prototype = (function () {
