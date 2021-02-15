@@ -18,6 +18,9 @@
     <!--<script src="lib/client/javascript/StompJms.js" type="text/javascript"></script>-->
     <script src="lib/client/javascript/WebSocket.js" type="text/javascript"></script>
     <script src="lib/client/javascript/JmsClient.js" type="text/javascript"></script>
+    <script src="lib/client/javascript/core-min.js" type="text/javascript"></script>
+    <script src="lib/client/javascript/aes.js" type="text/javascript"></script>
+    <script src="lib/client/javascript/AesHelper.js" type="text/javascript"></script>
     <script src="lib/client/javascript/MediaStreamRecorder.min.js" type="text/javascript"></script>
     <script src="lib/client/javascript/MessageClient.js" type="text/javascript"></script>
     <script type="text/javascript">
@@ -61,8 +64,8 @@
     <div id="logMsgs"></div>
     <form id="form1" runat="server">
         <div class="form-group">
-            <input type="hidden" name="userID" id="userID" value="taipeistarbank" />
-            <input type="hidden" name="pwd" id="pwd" value="28417921" />
+            <input type="hidden" name="userID" id="userID" value="<%= EnCryptWebSocketUID %>" />
+            <input type="hidden" name="pwd" id="pwd" value="<%= EnCryptWebSocketPWD %>" />
             <table style="width: 100%">
                 <tr>
                     <td style="width: 5%">

@@ -136,6 +136,7 @@
     <Compile Include="TopicMessage\MessageHeader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TopicMQFactory.cs" />
+    <Compile Include="Utility\AesHelper.cs" />
     <Compile Include="WebSocketTopicFactory.cs" />
     <Compile Include="Utility\CustomizedQueue.cs" />
     <Compile Include="Utility\Util.cs" />

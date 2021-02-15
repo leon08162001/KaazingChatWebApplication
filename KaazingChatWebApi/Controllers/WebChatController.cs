@@ -1,5 +1,6 @@
 ﻿using Common;
 using Common.LinkLayer;
+using Common.Utility;
 using Spring.Context;
 using Spring.Context.Support;
 using System;
@@ -79,8 +80,8 @@ namespace KaazingChatWebApi.Controllers
             //JefferiesExcuReport.WebSocketUri = config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service;
             JefferiesExcuReport.DestinationFeature = Message.messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
             JefferiesExcuReport.SendName = Message.topicOrQueueName;
-            JefferiesExcuReport.UserName = config.KaazingWebSocketUserID;
-            JefferiesExcuReport.PassWord = config.KaazingWebSocketPwd;
+            JefferiesExcuReport.UserName = AesHelper.AesDecrpt(config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
+            JefferiesExcuReport.PassWord = AesHelper.AesDecrpt(config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
             try
             {
                 JefferiesExcuReport.Start();
@@ -118,8 +119,8 @@ namespace KaazingChatWebApi.Controllers
             JefferiesExcuReport.WebSocketUri = config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service + "/jms";
             JefferiesExcuReport.DestinationFeature = Message.messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
             JefferiesExcuReport.SendName = Message.topicOrQueueName;
-            JefferiesExcuReport.UserName = config.KaazingWebSocketUserID;
-            JefferiesExcuReport.PassWord = config.KaazingWebSocketPwd;
+            JefferiesExcuReport.UserName = AesHelper.AesDecrpt(config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
+            JefferiesExcuReport.PassWord = AesHelper.AesDecrpt(config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
             try
             {
                 JefferiesExcuReport.Start();
@@ -159,8 +160,8 @@ namespace KaazingChatWebApi.Controllers
                 JefferiesExcuReport.WebSocketUri = config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service + "/jms";
                 JefferiesExcuReport.DestinationFeature = messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
                 JefferiesExcuReport.SendName = topicOrQueueName;
-                JefferiesExcuReport.UserName = config.KaazingWebSocketUserID;
-                JefferiesExcuReport.PassWord = config.KaazingWebSocketPwd;
+                JefferiesExcuReport.UserName = AesHelper.AesDecrpt(config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
+                JefferiesExcuReport.PassWord = AesHelper.AesDecrpt(config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
                 JefferiesExcuReport.Start();
                 for (var i = 0; i < Files.Count; i++)
                 {
@@ -203,8 +204,8 @@ namespace KaazingChatWebApi.Controllers
                 JefferiesExcuReport1.Uri = config.KaazingWebSocket_network + ":" + config.Mq_port;
                 JefferiesExcuReport1.DestinationFeature = messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
                 JefferiesExcuReport1.SendName = topicOrQueueName;
-                JefferiesExcuReport1.UserName = config.KaazingWebSocketUserID;
-                JefferiesExcuReport1.PassWord = config.KaazingWebSocketPwd;
+                JefferiesExcuReport1.UserName = AesHelper.AesDecrpt(config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
+                JefferiesExcuReport1.PassWord = AesHelper.AesDecrpt(config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
                 JefferiesExcuReport1.UseSSL = config.IsUseSSL;
                 JefferiesExcuReport1.Start();
                 for (var i = 0; i < Files.Count; i++)
@@ -248,8 +249,8 @@ namespace KaazingChatWebApi.Controllers
                 JefferiesExcuReport2.Uri = config.KaazingWebSocket_network + ":" + config.Ems_port;
                 JefferiesExcuReport2.DestinationFeature = messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
                 JefferiesExcuReport2.SendName = topicOrQueueName;
-                JefferiesExcuReport2.UserName = config.KaazingWebSocketUserID;
-                JefferiesExcuReport2.PassWord = config.KaazingWebSocketPwd;
+                JefferiesExcuReport2.UserName = AesHelper.AesDecrpt(config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
+                JefferiesExcuReport2.PassWord = AesHelper.AesDecrpt(config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
                 JefferiesExcuReport2.UseSSL = false;
                 JefferiesExcuReport2.Start();
                 for (var i = 0; i < Files.Count; i++)

@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.Utility;
 using Spring.Context;
 using Spring.Context.Support;
 using System;
@@ -20,6 +21,8 @@ namespace KaazingChatWebApplication
         protected string ClientIp = "";
         protected string KaazingJmsSvc = "";
         protected bool IsSaveVideoStreamToServer = false;
+        protected string EnCryptWebSocketUID = "";
+        protected string EnCryptWebSocketPWD = "";
         protected void Page_Load(object sender, EventArgs e)
         {
             applicationContext = ContextRegistry.GetContext();
@@ -30,6 +33,8 @@ namespace KaazingChatWebApplication
             IsSaveVideoStreamToServer = config.IsSaveVideoStreamToServer;
             GetWebSocketLoadBalancerUrl();
             ClientIp = GetClientIp();
+            EnCryptWebSocketUID = config.KaazingWebSocketUserID;
+            EnCryptWebSocketPWD = config.KaazingWebSocketPwd;
         }
         private string GetClientIp()
         {
