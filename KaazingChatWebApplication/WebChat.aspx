@@ -1095,8 +1095,8 @@
     <div id="logMsgs"></div>
     <form id="form1" runat="server">
         <div class="form-group">
-            <input type="hidden" name="userID" id="userID" value="leon" />
-            <input type="hidden" name="pwd" id="pwd" value="880816" />
+            <input type="hidden" name="userID" id="userID" value="taipeistarbank" />
+            <input type="hidden" name="pwd" id="pwd" value="28417921" />
             <table style="width: 100%">
                 <tr>
                     <td style="width: 5%">

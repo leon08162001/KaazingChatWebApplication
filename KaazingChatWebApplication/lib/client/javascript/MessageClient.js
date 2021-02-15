@@ -173,7 +173,7 @@ MessageClient.prototype = (function () {
             var clientIp = this.clientIp;
             //var macAddr;
             try {
-                var connectionFuture = jmsConnectionFactory.createConnection(this.userName, this.passWord, function () {
+                var connectionFuture = jmsConnectionFactory.createConnection(null, null, function () {
                     if (!connectionFuture.exception) {
                         try {
                             connection = connectionFuture.getValue();
