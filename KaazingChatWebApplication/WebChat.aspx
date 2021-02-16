@@ -16,6 +16,9 @@
     <!--<script src="lib/client/javascript/StompJms.js" type="text/javascript"></script>-->
     <script src="lib/client/javascript/WebSocket.js" type="text/javascript"></script>
     <script src="lib/client/javascript/JmsClient.js" type="text/javascript"></script>
+     <script src="lib/client/javascript/core-min.js" type="text/javascript"></script>
+    <script src="lib/client/javascript/aes.js" type="text/javascript"></script>
+    <script src="lib/client/javascript/AesHelper.js" type="text/javascript"></script>
     <script src="lib/client/javascript/MessageClient.js" type="text/javascript"></script>
     <script type="text/javascript">
         // Variables you can change
@@ -26,7 +29,7 @@
 
         var failOverReconnectSecs = 15;
         var MY_WEBSOCKET_URL = "<%= KaazingJmsSvc %>";
-        //var MY_WEBSOCKET_URL = "wss://192.168.43.114:9001/jms";
+        //var MY_WEBSOCKET_URL = "wss://192.168.43.127:9001/jms";
 
         //var messageTalkServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer";
         //var messageTalkServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/SendTalkMessageToServer";
@@ -259,8 +262,8 @@
                 messageClient = new MessageClient();
                 messageClient.uri = MY_WEBSOCKET_URL;
                 messageClient.clientIp ="<%= ClientIp %>"
-                messageClient.userName = $("#userID").val();
-                messageClient.passWord = $("#pwd").val();
+                messageClient.userName = Decrypt($("#userID").val(), 'taipei-star-bank','taipei-star-bank');
+                messageClient.passWord = Decrypt($("#pwd").val(), 'taipei-star-bank', 'taipei-star-bank');
                 messageClient.WebUiObject = $("#divMsg")[0];
                 messageClient.jmsServiceType = jmsServiceType;
                 messageClient.messageType = messageType;
@@ -1095,8 +1098,8 @@
     <div id="logMsgs"></div>
     <form id="form1" runat="server">
         <div class="form-group">
-            <input type="hidden" name="userID" id="userID" value="taipeistarbank" />
-            <input type="hidden" name="pwd" id="pwd" value="28417921" />
+            <input type="hidden" name="userID" id="userID" value="<%= EnCryptWebSocketUID %>" />
+            <input type="hidden" name="pwd" id="pwd" value="<%= EnCryptWebSocketPWD %>" />
             <table style="width: 100%">
                 <tr>
                     <td style="width: 5%">

@@ -19,6 +19,8 @@ namespace KaazingChatWebApplication
 
         protected string ClientIp = "";
         protected string KaazingJmsSvc = "";
+        protected string EnCryptWebSocketUID = "";
+        protected string EnCryptWebSocketPWD = "";
         protected void Page_Load(object sender, EventArgs e)
         {
             applicationContext = ContextRegistry.GetContext();
@@ -28,6 +30,8 @@ namespace KaazingChatWebApplication
             //                "ws://" + config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service + "/jms";
             GetWebSocketLoadBalancerUrl();
             ClientIp = GetClientIp();
+            EnCryptWebSocketUID = config.KaazingWebSocketUserID;
+            EnCryptWebSocketPWD = config.KaazingWebSocketPwd;
         }
         private string GetClientIp()
         {
