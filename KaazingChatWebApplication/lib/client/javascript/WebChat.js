@@ -283,7 +283,7 @@ var openMessageClient = function (funcName, isShowMsgWhenOpenAndClose) {
         messageClient = new MessageClient();
         messageClient.uri = MY_WEBSOCKET_URL;
         messageClient.clientIp = clientIp;
-        messageClient.userName = Decrypt($("#userID").val(), 'taipei-star-bank','taipei-star-bank');
+        messageClient.userName = Decrypt($("#userID").val(), 'taipei-star-bank', 'taipei-star-bank');
         messageClient.passWord = Decrypt($("#pwd").val(), 'taipei-star-bank', 'taipei-star-bank');
         messageClient.WebUiObject = $("#divMsg")[0];
         messageClient.jmsServiceType = jmsServiceType;
@@ -567,12 +567,13 @@ var getChatToday = function () {
 
 var getChatHistory = function () {
     var serviceUrl = "api/WebChat/GetChatHistory";
+    var chatRecords = $('#chatRecords option:selected').val();
     var chat = {};
     chat.id = messageClient ? messageClient.listenName.replace(/webchat./ig, "") : "";
     chat.name = messageClient ? messageClient.listenName.replace(/webchat./ig, "") : "";
     chat.receiver = messageClient ? messageClient.sendName.replace(/webchat./ig, "") : "";
     chat.htmlMessage = "";
-    chat.date = getLocalDate().substring(0, 10);
+    chat.date = chatRecords == 0 ? getLocalDate().substring(0, 10) : getMonthAgoLocalDate(chatRecords).substring(0, 10);
     chat.oprTime = getLocalDate();
     chat.oprIpAddress = messageClient.clientIp;
     $("#divMsgHis").html("");
@@ -974,6 +975,13 @@ function getLocalDate() {
     return localDateString;
 }
 
+function getMonthAgoLocalDate(monthAgo) {
+    var date = new Date();
+    date.setMonth(date.getMonth() - monthAgo);
+    var localDateString = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON();
+    return localDateString;
+}
+
 function getChat() {
     var chat = {};
     chat.id = messageClient.listenName.replace(/webchat./ig, "");
@@ -1175,6 +1183,11 @@ $(document).ready(function () {
             getChatHistory();
             closeMessageClient();
             openMessageClient("聊天", false);
+        }
+    });
+    $('#chatRecords').change(function () {
+        if (messageClient) {
+            getChatHistory();
         }
     });
     $('#listenFrom').change(function () {

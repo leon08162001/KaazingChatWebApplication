@@ -816,7 +816,15 @@ namespace KaazingTestWebApplication.Controllers
                         }
                     }
                 }
-                var sql = "select id,htmlMessage,[date] from [dbo].[ChatDialogue] where id=@id and [receiver]=@receiver and [date]<@date order by [date] desc";
+                var sql = "";
+                if (DateTime.Today.Equals(Message.date))
+                {
+                    sql = "select id,htmlMessage,[date] from [dbo].[ChatDialogue] where id=@id and [receiver]=@receiver and [date]<@date order by [date] desc";
+                }
+                else
+                {
+                    sql = "select id,htmlMessage,[date] from [dbo].[ChatDialogue] where id=@id and [receiver]=@receiver and [date]>=@date order by [date] desc";
+                }
                 var chatHistory = cn.Query<Chat>(sql, Message).ToList();
                 apiResult = Ok(chatHistory);
             }

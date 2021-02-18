@@ -29,7 +29,7 @@
 
         var failOverReconnectSecs = 15;
         var MY_WEBSOCKET_URL = "<%= KaazingJmsSvc %>";
-        //var MY_WEBSOCKET_URL = "wss://192.168.43.127:9001/jms";
+        //var MY_WEBSOCKET_URL = "wss://192.168.43.114:9001/jms";
 
         //var messageTalkServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer";
         //var messageTalkServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/SendTalkMessageToServer";
@@ -530,12 +530,13 @@
         }
         var getChatHistory = function () {
             var serviceUrl = "api/WebChat/GetChatHistory";
+            var chatRecords = $('#chatRecords option:selected').val();
             var chat = {};
             chat.id = messageClient ? messageClient.listenName.replace(/webchat./ig, "") : "";
             chat.name = messageClient ? messageClient.listenName.replace(/webchat./ig, "") : "";
             chat.receiver = messageClient ? messageClient.sendName.replace(/webchat./ig, "") : "";
             chat.htmlMessage = "";
-            chat.date = getLocalDate().substring(0, 10);
+            chat.date = chatRecords == 0 ? getLocalDate().substring(0, 10) : getMonthAgoLocalDate(chatRecords).substring(0, 10);
             chat.oprTime = getLocalDate();
             chat.oprIpAddress = messageClient.clientIp;
             $("#divMsgHis").html("");
@@ -798,6 +799,11 @@
                     openMessageClient(false);
                 }
             });
+            $('#chatRecords').change(function () {
+                if (messageClient) {
+                    getChatHistory();
+                }
+            });
             $('#listenFrom').change(function () {
                 if (messageClient) {
                     var chat = getChat();
@@ -1051,6 +1057,12 @@
             var localDateString = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON();
             return localDateString;
         }
+        function getMonthAgoLocalDate(monthAgo) {
+            var date = new Date();
+            date.setMonth(date.getMonth() - monthAgo);
+            var localDateString = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON();
+            return localDateString;
+        }
         function getChat() {
             var chat = {};
             chat.id = messageClient.listenName.replace(/webchat./ig, "");
@@ -1115,6 +1127,20 @@
                     </td>
                     <td>
                         <input type="text" name="talkTo" id="talkTo" class="form-control" style="width: 10em; height: 1.5em" value="" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="chatRecords">chatRecords:</label>
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="chatRecords" runat="server" class="form-control form-control-sm" Width="12em" Font-Size="Small">
+                            <asp:ListItem Selected="True" Value="0">所有紀錄</asp:ListItem>
+                            <asp:ListItem Value="1">最近一個月</asp:ListItem>
+                            <asp:ListItem Value="2">最近二個月</asp:ListItem>
+                            <asp:ListItem Value="3">最近三個月</asp:ListItem>
+                            <asp:ListItem Value="6">最近六個月</asp:ListItem>
+                        </asp:DropDownList>
                     </td>
                 </tr>
                 <tr>
