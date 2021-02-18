@@ -88,7 +88,7 @@
                         <label for="chatRecords">chatRecords:</label>
                     </td>
                     <td>
-                        <asp:DropDownList ID="chatRecords" runat="server" class="form-control form-control-sm" Width="12em" Font-Size="Small">
+                        <asp:DropDownList ID="chatRecords" runat="server" class="form-control form-control-sm" Width="12.3em" Font-Size="Small">
                             <asp:ListItem Selected="True" Value="0">所有紀錄</asp:ListItem>
                             <asp:ListItem Value="1">最近一個月</asp:ListItem>
                             <asp:ListItem Value="2">最近二個月</asp:ListItem>
