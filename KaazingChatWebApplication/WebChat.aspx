@@ -29,7 +29,7 @@
 
         var failOverReconnectSecs = 15;
         var MY_WEBSOCKET_URL = "<%= KaazingJmsSvc %>";
-        //var MY_WEBSOCKET_URL = "wss://192.168.43.114:9001/jms";
+        //var MY_WEBSOCKET_URL = "wss://192.168.43.127:9001/jms";
 
         //var messageTalkServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer";
         //var messageTalkServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/SendTalkMessageToServer";
@@ -1134,7 +1134,7 @@
                         <label for="chatRecords">chatRecords:</label>
                     </td>
                     <td>
-                        <asp:DropDownList ID="chatRecords" runat="server" class="form-control form-control-sm" Width="12.3em" Font-Size="Small">
+                        <asp:DropDownList ID="chatRecords" runat="server" class="form-control form-control-sm" Height="2.2em" Width="12.3em" Font-Size="Small">
                             <asp:ListItem Selected="True" Value="0">所有紀錄</asp:ListItem>
                             <asp:ListItem Value="1">最近一個月</asp:ListItem>
                             <asp:ListItem Value="2">最近二個月</asp:ListItem>
