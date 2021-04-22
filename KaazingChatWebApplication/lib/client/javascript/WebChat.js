@@ -189,6 +189,10 @@ var handleConnectStarted = function (funcName) {
     if (funcName === "聊天") {
         $('#startLiveVideo').attr('disabled', false);
         $('#closeLiveVideo').attr('disabled', true);
+        getChatToday();
+        if ($("#divMsgHis").html() == "") {
+            getChatHistory();
+        }
     }
     else if (funcName === "視訊") {
         $('#startLiveVideo').attr('disabled', true);
@@ -298,8 +302,8 @@ var openMessageClient = function (funcName, isShowMsgWhenOpenAndClose) {
         messageClient.onConnectionClosed(handleConnectClosed);
         messageClient.start();
         if (event && event.target.id === "openMessageClient") {
-            getChatToday();
-            getChatHistory();
+            //getChatToday();
+            //getChatHistory();
         }
     }
     catch (e) {
