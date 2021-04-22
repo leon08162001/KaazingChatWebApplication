@@ -301,10 +301,10 @@ var openMessageClient = function (funcName, isShowMsgWhenOpenAndClose) {
         messageClient.onConnectionStarted(handleConnectStarted);
         messageClient.onConnectionClosed(handleConnectClosed);
         messageClient.start();
-        if (event && event.target.id === "openMessageClient") {
-            //getChatToday();
-            //getChatHistory();
-        }
+        //if (event && event.target.id === "openMessageClient") {
+        //    getChatToday();
+        //    getChatHistory();
+        //}
     }
     catch (e) {
         window.alert(e);
