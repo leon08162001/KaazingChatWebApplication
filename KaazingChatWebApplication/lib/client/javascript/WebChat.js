@@ -168,6 +168,11 @@ var handleMessage = function (uiObj, message) {
             }
             uiObj.insertBefore(link, uiObj.firstChild);
             uiObj.insertBefore(spanTag, uiObj.firstChild);
+            //added by leonlee 20210526
+            if ($("#divMsg").html().length > 0) {
+                chat = getChat();
+                chatUpdate(chat, true);
+            }
         }
         else if (message.hasOwnProperty('stream')) {
             playStream(message);
@@ -267,6 +272,11 @@ var bindMessageToUI = function (uiObj, value) {
         var helper = document.createElement('div');
         helper.innerHTML = value;
         uiObj.insertBefore(helper, uiObj.firstChild);
+    }
+    //added by leonlee 20210526
+    if ($("#divMsg").html().length > 0) {
+        chat = getChat();
+        chatUpdate(chat, true);
     }
 };
 
