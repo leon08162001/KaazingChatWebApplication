@@ -306,7 +306,8 @@ var openMessageClient = function (funcName, isShowMsgWhenOpenAndClose) {
         messageClient.funcName = funcName;
         messageClient.isShowMsgWhenOpenAndClose = isShowMsgWhenOpenAndClose;
         //messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z-]+/g).filter(v => v).join(',').toUpperCase();
-        messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_.]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
+        //messageClient.sendName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_.]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
+        messageClient.sendName = $.trim($("#talkTo").val()).split(',').filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
         messageClient.onMessageReceived(handleMessage);
         messageClient.onConnectionStarted(handleConnectStarted);
         messageClient.onConnectionClosed(handleConnectClosed);
