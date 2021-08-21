@@ -787,6 +787,7 @@ function createDownloadFileLink(obj) {
     a.id = getUuid();
     a.text = obj.fileName;
     a.download = obj.fileName;
+    a.setAttribute("datatype", obj.dataType);
     a.setAttribute("origintext", a.text);
     var blob = new Blob([obj.file], { type: obj.dataType });
     //for IE
@@ -933,6 +934,8 @@ function downloadFileLinkBase64(obj) {
     var a = document.createElement('a');
     a.href = blobUrl;
     a.download = obj.fileName;
+    a.setAttribute("datatype", obj.dataType);
+    a.setAttribute("origintext", obj.fileName);
     a.click();
     window.URL.revokeObjectURL(blobUrl);
 }
@@ -944,6 +947,7 @@ function createDownloadFileLinkBase64(obj) {
     a.id = getUuid();
     a.href = blobUrl;
     a.text = obj.fileName;
+    a.setAttribute("datatype", obj.dataType);
     a.setAttribute("origintext", a.text);
     a.download = obj.fileName;
     a.addEventListener('click', function () {
