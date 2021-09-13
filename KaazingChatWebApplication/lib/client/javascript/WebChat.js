@@ -861,6 +861,7 @@ function playLinkForVideoOrAudioFile(obj) {
         var blobUrl = URL.createObjectURL(blob);
         var a = document.createElement('a');
         a.id = getUuid();
+        a.setAttribute("datatype", obj.dataType);
         a.setAttribute("origintext", a.text);
         a.href = "#";
         a.blobUrl = blobUrl;
