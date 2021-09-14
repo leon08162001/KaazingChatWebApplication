@@ -202,7 +202,7 @@ MessageClient.prototype = (function () {
                                 else {
                                     //getUserIP(function (ip) { macAddr = ip; });
                                     //var clientID = listenName + "_" + macAddr;
-                                    var clientID = listenName + "_" + clientIp;
+                                    var clientID = listenName + "_" + clientIp + "_" + Date.now();
                                     topicOrQueueConsumer = session.createDurableSubscriber(listenTopicOrQueue, clientID);
                                 }
                             }
