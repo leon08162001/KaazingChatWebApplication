@@ -208,7 +208,8 @@ MessageClient.prototype = (function () {
                                     //var durableName = listenName + "_" + clientIp + "_" + Date.now();
                                     //var durableName = listenName + "_" + clientIp + "_" + navigator.userAgent;
                                     //var durableName = clientIp + "_" + navigator.userAgent;
-                                    var durableName = userName + "@" + clientIp + "_" + browser.name;
+                                    //var durableName = userName + "@" + clientIp + "_" + browser.name;
+                                    var durableName = userName + "@" + clientIp + "_" + navigator.userAgent;
                                     topicOrQueueConsumer = session.createDurableSubscriber(listenTopicOrQueue, durableName);
                                 }
                             }
