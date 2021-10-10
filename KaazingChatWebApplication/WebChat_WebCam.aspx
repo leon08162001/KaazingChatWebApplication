@@ -94,6 +94,8 @@
                             <asp:ListItem Value="2">最近二個月</asp:ListItem>
                             <asp:ListItem Value="3">最近三個月</asp:ListItem>
                             <asp:ListItem Value="6">最近六個月</asp:ListItem>
+                            <asp:ListItem Value="12">一年</asp:ListItem>
+                            <asp:ListItem Value="24">二年</asp:ListItem>
                         </asp:DropDownList>
                     </td>
                 </tr>

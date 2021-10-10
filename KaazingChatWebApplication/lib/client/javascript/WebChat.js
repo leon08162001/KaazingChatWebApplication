@@ -13,8 +13,8 @@ var readedHtml = "<span class=\"tabbed\">已讀</span>";
 
 // WebSocket,JMS相關變數
 var messageClient;
-var jmsServiceType = JmsServiceTypeEnum.ActiveMQ;
-var messageType = MessageTypeEnum.Queue;
+var jmsServiceType = JmsServiceTypeEnum.TibcoEMS;
+var messageType = MessageTypeEnum.Topic;
 var defaultMessageType = messageType;
 var failOverReconnectSecs = 15;
 

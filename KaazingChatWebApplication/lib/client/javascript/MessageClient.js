@@ -149,7 +149,7 @@ MessageClient.prototype = (function () {
     };
 
     var handleException = function (e) {
-        if (e.type !== "ConnectionDroppedException" && e.type !== "ConnectionRestoredException" && e.type !== "ReconnectFailedException" && e.type !== "IllegalStateException") {
+        if (e.type !== "ConnectionDroppedException" && e.type !== "ConnectionRestoredException" && e.type !== "ReconnectFailedException" && e.type !== "IllegalStateException" && e.type !== "JMSException") {
             errLog = "EXCEPTION: " + e;
             console.error(errLog);
             window.alert(errLog);
@@ -161,19 +161,21 @@ MessageClient.prototype = (function () {
         start: function () {
             that = this;
             // Connect to JMS, create a session and start it.
+            var browser = new window.browserDetect(window.navigator.userAgent);
             var jmsConnectionFactory = new JmsConnectionFactory(this.uri);
             setupSSO(jmsConnectionFactory.getWebSocketFactory(), this.userName, this.passWord);
             var listenTopicOrQueue;
             var sendTopicOrQueue;
             var jmsServiceType = this.jmsServiceType;
             var messageType = this.messageType;
+            var userName = this.listenName;
             var listenName = messageType === 1 ? "/topic/" + this.listenName : "/queue/" + this.listenName;
             var sendName = messageType === 1 ? "/topic/" + this.sendName : "/queue/" + this.sendName;
             var funcName = this.funcName;
             var clientIp = this.clientIp;
             //var macAddr;
             try {
-                var connectionFuture = jmsConnectionFactory.createConnection(null, null, function () {
+                var connectionFuture = jmsConnectionFactory.createConnection(null, null, null, function () {
                     if (!connectionFuture.exception) {
                         try {
                             connection = connectionFuture.getValue();
@@ -201,9 +203,13 @@ MessageClient.prototype = (function () {
                                 }
                                 else {
                                     //getUserIP(function (ip) { macAddr = ip; });
-                                    //var clientID = listenName + "_" + macAddr;
-                                    var clientID = listenName + "_" + clientIp + "_" + Date.now();
-                                    topicOrQueueConsumer = session.createDurableSubscriber(listenTopicOrQueue, clientID);
+                                    //var durableName = listenName + "_" + macAddr;
+                                    //var durableName = listenName + "_" + clientIp;
+                                    //var durableName = listenName + "_" + clientIp + "_" + Date.now();
+                                    //var durableName = listenName + "_" + clientIp + "_" + navigator.userAgent;
+                                    //var durableName = clientIp + "_" + navigator.userAgent;
+                                    var durableName = userName + "@" + clientIp + "_" + browser.name;
+                                    topicOrQueueConsumer = session.createDurableSubscriber(listenTopicOrQueue, durableName);
                                 }
                             }
                             else {
