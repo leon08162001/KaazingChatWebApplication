@@ -271,7 +271,9 @@ var bindMessageToUI = function (uiObj, value) {
     else {
         var helper = document.createElement('div');
         helper.innerHTML = value;
-        uiObj.insertBefore(helper, uiObj.firstChild);
+        if (uiObj.innerHTML.indexOf(helper.innerHTML) === -1) {
+            uiObj.insertBefore(helper, uiObj.firstChild);
+        }
     }
     //added by leonlee 20210526
     if ($("#divMsg").html().length > 0) {
