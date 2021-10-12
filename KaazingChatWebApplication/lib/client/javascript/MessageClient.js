@@ -149,7 +149,7 @@ MessageClient.prototype = (function () {
     };
 
     var handleException = function (e) {
-        if (e.type !== "ConnectionDroppedException" && e.type !== "ConnectionRestoredException" && e.type !== "ReconnectFailedException" && e.type !== "IllegalStateException" && e.type !== "JMSException") {
+        if (e.type !== "ConnectionDroppedException" && e.type !== "ConnectionRestoredException" && e.type !== "ReconnectFailedException" && e.type !== "IllegalStateException" && e.type !== "JMSException" && e.type !== "JMSException") {
             errLog = "EXCEPTION: " + e;
             console.error(errLog);
             window.alert(errLog);
@@ -207,8 +207,8 @@ MessageClient.prototype = (function () {
                                     //var durableName = listenName + "_" + clientIp;
                                     //var durableName = listenName + "_" + clientIp + "_" + Date.now();
                                     //var durableName = listenName + "_" + clientIp + "_" + navigator.userAgent;
-                                    //var durableName = clientIp + "_" + navigator.userAgent;
-                                    var durableName = userName + "@" + clientIp + "_" + browser.name;
+                                    //var durableName = userName + "@" + clientIp + "_" + browser.name;
+                                    var durableName = userName + "@" + clientIp + "_" + navigator.userAgent;
                                     topicOrQueueConsumer = session.createDurableSubscriber(listenTopicOrQueue, durableName);
                                 }
                             }
