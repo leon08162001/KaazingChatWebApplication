@@ -539,10 +539,10 @@ var getChatToday = function () {
     chat.id = messageClient ? messageClient.listenName.replace(/webchat./ig, "") : "";
     chat.receiver = messageClient ? messageClient.sendName.replace(/webchat./ig, "") : "";
     chat.date = getLocalDate().substring(0, 10);
-    $("#divMsg").html("");
     CallAjax(serviceUrl, chat,
         function (data) {
             if (data || data.d) {
+                $("#divMsg").html("");
                 $.each(data, function () {
                     $("#divMsg").html($("#divMsg").html() + this.htmlMessage);
                 });
@@ -593,10 +593,10 @@ var getChatHistory = function () {
     chat.date = chatRecords == 0 ? getLocalDate().substring(0, 10) : getMonthAgoLocalDate(chatRecords).substring(0, 10);
     chat.oprTime = getLocalDate();
     chat.oprIpAddress = messageClient.clientIp;
-    $("#divMsgHis").html("");
     CallAjax(serviceUrl, chat,
         function (data) {
             if (data || data.d) {
+                $("#divMsgHis").html("");
                 $.each(data, function () {
                     $("#divMsgHis").html($("#divMsgHis").html() + "<span class=\"Rounded\">" + this.date.substring(0, 10) + "</span>");
                     $("#divMsgHis").html($("#divMsgHis").html() + this.htmlMessage);
