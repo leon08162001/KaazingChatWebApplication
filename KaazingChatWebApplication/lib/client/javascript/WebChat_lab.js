@@ -10,6 +10,9 @@ var DEBUG_TO_SCREEN = true;
 var runningOnJSFiddle = true;
 var screenMsg = "";
 var readedHtml = "<span class=\"tabbed\">已讀</span>";
+var browser = new window.browserDetect(window.navigator.userAgent);
+var hadStartChat = false;   //是否已開啟聊天
+var newPendingChatDiv;      //開啟聊天時待接收的訊息區塊
 
 // WebSocket,JMS相關變數
 var messageClient;
@@ -26,7 +29,7 @@ var browser = browserDetect();
 
 //上傳檔案及接收已讀相關變數
 var allReceivedNum;
-var reader = new FileReader();
+//var reader = new FileReader();
 var fileName;
 
 //Web API相關 Url
@@ -204,7 +207,7 @@ var handleConnectStarted = function (funcName) {
         $('#closeLiveVideo').attr('disabled', false);
     }
     if (messageClient.isShowMsgWhenOpenAndClose) {
-        window.alert(funcName + "已啟動!");
+        //window.alert(funcName + "已啟動!");
     }
 };
 
@@ -216,6 +219,8 @@ var handleConnectClosed = function (funcName) {
     if (funcName === "聊天") {
         $('#startLiveVideo').attr('disabled', true);
         $('#closeLiveVideo').attr('disabled', true);
+        hadStartChat = false;
+        newPendingChatDiv = null;
     }
     else if (funcName === "視訊") {
         $('#startLiveVideo').attr('disabled', false);
@@ -271,7 +276,14 @@ var bindMessageToUI = function (uiObj, value) {
     else {
         var helper = document.createElement('div');
         helper.innerHTML = value;
-        uiObj.insertBefore(helper, uiObj.firstChild);
+        if (hadStartChat === true) {
+            if (uiObj.innerHTML.indexOf(helper.innerHTML) === -1) {
+                uiObj.insertBefore(helper, uiObj.firstChild);
+            }
+        }
+        else {
+            newPendingChatDiv = helper;
+        }
     }
     //added by leonlee 20210526
     if ($("#divMsg").html().length > 0) {
@@ -561,6 +573,14 @@ var getChatToday = function () {
                         }, 150);
                     });
                 });
+                hadStartChat = true;
+                if (hadStartChat && newPendingChatDiv) {
+                    var uiObj = $("#divMsg")[0];
+                    if (uiObj.innerHTML.indexOf(newPendingChatDiv.innerHTML) === -1) {
+                        uiObj.insertBefore(newPendingChatDiv, uiObj.firstChild);
+                    }
+                    newPendingChatDiv = null;
+                }
             }
             else if (!data || !data.d) {
                 console.log("getChatToday fail!");
