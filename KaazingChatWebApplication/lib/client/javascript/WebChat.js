@@ -1247,6 +1247,7 @@ $(document).ready(function () {
         data.append("topicOrQueueName", messageClient.sendName);
         data.append("messageType", messageClient.messageType.toString());
         data.append("mqUrl", messageClient.uri);
+        data.append("times", $("#times").val());
         for (var i = 0; i < files.length; i++) {
             data.append("files", files[i]);
             fileNames += files[i].name + "，";
@@ -1256,12 +1257,14 @@ $(document).ready(function () {
         }
         // Make Ajax request with the contentType = false, and procesDate = false
         var messageTime = getNowFormatDate();
-        $("#divMsg").html("<span style=\"background-color: yellow;\">" + messageClient.listenName.replace(/webchat./ig, "") + "：傳送檔案中，請稍後...(" + messageTime + ")</span><br>" + $("#divMsg").html());
-
+        for (i = 0; i < Number($("#times").val()); i++) {
+            $("#divMsg").html("<span style=\"background-color: yellow;\">" + messageClient.listenName.replace(/webchat./ig, "") + "：傳送檔案中，請稍後...(" + messageTime + ")</span><br>" + $("#divMsg").html());
+        }
         $("#fileUpload").attr('disabled', true);
         $('#btnUploadFile').attr('disabled', true);
-        sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：傳送檔案中，請稍後...(" + messageTime + ")", ajaxMessageTypeEnum.file);
-
+        for (i = 0; i < Number($("#times").val()); i++) {
+            sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：傳送檔案中，請稍後...(" + messageTime + ")", ajaxMessageTypeEnum.file);
+        }
         setTimeout(function () {
             var ajaxProgress = $.ajax({
                 type: "POST",

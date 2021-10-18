@@ -196,6 +196,7 @@ namespace KaazingTestWebApplication.Controllers
                 String topicOrQueueName = HttpContext.Current.Request["topicOrQueueName"].ToString();
                 MessageType messageType = (MessageType)int.Parse(HttpContext.Current.Request["messageType"].ToString());
                 String mqUrl = HttpContext.Current.Request["mqUrl"].ToString();
+                int times = Convert.ToInt32(HttpContext.Current.Request["times"].ToString());
                 HttpFileCollection Files = HttpContext.Current.Request.Files;
 
                 config = (Config)applicationContext.GetObject("Config");
@@ -212,6 +213,44 @@ namespace KaazingTestWebApplication.Controllers
                     foreach (string sendName in sendNames)
                     {
                         JefferiesExcuReport.ReStartSender(sendName.Trim());
+                        for (int h = 0; h < times; h++)
+                        {
+                            for (var i = 0; i < Files.Count; i++)
+                            {
+                                long sequence = 1;
+                                byte[] buffer = new byte[2048000];
+                                int offset = 0;
+                                long remaining = Files[i].InputStream.Length;
+                                byte[] lstBuffer = new byte[remaining % buffer.Length];
+                                long totalSequence = remaining % buffer.Length > 0 ? (remaining / buffer.Length) + 1 : (remaining / buffer.Length);
+                                while (remaining > 0)
+                                {
+                                    int read = 0;
+                                    if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
+                                    {
+                                        read = Files[i].InputStream.Read(buffer, 0, buffer.Length);
+                                        JefferiesExcuReport.SendFile(Files[i].FileName, buffer, sequence, totalSequence, sender);
+                                    }
+                                    else if (sequence == totalSequence && remaining % buffer.Length > 0)
+                                    {
+                                        read = Files[i].InputStream.Read(lstBuffer, 0, lstBuffer.Length);
+                                        JefferiesExcuReport.SendFile(Files[i].FileName, lstBuffer, sequence, totalSequence, sender);
+                                    }
+                                    remaining -= read;
+                                    sequence++;
+                                }
+                                if (log.IsInfoEnabled) log.InfoFormat("Send File({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
+                                Files[i].InputStream.Seek(0, System.IO.SeekOrigin.Begin);
+                            }
+                        }
+                    }
+                }
+                //只有一個人
+                else
+                {
+                    JefferiesExcuReport.ReStartSender(topicOrQueueName);
+                    for (int h = 0; h < times; h++)
+                    {
                         for (var i = 0; i < Files.Count; i++)
                         {
                             long sequence = 1;
@@ -239,38 +278,6 @@ namespace KaazingTestWebApplication.Controllers
                             if (log.IsInfoEnabled) log.InfoFormat("Send File({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
                             Files[i].InputStream.Seek(0, System.IO.SeekOrigin.Begin);
                         }
-                    }
-                }
-                //只有一個人
-                else
-                {
-                    JefferiesExcuReport.ReStartSender(topicOrQueueName);
-                    for (var i = 0; i < Files.Count; i++)
-                    {
-                        long sequence = 1;
-                        byte[] buffer = new byte[2048000];
-                        int offset = 0;
-                        long remaining = Files[i].InputStream.Length;
-                        byte[] lstBuffer = new byte[remaining % buffer.Length];
-                        long totalSequence = remaining % buffer.Length > 0 ? (remaining / buffer.Length) + 1 : (remaining / buffer.Length);
-                        while (remaining > 0)
-                        {
-                            int read = 0;
-                            if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
-                            {
-                                read = Files[i].InputStream.Read(buffer, 0, buffer.Length);
-                                JefferiesExcuReport.SendFile(Files[i].FileName, buffer, sequence, totalSequence, sender);
-                            }
-                            else if(sequence == totalSequence && remaining % buffer.Length > 0)
-                            {
-                                read = Files[i].InputStream.Read(lstBuffer, 0, lstBuffer.Length);
-                                JefferiesExcuReport.SendFile(Files[i].FileName, lstBuffer, sequence, totalSequence, sender);
-                            }
-                            remaining -= read;
-                            sequence++;
-                        }
-                        if (log.IsInfoEnabled) log.InfoFormat("Send File({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
-                        Files[i].InputStream.Seek(0, System.IO.SeekOrigin.Begin);
                     }
                 }
                 apiResult = Ok(new { MessageId = "0000", Message = "" });
