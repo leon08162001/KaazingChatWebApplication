@@ -194,7 +194,9 @@ var handleConnectStarted = function (funcName) {
     if (funcName === "聊天") {
         $('#startLiveVideo').attr('disabled', false);
         $('#closeLiveVideo').attr('disabled', true);
-        getChatToday();
+        if ($("#divMsg").html() == "") {
+            getChatToday();
+        }
         if ($("#divMsgHis").html() == "") {
             getChatHistory();
         }
