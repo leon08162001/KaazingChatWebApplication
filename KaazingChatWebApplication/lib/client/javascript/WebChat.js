@@ -356,9 +356,9 @@ var sendMessage = function () {
 //../KaazingChatWebService/ChatService.asmx/SendMessageToServer
 //https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer
 
-var chatUpdate = function (chat, isAsync) {
+var chatUpdate = function (chat, isExit) {
     var chatUpdateServiceUrl = "api/WebChat/ChatUpdate";
-    if (isAsync) {
+    if (!isExit) {
         CallAjax(chatUpdateServiceUrl, chat,
             function (result) {
                 ajaxProgress = null;
