@@ -356,17 +356,17 @@ var sendMessage = function () {
 //../KaazingChatWebService/ChatService.asmx/SendMessageToServer
 //https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer
 
-var chatUpdate = function (chat, isAsync) {
+var chatUpdate = function (chat, isExit) {
     var chatUpdateServiceUrl = "api/WebChat/ChatUpdate";
-    if (isAsync) {
+    if (!isExit) {
         CallAjax(chatUpdateServiceUrl, chat,
             function (result) {
                 ajaxProgress = null;
             },
             function (xhr, textStatus, errorThrown) {
                 if (xhr.readyState === 0) {
-                    console.log(xhr.statusText);
-                    window.alert(xhr.statusText);
+                    console.log("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
+                    window.alert("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
                 }
                 else {
                     var obj = JSON.parse(xhr.responseText);
@@ -394,7 +394,7 @@ var chatUpdate = function (chat, isAsync) {
                 },
                 function (xhr, textStatus, errorThrown) {
                     if (xhr.readyState === 0) {
-                        console.log(xhr.statusText);
+                        console.log("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
                     }
                     else {
                         var obj = JSON.parse(xhr.responseText);
@@ -435,8 +435,8 @@ var sendAjaxTalkMessage1 = function () {
             //var err = JSON.parse(xhr.responseText);
             $("#sendMessage").attr('disabled', false);
             if (xhr.readyState === 0) {
-                console.log(xhr.statusText);
-                window.alert(xhr.statusText);
+                console.log("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
+                window.alert("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
             }
             else {
                 var obj = JSON.parse(xhr.responseText);
@@ -459,6 +459,7 @@ var sendAjaxTalkMessage = function () {
     var uuid = getUuid();
     var messageTime = getNowFormatDate();
     var data = {};
+    data.sender = messageClient.listenName.replace(/webchat./ig, "");
     if ($("#message").val().indexOf("https://") === 0 || $("#message").val().indexOf("http://") === 0) {
         data.message = $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\"><a href=\"" + $("#message").val() + "\" target=\"_blank\">" + $("#message").val().replace(/\n/g, '<br>') + "</a></pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span>";
     }
@@ -517,8 +518,8 @@ var sendAjaxTalkMessage = function () {
         },
         error: function (xhr, textStatus, errorThrown) {
             if (xhr.readyState === 0) {
-                console.log(xhr.statusText);
-                window.alert(xhr.statusText);
+                console.log("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
+                window.alert("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
             }
             else {
                 var obj = JSON.parse(xhr.responseText);
@@ -528,6 +529,43 @@ var sendAjaxTalkMessage = function () {
         },
         complete: function (XHR, TS) {
             $("#sendMessage").attr('disabled', false);
+            XHR = null;
+        }
+    });
+};
+
+var sendAjaxMessage = function (message, ajaxMessageType) {
+    var data = {};
+    data.message = message;
+    data.sender = messageClient.listenName.replace(/webchat./ig, "");
+    //data.topicOrQueueName = messageClient.sendName;
+    if (ajaxMessageType === ajaxMessageTypeEnum.read) {
+        data.topicOrQueueName = messageClient.sendName.indexOf(",") > -1 ? ("webchat." + message.substr(0, message.indexOf("："))).toUpperCase() : messageClient.sendName;
+    }
+    else {
+        //data.topicOrQueueName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_.]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
+        data.topicOrQueueName = $.trim($("#talkTo").val()).split(',').filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
+    }
+    data.messageType = Number(messageClient.messageType);
+    data.mqUrl = messageClient.uri;
+    ajaxProgress = $.ajax({
+        url: messageReadServiceUrl,
+        data: JSON.stringify(data),
+        dataType: "json",
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        error: function (xhr, textStatus, errorThrown) {
+            if (xhr.readyState === 0) {
+                console.log("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
+                window.alert("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
+            }
+            else {
+                var obj = JSON.parse(xhr.responseText);
+                console.log(obj.Message);
+                window.alert(obj.Message);
+            }
+        },
+        complete: function (XHR, TS) {
             XHR = null;
         }
     });
@@ -571,8 +609,8 @@ var getChatToday = function () {
         },
         function (xhr, textStatus, errorThrown) {
             if (xhr.readyState === 0) {
-                console.log(xhr.statusText);
-                window.alert(xhr.statusText);
+                console.log("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
+                window.alert("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
             }
             else {
                 var obj = JSON.parse(xhr.responseText);
@@ -609,8 +647,8 @@ var getChatHistory = function () {
         },
         function (xhr, textStatus, errorThrown) {
             if (xhr.readyState === 0) {
-                console.log(xhr.statusText);
-                window.alert(xhr.statusText);
+                console.log("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
+                window.alert("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
             }
             else {
                 var obj = JSON.parse(xhr.responseText);
@@ -618,42 +656,6 @@ var getChatHistory = function () {
                 window.alert(obj.Message);
             }
         });
-};
-
-var sendAjaxMessage = function (message, ajaxMessageType) {
-    var data = {};
-    data.message = message;
-    //data.topicOrQueueName = messageClient.sendName;
-    if (ajaxMessageType === ajaxMessageTypeEnum.read) {
-        data.topicOrQueueName = messageClient.sendName.indexOf(",") > -1 ? ("webchat." + message.substr(0, message.indexOf("："))).toUpperCase() : messageClient.sendName;
-    }
-    else {
-        //data.topicOrQueueName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_.]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
-        data.topicOrQueueName = $.trim($("#talkTo").val()).split(',').filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
-    }
-    data.messageType = Number(messageClient.messageType);
-    data.mqUrl = messageClient.uri;
-    ajaxProgress = $.ajax({
-        url: messageReadServiceUrl,
-        data: JSON.stringify(data),
-        dataType: "json",
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        error: function (xhr, textStatus, errorThrown) {
-            if (xhr.readyState === 0) {
-                console.log(xhr.statusText);
-                window.alert(xhr.statusText);
-            }
-            else {
-                var obj = JSON.parse(xhr.responseText);
-                console.log(obj.Message);
-                window.alert(obj.Message);
-            }
-        },
-        complete: function (XHR, TS) {
-            XHR = null;
-        }
-    });
 };
 
 var b64toBlob = function (b64Data, contentType, sliceSize) {
@@ -1084,7 +1086,7 @@ function startLiveVideo() {
                                     var uiObj = $("#divMsg")[0];
                                     var brTag = document.createElement('br');
                                     var spanTag = document.createElement('span');
-                                    var responseText = xhr.readyState === 0 ? xhr.statusText : JSON.parse(xhr.responseText).Message;
+                                    var responseText = xhr.readyState === 0 ? "readyState:" + xhr.readyState + "(" + xhr.statusText + ")" : JSON.parse(xhr.responseText).Message;
                                     spanTag.setAttribute("style", "background-color:yellow");
                                     spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送失敗:" + textStatus + "(" + messageTime + "):" + responseText;
                                     uiObj.insertBefore(brTag, uiObj.firstChild);
@@ -1291,7 +1293,7 @@ $(document).ready(function () {
                     var uiObj = $("#divMsg")[0];
                     var brTag = document.createElement('br');
                     var spanTag = document.createElement('span');
-                    var responseText = xhr.readyState === 0 ? xhr.statusText : JSON.parse(xhr.responseText).Message;
+                    var responseText = xhr.readyState === 0 ? "readyState:" + xhr.readyState + "(" + xhr.statusText + ")" : JSON.parse(xhr.responseText).Message;
                     spanTag.setAttribute("style", "background-color:yellow");
                     spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：檔案傳送失敗(" + messageTime + "):" + responseText;
                     uiObj.insertBefore(brTag, uiObj.firstChild);

@@ -35,6 +35,7 @@ namespace KaazingTestWebApplication.Controllers
     {
         public class MessageModel
         {
+            public string sender { get; set; }
             public string message { get; set; }
             public int times { get; set; }
             public string topicOrQueueName { get; set; }
@@ -81,9 +82,10 @@ namespace KaazingTestWebApplication.Controllers
                         for (int i = 0; i < Message.times; i++)
                         {
                             JefferiesExcuReport.SendMessage(Message.message);
-                            if (log.IsInfoEnabled) log.InfoFormat("SendTalkMessageToServer from {0}(Count:{1})", Assembly.GetExecutingAssembly().GetName().Name, (i + 1).ToString());
+                            if (log.IsInfoEnabled) log.InfoFormat("{0} is sending message to {1}({2})", Message.sender, sendName.Split(new char[] { '.' })[1].Trim(), Message.message);
                         }
                     }
+                    if (log.IsInfoEnabled) log.InfoFormat("SendTalkMessageToServer from {0}(Count:{1})", Assembly.GetExecutingAssembly().GetName().Name, Message.times.ToString());
                 }
                 //只有一個人
                 else
@@ -92,8 +94,9 @@ namespace KaazingTestWebApplication.Controllers
                     for (int i = 0; i < Message.times; i++)
                     {
                         JefferiesExcuReport.SendMessage(Message.message);
-                        if (log.IsInfoEnabled) log.InfoFormat("SendTalkMessageToServer from {0}(Count:{1})", Assembly.GetExecutingAssembly().GetName().Name, (i + 1).ToString());
+                        if (log.IsInfoEnabled) log.InfoFormat("{0} is sending message to {1}({2})", Message.sender, Message.topicOrQueueName.Split(new char[] { '.' })[1].Trim(), Message.message);
                     }
+                    if (log.IsInfoEnabled) log.InfoFormat("SendTalkMessageToServer from {0}(Count:{1})", Assembly.GetExecutingAssembly().GetName().Name, Message.times.ToString());
                 }
                 //test code begin
                 apiResult = Ok(new { MessageId = "0000", Message = "" });
@@ -132,14 +135,20 @@ namespace KaazingTestWebApplication.Controllers
                     {
                         JefferiesExcuReport.ReStartSender(sendName.Trim());
                         JefferiesExcuReport.SendMessage(Message.message);
+                        if (log.IsInfoEnabled) log.InfoFormat("{0} is sending readed message to {1}({2})", Message.sender, sendName.Split(new char[] { '.' })[1].Trim(), Message.message);
                     }
+                    if (log.IsInfoEnabled) log.InfoFormat("SendReadMessageToServer from {0}", Assembly.GetExecutingAssembly().GetName().Name);
                 }
                 //只有一個人
                 else
                 {
                     JefferiesExcuReport.SendMessage(Message.message);
+                    if (log.IsInfoEnabled)
+                    {
+                        log.InfoFormat("{0} is sending readed message to {1}({2})", Message.sender, Message.topicOrQueueName.Split(new char[] { '.' })[1].Trim(), Message.message);
+                        log.InfoFormat("SendReadMessageToServer from {0}", Assembly.GetExecutingAssembly().GetName().Name);
+                    }
                 }
-                if (log.IsInfoEnabled) log.InfoFormat("SendReadMessageToServer from {0}", Assembly.GetExecutingAssembly().GetName().Name);
                 apiResult = Ok(new { MessageId = "0000", Message = "" });
             }
             catch (Exception ex)
@@ -239,8 +248,12 @@ namespace KaazingTestWebApplication.Controllers
                                     remaining -= read;
                                     sequence++;
                                 }
-                                if (log.IsInfoEnabled) log.InfoFormat("Send File({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
                                 Files[i].InputStream.Seek(0, System.IO.SeekOrigin.Begin);
+                                if (log.IsInfoEnabled)
+                                {
+                                    log.InfoFormat("{0} is sending file to {1}({2})", sender, sendName.Split(new char[] { '.' })[1].Trim(), Files[i].FileName);
+                                    log.InfoFormat("Send File({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
+                                }
                             }
                         }
                     }
@@ -275,8 +288,12 @@ namespace KaazingTestWebApplication.Controllers
                                 remaining -= read;
                                 sequence++;
                             }
-                            if (log.IsInfoEnabled) log.InfoFormat("Send File({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
                             Files[i].InputStream.Seek(0, System.IO.SeekOrigin.Begin);
+                            if (log.IsInfoEnabled)
+                            {
+                                log.InfoFormat("{0} is sending file to {1}({2})", sender, topicOrQueueName.Split(new char[] { '.' })[1].Trim(), Files[i].FileName);
+                                log.InfoFormat("Send File({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
+                            }
                         }
                     }
                 }
