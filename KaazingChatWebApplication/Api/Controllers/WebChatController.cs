@@ -25,6 +25,12 @@ namespace KaazingTestWebApplication.Controllers
         Topic = 1,
         Queue = 2
     }
+    public enum AjaxMessageType
+    {
+        read = 1,
+        file = 2,
+        stream = 3
+    }
     public enum MessageDate
     {
         Today = 1,
@@ -40,6 +46,7 @@ namespace KaazingTestWebApplication.Controllers
             public int times { get; set; }
             public string topicOrQueueName { get; set; }
             public MessageType messageType { get; set; }
+            public AjaxMessageType ajaxMessageType { get; set; }
             public string mqUrl { get; set; }
         }
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -82,7 +89,7 @@ namespace KaazingTestWebApplication.Controllers
                         for (int i = 0; i < Message.times; i++)
                         {
                             JefferiesExcuReport.SendMessage(Message.message);
-                            if (log.IsInfoEnabled) log.InfoFormat("{0} is sending message to {1}({2})", Message.sender, sendName.Split(new char[] { '.' })[1].Trim(), Message.message);
+                            if (log.IsInfoEnabled) log.InfoFormat("{0} is sending a message to {1}({2})", Message.sender, sendName.Split(new char[] { '.' })[1].Trim(), Message.message);
                         }
                     }
                     if (log.IsInfoEnabled) log.InfoFormat("SendTalkMessageToServer from {0}(Count:{1})", Assembly.GetExecutingAssembly().GetName().Name, Message.times.ToString());
@@ -94,7 +101,7 @@ namespace KaazingTestWebApplication.Controllers
                     for (int i = 0; i < Message.times; i++)
                     {
                         JefferiesExcuReport.SendMessage(Message.message);
-                        if (log.IsInfoEnabled) log.InfoFormat("{0} is sending message to {1}({2})", Message.sender, Message.topicOrQueueName.Split(new char[] { '.' })[1].Trim(), Message.message);
+                        if (log.IsInfoEnabled) log.InfoFormat("{0} is sending a message to {1}({2})", Message.sender, Message.topicOrQueueName.Split(new char[] { '.' })[1].Trim(), Message.message);
                     }
                     if (log.IsInfoEnabled) log.InfoFormat("SendTalkMessageToServer from {0}(Count:{1})", Assembly.GetExecutingAssembly().GetName().Name, Message.times.ToString());
                 }
@@ -114,11 +121,12 @@ namespace KaazingTestWebApplication.Controllers
             return apiResult;
         }
         [HttpPost]
-        [Route("SendReadMessageToServer")]
-        public IHttpActionResult SendReadMessageToServer(MessageModel Message)
+        [Route("SendAjaxMessageToServer")]
+        public IHttpActionResult SendAjaxMessageToServer(MessageModel Message)
         {
             IHttpActionResult apiResult = null;
             config = (Config)applicationContext.GetObject("Config");
+            string ajaxMessageType = Message.ajaxMessageType == AjaxMessageType.read ? "readed" : Message.ajaxMessageType == AjaxMessageType.file ? "file" : "stream";
             JefferiesExcuReport.WebSocketUri = Message.mqUrl.Replace("ws://", "").Replace("wss://", "");
             JefferiesExcuReport.DestinationFeature = Message.messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
             JefferiesExcuReport.SendName = Message.topicOrQueueName;
@@ -135,7 +143,7 @@ namespace KaazingTestWebApplication.Controllers
                     {
                         JefferiesExcuReport.ReStartSender(sendName.Trim());
                         JefferiesExcuReport.SendMessage(Message.message);
-                        if (log.IsInfoEnabled) log.InfoFormat("{0} is sending readed message to {1}({2})", Message.sender, sendName.Split(new char[] { '.' })[1].Trim(), Message.message);
+                        if (log.IsInfoEnabled) log.InfoFormat("{0} is sending a " + ajaxMessageType + " message to {1}({2})", Message.sender, sendName.Split(new char[] { '.' })[1].Trim(), Message.message);
                     }
                     if (log.IsInfoEnabled) log.InfoFormat("SendReadMessageToServer from {0}", Assembly.GetExecutingAssembly().GetName().Name);
                 }
@@ -145,7 +153,7 @@ namespace KaazingTestWebApplication.Controllers
                     JefferiesExcuReport.SendMessage(Message.message);
                     if (log.IsInfoEnabled)
                     {
-                        log.InfoFormat("{0} is sending readed message to {1}({2})", Message.sender, Message.topicOrQueueName.Split(new char[] { '.' })[1].Trim(), Message.message);
+                        log.InfoFormat("{0} is sending a " + ajaxMessageType + " message to {1}({2})", Message.sender, Message.topicOrQueueName.Split(new char[] { '.' })[1].Trim(), Message.message);
                         log.InfoFormat("SendReadMessageToServer from {0}", Assembly.GetExecutingAssembly().GetName().Name);
                     }
                 }
@@ -251,8 +259,8 @@ namespace KaazingTestWebApplication.Controllers
                                 Files[i].InputStream.Seek(0, System.IO.SeekOrigin.Begin);
                                 if (log.IsInfoEnabled)
                                 {
-                                    log.InfoFormat("{0} is sending file to {1}({2})", sender, sendName.Split(new char[] { '.' })[1].Trim(), Files[i].FileName);
-                                    log.InfoFormat("Send File({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
+                                    log.InfoFormat("{0} is sending a file to {1}({2})", sender, sendName.Split(new char[] { '.' })[1].Trim(), Files[i].FileName);
+                                    log.InfoFormat("sending a file({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
                                 }
                             }
                         }
@@ -291,8 +299,8 @@ namespace KaazingTestWebApplication.Controllers
                             Files[i].InputStream.Seek(0, System.IO.SeekOrigin.Begin);
                             if (log.IsInfoEnabled)
                             {
-                                log.InfoFormat("{0} is sending file to {1}({2})", sender, topicOrQueueName.Split(new char[] { '.' })[1].Trim(), Files[i].FileName);
-                                log.InfoFormat("Send File({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
+                                log.InfoFormat("{0} is sending a file to {1}({2})", sender, topicOrQueueName.Split(new char[] { '.' })[1].Trim(), Files[i].FileName);
+                                log.InfoFormat("sending a file({0}) from {1}", Files[i].FileName, Assembly.GetExecutingAssembly().GetName().Name);
                             }
                         }
                     }

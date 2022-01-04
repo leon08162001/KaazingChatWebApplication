@@ -40,7 +40,7 @@ var chkWebSocketLoadBalancerUrl = "api/WebChat/GetWebSocketLoadBalancerUrl";
 //var messageReadServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendReadMessageToServer";
 //var messageReadServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/SendReadMessageToServer";
 //var messageReadServiceUrl = "Asmx/ChatService.asmx/SendReadMessageToServer";
-var messageReadServiceUrl = "api/WebChat/SendReadMessageToServer";
+var messageAjaxServiceUrl = "api/WebChat/SendAjaxMessageToServer";
 
 //因android 瀏覽器執行下列上傳檔案asmx會出現error,故改用呼叫ashx方式進行(暫查不出原因,因PC上瀏覽器執行上傳檔案asmx沒有問題)
 //var messageUploadFileUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService1.asmx/UploadFile";
@@ -538,6 +538,7 @@ var sendAjaxMessage = function (message, ajaxMessageType) {
     var data = {};
     data.message = message;
     data.sender = messageClient.listenName.replace(/webchat./ig, "");
+    data.ajaxMessageType = ajaxMessageType;
     //data.topicOrQueueName = messageClient.sendName;
     if (ajaxMessageType === ajaxMessageTypeEnum.read) {
         data.topicOrQueueName = messageClient.sendName.indexOf(",") > -1 ? ("webchat." + message.substr(0, message.indexOf("："))).toUpperCase() : messageClient.sendName;
@@ -549,7 +550,7 @@ var sendAjaxMessage = function (message, ajaxMessageType) {
     data.messageType = Number(messageClient.messageType);
     data.mqUrl = messageClient.uri;
     ajaxProgress = $.ajax({
-        url: messageReadServiceUrl,
+        url: messageAjaxServiceUrl,
         data: JSON.stringify(data),
         dataType: "json",
         type: "POST",
@@ -1091,7 +1092,7 @@ function startLiveVideo() {
                                     spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送失敗:" + textStatus + "(" + messageTime + "):" + responseText;
                                     uiObj.insertBefore(brTag, uiObj.firstChild);
                                     uiObj.insertBefore(spanTag, uiObj.firstChild);
-                                    sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送失敗:" + textStatus + "(" + messageTime + "):" + responseText, ajaxMessageTypeEnum.file);
+                                    sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送失敗:" + textStatus + "(" + messageTime + "):" + responseText, ajaxMessageTypeEnum.stream);
                                     //alert('串流傳送失敗');
                                 },
                                 complete: function (XHR, TS) {
@@ -1262,13 +1263,12 @@ $(document).ready(function () {
         // Make Ajax request with the contentType = false, and procesDate = false
         var messageTime = getNowFormatDate();
         for (i = 0; i < Number($("#times").val()); i++) {
-            $("#divMsg").html("<span style=\"background-color: yellow;\">" + messageClient.listenName.replace(/webchat./ig, "") + "：傳送檔案中，請稍後...(" + messageTime + ")</span><br>" + $("#divMsg").html());
+            var uuid = getUuid();
+            $("#divMsg").html("<span style=\"background-color: yellow;\" id=\"" + uuid + "\">" + messageClient.listenName.replace(/webchat./ig, "") + "：傳送檔案中，請稍後...(" + messageTime + ")</span><br>" + $("#divMsg").html());
+            sendAjaxMessage("<span id=\"" + uuid + "\">" + messageClient.listenName.replace(/webchat./ig, "") + "：傳送檔案中，請稍後...(" + messageTime + ")</span>", ajaxMessageTypeEnum.file);
         }
         $("#fileUpload").attr('disabled', true);
         $('#btnUploadFile').attr('disabled', true);
-        for (i = 0; i < Number($("#times").val()); i++) {
-            sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：傳送檔案中，請稍後...(" + messageTime + ")", ajaxMessageTypeEnum.file);
-        }
         setTimeout(function () {
             var ajaxProgress = $.ajax({
                 type: "POST",
