@@ -461,7 +461,6 @@ namespace Common.LinkLayer
         }
 
         public abstract void processEMSMessage(Message message);
-
         public void SendMessage(string Text)
         {
             string ErrorMsg = "";
@@ -565,7 +564,6 @@ namespace Common.LinkLayer
             }
             return isSend;
         }
-
         public bool SendEMSMessage(string MessageIDTag, List<List<MessageField>> MultiEMSMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
         {
             bool isSend = false;
@@ -630,7 +628,6 @@ namespace Common.LinkLayer
             }
             return isSend;
         }
-
         public void SendAsynEMSMessage(string MessageIDTag, List<List<MessageField>> MultiEMSMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
         {
             ThreadStart SendThreadStart = new ThreadStart(

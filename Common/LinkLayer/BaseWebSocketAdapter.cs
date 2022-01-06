@@ -398,7 +398,46 @@ namespace Common.LinkLayer
         }
 
         public abstract void processMessage(IMessage message);
-
+        public void SendMessage(string Text)
+        {
+            string ErrorMsg = "";
+            try
+            {
+                if (_Session != null)
+                {
+                    ITextMessage msg = _Session.CreateTextMessage();
+                    msg.Text = Text;
+                    try
+                    {
+                        if (_Producer == null)
+                        {
+                            return;
+                        }
+                        _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, 9, 0);
+                    }
+                    catch (Kaazing.JMS.JMSException ex)
+                    {
+                        throw ex;
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                ErrorMsg = "BaseWebSocketAdapter SendMessage() Error(" + exception.Message + ")";
+                if (log.IsErrorEnabled) log.Error("BaseWebSocketAdapter SendMessage() Error", exception);
+            }
+            finally
+            {
+                if (_UISyncContext != null & IsEventInUIThread)
+                {
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+                else
+                {
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+            }
+        }
         public void SendMessage(string MessageIDTag, List<MessageField> SingleMessage)
         {
             string ErrorMsg = "";
@@ -462,7 +501,6 @@ namespace Common.LinkLayer
                 }
             }
         }
-
         public void SendMessage(string MessageIDTag, List<List<MessageField>> MultiMessage)
         {
             string ErrorMsg = "";
@@ -533,7 +571,6 @@ namespace Common.LinkLayer
                 }
             }
         }
-
         public void SendAsynMessage(string MessageIDTag, List<List<MessageField>> MultiMessage)
         {
             ThreadStart SendThreadStart = new ThreadStart(
@@ -1149,47 +1186,6 @@ namespace Common.LinkLayer
                 catch (Kaazing.JMS.JMSException ex)
                 {
                     throw ex;
-                }
-            }
-        }
-
-        public void SendMessage(string Text)
-        {
-            string ErrorMsg = "";
-            try
-            {
-                if (_Session != null)
-                {
-                    ITextMessage msg = _Session.CreateTextMessage();
-                    msg.Text = Text;
-                    try
-                    {
-                        if (_Producer == null)
-                        {
-                            return;
-                        }
-                        _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, 9, 0);
-                    }
-                    catch (Kaazing.JMS.JMSException ex)
-                    {
-                        throw ex;
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                ErrorMsg = "BaseWebSocketAdapter SendMessage() Error(" + exception.Message + ")";
-                if (log.IsErrorEnabled) log.Error("BaseWebSocketAdapter SendMessage() Error", exception);
-            }
-            finally
-            {
-                if (_UISyncContext != null & IsEventInUIThread)
-                {
-                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
-                }
-                else
-                {
-                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
         }
