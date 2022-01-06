@@ -79,7 +79,7 @@ MessageClient.prototype = (function () {
     };
 
     var processMessage = function (message) {
-        if (message.getJMSType() === null) {
+        if (message.getJMSType().toString() === "text") {
             if (isJson(message.getText())) {
                 var json = eval("(" + message.getText() + ")");
                 jsonObj = JSON.parse(JSON.stringify(json));

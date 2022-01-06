@@ -472,6 +472,7 @@ namespace Common.LinkLayer
                     {
 
                         TextMessage msg = _Session.CreateTextMessage();
+                        msg.MsgType = "text";
                         msg.Text = Text;
                         long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
                         _Producer.Send(msg, MessageDeliveryMode.NonPersistent, 9, MessageOut);

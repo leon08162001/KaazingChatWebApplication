@@ -406,6 +406,7 @@ namespace Common.LinkLayer
                 if (_Session != null)
                 {
                     ITextMessage msg = _Session.CreateTextMessage();
+                    msg.JMSType = "text";
                     msg.Text = Text;
                     try
                     {
