@@ -516,8 +516,8 @@ namespace Common.LinkLayer
                 {
                     if (!_Session.IsClosed)
                     {
-
                         Message msg = _Session.CreateMessage();
+                        msg.MsgType = "map";
                         msg.SetStringProperty(MessageIDTag, this._MessageID);
                         //MacAddress(99)
                         if (!string.IsNullOrEmpty(_MacAddress))
@@ -577,10 +577,10 @@ namespace Common.LinkLayer
                 {
                     if (!_Session.IsClosed)
                     {
-
                         foreach (List<MessageField> SingleEMSMessage in MultiEMSMessage)
                         {
                             Message msg = _Session.CreateMessage();
+                            msg.MsgType = "map";
                             msg.SetStringProperty(MessageIDTag, this._MessageID);
                             //MacAddress(99)
                             if (!string.IsNullOrEmpty(_MacAddress))
@@ -848,6 +848,7 @@ namespace Common.LinkLayer
                         foreach (List<MessageField> SingleEMSMessage in MultiEMSMessage)
                         {
                             Message msg = Session.CreateMessage();
+                            msg.MsgType = "map";
                             msg.SetStringProperty(MessageIDTag, this._MessageID);
                             //MacAddress(99)
                             if (!string.IsNullOrEmpty(_MacAddress))

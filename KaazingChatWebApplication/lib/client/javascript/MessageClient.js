@@ -48,7 +48,7 @@ MessageClient.prototype = (function () {
     var topicOrQueueConsumer;
     var topicOrQueueProducer;
     var errLog = "";
-    var jsonObj;
+    var messageObj;
 
     //var triggerMessageReceived = function (thisObj, msg) {
     //    var scope = thisObj || window;
@@ -82,69 +82,73 @@ MessageClient.prototype = (function () {
         if (message.getJMSType().toString() === "text") {
             if (isJson(message.getText())) {
                 var json = eval("(" + message.getText() + ")");
-                jsonObj = JSON.parse(JSON.stringify(json));
-                triggerMessageReceived.call(that, jsonObj);
+                messageObj = JSON.parse(JSON.stringify(json));
+                messageObj.type = "json";
+                triggerMessageReceived.call(that, messageObj);
             }
             else {
-                triggerMessageReceived.call(that, message.getText());
+                messageObj = message.getText();
+                triggerMessageReceived.call(that, messageObj);
             }
         }
-        else {
+        else if (message.getJMSType() === "map") {
+            if (message instanceof Message) {
+                messageObj = new Object();
+                var props = message.getPropertyNames();
+                while (props.hasMoreElements()) {
+                    var key = props.nextElement();
+                    var value = message.getStringProperty(key);
+                    messageObj[key] = value;
+                }
+                messageObj.type = "map";
+                triggerMessageReceived.call(that, messageObj);
+            }
+        }
+        else if (message.getJMSType().toString() === "file") {
             var seq, ttlSeq, length, arrayBuffer, uint8Buffer;
-            if (message.getJMSType().toString() === "file") {
-                seq = parseInt(message.getStringProperty("sequence"));
-                ttlSeq = parseInt(message.getStringProperty("totalSequence"));
-                length = message.getBodyLength();
-                arrayBuffer = new ArrayBuffer(length);
-                uint8Buffer = new Uint8Array(arrayBuffer);
-                message.readBytes(uint8Buffer, length);
-                if (seq === 1) {
-                    jsonObj = new Object();
-                    jsonObj.id = message.getStringProperty("id");
-                    jsonObj.dataType = message.getStringProperty("datatype");
-                    jsonObj.fileName = message.getStringProperty("filename");
-                    jsonObj.file = arrayBuffer;
-                }
-                if (seq > 1 && seq <= ttlSeq) {
-                    jsonObj.file = concatBuffers(jsonObj.file, arrayBuffer);
-                }
-                if (seq === ttlSeq) {
-                    triggerMessageReceived.call(that, jsonObj);
-                }
+            seq = parseInt(message.getStringProperty("sequence"));
+            ttlSeq = parseInt(message.getStringProperty("totalSequence"));
+            length = message.getBodyLength();
+            arrayBuffer = new ArrayBuffer(length);
+            uint8Buffer = new Uint8Array(arrayBuffer);
+            message.readBytes(uint8Buffer, length);
+            if (seq === 1) {
+                messageObj = new Object();
+                messageObj.id = message.getStringProperty("id");
+                messageObj.dataType = message.getStringProperty("datatype");
+                messageObj.fileName = message.getStringProperty("filename");
+                messageObj.type = "file";
+                messageObj.file = arrayBuffer;
             }
-            else if (message.getJMSType().toString() === "stream") {
-                seq = parseInt(message.getStringProperty("sequence"));
-                ttlSeq = parseInt(message.getStringProperty("totalSequence"));
-                length = message.getBodyLength();
-                arrayBuffer = new ArrayBuffer(length);
-                uint8Buffer = new Uint8Array(arrayBuffer);
-                message.readBytes(uint8Buffer, length);
-                if (seq === 1) {
-                    jsonObj = new Object();
-                    jsonObj.id = message.getStringProperty("id");
-                    jsonObj.dataType = message.getStringProperty("datatype");
-                    jsonObj.streamName = message.getStringProperty("streamname");
-                    jsonObj.stream = arrayBuffer;
-                }
-                if (seq > 1 && seq <= ttlSeq) {
-                    jsonObj.stream = concatBuffers(jsonObj.stream, arrayBuffer);
-                }
-                if (seq === ttlSeq) {
-                    triggerMessageReceived.call(that, jsonObj);
-                }
+            if (seq > 1 && seq <= ttlSeq) {
+                messageObj.file = concatBuffers(messageObj.file, arrayBuffer);
             }
-            //if (message.getJMSType().toString() === "file") {
-            //    var length = message.getBodyLength();
-            //    var arrayBuffer = new ArrayBuffer(length);
-            //    var uint8Buffer = new Uint8Array(arrayBuffer);
-            //    message.readBytes(uint8Buffer, length);
-            //    jsonObj = new Object();
-            //    jsonObj.id = message.getStringProperty("id");
-            //    jsonObj.dataType = message.getStringProperty("datatype");
-            //    jsonObj.fileName = message.getStringProperty("filename");
-            //    jsonObj.file = arrayBuffer;
-            //    triggerMessageReceived.call(that, jsonObj);
-            //}
+            if (seq === ttlSeq) {
+                triggerMessageReceived.call(that, messageObj);
+            }
+        }
+        else if (message.getJMSType().toString() === "stream") {
+            var seq, ttlSeq, length, arrayBuffer, uint8Buffer;
+            seq = parseInt(message.getStringProperty("sequence"));
+            ttlSeq = parseInt(message.getStringProperty("totalSequence"));
+            length = message.getBodyLength();
+            arrayBuffer = new ArrayBuffer(length);
+            uint8Buffer = new Uint8Array(arrayBuffer);
+            message.readBytes(uint8Buffer, length);
+            if (seq === 1) {
+                messageObj = new Object();
+                messageObj.id = message.getStringProperty("id");
+                messageObj.dataType = message.getStringProperty("datatype");
+                messageObj.streamName = message.getStringProperty("streamname");
+                messageObj.type = "stream";
+                messageObj.stream = arrayBuffer;
+            }
+            if (seq > 1 && seq <= ttlSeq) {
+                messageObj.stream = concatBuffers(messageObj.stream, arrayBuffer);
+            }
+            if (seq === ttlSeq) {
+                triggerMessageReceived.call(that, messageObj);
+            }
         }
     };
 

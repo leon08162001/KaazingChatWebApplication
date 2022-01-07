@@ -118,7 +118,7 @@ var handleMessage = function (uiObj, message) {
     }
     else if (typeof message === "object") {
         var sMessage = "";
-        if (message.hasOwnProperty('file')) {
+        if (message.type === "file") {
             var messageTime = getNowFormatDate();
             var brTag = document.createElement('br');
             //playDownloadVideoOrAudioFile(message);
@@ -174,14 +174,17 @@ var handleMessage = function (uiObj, message) {
                 chatUpdate(chat, true);
             }
         }
-        else if (message.hasOwnProperty('stream')) {
+        else if (message.type === "stream") {
             playStream(message);
         }
-        else {
+        else if (message.type === "json") {
             for (var field in message) {
                 sMessage += field.toString() + "=" + message[field] + "<br>";
             }
             bindMessageToUI(uiObj, sMessage);
+        }
+        else if (message.type === "map") {
+
         }
     }
 };

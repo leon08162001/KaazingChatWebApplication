@@ -454,6 +454,7 @@ namespace Common.LinkLayer
                 if (_Session != null)
                 {
                     IMessage msg = _Session.CreateMessage();
+                    msg.JMSType = "map";
                     msg.SetStringProperty(MessageIDTag, this._MessageID);
                     //MacAddress(N99)
                     if (!_MacAddress.Equals(""))
@@ -523,6 +524,7 @@ namespace Common.LinkLayer
                             break;
                         }
                         IMessage msg = _Session.CreateMessage();
+                        msg.JMSType = "map";
                         msg.SetStringProperty(MessageIDTag, this._MessageID);
                         //MacAddress(N99)
                         if (!_MacAddress.Equals(""))
@@ -983,6 +985,7 @@ namespace Common.LinkLayer
                             break;
                         }
                         IMessage msg = Session.CreateMessage();
+                        msg.JMSType = "map";
                         int TestTag;
                         if (int.TryParse(MessageIDTag, out TestTag))
                         {
