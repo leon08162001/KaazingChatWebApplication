@@ -145,18 +145,14 @@ namespace KaazingTestWebApplication.Controllers
                         JefferiesExcuReport.SendMessage(Message.message);
                         if (log.IsInfoEnabled) log.InfoFormat("{0} is sending a " + ajaxMessageType + " message to {1}({2})", Message.sender, sendName.Split(new char[] { '.' })[1].Trim(), Message.message);
                     }
-                    if (log.IsInfoEnabled) log.InfoFormat("SendReadMessageToServer from {0}", Assembly.GetExecutingAssembly().GetName().Name);
                 }
                 //只有一個人
                 else
                 {
                     JefferiesExcuReport.SendMessage(Message.message);
-                    if (log.IsInfoEnabled)
-                    {
-                        log.InfoFormat("{0} is sending a " + ajaxMessageType + " message to {1}({2})", Message.sender, Message.topicOrQueueName.Split(new char[] { '.' })[1].Trim(), Message.message);
-                        log.InfoFormat("SendReadMessageToServer from {0}", Assembly.GetExecutingAssembly().GetName().Name);
-                    }
+                    if (log.IsInfoEnabled) log.InfoFormat("{0} is sending a " + ajaxMessageType + " message to {1}({2})", Message.sender, Message.topicOrQueueName.Split(new char[] { '.' })[1].Trim(), Message.message);
                 }
+                if (log.IsInfoEnabled) log.InfoFormat("SendReadMessageToServer from {0}", Assembly.GetExecutingAssembly().GetName().Name);
                 apiResult = Ok(new { MessageId = "0000", Message = "" });
             }
             catch (Exception ex)
