@@ -101,6 +101,25 @@ namespace KaazingTestWebApplication.Controllers
                     for (int i = 0; i < Message.times; i++)
                     {
                         JefferiesExcuReport.SendMessage(Message.message);
+                        //test code
+                        //List<List<MessageField>> messageRows = new List<List<MessageField>>();
+                        //for (int j = 0; j < 2; j++)
+                        //{
+                        //    List<MessageField> row = new List<MessageField>();
+                        //    MessageField jmsMessage = new MessageField();
+                        //    jmsMessage.Name = "message";
+                        //    jmsMessage.Value = Message.message;
+                        //    row.Add(jmsMessage);
+                        //    messageRows.Add(row);
+                        //}
+                        //JefferiesExcuReport.SendMessage("ID", messageRows);
+
+                        //List<MessageField> row = new List<MessageField>();
+                        //MessageField jmsMessage = new MessageField();
+                        //jmsMessage.Name = "message";
+                        //jmsMessage.Value = Message.message;
+                        //JefferiesExcuReport.SendMessage("ID", row);
+                        //test code
                         if (log.IsInfoEnabled) log.InfoFormat("{0} is sending a message to {1}({2})", Message.sender, Message.topicOrQueueName.Split(new char[] { '.' })[1].Trim(), Message.message);
                     }
                     if (log.IsInfoEnabled) log.InfoFormat("SendTalkMessageToServer from {0}(Count:{1})", Assembly.GetExecutingAssembly().GetName().Name, Message.times.ToString());

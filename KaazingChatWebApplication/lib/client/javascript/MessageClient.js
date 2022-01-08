@@ -49,6 +49,7 @@ MessageClient.prototype = (function () {
     var topicOrQueueProducer;
     var errLog = "";
     var messageObj;
+    var tempArry = [];
 
     //var triggerMessageReceived = function (thisObj, msg) {
     //    var scope = thisObj || window;
@@ -93,15 +94,22 @@ MessageClient.prototype = (function () {
         }
         else if (message.getJMSType() === "map") {
             if (message instanceof Message) {
-                messageObj = new Object();
+                var count = parseInt(message.getStringProperty("N10038"));
+                var tempObj = new Object();
                 var props = message.getPropertyNames();
                 while (props.hasMoreElements()) {
                     var key = props.nextElement();
                     var value = message.getStringProperty(key);
-                    messageObj[key] = value;
+                    tempObj[key] = value;
                 }
-                messageObj.type = "map";
-                triggerMessageReceived.call(that, messageObj);
+                tempArry.push(tempObj);
+                if (count == tempArry.length) {
+                    messageObj = toObject(tempArry);
+                    tempArry.splice(0, tempArry.length);
+                    messageObj.type = "map";
+                    messageObj.count = count;
+                    triggerMessageReceived.call(that, messageObj);
+                }
             }
         }
         else if (message.getJMSType().toString() === "file") {
@@ -494,4 +502,11 @@ function concatBuffers(a, b) {
         new Uint8Array(a.buffer || a),
         new Uint8Array(b.buffer || b)
     ).buffer;
+}
+
+function toObject(arr) {
+    var rv = {};
+    for (var i = 0; i < arr.length; ++i)
+        rv[i] = arr[i];
+    return rv;
 }
