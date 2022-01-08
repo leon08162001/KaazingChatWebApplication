@@ -100,6 +100,9 @@ MessageClient.prototype = (function () {
                 while (props.hasMoreElements()) {
                     var key = props.nextElement();
                     var value = message.getStringProperty(key);
+                    if (key === "JMSXDeliveryCount" || key === "ID" || key === "N99" || key === "N10038") {
+                        continue;
+                    }
                     tempObj[key] = value;
                 }
                 tempArry.push(tempObj);
