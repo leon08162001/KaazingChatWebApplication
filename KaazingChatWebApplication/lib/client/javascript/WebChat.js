@@ -107,7 +107,8 @@ var handleMessage = function (uiObj, message) {
             bindMessageToUI(uiObj, "<span style=\"background-color: yellow;\">" + message + "</span><br>");
         }
         else {
-            sendAjaxMessage(message + readedHtml, ajaxMessageTypeEnum.read);
+            var messageTime = getNowFormatDate();
+            sendAjaxMessage(message + readedHtml + "(" + messageTime + ")", ajaxMessageTypeEnum.read);
             bindMessageToUI(uiObj, message + "<br>");
         }
     }
@@ -241,17 +242,17 @@ var bindMessageToUI = function (uiObj, value) {
             if ($("[id='" + messageID + "']").length === 1) {
                 //找不到已讀
                 if ($("#" + messageID).html().indexOf("已讀") === -1) {
-                    $("#" + messageID).html($("#" + messageID).html() + readedHtml);
+                    $("#" + messageID).html($("#" + messageID).html() + readedHtml + value.split('</span>')[value.split('</span>').length - 2]);
                 }
                 //找得到已讀
                 else {
                     num = $("#" + messageID).html().match("已讀(.*)</span>")[1];
                     if (!$.isNumeric(num)) {
-                        $("#" + messageID).html($("#" + messageID).html().replace("已讀", "已讀2"));
+                        $("#" + messageID).html($("#" + messageID).html().replace("已讀", "已讀2") + value.split('</span>')[value.split('</span>').length - 2]);
                     }
                     else {
                         iNum = parseInt(num) + 1;
-                        $("#" + messageID).html($("#" + messageID).html().replace("已讀" + num, "已讀" + iNum.toString()));
+                        $("#" + messageID).html($("#" + messageID).html().replace("已讀" + num, "已讀" + iNum.toString()) + value.split('</span>')[value.split('</span>').length - 2]);
                     }
                 }
             }
@@ -259,7 +260,7 @@ var bindMessageToUI = function (uiObj, value) {
             else {
                 //找不到已讀
                 if ($("[id='" + messageID + "']").html().indexOf("已讀") === -1) {
-                    $("[id='" + messageID + "']").html($("[id='" + messageID + "']").html() + readedHtml);
+                    $("[id='" + messageID + "']").html($("[id='" + messageID + "']").html() + readedHtml + value.split('</span>')[value.split('</span>').length - 2]);
                 }
                 //找得到已讀
                 else {
@@ -267,7 +268,7 @@ var bindMessageToUI = function (uiObj, value) {
                     num = $("[id='" + messageID + "']").html().match("已讀(.*)</span>")[1];
                     iNum = parseInt(allReceivedNum / times);
                     if (iNum > 1) {
-                        $("[id='" + messageID + "']").html($("[id='" + messageID + "']").html().replace("已讀" + num, "已讀" + iNum.toString()));
+                        $("[id='" + messageID + "']").html($("[id='" + messageID + "']").html().replace("已讀" + num, "已讀" + iNum.toString()) + value.split('</span>')[value.split('</span>').length - 2]);
                     }
                 }
             }
