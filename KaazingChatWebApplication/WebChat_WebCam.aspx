@@ -162,6 +162,7 @@
         </video>
         <audio id="audio" style="display: none;" controls="controls">您的瀏覽器不支援audio標籤!</audio>
     </div>
+    <div id="divToday" class="defaultfont" style="display:none;"><span class="Rounded">今日</span></div>
     <div id="divMsg" class="defaultfont"></div>
     <div id="divMsgHis" class="defaultfont"></div>
 </body>

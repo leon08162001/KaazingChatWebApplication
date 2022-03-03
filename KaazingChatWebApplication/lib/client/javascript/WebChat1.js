@@ -101,7 +101,7 @@ var handleException = function (e) {
 };
 
 var handleMessage = function (uiObj, message) {
-    if (typeof message === "string") {
+    if (Object.prototype.toString.call(message) === '[object String]') {
         var hasReadedHtml = message.indexOf(readedHtml) === -1 ? false : true;
         if (hasReadedHtml) {
             bindMessageToUI(uiObj, "<span style=\"background-color: yellow;\">" + message + "</span><br>");
@@ -117,7 +117,7 @@ var handleMessage = function (uiObj, message) {
             handleMessage(uiObj, message[key]);
         }
     }
-    else if (typeof message === "object") {
+    else if (Object.prototype.toString.call(message) === '[object Object]') {
         var sMessage = "";
         if (message.type === "file") {
             var messageTime = getNowFormatDate();
@@ -179,13 +179,20 @@ var handleMessage = function (uiObj, message) {
             playStream(message);
         }
         else if (message.type === "json") {
-            for (var field in message) {
-                sMessage += field.toString() + "=" + message[field] + "<br>";
+            for (var key in message) {
+                //sMessage += key.toString() + "=" + message[key] + "<br>";
+                handleMessage(uiObj, message[key]);
             }
-            bindMessageToUI(uiObj, sMessage);
+            //bindMessageToUI(uiObj, sMessage);
         }
         else if (message.type === "map") {
 
+        }
+        else {
+            for (var key in message) {
+                //handleMessage(uiObj, key + "=" + message[key]);
+                handleMessage(uiObj, message[key]);
+            }
         }
     }
 };
@@ -281,6 +288,7 @@ var bindMessageToUI = function (uiObj, value) {
     }
     //added by leonlee 20210526
     if ($("#divMsg").html().length > 0) {
+        $("#divToday").show();
         chat = getChat();
         chatUpdate(chat, true);
     }
@@ -354,6 +362,9 @@ var sendMessage = function () {
     }
     var uuid = getUuid();
     var messageTime = getNowFormatDate();
+    if ($("#divToday").css('display') == 'none') {
+        $("#divToday").show();
+    }
     $("#divMsg").html("<span style=\"background-color: yellow;\"><pre>" + $.trim($("#listenFrom").val()).toUpperCase() + "：" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span></span><br>" + $("#divMsg").html());
     messageClient.sendMessage(JSON.stringify("<pre>" + $.trim($("#listenFrom").val()).toUpperCase() + "：" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span>"));
 };
@@ -420,6 +431,9 @@ var sendAjaxTalkMessage1 = function () {
     data.messageType = Number(messageClient.messageType);
     data.mqUrl = messageClient.uri;
     $("#sendMessage").attr('disabled', true);
+    if ($("#divToday").css('display') == 'none') {
+        $("#divToday").show();
+    }
     for (var i = 0; i < Number($("#times").val()); i++) {
         $("#divMsg").html("<span style=\"background-color: yellow;\">" + $.trim($("#listenFrom").val()).toUpperCase() + "：<pre class=\"defaultfont\" style=\"display: inline;\">" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span></span><br>" + $("#divMsg").html());
     }
@@ -498,6 +512,9 @@ var sendAjaxTalkMessage = function () {
     data.messageType = Number(messageClient.messageType);
     data.mqUrl = messageClient.uri;
     $("#sendMessage").attr('disabled', true);
+    if ($("#divToday").css('display') == 'none') {
+        $("#divToday").show();
+    }
     var i;
     if ($("#message").val().indexOf("https://") === 0 || $("#message").val().indexOf("http://") === 0) {
         for (i = 0; i < Number($("#times").val()); i++) {
@@ -604,6 +621,12 @@ var getChatToday = function () {
                 $.each(data, function () {
                     $("#divMsg").html($("#divMsg").html() + this.htmlMessage);
                 });
+                if ($("#divMsg").html().length > 0) {
+                    $("#divToday").show();
+                }
+                else {
+                    $("#divToday").hide();
+                }
                 $("a").each(function () {
                     var a = $(this)[0];
                     $(this).on('click', function () {
