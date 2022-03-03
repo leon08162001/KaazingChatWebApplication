@@ -179,6 +179,8 @@
     <Content Include="lib\client\javascript\MediaStreamRecorder.min.js" />
     <Content Include="lib\client\javascript\moment.min.js" />
     <Content Include="lib\client\javascript\WebChat.js" />
+    <Content Include="lib\client\javascript\WebChat1.js" />
+    <Content Include="lib\client\javascript\WebChat_lab.js" />
     <Content Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -217,6 +219,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="WebChat_WebCam.aspx" />
+    <Content Include="WebChat_WebCam1.aspx" />
     <Content Include="XMLHttpBridge.html" />
   </ItemGroup>
   <ItemGroup>
@@ -266,6 +269,13 @@
     </Compile>
     <Compile Include="WebChat_WebCam.aspx.designer.cs">
       <DependentUpon>WebChat_WebCam.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebChat_WebCam1.aspx.cs">
+      <DependentUpon>WebChat_WebCam1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebChat_WebCam1.aspx.designer.cs">
+      <DependentUpon>WebChat_WebCam1.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
