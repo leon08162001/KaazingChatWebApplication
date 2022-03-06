@@ -170,10 +170,10 @@ var handleMessage = function (uiObj, message) {
             uiObj.insertBefore(link, uiObj.firstChild);
             uiObj.insertBefore(spanTag, uiObj.firstChild);
             //added by leonlee 20210526
-            if ($("#divMsg").html().length > 0) {
-                chat = getChat();
-                chatUpdate(chat, true);
-            }
+            //if ($("#divMsg").html().length > 0) {
+            //    chat = getChat();
+            //    chatUpdate(chat, true);
+            //}
         }
         else if (message.type === "stream") {
             playStream(message);
@@ -289,8 +289,8 @@ var bindMessageToUI = function (uiObj, value) {
     //added by leonlee 20210526
     if ($("#divMsg").html().length > 0) {
         $("#divToday").show();
-        chat = getChat();
-        chatUpdate(chat, true);
+        //chat = getChat();
+        //chatUpdate(chat, true);
     }
 };
 
@@ -617,7 +617,7 @@ var getChatToday = function () {
     CallAjax(serviceUrl, chat,
         function (data) {
             if (data || data.d) {
-                $("#divMsg").html("");
+                //$("#divMsg").html("");
                 $.each(data, function () {
                     $("#divMsg").html($("#divMsg").html() + this.htmlMessage);
                 });
@@ -677,7 +677,7 @@ var getChatHistory = function () {
     CallAjax(serviceUrl, chat,
         function (data) {
             if (data || data.d) {
-                $("#divMsgHis").html("");
+                //$("#divMsgHis").html("");
                 $.each(data, function () {
                     $("#divMsgHis").html($("#divMsgHis").html() + "<span class=\"Rounded\">" + this.date.substring(0, 10) + "</span>");
                     $("#divMsgHis").html($("#divMsgHis").html() + this.htmlMessage);
