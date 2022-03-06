@@ -1228,6 +1228,7 @@ $(document).ready(function () {
             var chat = getChat();
             chatUpdate(chat, true);
             $("#divMsg").html("");
+            $("#divMsgHis").html("");
             //messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z-]+/g).filter(function (v) {return v }).join(',').toUpperCase();
             //messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z1-9-_.]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
             messageClient.sendName = $.trim($(this).val()).split(',').filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
@@ -1247,6 +1248,7 @@ $(document).ready(function () {
             var chat = getChat();
             chatUpdate(chat, true);
             $("#divMsg").html("");
+            $("#divMsgHis").html("");
             messageClient.listenName = ("webchat." + $.trim($("#listenFrom").val())).toUpperCase();
             getChatToday();
             getChatHistory();
