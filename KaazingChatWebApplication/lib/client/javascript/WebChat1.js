@@ -170,10 +170,10 @@ var handleMessage = function (uiObj, message) {
             uiObj.insertBefore(link, uiObj.firstChild);
             uiObj.insertBefore(spanTag, uiObj.firstChild);
             //added by leonlee 20210526
-            //if ($("#divMsg").html().length > 0) {
-            //    chat = getChat();
-            //    chatUpdate(chat, true);
-            //}
+            if ($("#divMsg").html().length > 0) {
+                chat = getChat();
+                chatUpdate(chat, true);
+            }
         }
         else if (message.type === "stream") {
             playStream(message);
@@ -289,8 +289,8 @@ var bindMessageToUI = function (uiObj, value) {
     //added by leonlee 20210526
     if ($("#divMsg").html().length > 0) {
         $("#divToday").show();
-        //chat = getChat();
-        //chatUpdate(chat, true);
+        chat = getChat();
+        chatUpdate(chat, true);
     }
 };
 
