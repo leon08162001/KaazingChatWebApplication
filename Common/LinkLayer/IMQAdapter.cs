@@ -29,7 +29,7 @@ namespace Common.LinkLayer
         /// </summary>
         string ListenName { get; set; }
         /// <summary>
-        /// 使用MirroredQueue時的前置詞名稱
+        /// 使用MirroredQueue時的固定前置詞名稱
         /// </summary>
         string MirroredQueuePrefix { get; set; }
         /// <summary>
@@ -73,9 +73,9 @@ namespace Common.LinkLayer
         /// </summary>
         DBAction ReceiverDBAction { get; set; }
         /// <summary>
-        /// 使用VirtualTopic時的前置詞名稱
+        /// 使用VirtualTopic時的固定前置詞名稱
         /// </summary>
-        string VirtualTopic { get; set; }
+        string VirtualTopicPrefix { get; set; }
         /// <summary>
         /// 使用VirtualTopic時的訊息消費者數量
         /// </summary>

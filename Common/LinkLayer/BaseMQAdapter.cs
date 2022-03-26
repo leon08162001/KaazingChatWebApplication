@@ -68,8 +68,8 @@ namespace Common.LinkLayer
         protected DBAction _SenderDBAction = DBAction.None;
         protected DBAction _ReceiverDBAction = DBAction.None;
         protected string _MirroredQueuePrefix = "MIRROR.";
-        protected string _VirtualTopic = "VTCON.";
-        //protected string _VirtualTopic = "VTCON.*.";
+        protected string _VirtualTopicPrefix = "VTCON.";
+        //protected string _VirtualTopicPrefix = "VTCON.*.";
         protected DestinationFeature _DestinationFeature = DestinationFeature.Topic;
 
         //使用_UseSharedConnection=true共享連線時下面的_Factory和_Connection會一直是null
@@ -220,10 +220,10 @@ namespace Common.LinkLayer
             get { return _MirroredQueuePrefix; }
         }
 
-        public string VirtualTopic
+        public string VirtualTopicPrefix
         {
-            set { _VirtualTopic = value; }
-            get { return _VirtualTopic; }
+            set { _VirtualTopicPrefix = value; }
+            get { return _VirtualTopicPrefix; }
         }
 
         public int VirtualTopicConsumers
@@ -1012,13 +1012,13 @@ namespace Common.LinkLayer
                         {
                             if (_Selector.Equals(""))
                             {
-                                QueueConsumer[i] = _Session.CreateConsumer(new ActiveMQQueue(_VirtualTopic + _ListenName));
-                                //QueueConsumer[i] = _Session.CreateConsumer(new ActiveMQQueue(_VirtualTopic.Replace("*", _ClientID) + _ListenName));
+                                QueueConsumer[i] = _Session.CreateConsumer(new ActiveMQQueue(_VirtualTopicPrefix + _ListenName));
+                                //QueueConsumer[i] = _Session.CreateConsumer(new ActiveMQQueue(_VirtualTopicPrefix.Replace("*", _ClientID) + _ListenName));
                             }
                             else
                             {
-                                QueueConsumer[i] = _Session.CreateConsumer(new ActiveMQQueue(_VirtualTopic + _ListenName), _Selector);
-                                //QueueConsumer[i] = _Session.CreateConsumer(new ActiveMQQueue(_VirtualTopic.Replace("*", _ClientID) + _ListenName), _Selector);
+                                QueueConsumer[i] = _Session.CreateConsumer(new ActiveMQQueue(_VirtualTopicPrefix + _ListenName), _Selector);
+                                //QueueConsumer[i] = _Session.CreateConsumer(new ActiveMQQueue(_VirtualTopicPrefix.Replace("*", _ClientID) + _ListenName), _Selector);
                             }
                             QueueConsumer[i].Listener += new MessageListener(listener_messageReceivedEventHandler);
                             _ListVirtualTopicConsumer.Add(QueueConsumer[i]);
@@ -1280,13 +1280,13 @@ namespace Common.LinkLayer
                         {
                             if (_Selector.Equals(""))
                             {
-                                QueueConsumer[i] = _Session.CreateConsumer(new ActiveMQQueue(_VirtualTopic + _ListenName));
-                                //QueueConsumer[i] = _Session.CreateConsumer(new ActiveMQQueue(_VirtualTopic.Replace("*", _ClientID) + _ListenName));
+                                QueueConsumer[i] = _Session.CreateConsumer(new ActiveMQQueue(_VirtualTopicPrefix + _ListenName));
+                                //QueueConsumer[i] = _Session.CreateConsumer(new ActiveMQQueue(_VirtualTopicPrefix.Replace("*", _ClientID) + _ListenName));
                             }
                             else
                             {
-                                QueueConsumer[i] = _Session.CreateConsumer(new ActiveMQQueue(_VirtualTopic + _ListenName), _Selector);
-                                //QueueConsumer[i] = _Session.CreateConsumer(new ActiveMQQueue(_VirtualTopic.Replace("*", _ClientID) + _ListenName), _Selector);
+                                QueueConsumer[i] = _Session.CreateConsumer(new ActiveMQQueue(_VirtualTopicPrefix + _ListenName), _Selector);
+                                //QueueConsumer[i] = _Session.CreateConsumer(new ActiveMQQueue(_VirtualTopicPrefix.Replace("*", _ClientID) + _ListenName), _Selector);
                             }
                             QueueConsumer[i].Listener += new MessageListener(listener_messageReceivedEventHandler);
                             _ListVirtualTopicConsumer.Add(QueueConsumer[i]);
