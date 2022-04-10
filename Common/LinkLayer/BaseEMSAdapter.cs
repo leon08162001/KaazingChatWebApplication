@@ -741,6 +741,7 @@ namespace Common.LinkLayer
             {
                 if (ListenName != "" && _Session != null)
                 {
+                    _ListenName = ListenName;
                     if (_Consumer != null)
                     {
                         _Consumer.Close();
@@ -777,11 +778,11 @@ namespace Common.LinkLayer
                     {
                         if (_Selector.Equals(""))
                         {
-                            _Consumer = _Session.CreateConsumer(_Session.CreateQueue(ListenName));
+                            _Consumer = _Session.CreateConsumer(_Session.CreateQueue(_ListenName));
                         }
                         else
                         {
-                            _Consumer = _Session.CreateConsumer(_Session.CreateQueue(ListenName), _Selector);
+                            _Consumer = _Session.CreateConsumer(_Session.CreateQueue(_ListenName), _Selector);
                         }
                         _Consumer.MessageHandler += new EMSMessageHandler(listener_messageReceivedEventHandler);
                     }

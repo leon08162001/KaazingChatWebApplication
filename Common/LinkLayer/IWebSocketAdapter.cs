@@ -17,6 +17,10 @@ namespace Common.LinkLayer
         /// </summary>
         bool IsEventInUIThread { get; set; }
         /// <summary>
+        /// 是否是持久消費者
+        /// </summary>
+        bool IsDurableConsumer { get; set; }
+        /// <summary>
         /// 監聽的主題
         /// </summary>
         string ListenName { get; set; }
@@ -52,6 +56,10 @@ namespace Common.LinkLayer
         /// HeartBeat心跳間隔(秒)
         /// </summary>
         int HeartBeatInterval { get; set; }
+        /// <summary>
+        /// 訊息篩選
+        /// </summary>
+        string Selector { get; set; }
         /// <summary>
         /// 取得UI執行緒同步上下文
         /// </summary>

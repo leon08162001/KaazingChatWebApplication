@@ -100,6 +100,8 @@ namespace Common.LinkLayer
         protected Timer HeartBeatTimer;
         protected bool _IsUseHeartBeat = false;
         protected int _HeartBeatInterval = 60;
+        protected bool _IsDurableConsumer = false;
+        protected string _Selector = "";
 
         public delegate void MessageHandleFinishedEventHandler(object sender, MessageHandleFinishedEventArgs e);
         List<MessageHandleFinishedEventHandler> MessageHandleFinishedEventDelegates = new List<MessageHandleFinishedEventHandler>();
@@ -207,6 +209,14 @@ namespace Common.LinkLayer
                 _MessageID = value; 
             }
         }
+        public string Selector
+        {
+            get { return _Selector; }
+            set
+            {
+                _Selector = value;
+            }
+        }
         /// <summary>
         /// 觸發事件時是否回到UI Thread(預設false)
         /// </summary>
@@ -214,6 +224,11 @@ namespace Common.LinkLayer
         {
             get { return _IsEventInUIThread; }
             set { _IsEventInUIThread = value; }
+        }
+        public bool IsDurableConsumer
+        {
+            get { return _IsDurableConsumer; }
+            set { _IsDurableConsumer = value; }
         }
         /// <summary>
         /// 是否使用HeartBeat心跳
@@ -228,7 +243,7 @@ namespace Common.LinkLayer
         /// 心跳訊息間隔(秒)
         /// </summary>
          public int HeartBeatInterval
-        {
+         {
             set { _HeartBeatInterval = value; }
             get { return _HeartBeatInterval; }
          }
@@ -915,13 +930,35 @@ namespace Common.LinkLayer
             {
                 if (ListenName != "" && _Session != null)
                 {
+                    _ListenName = ListenName;
                     if (_DestinationFeature == DestinationFeature.Topic)
                     {
-                        if (!ListenName.StartsWith("/topic/"))
+                        if (!_ListenName.StartsWith("/topic/"))
                         {
-                            ListenName = "/topic/" + ListenName;
+                            _ListenName = "/topic/" + _ListenName;
                         }
-                        _Consumer = _Session.CreateConsumer(_Session.CreateTopic(ListenName));
+                        if (_IsDurableConsumer)
+                        {
+                            if (_Selector.Equals(""))
+                            {
+                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), "Durable" + _ListenName, null, false);
+                            }
+                            else
+                            {
+                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), "Durable" + _ListenName, _Selector, false);
+                            }
+                        }
+                        else
+                        {
+                            if (_Selector.Equals(""))
+                            {
+                                _Consumer = _Session.CreateConsumer(_Session.CreateTopic(_ListenName));
+                            }
+                            else
+                            {
+                                _Consumer = _Session.CreateConsumer(_Session.CreateTopic(_ListenName), _Selector);
+                            }
+                        }
                         _Consumer.MessageListener = new WebSocketMessageHandler(this);
                     }
                     else if (_DestinationFeature == DestinationFeature.Queue)
@@ -1106,8 +1143,29 @@ namespace Common.LinkLayer
                         {
                             _ListenName = "/topic/" + _ListenName;
                         }
-                        
-                        _Consumer = _Session.CreateConsumer(_Session.CreateTopic(_ListenName));
+
+                        if (_IsDurableConsumer)
+                        {
+                            if (_Selector.Equals(""))
+                            {
+                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), "Durable" + _ListenName, null, false);
+                            }
+                            else
+                            {
+                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), "Durable" + _ListenName, _Selector, false);
+                            }
+                        }
+                        else
+                        {
+                            if (_Selector.Equals(""))
+                            {
+                                _Consumer = _Session.CreateConsumer(_Session.CreateTopic(_ListenName));
+                            }
+                            else
+                            {
+                                _Consumer = _Session.CreateConsumer(_Session.CreateTopic(_ListenName), _Selector);
+                            }
+                        }
                         _Consumer.MessageListener = new WebSocketMessageHandler(this);
                     }
                     else if (_DestinationFeature == DestinationFeature.Queue)

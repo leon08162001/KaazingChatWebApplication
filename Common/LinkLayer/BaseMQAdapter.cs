@@ -975,6 +975,7 @@ namespace Common.LinkLayer
             {
                 if (ListenName != "" && _Session != null)
                 {
+                    _ListenName = ListenName;
                     if (_Consumer != null)
                     {
                         _Consumer.Close();
@@ -1045,11 +1046,11 @@ namespace Common.LinkLayer
                         {
                             if (_Selector.Equals(""))
                             {
-                                _Consumer = _Session.CreateConsumer(new ActiveMQTopic(_MirroredQueuePrefix + ListenName));
+                                _Consumer = _Session.CreateConsumer(new ActiveMQTopic(_MirroredQueuePrefix + _ListenName));
                             }
                             else
                             {
-                                _Consumer = _Session.CreateConsumer(new ActiveMQTopic(_MirroredQueuePrefix + ListenName), _Selector);
+                                _Consumer = _Session.CreateConsumer(new ActiveMQTopic(_MirroredQueuePrefix + _ListenName), _Selector);
                             }
                         }
                         _Consumer.Listener += new MessageListener(listener_messageReceivedEventHandler);
@@ -1058,11 +1059,11 @@ namespace Common.LinkLayer
                     {
                         if (_Selector.Equals(""))
                         {
-                            _Consumer = _Session.CreateConsumer(new ActiveMQQueue(ListenName));
+                            _Consumer = _Session.CreateConsumer(new ActiveMQQueue(_ListenName));
                         }
                         else
                         {
-                            _Consumer = _Session.CreateConsumer(new ActiveMQQueue(ListenName), _Selector);
+                            _Consumer = _Session.CreateConsumer(new ActiveMQQueue(_ListenName), _Selector);
                         }
                         _Consumer.Listener += new MessageListener(listener_messageReceivedEventHandler);
                     }
