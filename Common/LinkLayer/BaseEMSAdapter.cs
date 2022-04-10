@@ -751,11 +751,13 @@ namespace Common.LinkLayer
                         {
                             if (_Selector.Equals(""))
                             {
-                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), _Connection.ClientID, null, false);
+                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), "Durable." + _ListenName, null, false);
+                                //_Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), _Connection.ClientID, null, false);
                             }
                             else
                             {
-                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), _Connection.ClientID, _Selector, false);
+                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), "Durable." + _ListenName, _Selector, false);
+                                //_Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), _Connection.ClientID, _Selector, false);
                             }
                         }
                         else
@@ -966,11 +968,13 @@ namespace Common.LinkLayer
                         {
                             if (_Selector.Equals(""))
                             {
-                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), _Connection.ClientID, null, false);
+                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), "Durable." + _ListenName, null, false);
+                                //_Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), _Connection.ClientID, null, false);
                             }
                             else
                             {
-                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), _Connection.ClientID, _Selector, false);
+                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), "Durable." + _ListenName, _Selector, false);
+                                //_Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), _Connection.ClientID, _Selector, false);
                             }
                         }
                         else
