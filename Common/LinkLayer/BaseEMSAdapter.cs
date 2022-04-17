@@ -64,6 +64,7 @@ namespace Common.LinkLayer
         protected bool _UseSharedConnection = true;
         protected DBAction _SenderDBAction = DBAction.None;
         protected DBAction _ReceiverDBAction = DBAction.None;
+        protected MessageDeliveryMode _DeliveryMode = MessageDeliveryMode.NonPersistent;
         protected DestinationFeature _DestinationFeature = DestinationFeature.Topic;
 
         //使用_UseSharedConnection=true共享連線時下面的_Factory和_Connection會一直是null
@@ -152,6 +153,12 @@ namespace Common.LinkLayer
         {
             set { _Uri = value; }
             get { return _Uri; }
+        }
+
+        public MessageDeliveryMode DeliveryMode
+        {
+            set { _DeliveryMode = value; }
+            get { return _DeliveryMode; }
         }
 
         public DestinationFeature DestinationFeature
@@ -475,7 +482,7 @@ namespace Common.LinkLayer
                         msg.MsgType = "text";
                         msg.Text = Text;
                         long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
-                        _Producer.Send(msg, MessageDeliveryMode.NonPersistent, 9, MessageOut);
+                        _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
                         _sendAmounnts += 1;
                       }
                     else
@@ -531,7 +538,7 @@ namespace Common.LinkLayer
                             msg.SetStringProperty(prop.Name, prop.Value);
                         }
                         long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
-                        _Producer.Send(msg, MessageDeliveryMode.NonPersistent, 9, MessageOut);
+                        _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
                         isSend = true;
                         _sendAmounnts += 1;
                         if (DelayedPerWhenNumber > 0 && DelayedMillisecond > 0)
@@ -594,7 +601,7 @@ namespace Common.LinkLayer
                                 msg.SetStringProperty(prop.Name, prop.Value);
                             }
                             long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
-                            _Producer.Send(msg, MessageDeliveryMode.NonPersistent, 9, MessageOut);
+                            _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
                             isSend = true;
                             _sendAmounnts += 1;
                             if (DelayedPerWhenNumber > 0 && DelayedMillisecond > 0)
@@ -674,7 +681,7 @@ namespace Common.LinkLayer
                     msg.MsgType = "file";
 
                     long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
-                    _Producer.Send(msg, MessageDeliveryMode.NonPersistent, 2, MessageOut);
+                    _Producer.Send(msg, _DeliveryMode, 2, MessageOut);
                     isSend = true;
                 }
             }
@@ -712,7 +719,7 @@ namespace Common.LinkLayer
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.MsgType = "file";
                     long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
-                    _Producer.Send(msg, MessageDeliveryMode.NonPersistent, 2, MessageOut);
+                    _Producer.Send(msg, _DeliveryMode, 2, MessageOut);
                     isSend = true;
                 }
             }
@@ -865,7 +872,7 @@ namespace Common.LinkLayer
                                 msg.SetStringProperty(prop.Name, prop.Value);
                             }
                             long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
-                            _Producer.Send(msg, MessageDeliveryMode.NonPersistent, 9, MessageOut);
+                            _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
                             _sendAmounnts += 1;
                             if (DelayedPerWhenNumber > 0 && DelayedMillisecond > 0)
                             {
@@ -938,7 +945,7 @@ namespace Common.LinkLayer
                             msg.SetStringProperty("99", _MacAddress);
                         }
                         long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
-                        _Producer.Send(msg, MessageDeliveryMode.NonPersistent, 9, MessageOut);
+                        _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
                         isSend = true;
                     }
                     else

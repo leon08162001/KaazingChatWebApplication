@@ -70,6 +70,7 @@ namespace Common.LinkLayer
         protected string _MirroredQueuePrefix = "MIRROR.";
         protected string _VirtualTopicPrefix = "VTCON.";
         //protected string _VirtualTopicPrefix = "VTCON.*.";
+        protected MsgDeliveryMode _DeliveryMode = MsgDeliveryMode.NonPersistent;
         protected DestinationFeature _DestinationFeature = DestinationFeature.Topic;
 
         //使用_UseSharedConnection=true共享連線時下面的_Factory和_Connection會一直是null
@@ -160,6 +161,12 @@ namespace Common.LinkLayer
         {
             set { _Uri = value; }
             get { return _Uri; }
+        }
+
+        public MsgDeliveryMode DeliveryMode
+        {
+            set { _DeliveryMode = value; }
+            get { return _DeliveryMode; }
         }
 
         public DestinationFeature DestinationFeature
@@ -627,7 +634,7 @@ namespace Common.LinkLayer
                     if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                     {
                         TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
-                        _Producer.Send(msg, Apache.NMS.MsgDeliveryMode.NonPersistent, Apache.NMS.MsgPriority.Highest, TS);
+                        _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                         isSend = true;
                         _sendAmounnts += 1;
                         if (DelayedPerWhenNumber > 0 && DelayedMillisecond > 0)
@@ -697,7 +704,7 @@ namespace Common.LinkLayer
                         if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                         {
                             TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
-                            _Producer.Send(msg, Apache.NMS.MsgDeliveryMode.NonPersistent, Apache.NMS.MsgPriority.Highest, TS);
+                            _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                             isSend = true;
                             _sendAmounnts += 1;
                             if (DelayedPerWhenNumber > 0 && DelayedMillisecond > 0)
@@ -779,8 +786,8 @@ namespace Common.LinkLayer
                     if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                     {
                         TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
-                        _Producer.Send(msg, Apache.NMS.MsgDeliveryMode.NonPersistent, Apache.NMS.MsgPriority.Highest, TS);
-                        //_Producer.Send(msg1, Apache.NMS.MsgDeliveryMode.NonPersistent, Apache.NMS.MsgPriority.Highest, TS);
+                        _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
+                        //_Producer.Send(msg1, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                         isSend = true;
                     }
                     else
@@ -832,8 +839,8 @@ namespace Common.LinkLayer
                     if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                     {
                         TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
-                        _Producer.Send(msg, Apache.NMS.MsgDeliveryMode.NonPersistent, Apache.NMS.MsgPriority.Highest, TS);
-                        //_Producer.Send(msg1, Apache.NMS.MsgDeliveryMode.NonPersistent, Apache.NMS.MsgPriority.Highest, TS);
+                        _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
+                        //_Producer.Send(msg1, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                         isSend = true;
                     }
                     else
@@ -893,8 +900,8 @@ namespace Common.LinkLayer
                     if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                     {
                         TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
-                        _Producer.Send(msg, Apache.NMS.MsgDeliveryMode.NonPersistent, Apache.NMS.MsgPriority.Highest, TS);
-                        //_Producer.Send(msg1, Apache.NMS.MsgDeliveryMode.NonPersistent, Apache.NMS.MsgPriority.Highest, TS);
+                        _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
+                        //_Producer.Send(msg1, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                         isSend = true;
                     }
                     else
@@ -940,8 +947,8 @@ namespace Common.LinkLayer
                     if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                     {
                         TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
-                        _Producer.Send(msg, Apache.NMS.MsgDeliveryMode.NonPersistent, Apache.NMS.MsgPriority.Highest, TS);
-                        //_Producer.Send(msg1, Apache.NMS.MsgDeliveryMode.NonPersistent, Apache.NMS.MsgPriority.Highest, TS);
+                        _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
+                        //_Producer.Send(msg1, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                         isSend = true;
                     }
                     else
@@ -1152,7 +1159,7 @@ namespace Common.LinkLayer
                         if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                         {
                             TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
-                            _Producer.Send(msg, Apache.NMS.MsgDeliveryMode.NonPersistent, Apache.NMS.MsgPriority.Highest, TS);
+                            _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                             _sendAmounnts += 1;
                             if (DelayedPerWhenNumber > 0 && DelayedMillisecond > 0)
                             {
@@ -1227,7 +1234,7 @@ namespace Common.LinkLayer
                     if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                     {
                         TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
-                        _Producer.Send(msg, Apache.NMS.MsgDeliveryMode.NonPersistent, Apache.NMS.MsgPriority.Highest, TS);
+                        _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                         isSend = true;
                     }
                     else
@@ -1409,7 +1416,7 @@ namespace Common.LinkLayer
                     if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                     {
                         TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
-                        _Producer.Send(msg, Apache.NMS.MsgDeliveryMode.NonPersistent, Apache.NMS.MsgPriority.Highest, TS);
+                        _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                     }
                     else
                     {

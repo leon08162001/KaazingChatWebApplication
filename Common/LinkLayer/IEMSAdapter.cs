@@ -1,5 +1,6 @@
 ﻿using Common.HandlerLayer;
 using System.Threading;
+using TIBCO.EMS;
 
 namespace Common.LinkLayer
 {
@@ -12,6 +13,10 @@ namespace Common.LinkLayer
         //event BaseMQAdapter.MQMessageAsynSendFinishedEventHandler MQMessageAsynSendFinished;
         //event BaseMQAdapter.MQMessageHandleFinishedEventHandler MQMessageHandleFinished;
 
+        /// <summary>
+        /// 訊息傳遞模式
+        /// </summary>
+        MessageDeliveryMode DeliveryMode { get; set; }
         /// <summary>
         /// 使用Tibco EMS提供的功能種類(Queue和Topic)
         /// </summary>

@@ -1,4 +1,5 @@
-﻿using Common.HandlerLayer;
+﻿using Apache.NMS;
+using Common.HandlerLayer;
 using System.Threading;
 
 namespace Common.LinkLayer
@@ -8,6 +9,9 @@ namespace Common.LinkLayer
         event BaseMQAdapter.MQMessageAsynSendFinishedEventHandler MQMessageAsynSendFinished;
         event BaseMQAdapter.MQMessageHandleFinishedEventHandler MQMessageHandleFinished;
 
+        /// 訊息傳遞模式
+        /// </summary>
+        MsgDeliveryMode DeliveryMode { get; set; }
         /// <summary>
         /// 使用ActiveMQ提供的功能種類(Topic、VirtualTopic、MirroredQueues,若使用ApolloMQ目前僅支援Topic)
         /// </summary>
