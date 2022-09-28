@@ -27,7 +27,7 @@ namespace KaazingChatWebApplication
         {
             applicationContext = ContextRegistry.GetContext();
             config = (Config)applicationContext.GetObject("Config");
-            //KaazingJmsSvc = config.IsUseSSL ? 1
+            //KaazingJmsSvc = config.IsUseSSL ? 12
             //                "wss://" + config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service + "/jms" : 
             //                "ws://" + config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service + "/jms";
             IsSaveVideoStreamToServer = config.IsSaveVideoStreamToServer;
