@@ -25,6 +25,10 @@ namespace KaazingChatWebApplication
         protected string EnCryptWebSocketPWD = "";
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Request.Form["login"] != null){
+                listenFrom.Value = Request.Form["login"].ToString().ToUpper();
+                listenFrom.Disabled = true;
+            }
             applicationContext = ContextRegistry.GetContext();
             config = (Config)applicationContext.GetObject("Config");
             //KaazingJmsSvc = config.IsUseSSL ? 

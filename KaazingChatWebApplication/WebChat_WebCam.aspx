@@ -72,7 +72,7 @@
                         <label for="listenFrom" class="text-nowrap">My Name:</label>
                     </td>
                     <td style="width: 95%">
-                        <input type="text" name="listenFrom" id="listenFrom" class="form-control" style="width: 10em; height: 1.5em" value="" />
+                        <input type="text" name="listenFrom" id="listenFrom" class="form-control" style="width: 10em; height: 1.5em" value="" runat="server" />
                     </td>
                 </tr>
                 <tr>
