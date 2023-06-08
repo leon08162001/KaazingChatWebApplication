@@ -101,7 +101,9 @@ namespace Common.LinkLayer
         bool SendEMSMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiEMSMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0);
         void SendAsynEMSMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiEMSMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0);
         bool SendFile(string FileName, string FilePath, string ID = "");
+        bool SendFileByChunks(string FileName, string FilePath, string ID = "");
         bool SendFile(string FileName, byte[] FileBytes, string ID = "");
+        bool SendFileByChunks(string FileName, byte[] FileBytes, string ID = "");
         void ReStartListener(string ListenName);
         void ReStartSender(string SendName);
         void SendMessage(string Text);

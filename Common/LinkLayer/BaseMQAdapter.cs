@@ -815,6 +815,60 @@ namespace Common.LinkLayer
             }
             return isSend;
         }
+        public bool SendFileByChunks(string FileName, string FilePath, string ID = "")
+        {
+            bool isSend = false;
+            string ErrorMsg = "";
+            try
+            {
+                if (_Producer != null)
+                {
+                    using (StreamReader sr = new StreamReader(FilePath))
+                    {
+                        byte[] bytes = new byte[1048576];
+                        long seq = 0;
+                        long count = sr.BaseStream.Length % bytes.Length > 0 ? (sr.BaseStream.Length / bytes.Length) + 1 : (sr.BaseStream.Length / bytes.Length);
+                        while ((sr.BaseStream.Read(bytes, 0, bytes.Length)) > 0)
+                        {
+                            seq++;
+                            IBytesMessage msg = _Producer.CreateBytesMessage(bytes);
+                            msg.Properties.SetString("id", ID);
+                            msg.Properties.SetString("filename", FileName);
+                            msg.Properties.SetString("sequence", seq.ToString());
+                            msg.Properties.SetString("totalSequence", count.ToString());
+                            if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
+                            {
+                                TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
+                                _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
+                                isSend = true;
+                            }
+                            else
+                            {
+                                if (log.IsInfoEnabled) log.Info("Network connection or ActiveMQService Has been closed!");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMsg = "BaseMQAdapter SendFile: Error(" + ex.Message + ")";
+                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                System.Environment.Exit(-1);
+            }
+            finally
+            {
+                if (_UISyncContext != null && IsEventInUIThread)
+                {
+                    _UISyncContext.Post(OnMQMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+                else
+                {
+                    OnMQMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+            }
+            return isSend;
+        }
         public bool SendFile(string FileName, byte[] FileBytes, string ID = "")
         {
             bool isSend = false;
@@ -846,6 +900,59 @@ namespace Common.LinkLayer
                     else
                     {
                         if (log.IsInfoEnabled) log.Info("Network connection or ActiveMQService Has been closed!");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMsg = "BaseMQAdapter SendFile: Error(" + ex.Message + ")";
+                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                System.Environment.Exit(-1);
+            }
+            finally
+            {
+                if (_UISyncContext != null && IsEventInUIThread)
+                {
+                    _UISyncContext.Post(OnMQMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+                else
+                {
+                    OnMQMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+            }
+            return isSend;
+        }
+        public bool SendFileByChunks(string FileName, byte[] FileBytes, string ID = "")
+        {
+            bool isSend = false;
+            string ErrorMsg = "";
+            try
+            {
+                if (_Producer != null)
+                {
+                    byte[] bytes;
+                    int buffer = 1048576;
+                    long seq = 0;
+                    long count = FileBytes.Length % buffer > 0 ? (FileBytes.Length / buffer) + 1 : (FileBytes.Length / buffer);
+                    for (var i = 0; i < (float)FileBytes.Length / buffer; i++)
+                    {
+                        seq++;
+                        bytes = FileBytes.Skip(i * buffer).Take(buffer).ToArray();
+                        IBytesMessage msg = _Producer.CreateBytesMessage(bytes);
+                        msg.Properties.SetString("id", ID);
+                        msg.Properties.SetString("filename", FileName);
+                        msg.Properties.SetString("sequence", seq.ToString());
+                        msg.Properties.SetString("totalSequence", count.ToString());
+                        if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
+                        {
+                            TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
+                            _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
+                            isSend = true;
+                        }
+                        else
+                        {
+                            if (log.IsInfoEnabled) log.Info("Network connection or ActiveMQService Has been closed!");
+                        }
                     }
                 }
             }

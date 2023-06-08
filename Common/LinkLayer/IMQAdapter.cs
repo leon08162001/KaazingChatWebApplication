@@ -116,7 +116,9 @@ namespace Common.LinkLayer
         bool SendMQMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiMqMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0);
         void SendAsynMQMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiMqMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0);
         bool SendFile(string FileName, string FilePath, string ID = "");
+        bool SendFileByChunks(string FileName, string FilePath, string ID = "");
         bool SendFile(string FileName, byte[] FileBytes, string ID = "");
+        bool SendFileByChunks(string FileName, byte[] FileBytes, string ID = "");
         bool SendBase64File(string FileName, string FilePath, string ID = "");
         bool SendBase64File(string FileName, byte[] FileBytes, string ID = "");
         void ReStartListener(string ListenName);

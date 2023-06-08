@@ -704,6 +704,54 @@ namespace Common.LinkLayer
             }
             return isSend;
         }
+        public bool SendFileByChunks(string FileName, string FilePath, string ID = "")
+        {
+            bool isSend = false;
+            string ErrorMsg = "";
+            try
+            {
+                if (!_Session.IsClosed)
+                {
+                    using (StreamReader sr = new StreamReader(FilePath))
+                    {
+                        byte[] bytes = new byte[1048576];
+                        long seq = 0;
+                        long count = sr.BaseStream.Length % bytes.Length > 0 ? (sr.BaseStream.Length / bytes.Length) + 1 : (sr.BaseStream.Length / bytes.Length);
+                        while ((sr.BaseStream.Read(bytes, 0, bytes.Length)) > 0)
+                        {
+                            seq++;
+                            BytesMessage msg = _Session.CreateBytesMessage();
+                            msg.WriteBytes(bytes);
+                            msg.SetStringProperty("id", ID);
+                            msg.SetStringProperty("filename", FileName);
+                            msg.SetStringProperty("sequence", seq.ToString());
+                            msg.SetStringProperty("totalSequence", count.ToString());
+                            long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
+                            _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
+                            isSend = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMsg = "BaseEMSAdapter SendFile() Error(" + ex.Message + ")";
+                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                System.Environment.Exit(-1);
+            }
+            finally
+            {
+                if (_UISyncContext != null && IsEventInUIThread)
+                {
+                    _UISyncContext.Post(OnEMSMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+                else
+                {
+                    OnEMSMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+            }
+            return isSend;
+        }
         public bool SendFile(string FileName, byte[] FileBytes, string ID = "")
         {
             bool isSend = false;
@@ -721,6 +769,53 @@ namespace Common.LinkLayer
                     long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
                     _Producer.Send(msg, _DeliveryMode, 2, MessageOut);
                     isSend = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMsg = "BaseEMSAdapter SendFile() Error(" + ex.Message + ")";
+                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                System.Environment.Exit(-1);
+            }
+            finally
+            {
+                if (_UISyncContext != null && IsEventInUIThread)
+                {
+                    _UISyncContext.Post(OnEMSMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+                else
+                {
+                    OnEMSMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+            }
+            return isSend;
+        }
+        public bool SendFileByChunks(string FileName, byte[] FileBytes, string ID = "")
+        {
+            bool isSend = false;
+            string ErrorMsg = "";
+            try
+            {
+                if (!_Session.IsClosed)
+                {
+                    byte[] bytes;
+                    int buffer = 1048576;
+                    long seq = 0;
+                    long count = FileBytes.Length % buffer > 0 ? (FileBytes.Length / buffer) + 1 : (FileBytes.Length / buffer);
+                    for (var i = 0; i < (float)FileBytes.Length / buffer; i++)
+                    {
+                        seq++;
+                        bytes = FileBytes.Skip(i * buffer).Take(buffer).ToArray();
+                        BytesMessage msg = _Session.CreateBytesMessage();
+                        msg.WriteBytes(bytes);
+                        msg.SetStringProperty("id", ID);
+                        msg.SetStringProperty("filename", FileName);
+                        msg.SetStringProperty("sequence", seq.ToString());
+                        msg.SetStringProperty("totalSequence", count.ToString());
+                        long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
+                        _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
+                        isSend = true;
+                    }
                 }
             }
             catch (Exception ex)

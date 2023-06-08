@@ -677,10 +677,10 @@ namespace Common.LinkLayer
                         {
                             int read = 0;
                             IBytesMessage msg = _Session.CreateBytesMessage();
-                            msg.SetStringProperty("sequence", sequence.ToString());
-                            msg.SetStringProperty("totalSequence", totalSequence.ToString());
                             msg.SetStringProperty("id", ID);
                             msg.SetStringProperty("filename", FileName);
+                            msg.SetStringProperty("sequence", sequence.ToString());
+                            msg.SetStringProperty("totalSequence", totalSequence.ToString());
                             msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                             msg.JMSType = "file";
                             if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
@@ -767,10 +767,10 @@ namespace Common.LinkLayer
                 if (_Producer != null)
                 {
                     IBytesMessage msg = _Session.CreateBytesMessage();
-                    msg.SetStringProperty("sequence", Sequence.ToString());
-                    msg.SetStringProperty("totalSequence", TotalSequence.ToString());
                     msg.SetStringProperty("id", ID);
                     msg.SetStringProperty("filename", FileName);
+                    msg.SetStringProperty("sequence", Sequence.ToString());
+                    msg.SetStringProperty("totalSequence", TotalSequence.ToString());
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.JMSType = "file";
                     msg.WriteBytes(FileBytes);
@@ -806,10 +806,10 @@ namespace Common.LinkLayer
                 if (_Producer != null)
                 {
                     IBytesMessage msg = _Session.CreateBytesMessage();
-                    msg.SetStringProperty("sequence", Sequence.ToString());
-                    msg.SetStringProperty("totalSequence", TotalSequence.ToString());
                     msg.SetStringProperty("id", ID);
                     msg.SetStringProperty("streamname", StreamName);
+                    msg.SetStringProperty("sequence", Sequence.ToString());
+                    msg.SetStringProperty("totalSequence", TotalSequence.ToString());
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + StreamName));
                     msg.JMSType = "stream";
                     msg.WriteBytes(StreamBytes);
