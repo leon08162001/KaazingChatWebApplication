@@ -250,7 +250,7 @@ namespace KaazingTestWebApplication.Controllers
                             for (var i = 0; i < Files.Count; i++)
                             {
                                 long sequence = 1;
-                                byte[] buffer = new byte[2048000];
+                                byte[] buffer = new byte[1048576];
                                 int offset = 0;
                                 long remaining = Files[i].InputStream.Length;
                                 byte[] lstBuffer = new byte[remaining % buffer.Length];
@@ -290,7 +290,7 @@ namespace KaazingTestWebApplication.Controllers
                         for (var i = 0; i < Files.Count; i++)
                         {
                             long sequence = 1;
-                            byte[] buffer = new byte[2048000];
+                            byte[] buffer = new byte[1048576];
                             int offset = 0;
                             long remaining = Files[i].InputStream.Length;
                             byte[] lstBuffer = new byte[remaining % buffer.Length];
@@ -452,7 +452,7 @@ namespace KaazingTestWebApplication.Controllers
                         if (File != null)
                         {
                             long sequence = 1;
-                            byte[] buffer = new byte[2048000];
+                            byte[] buffer = new byte[1048576];
                             int offset = 0;
                             long remaining = File.InputStream.Length;
                             byte[] lstBuffer = new byte[remaining % buffer.Length];
@@ -485,7 +485,7 @@ namespace KaazingTestWebApplication.Controllers
                     if (File != null)
                     {
                         long sequence = 1;
-                        byte[] buffer = new byte[2048000];
+                        byte[] buffer = new byte[1048576];
                         int offset = 0;
                         long remaining = File.InputStream.Length;
                         byte[] lstBuffer = new byte[remaining % buffer.Length];
