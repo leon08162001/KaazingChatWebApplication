@@ -19,6 +19,7 @@ function MessageClient() {
     this.WebUiObject = "";
     this.messageReceivedHandlers = [];
     this.connectionStartedHandlers = [];
+    this.connectionFailedHandlers = [];
     this.connectionClosedHandlers = [];
     this.clientIp = "";
     this.isShowMsgWhenOpenAndClose = true;
@@ -36,6 +37,7 @@ function MessageClient(uri, userName, passWord, jmsServiceType, messageType, lis
     this.WebUiObject = WebUiObject;
     this.messageReceivedHandlers = [];
     this.connectionStartedHandlers = [];
+    this.connectionFailedHandlers = [];
     this.connectionClosedHandlers = [];
     this.clientIp = "";
     this.isShowMsgWhenOpenAndClose = true;
@@ -68,6 +70,13 @@ MessageClient.prototype = (function () {
     var triggerConnectionStarted = function (funcName) {
         var scope = this;
         this.connectionStartedHandlers.forEach(function (item) {
+            item.call(scope, funcName);
+        });
+    };
+
+    var triggerConnectionFailed = function (funcName) {
+        var scope = this;
+        this.connectionFailedHandlers.forEach(function (item) {
             item.call(scope, funcName);
         });
     };
@@ -250,6 +259,7 @@ MessageClient.prototype = (function () {
                             });
                         } catch (e) {
                             handleException(e);
+                            triggerConnectionFailed.call(that, e);
                             //triggerConnectionStarted.call(that, e);
                         }
                     } else {
@@ -258,11 +268,13 @@ MessageClient.prototype = (function () {
                             return;
                         }
                         handleException(connectionFuture.exception);
+                        triggerConnectionFailed.call(that, connectionFuture.exception);
                         //triggerConnectionStarted.call(that, connectionFuture.exception);
                     }
                 });
             } catch (e) {
                 handleException(e);
+                triggerConnectionFailed.call(that, e);
                 //triggerConnectionStarted.call(that, e);
             }
         },
@@ -345,16 +357,6 @@ MessageClient.prototype = (function () {
             }
         },
 
-        //offMessageReceived: function (fn) {
-        //    this.messageReceivedHandlers = this.messageReceivedHandlers.filter(
-        //        function (item) {
-        //            if (item !== fn) {
-        //                return item;
-        //            }
-        //        }
-        //    );
-        //},
-
         onConnectionStarted: function (fn) {
             var chkExistFunc = this.connectionStartedHandlers.filter(
                 function (item) {
@@ -368,15 +370,18 @@ MessageClient.prototype = (function () {
             }
         },
 
-        //offConnectionStarted: function (fn) {
-        //    this.connectionStartedHandlers = this.connectionStartedHandlers.filter(
-        //        function (item) {
-        //            if (item !== fn) {
-        //                return item;
-        //            }
-        //        }
-        //    );
-        //},
+        onConnectionFailed: function (fn) {
+            var chkExistFunc = this.connectionFailedHandlers.filter(
+                function (item) {
+                    if (item === fn) {
+                        return item;
+                    }
+                }
+            );
+            if (chkExistFunc.length === 0) {
+                this.connectionFailedHandlers.push(fn);
+            }
+        },
 
         onConnectionClosed: function (fn) {
             var chkExistFunc = this.connectionClosedHandlers.filter(
@@ -390,16 +395,6 @@ MessageClient.prototype = (function () {
                 this.connectionClosedHandlers.push(fn);
             }
         },
-
-        //offConnectionClosed: function (fn) {
-        //    this.connectionClosedHandlers = this.connectionClosedHandlers.filter(
-        //        function (item) {
-        //            if (item !== fn) {
-        //                return item;
-        //            }
-        //        }
-        //    );
-        //},
 
         removeAllEvents: function () {
             this.messageReceivedHandlers.length = 0;

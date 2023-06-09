@@ -665,7 +665,7 @@ namespace Common.LinkLayer
                     {
                         using (var memstream = new MemoryStream())
                         {
-                            var buffer = new byte[512];
+                            var buffer = new byte[1048576];
                             var bytesRead = default(int);
                             while ((bytesRead = sr.BaseStream.Read(buffer, 0, buffer.Length)) > 0)
                                 memstream.Write(buffer, 0, bytesRead);
@@ -716,7 +716,7 @@ namespace Common.LinkLayer
                     {
                         byte[] bytes = new byte[1048576];
                         long seq = 0;
-                        long count = sr.BaseStream.Length % bytes.Length > 0 ? (sr.BaseStream.Length / bytes.Length) + 1 : (sr.BaseStream.Length / bytes.Length);
+                        long totalSequence = sr.BaseStream.Length % bytes.Length > 0 ? (sr.BaseStream.Length / bytes.Length) + 1 : (sr.BaseStream.Length / bytes.Length);
                         while ((sr.BaseStream.Read(bytes, 0, bytes.Length)) > 0)
                         {
                             seq++;
@@ -725,7 +725,7 @@ namespace Common.LinkLayer
                             msg.SetStringProperty("id", ID);
                             msg.SetStringProperty("filename", FileName);
                             msg.SetStringProperty("sequence", seq.ToString());
-                            msg.SetStringProperty("totalSequence", count.ToString());
+                            msg.SetStringProperty("totalSequence", totalSequence.ToString());
                             long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
                             _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
                             isSend = true;
@@ -801,7 +801,7 @@ namespace Common.LinkLayer
                     byte[] bytes;
                     int buffer = 1048576;
                     long seq = 0;
-                    long count = FileBytes.Length % buffer > 0 ? (FileBytes.Length / buffer) + 1 : (FileBytes.Length / buffer);
+                    long totalSequence = FileBytes.Length % buffer > 0 ? (FileBytes.Length / buffer) + 1 : (FileBytes.Length / buffer);
                     for (var i = 0; i < (float)FileBytes.Length / buffer; i++)
                     {
                         seq++;
@@ -811,7 +811,7 @@ namespace Common.LinkLayer
                         msg.SetStringProperty("id", ID);
                         msg.SetStringProperty("filename", FileName);
                         msg.SetStringProperty("sequence", seq.ToString());
-                        msg.SetStringProperty("totalSequence", count.ToString());
+                        msg.SetStringProperty("totalSequence", totalSequence.ToString());
                         long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
                         _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
                         isSend = true;

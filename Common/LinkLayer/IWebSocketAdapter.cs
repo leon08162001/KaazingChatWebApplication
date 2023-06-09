@@ -74,10 +74,13 @@ namespace Common.LinkLayer
         void SendMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiMessage);
         void SendAsynMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiMessage);
         bool SendFile(string FileName, string FilePath, string ID = "");
+        bool SendFileByChunks(string FileName, string FilePath, string ID = "");
         bool SendFile(string FileName, string FilePath, int BufferSize, string ID = "");
         bool SendFile(string FileName, byte[] FileBytes, string ID = "");
+        bool SendFileByChunks(string FileName, byte[] FileBytes, string ID = "");
         bool SendFile(string FileName, byte[] FileBytes, long Sequence, long TotalSequence, string ID = "");
         bool SendStream(string StreamName, byte[] StreamBytes, long Sequence, long TotalSequence, string ID = "");
+        bool SendStreamByChunks(string StreamName, byte[] StreamBytes, string ID = "");
         bool SendBase64File(string FileName, string FilePath, string ID = "");
         bool SendBase64File(string FileName, byte[] FileBytes, string ID = "");
         void ReStartListener(string ListenName);

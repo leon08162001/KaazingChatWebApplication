@@ -29,6 +29,11 @@ namespace KaazingChatWebApplication
                 listenFrom.Value = Request.Form["login"].ToString().ToUpper();
                 listenFrom.Disabled = true;
             }
+            else
+            {
+                listenFrom.Value = "";
+                listenFrom.Disabled = false;
+            }
             applicationContext = ContextRegistry.GetContext();
             config = (Config)applicationContext.GetObject("Config");
             //KaazingJmsSvc = config.IsUseSSL ? 

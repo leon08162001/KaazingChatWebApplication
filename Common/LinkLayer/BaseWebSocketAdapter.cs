@@ -622,7 +622,7 @@ namespace Common.LinkLayer
                     {
                         using (var memstream = new MemoryStream())
                         {
-                            var buffer = new byte[512];
+                            var buffer = new byte[1048576];
                             var bytesRead = default(int);
                             while ((bytesRead = sr.BaseStream.Read(buffer, 0, buffer.Length)) > 0)
                                 memstream.Write(buffer, 0, bytesRead);
@@ -637,6 +637,55 @@ namespace Common.LinkLayer
                     msg.WriteBytes(bytes);
                     _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
                     isSend = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMsg = "BaseWebSocketAdapter SendFile: Error(" + ex.Message + ")";
+                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                System.Environment.Exit(-1);
+            }
+            finally
+            {
+                if (_UISyncContext != null && IsEventInUIThread)
+                {
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+                else
+                {
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+            }
+            return isSend;
+        }
+        public bool SendFileByChunks(string FileName, string FilePath, string ID = "")
+        {
+            bool isSend = false;
+            string ErrorMsg = "";
+            try
+            {
+                if (_Producer != null)
+                {
+                    using (StreamReader sr = new StreamReader(FilePath))
+                    {
+                        byte[] bytes = new byte[1048576];
+                        long seq = 0;
+                        long totalSequence = sr.BaseStream.Length % bytes.Length > 0 ? (sr.BaseStream.Length / bytes.Length) + 1 : (sr.BaseStream.Length / bytes.Length);
+                        while ((sr.BaseStream.Read(bytes, 0, bytes.Length)) > 0)
+                        {
+                            seq++;
+                            IBytesMessage msg = _Session.CreateBytesMessage();
+                            msg.SetStringProperty("id", ID);
+                            msg.SetStringProperty("filename", FileName);
+                            msg.SetStringProperty("sequence", seq.ToString());
+                            msg.SetStringProperty("totalSequence", totalSequence.ToString());
+                            msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
+                            msg.JMSType = "file";
+                            msg.WriteBytes(bytes);
+                            _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
+                            isSend = true;
+                        }
+                    }
                 }
             }
             catch (Exception ex)
@@ -758,6 +807,54 @@ namespace Common.LinkLayer
             }
             return isSend;
         }
+        public bool SendFileByChunks(string FileName, byte[] FileBytes, string ID = "")
+        {
+            bool isSend = false;
+            string ErrorMsg = "";
+            try
+            {
+                if (_Producer != null)
+                {
+                    byte[] bytes;
+                    int buffer = 1048576;
+                    long seq = 0;
+                    long totalSequence = FileBytes.Length % buffer > 0 ? (FileBytes.Length / buffer) + 1 : (FileBytes.Length / buffer);
+                    for (var i = 0; i < (float)FileBytes.Length / buffer; i++)
+                    {
+                        seq++;
+                        bytes = FileBytes.Skip(i * buffer).Take(buffer).ToArray();
+                        IBytesMessage msg = _Session.CreateBytesMessage();
+                        msg.SetStringProperty("id", ID);
+                        msg.SetStringProperty("filename", FileName);
+                        msg.SetStringProperty("sequence", seq.ToString());
+                        msg.SetStringProperty("totalSequence", totalSequence.ToString());
+                        msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
+                        msg.JMSType = "file";
+                        msg.WriteBytes(bytes);
+                        _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
+                        isSend = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMsg = "BaseWebSocketAdapter SendFile: Error(" + ex.Message + ")";
+                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                System.Environment.Exit(-1);
+            }
+            finally
+            {
+                if (_UISyncContext != null && IsEventInUIThread)
+                {
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+                else
+                {
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+            }
+            return isSend;
+        }
         public bool SendFile(string FileName, byte[] FileBytes, long Sequence, long TotalSequence, string ID = "")
         {
             bool isSend = false;
@@ -836,6 +933,54 @@ namespace Common.LinkLayer
             }
             return isSend;
         }
+        public bool SendStreamByChunks(string StreamName, byte[] StreamBytes, string ID = "")
+        {
+            bool isSend = false;
+            string ErrorMsg = "";
+            try
+            {
+                if (_Producer != null)
+                {
+                    byte[] bytes;
+                    int buffer = 1048576;
+                    long seq = 0;
+                    long totalSequence = StreamBytes.Length % buffer > 0 ? (StreamBytes.Length / buffer) + 1 : (StreamBytes.Length / buffer);
+                    for (var i = 0; i < (float)StreamBytes.Length / buffer; i++)
+                    {
+                        seq++;
+                        bytes = StreamBytes.Skip(i * buffer).Take(buffer).ToArray();
+                        IBytesMessage msg = _Session.CreateBytesMessage();
+                        msg.SetStringProperty("id", ID);
+                        msg.SetStringProperty("streamname", StreamName);
+                        msg.SetStringProperty("sequence", seq.ToString());
+                        msg.SetStringProperty("totalSequence", totalSequence.ToString());
+                        msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + StreamName));
+                        msg.JMSType = "stream";
+                        msg.WriteBytes(bytes);
+                        _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
+                        isSend = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMsg = "BaseWebSocketAdapter SendFile: Error(" + ex.Message + ")";
+                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                System.Environment.Exit(-1);
+            }
+            finally
+            {
+                if (_UISyncContext != null && IsEventInUIThread)
+                {
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+                else
+                {
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+            }
+            return isSend;
+        }
         public bool SendBase64File(string FileName, string FilePath, string ID = "")
         {
             bool isSend = false;
@@ -849,7 +994,7 @@ namespace Common.LinkLayer
                     {
                         using (var memstream = new MemoryStream())
                         {
-                            var buffer = new byte[512];
+                            var buffer = new byte[1048576];
                             var bytesRead = default(int);
                             while ((bytesRead = sr.BaseStream.Read(buffer, 0, buffer.Length)) > 0)
                                 memstream.Write(buffer, 0, bytesRead);

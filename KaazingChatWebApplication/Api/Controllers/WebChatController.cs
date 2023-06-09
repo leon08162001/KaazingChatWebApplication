@@ -17,6 +17,9 @@ using System.Linq;
 using KaazingChatWebApplication.Helper;
 using System.IO;
 using Common.Utility;
+using System.Web.Services.Description;
+using System.IO.Compression;
+using System.Threading.Tasks;
 
 namespace KaazingTestWebApplication.Controllers
 {
@@ -249,29 +252,41 @@ namespace KaazingTestWebApplication.Controllers
                         {
                             for (var i = 0; i < Files.Count; i++)
                             {
-                                long sequence = 1;
-                                byte[] buffer = new byte[1048576];
-                                int offset = 0;
-                                long remaining = Files[i].InputStream.Length;
-                                byte[] lstBuffer = new byte[remaining % buffer.Length];
-                                long totalSequence = remaining % buffer.Length > 0 ? (remaining / buffer.Length) + 1 : (remaining / buffer.Length);
-                                while (remaining > 0)
+                                //舊式傳檔寫法(在此將上傳檔案以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) BEGIN
+                                //long sequence = 1;
+                                //byte[] buffer = new byte[1048576];
+                                //int offset = 0;
+                                //long remaining = Files[i].InputStream.Length;
+                                //byte[] lstBuffer = new byte[remaining % buffer.Length];
+                                //long totalSequence = remaining % buffer.Length > 0 ? (remaining / buffer.Length) + 1 : (remaining / buffer.Length);
+                                //while (remaining > 0)
+                                //{
+                                //    int read = 0;
+                                //    if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
+                                //    {
+                                //        read = Files[i].InputStream.Read(buffer, 0, buffer.Length);
+                                //        JefferiesExcuReport.SendFile(Files[i].FileName, buffer, sequence, totalSequence, sender);
+                                //    }
+                                //    else if (sequence == totalSequence && remaining % buffer.Length > 0)
+                                //    {
+                                //        read = Files[i].InputStream.Read(lstBuffer, 0, lstBuffer.Length);
+                                //        JefferiesExcuReport.SendFile(Files[i].FileName, lstBuffer, sequence, totalSequence, sender);
+                                //    }
+                                //    remaining -= read;
+                                //    sequence++;
+                                //}
+                                //Files[i].InputStream.Seek(0, System.IO.SeekOrigin.Begin);
+                                //舊式傳檔寫法(在此將上傳檔案以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) END
+
+                                //新式傳檔寫法(在此將上傳檔案完整丟給處理MQ的相關元件的方法,此方法內部以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) BEGIN
+                                using (BinaryReader br = new BinaryReader(Files[i].InputStream))
                                 {
-                                    int read = 0;
-                                    if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
-                                    {
-                                        read = Files[i].InputStream.Read(buffer, 0, buffer.Length);
-                                        JefferiesExcuReport.SendFile(Files[i].FileName, buffer, sequence, totalSequence, sender);
-                                    }
-                                    else if (sequence == totalSequence && remaining % buffer.Length > 0)
-                                    {
-                                        read = Files[i].InputStream.Read(lstBuffer, 0, lstBuffer.Length);
-                                        JefferiesExcuReport.SendFile(Files[i].FileName, lstBuffer, sequence, totalSequence, sender);
-                                    }
-                                    remaining -= read;
-                                    sequence++;
+                                    br.BaseStream.Position = 0;
+                                    byte[] bytes = br.ReadBytes(Files[i].ContentLength);
+                                    JefferiesExcuReport.SendFileByChunks(Files[i].FileName, bytes, sender);
                                 }
-                                Files[i].InputStream.Seek(0, System.IO.SeekOrigin.Begin);
+                                //新式傳檔寫法(在此將上傳檔案完整丟給處理MQ的相關元件的方法,此方法內部以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) END
+
                                 if (log.IsInfoEnabled)
                                 {
                                     log.InfoFormat("{0} is sending a file to {1}({2})", sender, sendName.Split(new char[] { '.' })[1].Trim(), Files[i].FileName);
@@ -289,29 +304,41 @@ namespace KaazingTestWebApplication.Controllers
                     {
                         for (var i = 0; i < Files.Count; i++)
                         {
-                            long sequence = 1;
-                            byte[] buffer = new byte[1048576];
-                            int offset = 0;
-                            long remaining = Files[i].InputStream.Length;
-                            byte[] lstBuffer = new byte[remaining % buffer.Length];
-                            long totalSequence = remaining % buffer.Length > 0 ? (remaining / buffer.Length) + 1 : (remaining / buffer.Length);
-                            while (remaining > 0)
+                            //舊式傳檔寫法(在此將上傳檔案以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) BEGIN
+                            //long sequence = 1;
+                            //byte[] buffer = new byte[1048576];
+                            //int offset = 0;
+                            //long remaining = Files[i].InputStream.Length;
+                            //byte[] lstBuffer = new byte[remaining % buffer.Length];
+                            //long totalSequence = remaining % buffer.Length > 0 ? (remaining / buffer.Length) + 1 : (remaining / buffer.Length);
+                            //while (remaining > 0)
+                            //{
+                            //    int read = 0;
+                            //    if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
+                            //    {
+                            //        read = Files[i].InputStream.Read(buffer, 0, buffer.Length);
+                            //        JefferiesExcuReport.SendFile(Files[i].FileName, buffer, sequence, totalSequence, sender);
+                            //    }
+                            //    else if (sequence == totalSequence && remaining % buffer.Length > 0)
+                            //    {
+                            //        read = Files[i].InputStream.Read(lstBuffer, 0, lstBuffer.Length);
+                            //        JefferiesExcuReport.SendFile(Files[i].FileName, lstBuffer, sequence, totalSequence, sender);
+                            //    }
+                            //    remaining -= read;
+                            //    sequence++;
+                            //}
+                            //Files[i].InputStream.Seek(0, System.IO.SeekOrigin.Begin);
+                            //舊式傳檔寫法(在此將上傳檔案以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) EMD
+
+                            //新式傳檔寫法(在此將上傳檔案完整丟給處理MQ的相關元件的方法,此方法內部以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) BEGIN
+                            using (BinaryReader br = new BinaryReader(Files[i].InputStream))
                             {
-                                int read = 0;
-                                if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
-                                {
-                                    read = Files[i].InputStream.Read(buffer, 0, buffer.Length);
-                                    JefferiesExcuReport.SendFile(Files[i].FileName, buffer, sequence, totalSequence, sender);
-                                }
-                                else if (sequence == totalSequence && remaining % buffer.Length > 0)
-                                {
-                                    read = Files[i].InputStream.Read(lstBuffer, 0, lstBuffer.Length);
-                                    JefferiesExcuReport.SendFile(Files[i].FileName, lstBuffer, sequence, totalSequence, sender);
-                                }
-                                remaining -= read;
-                                sequence++;
+                                br.BaseStream.Position = 0;
+                                byte[] bytes = br.ReadBytes(Files[i].ContentLength);
+                                JefferiesExcuReport.SendFileByChunks(Files[i].FileName, bytes, sender);
                             }
-                            Files[i].InputStream.Seek(0, System.IO.SeekOrigin.Begin);
+                            //新式傳檔寫法(在此將上傳檔案完整丟給處理MQ的相關元件的方法,此方法內部以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) END
+
                             if (log.IsInfoEnabled)
                             {
                                 log.InfoFormat("{0} is sending a file to {1}({2})", sender, topicOrQueueName.Split(new char[] { '.' })[1].Trim(), Files[i].FileName);
@@ -451,30 +478,42 @@ namespace KaazingTestWebApplication.Controllers
                         JefferiesExcuReport.ReStartSender(sendName.Trim());
                         if (File != null)
                         {
-                            long sequence = 1;
-                            byte[] buffer = new byte[1048576];
-                            int offset = 0;
-                            long remaining = File.InputStream.Length;
-                            byte[] lstBuffer = new byte[remaining % buffer.Length];
-                            long totalSequence = remaining % buffer.Length > 0 ? (remaining / buffer.Length) + 1 : (remaining / buffer.Length);
-                            while (remaining > 0)
+                            //舊式傳送視訊stream寫法(在此將上傳視訊stream以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) BEGIN
+                            //long sequence = 1;
+                            //byte[] buffer = new byte[1048576];
+                            //int offset = 0;
+                            //long remaining = File.InputStream.Length;
+                            //byte[] lstBuffer = new byte[remaining % buffer.Length];
+                            //long totalSequence = remaining % buffer.Length > 0 ? (remaining / buffer.Length) + 1 : (remaining / buffer.Length);
+                            //while (remaining > 0)
+                            //{
+                            //    int read = 0;
+                            //    if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
+                            //    {
+                            //        read = File.InputStream.Read(buffer, 0, buffer.Length);
+                            //        JefferiesExcuReport.SendStream("STREAM." + mimetype.Split(new char[] { '/' })[1], buffer, sequence, totalSequence, sender);
+                            //    }
+                            //    else if (sequence == totalSequence && remaining % buffer.Length > 0)
+                            //    {
+                            //        read = File.InputStream.Read(lstBuffer, 0, lstBuffer.Length);
+                            //        JefferiesExcuReport.SendStream("STREAM." + mimetype.Split(new char[] { '/' })[1], lstBuffer, sequence, totalSequence, sender);
+                            //    }
+                            //    remaining -= read;
+                            //    sequence++;
+                            //}
+                            //if (log.IsInfoEnabled) log.InfoFormat("Send Stream({0}) from {1}", File.FileName, Assembly.GetExecutingAssembly().GetName().Name);
+                            //File.InputStream.Seek(0, System.IO.SeekOrigin.Begin);
+                            //舊式傳送視訊stream寫法(在此將上傳視訊stream以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) END
+
+                            //新式傳送視訊stream寫法(在此將上傳視訊stream完整丟給處理MQ的相關元件的方法,此方法內部以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) BEGIN
+                            using (BinaryReader br = new BinaryReader(File.InputStream))
                             {
-                                int read = 0;
-                                if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
-                                {
-                                    read = File.InputStream.Read(buffer, 0, buffer.Length);
-                                    JefferiesExcuReport.SendStream("STREAM." + mimetype.Split(new char[] {'/' })[1], buffer, sequence, totalSequence, sender);
-                                }
-                                else if (sequence == totalSequence && remaining % buffer.Length > 0)
-                                {
-                                    read = File.InputStream.Read(lstBuffer, 0, lstBuffer.Length);
-                                    JefferiesExcuReport.SendStream("STREAM." + mimetype.Split(new char[] { '/' })[1], lstBuffer, sequence, totalSequence, sender);
-                                }
-                                remaining -= read;
-                                sequence++;
+                                br.BaseStream.Position = 0;
+                                byte[] bytes = br.ReadBytes(File.ContentLength);
+                                JefferiesExcuReport.SendStreamByChunks("STREAM." + mimetype.Split(new char[] { '/' })[1], bytes, sender);
                             }
                             if (log.IsInfoEnabled) log.InfoFormat("Send Stream({0}) from {1}", File.FileName, Assembly.GetExecutingAssembly().GetName().Name);
-                            File.InputStream.Seek(0, System.IO.SeekOrigin.Begin);
+                            //新式傳送視訊stream寫法(在此將上傳視訊stream完整丟給處理MQ的相關元件的方法,此方法內部以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) END
                         }
                     }
                 }
@@ -484,38 +523,54 @@ namespace KaazingTestWebApplication.Controllers
                     JefferiesExcuReport.ReStartSender(topicOrQueueName);
                     if (File != null)
                     {
-                        long sequence = 1;
-                        byte[] buffer = new byte[1048576];
-                        int offset = 0;
-                        long remaining = File.InputStream.Length;
-                        byte[] lstBuffer = new byte[remaining % buffer.Length];
-                        long totalSequence = remaining % buffer.Length > 0 ? (remaining / buffer.Length) + 1 : (remaining / buffer.Length);
-                        while (remaining > 0)
+                        //舊式傳送視訊stream寫法(在此將上傳視訊stream以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) BEGIN
+                        //long sequence = 1;
+                        //byte[] buffer = new byte[1048576];
+                        //int offset = 0;
+                        //long remaining = File.InputStream.Length;
+                        //byte[] lstBuffer = new byte[remaining % buffer.Length];
+                        //long totalSequence = remaining % buffer.Length > 0 ? (remaining / buffer.Length) + 1 : (remaining / buffer.Length);
+                        //while (remaining > 0)
+                        //{
+                        //    int read = 0;
+                        //    if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
+                        //    {
+                        //        read = File.InputStream.Read(buffer, 0, buffer.Length);
+                        //        if (!videoName.Equals(""))
+                        //        {
+                        //            WriteVideoStreamToFile(config.VideoStreamFileFolder, buffer, videoName);
+                        //        }
+                        //        JefferiesExcuReport.SendStream("STREAM." + mimetype.Split(new char[] { '/' })[1], buffer, sequence, totalSequence, sender);
+                        //    }
+                        //    else if (sequence == totalSequence && remaining % buffer.Length > 0)
+                        //    {
+                        //        read = File.InputStream.Read(lstBuffer, 0, lstBuffer.Length);
+                        //        if (!videoName.Equals(""))
+                        //        {
+                        //            WriteVideoStreamToFile(config.VideoStreamFileFolder, lstBuffer, videoName);
+                        //        }
+                        //        JefferiesExcuReport.SendStream("STREAM." + mimetype.Split(new char[] { '/' })[1], lstBuffer, sequence, totalSequence, sender);
+                        //    }
+                        //    remaining -= read;
+                        //    sequence++;
+                        //}
+                        //if (log.IsInfoEnabled) log.InfoFormat("Send Stream({0}) from {1}", File.FileName, Assembly.GetExecutingAssembly().GetName().Name);
+                        //File.InputStream.Seek(0, System.IO.SeekOrigin.Begin);
+                        //舊式傳送視訊stream寫法(在此將上傳視訊stream以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) END
+
+                        //新式傳送視訊stream寫法(在此將上傳視訊stream完整丟給處理MQ的相關元件的方法,此方法內部以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) BEGIN
+                        using (BinaryReader br = new BinaryReader(File.InputStream))
                         {
-                            int read = 0;
-                            if (sequence < totalSequence || (sequence == totalSequence && remaining % buffer.Length == 0))
+                            br.BaseStream.Position = 0;
+                            byte[] bytes = br.ReadBytes(File.ContentLength);
+                            if (!videoName.Equals(""))
                             {
-                                read = File.InputStream.Read(buffer, 0, buffer.Length);
-                                if (!videoName.Equals(""))
-                                {
-                                    WriteVideoStreamToFile(config.VideoStreamFileFolder, buffer, videoName);
-                                }
-                                JefferiesExcuReport.SendStream("STREAM." + mimetype.Split(new char[] { '/' })[1], buffer, sequence, totalSequence, sender);
+                                WriteVideoStreamToFile(config.VideoStreamFileFolder, bytes, videoName);
                             }
-                            else if (sequence == totalSequence && remaining % buffer.Length > 0)
-                            {
-                                read = File.InputStream.Read(lstBuffer, 0, lstBuffer.Length);
-                                if (!videoName.Equals(""))
-                                {
-                                    WriteVideoStreamToFile(config.VideoStreamFileFolder, lstBuffer, videoName);
-                                }
-                                JefferiesExcuReport.SendStream("STREAM." + mimetype.Split(new char[] { '/' })[1], lstBuffer, sequence, totalSequence, sender);
-                            }
-                            remaining -= read;
-                            sequence++;
+                            JefferiesExcuReport.SendStreamByChunks("STREAM." + mimetype.Split(new char[] { '/' })[1], bytes, sender);
                         }
                         if (log.IsInfoEnabled) log.InfoFormat("Send Stream({0}) from {1}", File.FileName, Assembly.GetExecutingAssembly().GetName().Name);
-                        File.InputStream.Seek(0, System.IO.SeekOrigin.Begin);
+                        //新式傳送視訊stream寫法(在此將上傳視訊stream完整丟給處理MQ的相關元件的方法,此方法內部以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) END
                     }
                 }
                 apiResult = Ok(new { MessageId = "0000", Message = "" });
