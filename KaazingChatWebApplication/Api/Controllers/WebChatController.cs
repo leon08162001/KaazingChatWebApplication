@@ -279,7 +279,7 @@ namespace KaazingTestWebApplication.Controllers
                                 //舊式傳檔寫法(在此將上傳檔案以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) END
 
                                 //新式傳檔寫法(在此將上傳檔案完整丟給處理MQ的相關元件的方法,此方法內部以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) BEGIN
-                                using (BinaryReader br = new BinaryReader(Files[i].InputStream))
+                                using (BinaryReader br = new BinaryReader(Files[i].InputStream, System.Text.Encoding.UTF8, true))
                                 {
                                     br.BaseStream.Position = 0;
                                     byte[] bytes = br.ReadBytes(Files[i].ContentLength);
@@ -331,7 +331,7 @@ namespace KaazingTestWebApplication.Controllers
                             //舊式傳檔寫法(在此將上傳檔案以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) EMD
 
                             //新式傳檔寫法(在此將上傳檔案完整丟給處理MQ的相關元件的方法,此方法內部以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) BEGIN
-                            using (BinaryReader br = new BinaryReader(Files[i].InputStream))
+                            using (BinaryReader br = new BinaryReader(Files[i].InputStream, System.Text.Encoding.UTF8, true))
                             {
                                 br.BaseStream.Position = 0;
                                 byte[] bytes = br.ReadBytes(Files[i].ContentLength);
@@ -506,7 +506,7 @@ namespace KaazingTestWebApplication.Controllers
                             //舊式傳送視訊stream寫法(在此將上傳視訊stream以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) END
 
                             //新式傳送視訊stream寫法(在此將上傳視訊stream完整丟給處理MQ的相關元件的方法,此方法內部以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) BEGIN
-                            using (BinaryReader br = new BinaryReader(File.InputStream))
+                            using (BinaryReader br = new BinaryReader(File.InputStream, System.Text.Encoding.UTF8, true))
                             {
                                 br.BaseStream.Position = 0;
                                 byte[] bytes = br.ReadBytes(File.ContentLength);
@@ -559,7 +559,7 @@ namespace KaazingTestWebApplication.Controllers
                         //舊式傳送視訊stream寫法(在此將上傳視訊stream以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) END
 
                         //新式傳送視訊stream寫法(在此將上傳視訊stream完整丟給處理MQ的相關元件的方法,此方法內部以拆檔成多個固定大小區塊的資料逐次丟給MQ傳送) BEGIN
-                        using (BinaryReader br = new BinaryReader(File.InputStream))
+                        using (BinaryReader br = new BinaryReader(File.InputStream, System.Text.Encoding.UTF8, true))
                         {
                             br.BaseStream.Position = 0;
                             byte[] bytes = br.ReadBytes(File.ContentLength);
