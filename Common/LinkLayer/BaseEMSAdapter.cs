@@ -665,7 +665,7 @@ namespace Common.LinkLayer
                     {
                         using (var memstream = new MemoryStream())
                         {
-                            var buffer = new byte[10485760];
+                            var buffer = new byte[1048576];
                             var bytesRead = default(int);
                             while ((bytesRead = sr.BaseStream.Read(buffer, 0, buffer.Length)) > 0)
                                 memstream.Write(buffer, 0, bytesRead);
@@ -714,7 +714,7 @@ namespace Common.LinkLayer
                 {
                     using (StreamReader sr = new StreamReader(FilePath))
                     {
-                        byte[] bytes = new byte[10485760];
+                        byte[] bytes = new byte[1048576];
                         long seq = 0;
                         long totalSequence = sr.BaseStream.Length % bytes.Length > 0 ? (sr.BaseStream.Length / bytes.Length) + 1 : (sr.BaseStream.Length / bytes.Length);
                         while ((sr.BaseStream.Read(bytes, 0, bytes.Length)) > 0)
@@ -799,7 +799,7 @@ namespace Common.LinkLayer
                 if (!_Session.IsClosed)
                 {
                     byte[] bytes;
-                    int buffer = 10485760;
+                    int buffer = 1048576;
                     long seq = 0;
                     long totalSequence = FileBytes.Length % buffer > 0 ? (FileBytes.Length / buffer) + 1 : (FileBytes.Length / buffer);
                     for (var i = 0; i < (float)FileBytes.Length / buffer; i++)
