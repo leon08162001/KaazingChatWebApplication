@@ -6,6 +6,12 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Net.Http;
+using System.Web;
+using System.ServiceModel.Channels;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Net.NetworkInformation;
 
 namespace Common.Utility
 {
@@ -26,13 +32,38 @@ namespace Common.Utility
         public static Dictionary<string, string> ConvertTagClassConstants(Type TagType)
         {
             Dictionary<string, string> DicTag = new Dictionary<string, string>();
-            FieldInfo[] fieldInfos = TagType.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            foreach (FieldInfo fi in fieldInfos)
+            try
             {
-                if (fi.IsLiteral && !fi.IsInitOnly)
+                FieldInfo[] fieldInfos = TagType.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy | BindingFlags.Instance);
+                PropertyInfo[] propertyInfos = TagType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy | BindingFlags.Instance);
+                if (fieldInfos.Length > 0)
                 {
-                    DicTag.Add(fi.GetValue(TagType).ToString(), fi.Name);
+                    foreach (FieldInfo fi in fieldInfos)
+                    {
+                        if (fi.IsLiteral && !fi.IsInitOnly)
+                        {
+                            DicTag.Add(fi.GetValue(TagType).ToString(), fi.Name);
+                        }
+                    }
                 }
+                if (propertyInfos.Length > 0)
+                {
+                    foreach (PropertyInfo property in propertyInfos)
+                    {
+                        if (property.MemberType == MemberTypes.Property)
+                        {
+                            DicTag.Add(property.Name, property.Name);
+                        }
+                    }
+                    DicTag.Add("99", "MacAddress");
+                    DicTag.Add("710", "MessageID");
+                    DicTag.Add("10038", "TotalRecords");
+                    DicTag.Add("9999", "Sequence");
+                }
+            }
+            catch (Exception ex)
+            {
+                if (log.IsErrorEnabled) log.Error("Util AddMessageToRow: ", ex);
             }
             return DicTag;
         }
@@ -43,8 +74,6 @@ namespace Common.Utility
         public static DataTable CreateTableSchema(Dictionary<string, string> DicTagType, Type TagType)
         {
             DataTable MessageDT = new DataTable();
-            string MessageID = TagType.GetField("MessageID").GetValue(TagType).ToString();
-            string TotalRecords = TagType.GetField("TotalRecords").GetValue(TagType).ToString();
             foreach (string key in DicTagType.Keys)
             {
                 string FiledName = DicTagType[key].ToString();
@@ -61,12 +90,10 @@ namespace Common.Utility
         {
             try
             {
-                string MessageID = TagType.GetField("MessageID").GetValue(TagType).ToString();
-                string TotalRecords = TagType.GetField("TotalRecords").GetValue(TagType).ToString();
                 DataRow tmpMessagRow = MessageDT.NewRow();
                 foreach (string key in DicMQMessage.Keys)
                 {
-                    tmpMessagRow[DicTagType[key].ToString()] = DicMQMessage[key].ToString();
+                    tmpMessagRow[DicTagType[key].ToString()] = DicMQMessage[key] == null ? DicMQMessage[key] : DicMQMessage[key].ToString();
                 }
                 MessageDT.Rows.Add(tmpMessagRow);
                 MessagRow = tmpMessagRow;
@@ -83,11 +110,9 @@ namespace Common.Utility
             DataRow tmpMessagRow = MessageDT.NewRow();
             try
             {
-                string MessageID = TagType.GetField("MessageID").GetValue(TagType).ToString();
-                string TotalRecords = TagType.GetField("TotalRecords").GetValue(TagType).ToString();
                 foreach (string key in DicMQMessage.Keys)
                 {
-                    tmpMessagRow[DicTagType[key].ToString()] = DicMQMessage[key].ToString();
+                    tmpMessagRow[DicTagType[key].ToString()] = DicMQMessage[key] == null ? DicMQMessage[key] : DicMQMessage[key].ToString();
                 }
             }
             catch (Exception ex)
@@ -156,7 +181,109 @@ namespace Common.Utility
             }
             return MessageMap;
         }
+        /// <summary>
+        /// 將Fix字串轉換成Dictionary
+        /// </summary>
+        /// <param name="Message">字串型態資料</param>
+        /// <param name="DataSplitChar">資料分隔字元</param>
+        /// <param name="DataMapChar">field和value分隔字元</param>
+        /// <returns></returns>
+        public static Dictionary<string, string> ToMessageMapForFix(string Message, string DataSplitChar, string DataMapChar)
+        {
+            Dictionary<string, string> MessageMap = new Dictionary<string, string>();
+            try
+            {
+                IEnumerable<string> IEnumData = Message.Split(DataSplitChar.ToCharArray()).AsEnumerable();
+                string TempLostData = "";
+                foreach (string Data in IEnumData)
+                {
+                    if (Data.Contains(DataMapChar))
+                    {
+                        int fixTag;
+                        string LeftStr = Data.Substring(0, Data.IndexOf("="));
+                        if (int.TryParse(LeftStr, out fixTag))
+                        {
+                            if (TempLostData != "")
+                            {
+                                MessageMap[MessageMap.ElementAt(MessageMap.Count - 1).Key] += TempLostData;
+                                TempLostData = "";
+                            }
+                            string[] AryKeyValue = Data.Split(DataMapChar.ToCharArray());
+                            if (AryKeyValue.Length == 2 && AryKeyValue[0] != "" && AryKeyValue[1] != "")
+                            {
+                                MessageMap.Add(AryKeyValue[0], AryKeyValue[1]);
+                            }
+                            else
+                            {
+                                TempLostData = "";
+                                for (int i = 1; i < AryKeyValue.Length; i++)
+                                {
+                                    TempLostData += AryKeyValue[i] + "=";
+                                }
+                                TempLostData = TempLostData.Substring(0, TempLostData.Length - 1);
+                                MessageMap.Add(AryKeyValue[0], TempLostData);
+                                TempLostData = "";
+                            }
+                        }
+                        else
+                        {
+                            TempLostData += " " + Data;
+                        }
+                    }
+                    else
+                    {
+                        TempLostData += " " + Data;
+                        continue;
+                    }
+                }
+                if (TempLostData != "")
+                {
+                    MessageMap[MessageMap.ElementAt(MessageMap.Count - 1).Key] += TempLostData;
+                }
+            }
+            catch (Exception ex)
+            {
+                if (log.IsErrorEnabled) log.Error("Util AddMessageToRow: ", ex);
+            }
+            return MessageMap;
+        }
 
+        /// <summary>
+        /// 將Json字串轉換成Dictionary
+        /// </summary>
+        /// <param name="Message">字串型態資料</param>
+        /// <param name="DataSplitChar">資料分隔字元</param>
+        /// <param name="DataMapChar">field和value分隔字元</param>
+        /// <returns></returns>
+        public static List<Dictionary<string, string>> ToMessageMapForJson(string sJson)
+        {
+            List<Dictionary<string, string>> MessageMapList = new List<Dictionary<string, string>>();
+            Dictionary<string, string> MessageMap = new Dictionary<string, string>();
+            try
+            {
+                var settings = new JsonSerializerSettings { Converters = new JsonConverter[] { new JsonGenericDictionaryOrArrayConverter() } };
+                var json = JValue.Parse(sJson);
+                if (json.Type == JTokenType.Object)
+                {
+                    MessageMap = JsonConvert.DeserializeObject<Dictionary<string, string>>(sJson, settings);
+                    MessageMapList.Add(MessageMap);
+                }
+                else if (json.Type == JTokenType.Array)
+                {
+                    MessageMapList = JsonConvert.DeserializeObject<List<Dictionary<string, string>>>(sJson, settings);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (log.IsErrorEnabled) log.Error("Util AddMessageToRow: ", ex);
+            }
+            return MessageMapList;
+        }
+        /// <summary>
+        /// 取得MacAddress
+        /// </summary>
+        /// <param name="IPAddress"></param>
+        /// <returns></returns>
         /// <summary>
         /// 根據IP取得MacAddress
         /// </summary>
@@ -185,11 +312,27 @@ namespace Common.Utility
                 }
                 strMacAddress = SBMacAddress.ToString();
             }
-            catch
+            catch (Exception ex)
             {
                 strMacAddress = string.Empty;
+                if (log.IsErrorEnabled) log.Error("Util AddMessageToRow: ", ex);
             }
             return strMacAddress;
+        }
+        public static string GetIosMacAddress()
+        {
+            foreach (var netInterface in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (netInterface.NetworkInterfaceType == NetworkInterfaceType.Wireless80211 ||
+                    netInterface.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                {
+                    var address = netInterface.GetPhysicalAddress();
+                    return BitConverter.ToString(address.GetAddressBytes());
+
+                }
+            }
+
+            return "NoMac";
         }
         public static string ConvertToWebServiceFixString(string FixString)
         {
@@ -914,9 +1057,11 @@ namespace Common.Utility
             }
             return FailOverConnString.ToString();
         }
+
         public static string GetMQFailOverConnString(string Urls, string Ports, bool useSSL = false)
         {
-            string OtherFailOverOptions = "?transport.randomize=true&amp;transport.trackMessages=true&amp;transport.priorityBackup=true";
+            //string OtherFailOverOptions = "?transport.randomize=true&amp;transport.trackMessages=true&amp;transport.priorityBackup=true";
+            string OtherFailOverOptions = "?randomize=false&trackMessages=true&priorityBackup=true&compressLargeMessages=true";
             StringBuilder FailOverConnString = new StringBuilder("");
             //代表只有1個IP
             if (Urls.IndexOf(",") == -1)
@@ -929,7 +1074,7 @@ namespace Common.Utility
                     if (useSSL)
                     {
                         FailOverConnString.Append("failover:ssl://" + Urls + ":" + port);
-                        FailOverConnString.Append("?transport.acceptInvalidBrokerCert=true");
+                        FailOverConnString.Append("?transport.acceptInvalidBrokerCert=false");
                         //FailOverConnString.Append("&amp;transport.clientCertFilename=amq-client.ts");
                         //FailOverConnString.Append("&amp;transport.clientCertPassword=880816");
                         //FailOverConnString.Append("&amp;transport.serverName=60.248.159.60");
@@ -949,7 +1094,7 @@ namespace Common.Utility
                         if (useSSL)
                         {
                             FailOverConnString.Append("ssl://" + Urls + ":" + Ports.Split(new char[] { ',' })[i]);
-                            FailOverConnString.Append("?transport.acceptInvalidBrokerCert=true");
+                            FailOverConnString.Append("?transport.acceptInvalidBrokerCert=false");
                             FailOverConnString.Append("&amp;transport.needClientAuth=false");
                             FailOverConnString.Append(",");
                         }
@@ -988,7 +1133,7 @@ namespace Common.Utility
                     if (useSSL)
                     {
                         FailOverConnString.Append("ssl://" + url + ":" + sPort);
-                        FailOverConnString.Append("?transport.acceptInvalidBrokerCert=true");
+                        FailOverConnString.Append("?transport.acceptInvalidBrokerCert=false");
                         FailOverConnString.Append("&amp;transport.needClientAuth=false");
                         FailOverConnString.Append(",");
                     }
@@ -1006,6 +1151,60 @@ namespace Common.Utility
                 }
             }
             return FailOverConnString.ToString();
+        }
+
+        public static string GetClientIp(HttpRequestMessage request = null)
+        {
+            if (request.Properties.ContainsKey("MS_HttpContext"))
+            {
+                return ((HttpContextWrapper)request.Properties["MS_HttpContext"]).Request.UserHostAddress;
+            }
+            else if (request.Properties.ContainsKey(RemoteEndpointMessageProperty.Name))
+            {
+                RemoteEndpointMessageProperty prop = (RemoteEndpointMessageProperty)request.Properties[RemoteEndpointMessageProperty.Name];
+                return prop.Address;
+            }
+            else if (HttpContext.Current != null)
+            {
+                return HttpContext.Current.Request.UserHostAddress;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public static List<T> DataTableToList<T>(DataTable DT) where T : class, new()
+        {
+            try
+            {
+                List<T> list = new List<T>();
+
+                foreach (DataRow row in DT.Rows)
+                {
+                    T obj = new T();
+
+                    foreach (var prop in obj.GetType().GetProperties())
+                    {
+                        try
+                        {
+                            PropertyInfo propertyInfo = obj.GetType().GetProperty(prop.Name);
+                            propertyInfo.SetValue(obj, Convert.ChangeType(row[prop.Name], propertyInfo.PropertyType), null);
+                        }
+                        catch
+                        {
+                            continue;
+                        }
+                    }
+
+                    list.Add(obj);
+                }
+
+                return list;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

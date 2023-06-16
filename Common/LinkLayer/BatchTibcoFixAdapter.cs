@@ -1,11 +1,16 @@
-﻿using Common.TopicMessage;
-using Common.Utility;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Data;
+using System.Collections;
+using System.Reflection;
+using System.Threading;
+using System.ComponentModel;
 using Spring.Context;
 using Spring.Context.Support;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+using Common.Utility;
+using Common.TopicMessage;
 
 namespace Common.LinkLayer
 {
@@ -246,6 +251,10 @@ namespace Common.LinkLayer
                 {
                     TIBCO.Rendezvous.MessageField field = message.GetFieldByIndex(i);
                     TibcoMessageDictionary.Add(field.Name, field.Value.ToString());
+                }
+				if (TibcoMessageDictionary.Keys.Count == 0)
+                {
+                    return;
                 }
                 foreach (string key in TibcoMessageDictionary.Keys)
                 {

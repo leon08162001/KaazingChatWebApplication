@@ -1,17 +1,14 @@
 ﻿using Common.HandlerLayer;
+using System.Collections.Generic;
 using System.Threading;
 using TIBCO.EMS;
 
 namespace Common.LinkLayer
 {
-    public enum DBAction
-    {
-        Query, Add, Update, Delete, None
-    }
     public interface IEMSAdapter
     {
-        //event BaseMQAdapter.MQMessageAsynSendFinishedEventHandler MQMessageAsynSendFinished;
-        //event BaseMQAdapter.MQMessageHandleFinishedEventHandler MQMessageHandleFinished;
+        event BaseEMSAdapter.MessageAsynSendFinishedEventHandler MessageAsynSendFinished;
+        event BaseEMSAdapter.MessageHandleFinishedEventHandler MessageHandleFinished;
 
         /// <summary>
         /// 訊息傳遞模式
@@ -34,6 +31,10 @@ namespace Common.LinkLayer
         /// </summary>
         bool UseSSL { get; set; }
         /// <summary>
+        /// 憑證檔位置
+        /// </summary>
+        List<string> CertsPath { get; set; }
+        /// <summary>
         /// 監聽的主題
         /// </summary>
         string ListenName { get; set; }
@@ -46,19 +47,19 @@ namespace Common.LinkLayer
         /// </summary>
         string SendName { get; set; }
         /// <summary>
-        /// EMS Broker服務程式的IP位置
+        /// Message Broker服務程式的IP位置
         /// </summary>
         string Uri { get; set; }
         /// <summary>
-        /// 登入EMS Broker的用戶名稱
+        /// 登入Message Broker的用戶名稱
         /// </summary>
         string UserName { set; }
         /// <summary>
-        /// 登入EMS Broker的用戶密碼
+        /// 登入Message Broker的用戶密碼
         /// </summary>
         string PassWord { set; }
         /// <summary>
-        /// EMSAdapter所在的電腦MacAddress
+        /// Message Broker所在的電腦MacAddress
         /// </summary>
         string MacAddress { get; set; }
         /// <summary>
@@ -86,6 +87,10 @@ namespace Common.LinkLayer
         /// </summary>
         string Selector { get; set; }
         /// <summary>
+        /// 訊息接收後保留在記憶體時間(秒)
+        /// </summary>
+        int ReceivedMessageTimeOut { get; set; }
+        /// <summary>
         /// 取得UI執行緒同步上下文
         /// </summary>
         SynchronizationContext UISyncContext { get; }
@@ -94,22 +99,29 @@ namespace Common.LinkLayer
 
         void Start(string ClientID = "", bool IsDurableConsumer = false);
         void Close();
-        void processEMSMessage(TIBCO.EMS.Message message);
+        void processMessage(TIBCO.EMS.Message message);
         void Restart(string ClientID = "", bool IsDurableConsumer = false);
         void RemoveAllEvents();
-        bool SendEMSMessage(string RequestTag, System.Collections.Generic.List<MessageField> SingleEMSMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0);
-        bool SendEMSMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiEMSMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0);
-        void SendAsynEMSMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiEMSMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0);
+        bool SendMessage(string RequestTag, System.Collections.Generic.List<MessageField> SingleMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0);
+        bool SendMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0);
+        void SendAsynMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0);
         bool SendFile(string FileName, string FilePath, string ID = "");
         bool SendFileByChunks(string FileName, string FilePath, string ID = "");
         bool SendFile(string FileName, byte[] FileBytes, string ID = "");
         bool SendFileByChunks(string FileName, byte[] FileBytes, string ID = "");
+        bool SendBase64File(string FileName, string FilePath, string ID = "");
+        bool SendBase64File(string FileName, byte[] FileBytes, string ID = "");
         void ReStartListener(string ListenName);
         void ReStartSender(string SendName);
-        void SendMessage(string Text);
+        bool SendMessage(string Text);
         /// <summary>
         /// 關閉共享連線(當UseSharedConnection=true時才有作用)
         /// </summary>
         void CloseSharedConnection();
+        /// <summary>
+        /// 檢查Message Broker服務是否運作
+        /// </summary>
+        /// <returns></returns>
+        bool CheckMessageBrokerAlive();
     }
 }

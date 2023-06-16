@@ -7,6 +7,7 @@ using Common.Utility;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -97,63 +98,64 @@ namespace Common.LinkLayer
         protected int _sendAmounnts = 0;
         protected double _MessageTimeOut = 0;
         protected string _Selector = "";
+        protected int _ReceivedMessageTimeOut = 20;
         protected bool _IsDurableConsumer = false;
         protected string _ClientID = "";
 
-        public delegate void MQMessageHandleFinishedEventHandler(object sender, MQMessageHandleFinishedEventArgs e);
-        List<MQMessageHandleFinishedEventHandler> MQMessageHandleFinishedEventDelegates = new List<MQMessageHandleFinishedEventHandler>();
-        private event MQMessageHandleFinishedEventHandler _MQMessageHandleFinished;
-        public event MQMessageHandleFinishedEventHandler MQMessageHandleFinished
+        public delegate void MessageAsynSendFinishedEventHandler(object sender, MQMessageAsynSendFinishedEventArgs e);
+        List<MessageAsynSendFinishedEventHandler> MessageAsynSendFinishedEventDelegates = new List<MessageAsynSendFinishedEventHandler>();
+        private event MessageAsynSendFinishedEventHandler _MessageAsynSendFinished;
+        public event MessageAsynSendFinishedEventHandler MessageAsynSendFinished
         {
             add
             {
-                _MQMessageHandleFinished += value;
-                MQMessageHandleFinishedEventDelegates.Add(value);
+                _MessageAsynSendFinished += value;
+                MessageAsynSendFinishedEventDelegates.Add(value);
             }
             remove
             {
-                _MQMessageHandleFinished -= value;
-                MQMessageHandleFinishedEventDelegates.Remove(value);
+                _MessageAsynSendFinished -= value;
+                MessageAsynSendFinishedEventDelegates.Remove(value);
             }
         }
 
-        public delegate void MQMessageAsynSendFinishedEventHandler(object sender, MQMessageAsynSendFinishedEventArgs e);
-        List<MQMessageAsynSendFinishedEventHandler> MQMessageAsynSendFinishedEventDelegates = new List<MQMessageAsynSendFinishedEventHandler>();
-        private event MQMessageAsynSendFinishedEventHandler _MQMessageAsynSendFinished;
-        public event MQMessageAsynSendFinishedEventHandler MQMessageAsynSendFinished
+        public delegate void MessageHandleFinishedEventHandler(object sender, MQMessageHandleFinishedEventArgs e);
+        List<MessageHandleFinishedEventHandler> MessageHandleFinishedEventDelegates = new List<MessageHandleFinishedEventHandler>();
+        private event MessageHandleFinishedEventHandler _MessageHandleFinished;
+        public event MessageHandleFinishedEventHandler MessageHandleFinished
         {
             add
             {
-                _MQMessageAsynSendFinished += value;
-                MQMessageAsynSendFinishedEventDelegates.Add(value);
+                _MessageHandleFinished += value;
+                MessageHandleFinishedEventDelegates.Add(value);
             }
             remove
             {
-                _MQMessageAsynSendFinished -= value;
-                MQMessageAsynSendFinishedEventDelegates.Remove(value);
+                _MessageHandleFinished -= value;
+                MessageHandleFinishedEventDelegates.Remove(value);
             }
         }
 
         /// <summary>
-        /// 收到一筆MQMessage並完成資料處理時事件
+        /// 收到一筆Message並完成資料處理時事件
         /// </summary>
-        protected virtual void OnMQMessageHandleFinished(object state)
+        protected virtual void OnMessageHandleFinished(object state)
         {
             MQMessageHandleFinishedEventArgs e = state as MQMessageHandleFinishedEventArgs;
-            if (_MQMessageHandleFinished != null)
+            if (_MessageHandleFinished != null)
             {
-                _MQMessageHandleFinished(this, e);
+                _MessageHandleFinished(this, e);
             }
         }
         /// <summary>
         /// 非同步發送Message完成時事件
         /// </summary>
-        protected virtual void OnMQMessageSendFinished(object state)
+        protected virtual void OnMessageSendFinished(object state)
         {
             MQMessageAsynSendFinishedEventArgs e = state as MQMessageAsynSendFinishedEventArgs;
-            if (_MQMessageAsynSendFinished != null)
+            if (_MessageAsynSendFinished != null)
             {
-                _MQMessageAsynSendFinished(this, e);
+                _MessageAsynSendFinished(this, e);
             }
         }
 
@@ -285,7 +287,18 @@ namespace Common.LinkLayer
             {
                 _Selector = value;
             }
-        }       
+        }
+        public int ReceivedMessageTimeOut
+        {
+            get
+            {
+                return _ReceivedMessageTimeOut;
+            }
+            set
+            {
+                _ReceivedMessageTimeOut = value;
+            }
+        }
         public SynchronizationContext UISyncContext
         {
             get { return _UISyncContext; }
@@ -317,7 +330,7 @@ namespace Common.LinkLayer
             _PassWord = Pwd;
         }
 
-        public bool CheckActiveMQAlive()
+        public bool CheckMessageBrokerAlive()
         {
             string urls;
             string ports;
@@ -347,7 +360,7 @@ namespace Common.LinkLayer
                     }
                     catch (NMSException ex)
                     {
-                        if (log.IsErrorEnabled) log.Error("IsActiveMQAlive() Error", ex);
+                        if (log.IsErrorEnabled) log.Error("CheckMessageBrokerAlive() Error", ex);
                         result = false;
                     }
                 }
@@ -373,7 +386,7 @@ namespace Common.LinkLayer
                         }
                         catch (NMSException ex)
                         {
-                            if (log.IsErrorEnabled) log.Error("IsActiveMQAlive() Error", ex);
+                            if (log.IsErrorEnabled) log.Error("CheckMessageBrokerAlive() Error", ex);
                             continue;
                         }
                     }
@@ -416,7 +429,7 @@ namespace Common.LinkLayer
                     }
                     catch (NMSException ex)
                     {
-                        if (log.IsErrorEnabled) log.Error("IsActiveMQAlive() Error", ex);
+                        if (log.IsErrorEnabled) log.Error("CheckMessageBrokerAlive() Error", ex);
                         continue;
                     }
                 }
@@ -453,6 +466,8 @@ namespace Common.LinkLayer
             //failover:tcp://localhost:61616?initialReconnectDelay=2000&maxReconnectAttempts=2
             try
             {
+                Apache.NMS.ActiveMQ.Transport.Tcp.TcpTransportManager.SendBufferSize = (1024 * 128);
+                Apache.NMS.ActiveMQ.Transport.Tcp.TcpTransportManager.ReceiveBufferSize = (1024 * 1000);
                 if (_UseSharedConnection)
                 {
                     if (Urls.Equals(""))
@@ -575,16 +590,16 @@ namespace Common.LinkLayer
 
         public virtual void RemoveAllEvents()
         {
-            foreach (MQMessageHandleFinishedEventHandler eh in MQMessageHandleFinishedEventDelegates)
+            foreach (MessageHandleFinishedEventHandler eh in MessageHandleFinishedEventDelegates)
             {
-                _MQMessageHandleFinished -= eh;
+                _MessageHandleFinished -= eh;
             }
-            MQMessageHandleFinishedEventDelegates.Clear();
-            foreach (MQMessageAsynSendFinishedEventHandler eh in MQMessageAsynSendFinishedEventDelegates)
+            MessageHandleFinishedEventDelegates.Clear();
+            foreach (MessageAsynSendFinishedEventHandler eh in MessageAsynSendFinishedEventDelegates)
             {
-                _MQMessageAsynSendFinished -= eh;
+                _MessageAsynSendFinished -= eh;
             }
-            MQMessageAsynSendFinishedEventDelegates.Clear();
+            MessageAsynSendFinishedEventDelegates.Clear();
         }
 
         public void listener_messageReceivedEventHandler(IMessage message)
@@ -595,13 +610,56 @@ namespace Common.LinkLayer
             }
             else
             {
-                processMQMessage(message);
+                processMessage(message);
             }
         }
 
-        public abstract void processMQMessage(IMessage message);
+        public abstract void processMessage(IMessage message);
+        public bool SendMessage(string Text)
+        {
+            bool isSend = false;
+            string ErrorMsg = "";
+            try
+            {
+                if (_Producer != null)
+                {
+                    if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
+                    {
 
-        public bool SendMQMessage(string MessageIDTag, List<MessageField> SingleMqMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
+                        ITextMessage msg = _Session.CreateTextMessage();
+                        msg.NMSType = "text";
+                        msg.Text = Text;
+                        TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
+                        _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
+                        _sendAmounnts += 1;
+                    }
+                    else
+                    {
+                        if (log.IsInfoEnabled) log.Info("Network connection or ActiveMQService Has been closed!");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMsg = "BaseMQAdapter SendMessage() Error(" + ex.Message + ")";
+                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                //System.Environment.Exit(-1);
+            }
+            finally
+            {
+                if (_UISyncContext != null && IsEventInUIThread)
+                {
+                    _UISyncContext.Post(OnMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+                else
+                {
+                    OnMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+            }
+            return isSend;
+        }
+
+        public bool SendMessage(string MessageIDTag, List<MessageField> SingleMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
         {
             bool isSend = false;
             string ErrorMsg = "";
@@ -627,7 +685,7 @@ namespace Common.LinkLayer
                     }
                     //加入總筆數tag
                     msg.Properties.SetString("10038", "1");
-                    foreach (MessageField prop in SingleMqMessage)
+                    foreach (MessageField prop in SingleMessage)
                     {
                         msg.Properties.SetString(prop.Name, prop.Value);
                     }
@@ -651,25 +709,25 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                ErrorMsg = "BaseMQAdapter SendMQMessage() Error(" + ex.Message + ")";
+                ErrorMsg = "BaseMQAdapter SendMessage() Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMQMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMQMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
         }
 
-        public bool SendMQMessage(string MessageIDTag, List<List<MessageField>> MultiMqMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
+        public bool SendMessage(string MessageIDTag, List<List<MessageField>> MultiMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
         {
             bool isSend = false;
             string ErrorMsg = "";
@@ -677,10 +735,10 @@ namespace Common.LinkLayer
             {
                 this._MessageID = System.Guid.NewGuid().ToString();
                 //註解發送筆數資訊
-                //SendCountMessage(MessageIDTag, _MessageID, MultiMqMessage.Count);
+                //SendCountMessage(MessageIDTag, _MessageID, MultiMessage.Count);
                 if (_Producer != null)
                 {
-                    foreach (List<MessageField> SingleMqMessage in MultiMqMessage)
+                    foreach (List<MessageField> SingleMessage in MultiMessage)
                     {
                         IMessage msg = _Producer.CreateMessage();
                         //if (_DestinationFeature == DestinationFeature.Queue)
@@ -696,8 +754,8 @@ namespace Common.LinkLayer
                             msg.Properties.SetString("99", _MacAddress);
                         }
                         //加入總筆數tag
-                        msg.Properties.SetString("10038", MultiMqMessage.Count().ToString());
-                        foreach (MessageField prop in SingleMqMessage)
+                        msg.Properties.SetString("10038", MultiMessage.Count().ToString());
+                        foreach (MessageField prop in SingleMessage)
                         {
                             msg.Properties.SetString(prop.Name, prop.Value);
                         }
@@ -722,25 +780,25 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                ErrorMsg = "SendMQMessage: Error(" + ex.Message + ")";
+                ErrorMsg = "SendMessage: Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMQMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMQMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
         }
 
-        public void SendAsynMQMessage(string MessageIDTag, List<List<MessageField>> MultiMqMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
+        public void SendAsynMessage(string MessageIDTag, List<List<MessageField>> MultiMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
         {
             ThreadStart SendThreadStart = new ThreadStart(
                 delegate ()
@@ -749,14 +807,14 @@ namespace Common.LinkLayer
                     {
                         this._MessageID = System.Guid.NewGuid().ToString();
                         //註解發送筆數資訊
-                        //SendCountMessage(MessageIDTag, _MessageID, MultiMqMessage.Count);
-                        SendAsyn(_Producer, MessageIDTag, MultiMqMessage, DelayedPerWhenNumber, DelayedMillisecond);
+                        //SendCountMessage(MessageIDTag, _MessageID, MultiMessage.Count);
+                        SendAsyn(_Producer, MessageIDTag, MultiMessage, DelayedPerWhenNumber, DelayedMillisecond);
                     }
                 });
             Thread SendThread = new Thread(SendThreadStart);
             SendThread.Start();
         }
-        public bool SendFile(string FileName, string FilePath , string ID = "")
+        public bool SendFile(string FileName, string FilePath, string ID = "")
         {
             bool isSend = false;
             string ErrorMsg = "";
@@ -800,17 +858,17 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseMQAdapter SendFile: Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMQMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMQMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -854,17 +912,17 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseMQAdapter SendFile: Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMQMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMQMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -883,13 +941,6 @@ namespace Common.LinkLayer
                     msg.Properties.SetString("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.NMSType = "file";
 
-                    //IStreamMessage msg = _Producer.CreateStreamMessage();
-                    //msg.Properties.SetString("id", ID);
-                    //msg.Properties.SetString("filename", FileName);
-                    //msg.Properties.SetString("datatype", Util.GetMimeType(@"C:\" + FileName));
-                    //msg.NMSType = "file";
-                    //msg.WriteBytes(FileBytes);
-
                     if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                     {
                         TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
@@ -907,17 +958,17 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseMQAdapter SendFile: Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMQMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMQMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -960,17 +1011,17 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseMQAdapter SendFile: Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMQMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMQMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -1021,17 +1072,17 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseMQAdapter SendBase64File: Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMQMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMQMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -1068,17 +1119,17 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseMQAdapter SendBase64File: Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMQMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMQMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -1183,9 +1234,9 @@ namespace Common.LinkLayer
                     }
                 }
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error("BaseMQAdapter ReStartListener() Error", exception);
+                if (log.IsErrorEnabled) log.Error("BaseMQAdapter ReStartListener() Error", ex);
             }
         }
 
@@ -1206,7 +1257,7 @@ namespace Common.LinkLayer
                         _Producer.DisableMessageID = true;
                         _Producer.DisableMessageTimestamp = true;
                     }
-                     else if (_DestinationFeature == DestinationFeature.Queue || _DestinationFeature == DestinationFeature.MirroredQueues)
+                    else if (_DestinationFeature == DestinationFeature.Queue || _DestinationFeature == DestinationFeature.MirroredQueues)
                     {
                         _Producer = _Session.CreateProducer(new ActiveMQQueue(SendName));
                         _Producer.DisableMessageID = true;
@@ -1214,9 +1265,9 @@ namespace Common.LinkLayer
                     }
                 }
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error("BaseMQAdapter ReStartSender() Error", exception);
+                if (log.IsErrorEnabled) log.Error("BaseMQAdapter ReStartSender() Error", ex);
             }
         }
 
@@ -1229,20 +1280,20 @@ namespace Common.LinkLayer
                     AMQSharedConnection.Close();
                 }
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error("BaseMQAdapter CloseSharedConnection() Error", exception);
+                if (log.IsErrorEnabled) log.Error("BaseMQAdapter CloseSharedConnection() Error", ex);
             }
         }
 
-        protected void SendAsyn(IMessageProducer Producer, string MessageIDTag, List<List<MessageField>> MultiMqMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
+        protected void SendAsyn(IMessageProducer Producer, string MessageIDTag, List<List<MessageField>> MultiMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
         {
             string ErrorMsg = "";
             try
             {
                 if (_Producer != null)
                 {
-                    foreach (List<MessageField> SingleMqMessage in MultiMqMessage)
+                    foreach (List<MessageField> SingleMessage in MultiMessage)
                     {
                         IMessage msg = Producer.CreateMessage();
                         //if (_DestinationFeature == DestinationFeature.Queue)
@@ -1258,8 +1309,8 @@ namespace Common.LinkLayer
                             msg.Properties.SetString("99", _MacAddress);
                         }
                         //加入總筆數tag
-                        msg.Properties.SetString("10038", MultiMqMessage.Count().ToString());
-                        foreach (MessageField prop in SingleMqMessage)
+                        msg.Properties.SetString("10038", MultiMessage.Count().ToString());
+                        foreach (MessageField prop in SingleMessage)
                         {
                             msg.Properties.SetString(prop.Name, prop.Value);
                         }
@@ -1285,17 +1336,17 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseMQAdapter SendAsyn() Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMQMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMQMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MQMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
         }
@@ -1355,7 +1406,7 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseMQAdapter SendCountMessage: Error happened(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             return isSend;
         }
@@ -1455,9 +1506,9 @@ namespace Common.LinkLayer
                     }
                 }
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error("BaseMQAdapter StartListener() Error", exception);
+                if (log.IsErrorEnabled) log.Error("BaseMQAdapter StartListener() Error", ex);
             }
         }
 
@@ -1536,7 +1587,7 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseMQAdapter SetHeartBeat: Error happened(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
         }
         private void SlowDownProducer(int DelayedPerWhenNumber, int DelayedMillisecond)

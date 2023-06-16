@@ -1,4 +1,5 @@
-﻿using Common.HandlerLayer;
+﻿using Apache.NMS;
+using Common.HandlerLayer;
 using Common.Utility;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using TIBCO.EMS;
 namespace Common.LinkLayer
 {
     /// <summary>
-    ///收到一筆EMSMessage並完成資料處理時的事件參數類別
+    ///收到一筆Message並完成資料處理時的事件參數類別
     /// </summary>
     public class EMSMessageHandleFinishedEventArgs : EventArgs
     {
@@ -35,7 +36,7 @@ namespace Common.LinkLayer
     }
 
     /// <summary>
-    ///非同步發送EMSMessage完成時的事件參數類別
+    ///非同步發送Message完成時的事件參數類別
     /// </summary>
     public class EMSMessageAsynSendFinishedEventArgs : EventArgs
     {
@@ -83,69 +84,71 @@ namespace Common.LinkLayer
 
         protected bool _IsEventInUIThread = false;             //觸發事件時是否回到UI Thread預設為false
         protected bool _UseSSL = false;
+        protected List<string> _CertsPath = new List<string>();
 
         protected Timer HeartBeatTimer;
         protected int _HeartBeatInterval = 60;
         protected int _sendAmounnts = 0;
         protected double _MessageTimeOut = 0;
         protected string _Selector = "";
+        protected int _ReceivedMessageTimeOut = 20;
         protected bool _IsDurableConsumer = false;
         protected string _ClientID = "";
 
-        public delegate void EMSMessageHandleFinishedEventHandler(object sender, EMSMessageHandleFinishedEventArgs e);
-        List<EMSMessageHandleFinishedEventHandler> EMSMessageHandleFinishedEventDelegates = new List<EMSMessageHandleFinishedEventHandler>();
-        private event EMSMessageHandleFinishedEventHandler _EMSMessageHandleFinished;
-        public event EMSMessageHandleFinishedEventHandler EMSMessageHandleFinished
+        public delegate void MessageAsynSendFinishedEventHandler(object sender, EMSMessageAsynSendFinishedEventArgs e);
+        List<MessageAsynSendFinishedEventHandler> MessageAsynSendFinishedEventDelegates = new List<MessageAsynSendFinishedEventHandler>();
+        private event MessageAsynSendFinishedEventHandler _MessageAsynSendFinished;
+        public event MessageAsynSendFinishedEventHandler MessageAsynSendFinished
         {
             add
             {
-                _EMSMessageHandleFinished += value;
-                EMSMessageHandleFinishedEventDelegates.Add(value);
+                _MessageAsynSendFinished += value;
+                MessageAsynSendFinishedEventDelegates.Add(value);
             }
             remove
             {
-                _EMSMessageHandleFinished -= value;
-                EMSMessageHandleFinishedEventDelegates.Remove(value);
+                _MessageAsynSendFinished -= value;
+                MessageAsynSendFinishedEventDelegates.Remove(value);
             }
         }
 
-        public delegate void EMSMessageAsynSendFinishedEventHandler(object sender, EMSMessageAsynSendFinishedEventArgs e);
-        List<EMSMessageAsynSendFinishedEventHandler> EMSMessageAsynSendFinishedEventDelegates = new List<EMSMessageAsynSendFinishedEventHandler>();
-        private event EMSMessageAsynSendFinishedEventHandler _EMSMessageAsynSendFinished;
-        public event EMSMessageAsynSendFinishedEventHandler EMSMessageAsynSendFinished
+        public delegate void MessageHandleFinishedEventHandler(object sender, EMSMessageHandleFinishedEventArgs e);
+        List<MessageHandleFinishedEventHandler> MessageHandleFinishedEventDelegates = new List<MessageHandleFinishedEventHandler>();
+        private event MessageHandleFinishedEventHandler _MessageHandleFinished;
+        public event MessageHandleFinishedEventHandler MessageHandleFinished
         {
             add
             {
-                _EMSMessageAsynSendFinished += value;
-                EMSMessageAsynSendFinishedEventDelegates.Add(value);
+                _MessageHandleFinished += value;
+                MessageHandleFinishedEventDelegates.Add(value);
             }
             remove
             {
-                _EMSMessageAsynSendFinished -= value;
-                EMSMessageAsynSendFinishedEventDelegates.Remove(value);
+                _MessageHandleFinished -= value;
+                MessageHandleFinishedEventDelegates.Remove(value);
             }
         }
 
         /// <summary>
-        /// 收到一筆EMSMessage並完成資料處理時事件
+        /// 收到一筆Message並完成資料處理時事件
         /// </summary>
-        protected virtual void OnEMSMessageHandleFinished(object state)
+        protected virtual void OnMessageHandleFinished(object state)
         {
             EMSMessageHandleFinishedEventArgs e = state as EMSMessageHandleFinishedEventArgs;
-            if (_EMSMessageHandleFinished != null)
+            if (_MessageHandleFinished != null)
             {
-                _EMSMessageHandleFinished(this, e);
+                _MessageHandleFinished(this, e);
             }
         }
         /// <summary>
         /// 非同步發送Message完成時事件
         /// </summary>
-        protected virtual void OnEMSMessageSendFinished(object state)
+        protected virtual void OnMessageSendFinished(object state)
         {
             EMSMessageAsynSendFinishedEventArgs e = state as EMSMessageAsynSendFinishedEventArgs;
-            if (_EMSMessageAsynSendFinished != null)
+            if (_MessageAsynSendFinished != null)
             {
-                _EMSMessageAsynSendFinished(this, e);
+                _MessageAsynSendFinished(this, e);
             }
         }
 
@@ -240,6 +243,11 @@ namespace Common.LinkLayer
             get { return _UseSSL; }
             set { _UseSSL = value; }
         }
+        public List<string> CertsPath
+        {
+            get { return _CertsPath; }
+            set { _CertsPath = value; }
+        }
         /// <summary>
         /// 心跳訊息間隔(秒)
         /// </summary>
@@ -259,6 +267,17 @@ namespace Common.LinkLayer
             set
             {
                 _Selector = value;
+            }
+        }
+        public int ReceivedMessageTimeOut
+        {
+            get
+            {
+                return _ReceivedMessageTimeOut;
+            }
+            set
+            {
+                _ReceivedMessageTimeOut = value;
             }
         }
         public SynchronizationContext UISyncContext
@@ -290,6 +309,112 @@ namespace Common.LinkLayer
             _SendName = SendName;
             _UserName = UserName;
             _PassWord = Pwd;
+        }
+        public bool CheckMessageBrokerAlive()
+        {
+            string urls;
+            string ports;
+            string url = "";
+            urls = _Uri.Split(new char[] { ':' })[0];
+            ports = _Uri.Split(new char[] { ':' })[1];
+            //代表url只有1個IP
+            if (urls.IndexOf(",") == -1)
+            {
+                bool result = false;
+                //代表只有1個port
+                if (ports.IndexOf(",") == -1)
+                {
+                    url = "tcp://" + urls + ":" + ports;
+                    _Factory = new ConnectionFactory(url);
+                    try
+                    {
+                        if (_UserName != "" && _PassWord != "")
+                        {
+                            _Connection = _Factory.CreateConnection(_UserName, _PassWord);
+                        }
+                        else
+                        {
+                            _Connection = _Factory.CreateConnection();
+                        }
+                        result = true;
+                    }
+                    catch (EMSException ex)
+                    {
+                        if (log.IsErrorEnabled) log.Error("CheckMessageBrokerAlive() Error", ex);
+                        result = false;
+                    }
+                }
+                //代表多個port
+                else
+                {
+                    foreach (string port in ports.Split(new char[] { ',' }))
+                    {
+                        url = "tcp://" + urls + ":" + port;
+                        _Factory = new ConnectionFactory(url);
+                        try
+                        {
+                            if (_UserName != "" && _PassWord != "")
+                            {
+                                _Connection = _Factory.CreateConnection(_UserName, _PassWord);
+                            }
+                            else
+                            {
+                                _Connection = _Factory.CreateConnection();
+                            }
+                            result = true;
+                            break;
+                        }
+                        catch (EMSException ex)
+                        {
+                            if (log.IsErrorEnabled) log.Error("CheckMessageBrokerAlive() Error", ex);
+                            continue;
+                        }
+                    }
+                }
+                return result;
+            }
+            //代表url有多個IP
+            else
+            {
+                bool result = false;
+                List<string> lstUrl = urls.Split(new char[] { ',' }).ToList<string>();
+                int i = 0;
+                foreach (string _url in lstUrl)
+                {
+                    //代表只有1個port
+                    if (ports.IndexOf(",") == -1)
+                    {
+                        url = "tcp://" + _url + ":" + ports;
+                    }
+                    //代表多個port
+                    else
+                    {
+                        string[] lstPort = ports.Split(new char[] { ',' });
+                        url = "tcp://" + _url + ":" + ports.Split(new char[] { ',' })[i];
+                        i++;
+                    }
+                    _Factory = new ConnectionFactory(url);
+                    try
+                    {
+                        if (_UserName != "" && _PassWord != "")
+                        {
+                            _Connection = _Factory.CreateConnection(_UserName, _PassWord);
+                        }
+                        else
+                        {
+                            _Connection = _Factory.CreateConnection();
+                        }
+                        result = true;
+                        break;
+                    }
+                    catch (NMSException ex)
+                    {
+                        if (log.IsErrorEnabled) log.Error("CheckMessageBrokerAlive() Error", ex);
+                        continue;
+                    }
+                }
+                return result;
+            }
         }
 
         public void Start(string ClientID = "", bool IsDurableConsumer = false)
@@ -331,11 +456,11 @@ namespace Common.LinkLayer
                 {
                     if (Urls.Equals(""))
                     {
-                        EMSSharedConnection.Open(SingleUrl, ports, _UserName, _PassWord, _UseSSL, _IsDurableConsumer, _ClientID);
+                        EMSSharedConnection.Open(SingleUrl, ports, _UserName, _PassWord, _UseSSL, CertsPath, _IsDurableConsumer, _ClientID);
                     }
                     else
                     {
-                        EMSSharedConnection.Open(Urls, ports, _UserName, _PassWord, _UseSSL, _IsDurableConsumer, _ClientID);
+                        EMSSharedConnection.Open(Urls, ports, _UserName, _PassWord, _UseSSL, CertsPath, _IsDurableConsumer, _ClientID);
                     }
                     _Session = EMSSharedConnection.GetConnection().CreateSession(false, SessionMode.AutoAcknowledge);
                     _Connection = EMSSharedConnection.GetConnection();
@@ -352,10 +477,18 @@ namespace Common.LinkLayer
                     if (Urls.Equals(""))
                     {
                         _Factory = new ConnectionFactory(Util.GetEMSFailOverConnString(SingleUrl, ports, _UseSSL));
+                        if (_UseSSL)
+                        {
+                            EMSSharedConnection.SSLSetting(ref _Factory, SingleUrl, CertsPath);
+                        }
                     }
                     else
                     {
                         _Factory = new ConnectionFactory(Util.GetEMSFailOverConnString(Urls, ports, _UseSSL));
+                        if (_UseSSL)
+                        {
+                            EMSSharedConnection.SSLSetting(ref _Factory, Urls, CertsPath);
+                        }
                     }
                     _Factory.SetReconnAttemptCount(1200);     // 1200retries
                     _Factory.SetReconnAttemptDelay(5000);  // 5seconds
@@ -408,10 +541,13 @@ namespace Common.LinkLayer
             {
                 if (_Session != null)
                 {
-                    _Producer = null;
-                    _Consumer = null;
-                    _Session.Close();
-                    _Session = null;
+                    if (!_Connection.IsClosed)
+                    {
+                        _Producer = null;
+                        _Consumer = null;
+                        _Session.Close();
+                        _Session = null;
+                    }
                 }
                 if (!_UseSharedConnection)
                 {
@@ -450,26 +586,27 @@ namespace Common.LinkLayer
 
         public virtual void RemoveAllEvents()
         {
-            foreach (EMSMessageHandleFinishedEventHandler eh in EMSMessageHandleFinishedEventDelegates)
+            foreach (MessageHandleFinishedEventHandler eh in MessageHandleFinishedEventDelegates)
             {
-                _EMSMessageHandleFinished -= eh;
+                _MessageHandleFinished -= eh;
             }
-            EMSMessageHandleFinishedEventDelegates.Clear();
-            foreach (EMSMessageAsynSendFinishedEventHandler eh in EMSMessageAsynSendFinishedEventDelegates)
+            MessageHandleFinishedEventDelegates.Clear();
+            foreach (MessageAsynSendFinishedEventHandler eh in MessageAsynSendFinishedEventDelegates)
             {
-                _EMSMessageAsynSendFinished -= eh;
+                _MessageAsynSendFinished -= eh;
             }
-            EMSMessageAsynSendFinishedEventDelegates.Clear();
+            MessageAsynSendFinishedEventDelegates.Clear();
         }
 
         public void listener_messageReceivedEventHandler(object sender, EMSMessageEventArgs arg)
         {
-            processEMSMessage(arg.Message);
+            processMessage(arg.Message);
         }
 
-        public abstract void processEMSMessage(Message message);
-        public void SendMessage(string Text)
+        public abstract void processMessage(Message message);
+        public bool SendMessage(string Text)
         {
+            bool isSend = false;
             string ErrorMsg = "";
             try
             {
@@ -496,21 +633,22 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseEMSAdapter SendMessage() Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnEMSMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnEMSMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
+            return isSend;
         }
-        public bool SendEMSMessage(string MessageIDTag, List<MessageField> SingleEMSMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
+        public bool SendMessage(string MessageIDTag, List<MessageField> SingleMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
         {
             bool isSend = false;
             string ErrorMsg = "";
@@ -533,7 +671,7 @@ namespace Common.LinkLayer
                         }
                         //加入總筆數tag
                         msg.SetStringProperty("10038", "1");
-                        foreach (MessageField prop in SingleEMSMessage)
+                        foreach (MessageField prop in SingleMessage)
                         {
                             msg.SetStringProperty(prop.Name, prop.Value);
                         }
@@ -555,36 +693,38 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                ErrorMsg = "BaseEMSAdapter SendEMSMessage() Error(" + ex.Message + ")";
+                ErrorMsg = "BaseEMSAdapter SendMessage() Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnEMSMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnEMSMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
         }
-        public bool SendEMSMessage(string MessageIDTag, List<List<MessageField>> MultiEMSMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
+
+        public bool SendMessage(string MessageIDTag, List<List<MessageField>> MultiMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
         {
             bool isSend = false;
             string ErrorMsg = "";
             try
             {
                 this._MessageID = System.Guid.NewGuid().ToString();
-                //SendCountMessage(MessageIDTag, _MessageID, MultiEMSMessage.Count);
+                //SendCountMessage(MessageIDTag, _MessageID, MultiMessage.Count);
                 if (_Session != null)
                 {
                     if (!_Session.IsClosed)
                     {
-                        foreach (List<MessageField> SingleEMSMessage in MultiEMSMessage)
+
+                        foreach (List<MessageField> SingleMessage in MultiMessage)
                         {
                             Message msg = _Session.CreateMessage();
                             msg.MsgType = "map";
@@ -595,8 +735,8 @@ namespace Common.LinkLayer
                                 msg.SetStringProperty("99", _MacAddress);
                             }
                             //加入總筆數tag
-                            msg.SetStringProperty("10038", MultiEMSMessage.Count().ToString());
-                            foreach (MessageField prop in SingleEMSMessage)
+                            msg.SetStringProperty("10038", MultiMessage.Count().ToString());
+                            foreach (MessageField prop in SingleMessage)
                             {
                                 msg.SetStringProperty(prop.Name, prop.Value);
                             }
@@ -619,24 +759,25 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                ErrorMsg = "BaseEMSAdapter SendEMSMessage() Error(" + ex.Message + ")";
+                ErrorMsg = "BaseEMSAdapter SendMessage() Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnEMSMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnEMSMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
         }
-        public void SendAsynEMSMessage(string MessageIDTag, List<List<MessageField>> MultiEMSMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
+
+        public void SendAsynMessage(string MessageIDTag, List<List<MessageField>> MultiMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
         {
             ThreadStart SendThreadStart = new ThreadStart(
                 delegate ()
@@ -645,8 +786,8 @@ namespace Common.LinkLayer
                     {
                         this._MessageID = System.Guid.NewGuid().ToString();
                         //註解發送筆數資訊
-                        //SendCountMessage(MessageIDTag, _MessageID, MultiEMSMessage.Count);
-                        SendAsyn(_Session, MessageIDTag, MultiEMSMessage, DelayedPerWhenNumber, DelayedMillisecond);
+                        //SendCountMessage(MessageIDTag, _MessageID, MultiMessage.Count);
+                        SendAsyn(_Session, MessageIDTag, MultiMessage, DelayedPerWhenNumber, DelayedMillisecond);
                     }
                 });
             Thread SendThread = new Thread(SendThreadStart);
@@ -681,7 +822,7 @@ namespace Common.LinkLayer
                     msg.MsgType = "file";
 
                     long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
-                    _Producer.Send(msg, _DeliveryMode, 2, MessageOut);
+                    _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
                     isSend = true;
                 }
             }
@@ -689,17 +830,17 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseEMSAdapter SendFile() Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnEMSMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnEMSMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -737,17 +878,17 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseEMSAdapter SendFile() Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnEMSMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnEMSMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -767,7 +908,7 @@ namespace Common.LinkLayer
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.MsgType = "file";
                     long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
-                    _Producer.Send(msg, _DeliveryMode, 2, MessageOut);
+                    _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
                     isSend = true;
                 }
             }
@@ -775,17 +916,17 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseEMSAdapter SendFile() Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnEMSMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnEMSMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -822,17 +963,110 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseEMSAdapter SendFile() Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnEMSMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnEMSMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+            }
+            return isSend;
+        }
+        public bool SendBase64File(string FileName, string FilePath, string ID = "")
+        {
+            bool isSend = false;
+            string ErrorMsg = "";
+            try
+            {
+                if (!_Session.IsClosed)
+                {
+                    var bytes = default(byte[]);
+                    using (StreamReader sr = new StreamReader(FilePath))
+                    {
+                        using (var memstream = new MemoryStream())
+                        {
+                            var buffer = new byte[1048576];
+                            var bytesRead = default(int);
+                            while ((bytesRead = sr.BaseStream.Read(buffer, 0, buffer.Length)) > 0)
+                                memstream.Write(buffer, 0, bytesRead);
+                            bytes = memstream.ToArray();
+                        }
+                    }
+                    String base64File = Convert.ToBase64String(bytes);
+
+                    TextMessage msg = _Session.CreateTextMessage();
+                    msg.Text = base64File;
+                    msg.SetStringProperty("id", ID);
+                    msg.SetStringProperty("datatype", Util.GetMimeType(FilePath));
+                    msg.SetStringProperty("filename", FileName);
+                    msg.MsgType = "file";
+
+                    long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
+                    _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
+                    isSend = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMsg = "BaseEMSAdapter SendFile() Error(" + ex.Message + ")";
+                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                //System.Environment.Exit(-1);
+            }
+            finally
+            {
+                if (_UISyncContext != null && IsEventInUIThread)
+                {
+                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+                else
+                {
+                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+            }
+            return isSend;
+        }
+        public bool SendBase64File(string FileName, byte[] FileBytes, string ID = "")
+        {
+            bool isSend = false;
+            string ErrorMsg = "";
+            try
+            {
+                if (!_Session.IsClosed)
+                {
+                    String base64File = Convert.ToBase64String(FileBytes);
+                    TextMessage msg = _Session.CreateTextMessage();
+                    msg.Text = base64File;
+                    msg.SetStringProperty("id", ID);
+                    msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
+                    msg.SetStringProperty("filename", FileName);
+                    msg.MsgType = "file";
+
+                    long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
+                    _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
+                    isSend = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorMsg = "BaseEMSAdapter SendFile() Error(" + ex.Message + ")";
+                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                //System.Environment.Exit(-1);
+            }
+            finally
+            {
+                if (_UISyncContext != null && IsEventInUIThread)
+                {
+                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                }
+                else
+                {
+                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -937,7 +1171,7 @@ namespace Common.LinkLayer
             }
         }
 
-        protected void SendAsyn(Session Session, string MessageIDTag, List<List<MessageField>> MultiEMSMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
+        protected void SendAsyn(Session Session, string MessageIDTag, List<List<MessageField>> MultiMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
         {
             string ErrorMsg = "";
             try
@@ -950,7 +1184,7 @@ namespace Common.LinkLayer
                 {
                     if (!_Session.IsClosed)
                     {
-                        foreach (List<MessageField> SingleEMSMessage in MultiEMSMessage)
+                        foreach (List<MessageField> SingleMessage in MultiMessage)
                         {
                             Message msg = Session.CreateMessage();
                             msg.MsgType = "map";
@@ -961,8 +1195,8 @@ namespace Common.LinkLayer
                                 msg.SetStringProperty("99", _MacAddress);
                             }
                             //加入總筆數tag
-                            msg.SetStringProperty("10038", MultiEMSMessage.Count().ToString());
-                            foreach (MessageField prop in SingleEMSMessage)
+                            msg.SetStringProperty("10038", MultiMessage.Count().ToString());
+                            foreach (MessageField prop in SingleMessage)
                             {
                                 msg.SetStringProperty(prop.Name, prop.Value);
                             }
@@ -986,17 +1220,17 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseEMSAdapter SendAsyn() Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             finally
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnEMSMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnEMSMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
         }
@@ -1054,7 +1288,7 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseEMSAdapter SendCountMessage() Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
             return isSend;
         }
@@ -1181,7 +1415,7 @@ namespace Common.LinkLayer
             {
                 ErrorMsg = "BaseEMSAdapter SetHeartBeat() Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                //System.Environment.Exit(-1);
             }
         }
         private void SlowDownProducer(int DelayedPerWhenNumber, int DelayedMillisecond)
@@ -1247,8 +1481,15 @@ namespace Common.LinkLayer
         {
             EMSException ex = args.Exception;
             if (ex.Message.Equals("Connection unknown by server"))
-            {
-                Restart();
+            {                
+                if (IsDurableConsumer)
+                {
+                    Restart(_ClientID, IsDurableConsumer);
+                }
+                else
+                {
+                    Restart();
+                }
                 string ConnActiveUrl = Tibems.GetConnectionActiveURL(_Connection);
                 if (log.IsErrorEnabled) log.ErrorFormat(ex.Message + "(Connection has performed fault-tolerant switch to {0})", ConnActiveUrl, ex);
             }

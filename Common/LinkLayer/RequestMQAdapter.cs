@@ -107,7 +107,7 @@ namespace Common.LinkLayer
         /// <summary>
         /// MQ完成所有相同RequestID的資料處理時事件
         /// </summary>
-        protected virtual void OnMQResponseFinished(object state)
+        protected virtual void OnResponseFinished(object state)
         {
             MQResponseFinishedEventArgs e = state as MQResponseFinishedEventArgs;
             if (_MQResponseFinished != null)
@@ -119,7 +119,7 @@ namespace Common.LinkLayer
         /// MessageHeader's Count與MessageBody's DataRow Count不符合時事件(每次在接收訊息一開始呼叫ClearTimeOutMQReceivedMessage時觸發)
         /// </summary>
         /// <param name="state"></param>
-        protected virtual void OnMQResponseMismatched(object state)
+        protected virtual void OnResponseMismatched(object state)
         {
             MQResponseMismatchedEventArgs e = state as MQResponseMismatchedEventArgs;
             if (_MQResponseMismatched != null)
@@ -200,11 +200,11 @@ namespace Common.LinkLayer
             MQResponseMismatchedEventDelegates.Clear();
         }
 
-        public override void processMQMessage(IMessage message)
+        public override void processMessage(IMessage message)
         {
             try
             {
-                ClearTimeOutMQReceivedMessage();
+                ClearTimeOutMQReceivedMessage(10);
                 string[] tempValues = new string[message.Properties.Values.Count];
                 message.Properties.Values.CopyTo(tempValues, 0);
                 if (_MessageID != null && tempValues.Contains(_MessageID))
@@ -318,7 +318,7 @@ namespace Common.LinkLayer
                                 this.Handler.WorkItemQueue.Enqueue(ResultTable);
                             }
                             _IsResponseFinished = true;
-                            RunOnMQResponseFinished(_ErrMsg, ResultTable);
+                            RunOnResponseFinished(_ErrMsg, ResultTable);
                             ClearGuidInDictionary(MQMessageDictionary[MessageID].ToString());
                             _IsResponseFinished = false;
                         }
@@ -334,9 +334,9 @@ namespace Common.LinkLayer
         /// <summary>
         /// 清除逾時的已接收的MQMessage
         /// </summary>
-        public void ClearTimeOutMQReceivedMessage()
+        public void ClearTimeOutMQReceivedMessage(Int32 timeoutSecs)
         {
-            int TimeOut = Convert.ToInt32(10);
+            int TimeOut = Convert.ToInt32(timeoutSecs);
             DateTime SysTime = System.DateTime.Now;
             foreach (string Guid in DicMessageBody.Keys.ToArray())
             {
@@ -349,7 +349,7 @@ namespace Common.LinkLayer
                     {
                         string _ErrMsg = string.Format("Message Body Rows({0}) of Message ID:{1} is not match TotalRecords({2})", BodyCount, Guid, iTotalRecords);
                         if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                        OnMQResponseMismatched(new MQResponseMismatchedEventArgs(_ErrMsg));
+                        OnResponseMismatched(new MQResponseMismatchedEventArgs(_ErrMsg));
                     }
                     DicMessageBody.Remove(Guid);
                 }
@@ -373,23 +373,23 @@ namespace Common.LinkLayer
         {
             if (UISyncContext != null && IsEventInUIThread)
             {
-                UISyncContext.Post(OnMQMessageHandleFinished, new MQMessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
+                UISyncContext.Post(OnMessageHandleFinished, new MQMessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
             }
             else
             {
-                OnMQMessageHandleFinished(new MQMessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
+                OnMessageHandleFinished(new MQMessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
             }
         }
 
-        private void RunOnMQResponseFinished(string ErrorMessage, DataTable ResponseResultTable)
+        private void RunOnResponseFinished(string ErrorMessage, DataTable ResponseResultTable)
         {
             if (UISyncContext != null && IsEventInUIThread)
             {
-                UISyncContext.Post(OnMQResponseFinished, new MQResponseFinishedEventArgs(ErrorMessage, ResponseResultTable));
+                UISyncContext.Post(OnResponseFinished, new MQResponseFinishedEventArgs(ErrorMessage, ResponseResultTable));
             }
             else
             {
-                OnMQResponseFinished(new MQResponseFinishedEventArgs(ErrorMessage, ResponseResultTable));
+                OnResponseFinished(new MQResponseFinishedEventArgs(ErrorMessage, ResponseResultTable));
             }
         }
     }

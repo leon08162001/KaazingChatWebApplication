@@ -6,9 +6,10 @@ namespace Common.LinkLayer
 {
     public interface IMQAdapter
     {
-        event BaseMQAdapter.MQMessageAsynSendFinishedEventHandler MQMessageAsynSendFinished;
-        event BaseMQAdapter.MQMessageHandleFinishedEventHandler MQMessageHandleFinished;
+        event BaseMQAdapter.MessageAsynSendFinishedEventHandler MessageAsynSendFinished;
+        event BaseMQAdapter.MessageHandleFinishedEventHandler MessageHandleFinished;
 
+        /// <summary>
         /// 訊息傳遞模式
         /// </summary>
         MsgDeliveryMode DeliveryMode { get; set; }
@@ -45,19 +46,19 @@ namespace Common.LinkLayer
         /// </summary>
         string SendName { get; set; }
         /// <summary>
-        /// MQ Broker服務程式的IP位置
+        /// Message Broker服務程式的IP位置
         /// </summary>
         string Uri { get; set; }
         /// <summary>
-        /// 登入MQ Broker的用戶名稱
+        /// 登入Message Broker的用戶名稱
         /// </summary>
         string UserName { set; }
         /// <summary>
-        /// 登入MQ Broker的用戶密碼
+        /// 登入Message Broker的用戶密碼
         /// </summary>
         string PassWord { set; }
         /// <summary>
-        /// MQAdapter所在的電腦MacAddress
+        /// Message Broker所在的電腦MacAddress
         /// </summary>
         string MacAddress { get; set; }
         /// <summary>
@@ -93,6 +94,10 @@ namespace Common.LinkLayer
         /// </summary>
         string Selector { get; set; }
         /// <summary>
+        /// 訊息接收後保留在記憶體時間(秒)
+        /// </summary>
+        int ReceivedMessageTimeOut { get; set; }
+        /// <summary>
         /// 取得UI執行緒同步上下文
         /// </summary>
         SynchronizationContext UISyncContext { get; }
@@ -104,7 +109,7 @@ namespace Common.LinkLayer
         /// <param name="IsDurableConsumer"></param>
         void Start(string ClientID = "", bool IsDurableConsumer = false);
         void Close();
-        void processMQMessage(Apache.NMS.IMessage message);
+        void processMessage(Apache.NMS.IMessage message);
         /// <summary>
         /// Qurue和Topic時,不須指定任何參數;VirtualTopic需指定第一個參數;Durable Topic則需指定兩個參數
         /// </summary>
@@ -112,9 +117,9 @@ namespace Common.LinkLayer
         /// <param name="IsDurableConsumer"></param>
         void Restart(string ClientID = "", bool IsDurableConsumer = false);
         void RemoveAllEvents();
-        bool SendMQMessage(string RequestTag, System.Collections.Generic.List<MessageField> SingleMqMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0);
-        bool SendMQMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiMqMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0);
-        void SendAsynMQMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiMqMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0);
+        bool SendMessage(string RequestTag, System.Collections.Generic.List<MessageField> SingleMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0);
+        bool SendMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0);
+        void SendAsynMessage(string RequestTag, System.Collections.Generic.List<System.Collections.Generic.List<MessageField>> MultiMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0);
         bool SendFile(string FileName, string FilePath, string ID = "");
         bool SendFileByChunks(string FileName, string FilePath, string ID = "");
         bool SendFile(string FileName, byte[] FileBytes, string ID = "");
@@ -123,14 +128,15 @@ namespace Common.LinkLayer
         bool SendBase64File(string FileName, byte[] FileBytes, string ID = "");
         void ReStartListener(string ListenName);
         void ReStartSender(string SendName);
+        bool SendMessage(string Text);
         /// <summary>
         /// 關閉共享連線(當UseSharedConnection=true時才有作用)
         /// </summary>
         void CloseSharedConnection();
         /// <summary>
-        /// 檢查ActiveMQ服務是否運作
+        /// 檢查Message Broker服務是否運作
         /// </summary>
         /// <returns></returns>
-        bool CheckActiveMQAlive();
+        bool CheckMessageBrokerAlive();
     }
 }

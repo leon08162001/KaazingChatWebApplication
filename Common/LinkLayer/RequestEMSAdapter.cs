@@ -63,37 +63,37 @@ namespace Common.LinkLayer
     public class RequestEMSAdapter : BaseEMSAdapter
     {
         // Delegate
-        public delegate void EMSResponseFinishedEventHandler(object sender, EMSResponseFinishedEventArgs e);
-        List<EMSResponseFinishedEventHandler> EMSResponseFinishedEventDelegates = new List<EMSResponseFinishedEventHandler>();
-        private event EMSResponseFinishedEventHandler _EMSResponseFinished;
-        public event EMSResponseFinishedEventHandler EMSResponseFinished
+        public delegate void ResponseFinishedEventHandler(object sender, EMSResponseFinishedEventArgs e);
+        List<ResponseFinishedEventHandler> ResponseFinishedEventDelegates = new List<ResponseFinishedEventHandler>();
+        private event ResponseFinishedEventHandler _ResponseFinished;
+        public event ResponseFinishedEventHandler ResponseFinished
         {
             add
             {
-                _EMSResponseFinished += value;
-                EMSResponseFinishedEventDelegates.Add(value);
+                _ResponseFinished += value;
+                ResponseFinishedEventDelegates.Add(value);
             }
             remove
             {
-                _EMSResponseFinished -= value;
-                EMSResponseFinishedEventDelegates.Remove(value);
+                _ResponseFinished -= value;
+                ResponseFinishedEventDelegates.Remove(value);
             }
         }
 
-        protected delegate void EMSResponseMismatchedEventHandler(object sender, EMSResponseMismatchedEventArgs e);
-        List<EMSResponseMismatchedEventHandler> EMSResponseMismatchedEventDelegates = new List<EMSResponseMismatchedEventHandler>();
-        private event EMSResponseMismatchedEventHandler _EMSResponseMismatched;
-        protected event EMSResponseMismatchedEventHandler EMSResponseMismatched
+        protected delegate void ResponseMismatchedEventHandler(object sender, EMSResponseMismatchedEventArgs e);
+        List<ResponseMismatchedEventHandler> ResponseMismatchedEventDelegates = new List<ResponseMismatchedEventHandler>();
+        private event ResponseMismatchedEventHandler _ResponseMismatched;
+        protected event ResponseMismatchedEventHandler ResponseMismatched
         {
             add
             {
-                _EMSResponseMismatched += value;
-                EMSResponseMismatchedEventDelegates.Add(value);
+                _ResponseMismatched += value;
+                ResponseMismatchedEventDelegates.Add(value);
             }
             remove
             {
-                _EMSResponseMismatched -= value;
-                EMSResponseMismatchedEventDelegates.Remove(value);
+                _ResponseMismatched -= value;
+                ResponseMismatchedEventDelegates.Remove(value);
             }
         }
 
@@ -103,24 +103,24 @@ namespace Common.LinkLayer
         /// <summary>
         /// Tibco EMS完成所有相同RequestID的資料處理時事件
         /// </summary>
-        protected virtual void OnEMSResponseFinished(object state)
+        protected virtual void OnResponseFinished(object state)
         {
             EMSResponseFinishedEventArgs e = state as EMSResponseFinishedEventArgs;
-            if (_EMSResponseFinished != null)
+            if (_ResponseFinished != null)
             {
-                _EMSResponseFinished(this, e);
+                _ResponseFinished(this, e);
             }
         }
         /// <summary>
         /// MessageHeader's Count與MessageBody's DataRow Count不符合時事件(每次在接收訊息一開始呼叫ClearTimeOutEMSReceivedMessage時觸發)
         /// </summary>
         /// <param name="state"></param>
-        protected virtual void OnEMSResponseMismatched(object state)
+        protected virtual void OnResponseMismatched(object state)
         {
             EMSResponseMismatchedEventArgs e = state as EMSResponseMismatchedEventArgs;
-            if (_EMSResponseMismatched != null)
+            if (_ResponseMismatched != null)
             {
-                _EMSResponseMismatched(this, e);
+                _ResponseMismatched(this, e);
             }
         }
 
@@ -134,13 +134,13 @@ namespace Common.LinkLayer
 
         private static RequestEMSAdapter singleton;
 
-        public RequestEMSAdapter() : base() { config = (Config)applicationContext.GetObject("Config"); this.EMSResponseMismatched += new EMSResponseMismatchedEventHandler(RequestEMSAdapter_EMSResponseMismatched); }
+        public RequestEMSAdapter() : base() { config = (Config)applicationContext.GetObject("Config"); this.ResponseMismatched += new ResponseMismatchedEventHandler(RequestEMSAdapter_ResponseMismatched); }
 
         public RequestEMSAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
-            : base(Uri, DestinationFeature, ListenName, SendName) { config = (Config)applicationContext.GetObject("Config"); this.EMSResponseMismatched += new EMSResponseMismatchedEventHandler(RequestEMSAdapter_EMSResponseMismatched); }
+            : base(Uri, DestinationFeature, ListenName, SendName) { config = (Config)applicationContext.GetObject("Config"); this.ResponseMismatched += new ResponseMismatchedEventHandler(RequestEMSAdapter_ResponseMismatched); }
 
         public RequestEMSAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
-            : base(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd) { config = (Config)applicationContext.GetObject("Config"); this.EMSResponseMismatched += new EMSResponseMismatchedEventHandler(RequestEMSAdapter_EMSResponseMismatched); }
+            : base(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd) { config = (Config)applicationContext.GetObject("Config"); this.ResponseMismatched += new ResponseMismatchedEventHandler(RequestEMSAdapter_ResponseMismatched); }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static RequestEMSAdapter getSingleton()
@@ -184,24 +184,24 @@ namespace Common.LinkLayer
         public override void RemoveAllEvents()
         {
             base.RemoveAllEvents();
-            foreach (EMSResponseFinishedEventHandler eh in EMSResponseFinishedEventDelegates)
+            foreach (ResponseFinishedEventHandler eh in ResponseFinishedEventDelegates)
             {
-                _EMSResponseFinished -= eh;
+                _ResponseFinished -= eh;
             }
-            EMSResponseFinishedEventDelegates.Clear();
-            foreach (EMSResponseMismatchedEventHandler eh in EMSResponseMismatchedEventDelegates)
+            ResponseFinishedEventDelegates.Clear();
+            foreach (ResponseMismatchedEventHandler eh in ResponseMismatchedEventDelegates)
             {
-                _EMSResponseMismatched -= eh;
+                _ResponseMismatched -= eh;
             }
-            EMSResponseMismatchedEventDelegates.Clear();
+            ResponseMismatchedEventDelegates.Clear();
         }
 
-        public override void processEMSMessage(Message message)
+        public override void processMessage(Message message)
         {
             try
             {
-                ClearTimeOutEMSReceivedMessage();
-                Dictionary<string, string> EMSMessageDictionary = new Dictionary<string, string>();
+                ClearTimeOutEMSReceivedMessage(10);
+                Dictionary<string, string> MessageDictionary = new Dictionary<string, string>();
                 System.Collections.IEnumerator PropertyNames = message.PropertyNames;
                 PropertyNames.Reset();
                 while (PropertyNames.MoveNext())
@@ -211,22 +211,22 @@ namespace Common.LinkLayer
                     {
                         continue;
                     }
-                    EMSMessageDictionary.Add(key, message.GetStringProperty(key));
+                    MessageDictionary.Add(key, message.GetStringProperty(key));
                 }
-                if (_MessageID != null && EMSMessageDictionary.Values.Contains(_MessageID))
+                if (_MessageID != null && MessageDictionary.Values.Contains(_MessageID))
                 {
                     string Message = "";
                     string _ErrMsg = "";
-                    if (EMSMessageDictionary.Keys.Count == 0)
+                    if (MessageDictionary.Keys.Count == 0)
                     {
                         return;
                     }
-                    foreach (string key in EMSMessageDictionary.Keys)
+                    foreach (string key in MessageDictionary.Keys)
                     {
-                        Message += key + "=" + EMSMessageDictionary[key] + ";";
+                        Message += key + "=" + MessageDictionary[key] + ";";
                     }
                     //0.檢查是否為HeartBeat訊息,若是則忽略不處理
-                    if (EMSMessageDictionary.ContainsKey("0"))
+                    if (MessageDictionary.ContainsKey("0"))
                     {
                         return;
                     }
@@ -235,77 +235,77 @@ namespace Common.LinkLayer
                     {
                         _ErrMsg = "not yet assigned Tag Type of Tag Data";
                         if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                        RunOnEMSMessageHandleFinished(_ErrMsg, null);
+                        RunOnMessageHandleFinished(_ErrMsg, null);
                         return;
                     }
                     _DicTagType = Util.ConvertTagClassConstants(_DataType);
                     //2.驗證EMS傳過來的TagData的tag正確性(與指定的TagType)
-                    foreach (string key in EMSMessageDictionary.Keys)
+                    foreach (string key in MessageDictionary.Keys)
                     {
                         if (!_DicTagType.ContainsKey(key))
                         {
                             _ErrMsg = string.Format("Tag Data's Tag[{0}] Not in the assigned type[{1}]", key, _DataType.Name);
                             if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                            RunOnEMSMessageHandleFinished(_ErrMsg, null);
+                            RunOnMessageHandleFinished(_ErrMsg, null);
                             return;
                         }
                     }
                     string MessageID = _DataType.GetField("MessageID") == null ? "710" : _DataType.GetField("MessageID").GetValue(_DataType).ToString();
                     //3.驗證資料內容的Message總筆數
                     string TotalRecords = _DataType.GetField("TotalRecords") == null ? "10038" : _DataType.GetField("TotalRecords").GetValue(_DataType).ToString();
-                    if (EMSMessageDictionary.ContainsKey(TotalRecords))
+                    if (MessageDictionary.ContainsKey(TotalRecords))
                     {
                         int iTotalRecords;
                         //驗證筆數資料正確性
                         //如果筆數不是數值
-                        if (!int.TryParse(EMSMessageDictionary[TotalRecords].ToString(), out iTotalRecords))
+                        if (!int.TryParse(MessageDictionary[TotalRecords].ToString(), out iTotalRecords))
                         {
                             _ErrMsg = "TotalRecords value must be digit";
                             if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                            RunOnEMSMessageHandleFinished(_ErrMsg, null);
+                            RunOnMessageHandleFinished(_ErrMsg, null);
                             return;
                         }
                     }
                     //驗證MessageID是否存在
-                    if (!EMSMessageDictionary.ContainsKey(MessageID))
+                    if (!MessageDictionary.ContainsKey(MessageID))
                     {
                         _ErrMsg = "MessageID Of Message in MessageBody is not exist";
                         if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                        RunOnEMSMessageHandleFinished(_ErrMsg, null);
+                        RunOnMessageHandleFinished(_ErrMsg, null);
                         return;
                     }
                     //MessageID存在則檢查DicMessageBody內是否存在此MessageID,沒有則建立DataTable Schema並加入一筆MessageBody至DicMessageBody
-                    if (!DicMessageBody.ContainsKey(EMSMessageDictionary[MessageID].ToString()))
+                    if (!DicMessageBody.ContainsKey(MessageDictionary[MessageID].ToString()))
                     {
                         DataTable DT = new DataTable();
                         DT = Util.CreateTableSchema(_DicTagType, _DataType);
-                        DicMessageBody.Add(EMSMessageDictionary[MessageID].ToString(), new MessageBody(DT, System.DateTime.Now));
+                        DicMessageBody.Add(MessageDictionary[MessageID].ToString(), new MessageBody(DT, System.DateTime.Now));
                     }
                     //匯入每筆message到屬於此MessageID的MessageBody
-                    MessageBody MB = DicMessageBody[EMSMessageDictionary[MessageID].ToString()];
+                    MessageBody MB = DicMessageBody[MessageDictionary[MessageID].ToString()];
                     DataRow MessageRow;
-                    MessageRow = Util.AddMessageToRow(EMSMessageDictionary, _DicTagType, _DataType, MB.Messages);
+                    MessageRow = Util.AddMessageToRow(MessageDictionary, _DicTagType, _DataType, MB.Messages);
                     if (MessageRow != null)
                     {
                         _ErrMsg = "";
                         MB.Messages.Rows.Add(MessageRow);
-                        RunOnEMSMessageHandleFinished(_ErrMsg, MessageRow);
+                        RunOnMessageHandleFinished(_ErrMsg, MessageRow);
                     }
                     else
                     {
                         _ErrMsg = "Error happened when generate DataRow";
                         if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                        RunOnEMSMessageHandleFinished(_ErrMsg, null);
+                        RunOnMessageHandleFinished(_ErrMsg, null);
                     }
-                    if (DicMessageBody.ContainsKey(EMSMessageDictionary[MessageID].ToString()) && MB.Messages.Rows.Count > 0)
+                    if (DicMessageBody.ContainsKey(MessageDictionary[MessageID].ToString()) && MB.Messages.Rows.Count > 0)
                     {
                         int iTotalRecords = Convert.ToInt32(MB.Messages.Rows[0]["TotalRecords"].ToString());
                         //若此MessageID TotalRecords的筆數與在DicMessageBody的Messages筆數相同
-                        if (iTotalRecords == DicMessageBody[EMSMessageDictionary[MessageID].ToString()].Messages.Rows.Count)
+                        if (iTotalRecords == DicMessageBody[MessageDictionary[MessageID].ToString()].Messages.Rows.Count)
                         {
                             _ErrMsg = "";
-                            //DataTable ResultTable = DicMessageBody[EMSMessageDictionary[MessageID].ToString()].Messages.Copy();
-                            DataTable ResultTable = DicMessageBody[EMSMessageDictionary[MessageID].ToString()].Messages;
+                            //DataTable ResultTable = DicMessageBody[MessageDictionary[MessageID].ToString()].Messages.Copy();
+                            DataTable ResultTable = DicMessageBody[MessageDictionary[MessageID].ToString()].Messages;
                             if (ResultTable.Rows.Count > 0 && ResultTable.Columns.Contains("MacAddress") && !ResultTable.Rows[0].IsNull("MacAddress") && this.SendName.IndexOf("#") != -1)
                             {
                                 this.ReStartSender(this.SendName.Replace("#", ResultTable.Rows[0]["MacAddress"].ToString()));
@@ -315,8 +315,8 @@ namespace Common.LinkLayer
                                 this.Handler.WorkItemQueue.Enqueue(ResultTable);
                             }
                             _IsResponseFinished = true;
-                            RunOnEMSResponseFinished(_ErrMsg, ResultTable);
-                            ClearGuidInDictionary(EMSMessageDictionary[MessageID].ToString());
+                            RunOnResponseFinished(_ErrMsg, ResultTable);
+                            ClearGuidInDictionary(MessageDictionary[MessageID].ToString());
                             _IsResponseFinished = false;
                         }
                     }
@@ -329,11 +329,11 @@ namespace Common.LinkLayer
         }
 
         /// <summary>
-        /// 清除逾時的已接收的EMSMessage
+        /// 清除逾時的已接收的Message
         /// </summary>
-        public void ClearTimeOutEMSReceivedMessage()
+        public void ClearTimeOutEMSReceivedMessage(Int32 timeoutSecs)
         {
-            int TimeOut = Convert.ToInt32(10);
+            int TimeOut = Convert.ToInt32(timeoutSecs);
             DateTime SysTime = System.DateTime.Now;
             foreach (string Guid in DicMessageBody.Keys.ToArray())
             {
@@ -346,7 +346,7 @@ namespace Common.LinkLayer
                     {
                         string _ErrMsg = string.Format("Message Body Rows({0}) of Message ID:{1} is not match TotalRecords({2})", BodyCount, Guid, iTotalRecords);
                         if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                        OnEMSResponseMismatched(new EMSResponseMismatchedEventArgs(_ErrMsg));
+                        OnResponseMismatched(new EMSResponseMismatchedEventArgs(_ErrMsg));
                     }
                     DicMessageBody.Remove(Guid);
                 }
@@ -361,32 +361,32 @@ namespace Common.LinkLayer
             DicMessageBody.Remove(Guid);
         }
 
-        void RequestEMSAdapter_EMSResponseMismatched(object sender, EMSResponseMismatchedEventArgs e)
+        void RequestEMSAdapter_ResponseMismatched(object sender, EMSResponseMismatchedEventArgs e)
         {
             if (log.IsInfoEnabled) log.Info(e.MismatchedMessage);
         }
 
-        private void RunOnEMSMessageHandleFinished(string ErrorMessage, DataRow MessageRow)
+        private void RunOnMessageHandleFinished(string ErrorMessage, DataRow MessageRow)
         {
             if (UISyncContext != null && IsEventInUIThread)
             {
-                UISyncContext.Post(OnEMSMessageHandleFinished, new EMSMessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
+                UISyncContext.Post(OnMessageHandleFinished, new EMSMessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
             }
             else
             {
-                OnEMSMessageHandleFinished(new EMSMessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
+                OnMessageHandleFinished(new EMSMessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
             }
         }
 
-        private void RunOnEMSResponseFinished(string ErrorMessage, DataTable ResponseResultTable)
+        private void RunOnResponseFinished(string ErrorMessage, DataTable ResponseResultTable)
         {
             if (UISyncContext != null && IsEventInUIThread)
             {
-                UISyncContext.Post(OnEMSResponseFinished, new EMSResponseFinishedEventArgs(ErrorMessage, ResponseResultTable));
+                UISyncContext.Post(OnResponseFinished, new EMSResponseFinishedEventArgs(ErrorMessage, ResponseResultTable));
             }
             else
             {
-                OnEMSResponseFinished(new EMSResponseFinishedEventArgs(ErrorMessage, ResponseResultTable));
+                OnResponseFinished(new EMSResponseFinishedEventArgs(ErrorMessage, ResponseResultTable));
             }
         }
     }

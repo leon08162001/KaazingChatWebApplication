@@ -14,20 +14,6 @@ using System.Threading;
 
 namespace Common.LinkLayer
 {
-    public enum DestinationFeature
-    {
-        Topic,
-        VirtualTopic,
-        MirroredQueues,
-        Queue
-    }
-
-    public struct MessageField
-    {
-        public string Name;
-        public string Value;
-    }
-
     /// <summary>
     ///收到一筆Message並完成資料處理時的事件參數類別
     /// </summary>

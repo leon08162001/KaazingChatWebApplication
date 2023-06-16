@@ -13,7 +13,7 @@ namespace Common.LinkLayer
     {
         protected Type _DataType;
         protected Dictionary<string, string> _DicDataType = new Dictionary<string, string>();
-        protected DataTable MessageDT = new DataTable(); //將EMSMessage資料轉換成DataTable所使用的DataTable
+        protected DataTable MessageDT = new DataTable(); //將Message資料轉換成DataTable所使用的DataTable
 
         private static GenericEMSAdapter singleton;
 
@@ -59,7 +59,7 @@ namespace Common.LinkLayer
             get { return _DataType; }
         }
 
-        public override void processEMSMessage(Message message)
+        public override void processMessage(Message message)
         {
             string Message = "";
             string _ErrMsg = "";
@@ -73,15 +73,15 @@ namespace Common.LinkLayer
                 ResultTable.Rows.Add(dr);
                 if (UISyncContext != null && IsEventInUIThread)
                 {
-                    UISyncContext.Post(OnEMSMessageHandleFinished, new MQMessageHandleFinishedEventArgs(_ErrMsg, dr));
+                    UISyncContext.Post(OnMessageHandleFinished, new MQMessageHandleFinishedEventArgs(_ErrMsg, dr));
                 }
                 else
                 {
-                    OnEMSMessageHandleFinished(new MQMessageHandleFinishedEventArgs(_ErrMsg, dr));
+                    OnMessageHandleFinished(new MQMessageHandleFinishedEventArgs(_ErrMsg, dr));
                 }
                 return;
             }
-            Dictionary<string, string> EMSMessageDictionary = new Dictionary<string, string>();
+            Dictionary<string, string> MessageDictionary = new Dictionary<string, string>();
             System.Collections.IEnumerator PropertyNames = message.PropertyNames;
             PropertyNames.Reset();
             while (PropertyNames.MoveNext())
@@ -91,18 +91,18 @@ namespace Common.LinkLayer
                 {
                     continue;
                 }
-                EMSMessageDictionary.Add(key, message.GetStringProperty(key));
+                MessageDictionary.Add(key, message.GetStringProperty(key));
             }
-            if (EMSMessageDictionary.Keys.Count == 0)
+            if (MessageDictionary.Keys.Count == 0)
             {
                 return;
             }
-            foreach (string key in EMSMessageDictionary.Keys)
+            foreach (string key in MessageDictionary.Keys)
             {
-                Message += key + "=" + EMSMessageDictionary[key] + ";";
+                Message += key + "=" + MessageDictionary[key] + ";";
             }
             //0.檢查是否為HeartBeat訊息,若是則忽略不處理
-            if (EMSMessageDictionary.ContainsKey("0"))
+            if (MessageDictionary.ContainsKey("0"))
             {
                 return;
             }
@@ -113,17 +113,17 @@ namespace Common.LinkLayer
                 if (log.IsInfoEnabled) log.Info(_ErrMsg);
                 if (UISyncContext != null && IsEventInUIThread)
                 {
-                    UISyncContext.Post(OnEMSMessageHandleFinished, new EMSMessageHandleFinishedEventArgs(_ErrMsg, null));
+                    UISyncContext.Post(OnMessageHandleFinished, new EMSMessageHandleFinishedEventArgs(_ErrMsg, null));
                 }
                 else
                 {
-                    OnEMSMessageHandleFinished(new EMSMessageHandleFinishedEventArgs(_ErrMsg, null));
+                    OnMessageHandleFinished(new EMSMessageHandleFinishedEventArgs(_ErrMsg, null));
                 }
                 return;
             }
             _DicDataType = ConvertFixTagClassConstants(_DataType);
             //2.驗證EMS傳過來的FixData的tag正確性(與指定的DataType)
-            foreach (string key in EMSMessageDictionary.Keys)
+            foreach (string key in MessageDictionary.Keys)
             {
                 if (!_DicDataType.ContainsKey(key))
                 {
@@ -131,11 +131,11 @@ namespace Common.LinkLayer
                     if (log.IsInfoEnabled) log.Info(_ErrMsg);
                     if (UISyncContext != null && IsEventInUIThread)
                     {
-                        UISyncContext.Post(OnEMSMessageHandleFinished, new EMSMessageHandleFinishedEventArgs(_ErrMsg, null));
+                        UISyncContext.Post(OnMessageHandleFinished, new EMSMessageHandleFinishedEventArgs(_ErrMsg, null));
                     }
                     else
                     {
-                        OnEMSMessageHandleFinished(new EMSMessageHandleFinishedEventArgs(_ErrMsg, null));
+                        OnMessageHandleFinished(new EMSMessageHandleFinishedEventArgs(_ErrMsg, null));
                     }
                     return;
                 }
@@ -148,19 +148,19 @@ namespace Common.LinkLayer
             }
             //匯入每筆message到DataTable
             DataRow MessageRow;
-            AddMessageToTable(EMSMessageDictionary, out MessageRow);
+            AddMessageToTable(MessageDictionary, out MessageRow);
             if (MessageRow != null && MessageRow.Table.Columns.Contains("MacAddress") && !MessageRow.IsNull("MacAddress") && this.SendName.IndexOf("#") != -1)
             {
                 this.ReStartSender(this.SendName.Replace("#", MessageRow["MacAddress"].ToString()));
             }
-            //觸發每筆EMSMessage資料處理完成事件
+            //觸發每筆Message資料處理完成事件
             if (UISyncContext != null && IsEventInUIThread)
             {
-                UISyncContext.Post(OnEMSMessageHandleFinished, new EMSMessageHandleFinishedEventArgs(_ErrMsg, MessageRow));
+                UISyncContext.Post(OnMessageHandleFinished, new EMSMessageHandleFinishedEventArgs(_ErrMsg, MessageRow));
             }
             else
             {
-                OnEMSMessageHandleFinished(new EMSMessageHandleFinishedEventArgs(_ErrMsg, MessageRow));
+                OnMessageHandleFinished(new EMSMessageHandleFinishedEventArgs(_ErrMsg, MessageRow));
             }
         }
 
@@ -184,7 +184,7 @@ namespace Common.LinkLayer
         }
 
         /// <summary>
-        /// 建立存放EMSMessge資料內容的DataTable Schema
+        /// 建立存放Message資料內容的DataTable Schema
         /// </summary>
         /// <param name="DicDataType">指定的DataType</param>
         private void CreateTableSchema(Dictionary<string, string> DicDataType)
@@ -205,25 +205,25 @@ namespace Common.LinkLayer
             }
         }
         /// <summary>
-        /// 將每筆EMSMessage加入至DataTable
+        /// 將每筆Message加入至DataTable
         /// </summary>
-        /// <param name="DicEMSMessage">每筆EMSMessage的Dictionary資料形式</param>
+        /// <param name="DicMessage">每筆Message的Dictionary資料形式</param>
         /// <param name="MessagRow"></param>
-        private void AddMessageToTable(Dictionary<string, string> DicEMSMessage, out DataRow MessagRow)
+        private void AddMessageToTable(Dictionary<string, string> DicMessage, out DataRow MessagRow)
         {
             try
             {
                 string MessageID = _DataType.GetField("MessageID") == null ? "710" : _DataType.GetField("MessageID").GetValue(_DataType).ToString();
                 string TotalRecords = _DataType.GetField("TotalRecords") == null ? "10038" : _DataType.GetField("TotalRecords").GetValue(_DataType).ToString();
                 DataRow tmpMessagRow = MessageDT.NewRow();
-                foreach (string key in DicEMSMessage.Keys)
+                foreach (string key in DicMessage.Keys)
                 {
                     //必須為非requestID的tag及非總筆數的tag才設定欄位值(停用下列程式碼)
                     //if (!key.Equals(MessageID) && !key.Equals(TotalRecords))
                     //必須為非總筆數的tag才設定欄位值
                     if (!key.Equals(TotalRecords))
                     {
-                        tmpMessagRow[_DicDataType[key].ToString()] = DicEMSMessage[key] == null ? DicEMSMessage[key] : DicEMSMessage[key].ToString();
+                        tmpMessagRow[_DicDataType[key].ToString()] = DicMessage[key] == null ? DicMessage[key] : DicMessage[key].ToString();
                     }
                 }
                 MessageDT.Rows.Add(tmpMessagRow);

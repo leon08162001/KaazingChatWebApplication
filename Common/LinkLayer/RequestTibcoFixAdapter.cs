@@ -1,11 +1,16 @@
-﻿using Common.TopicMessage;
-using Common.Utility;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Data;
+using System.Collections;
+using System.Reflection;
+using System.Threading;
+using System.ComponentModel;
 using Spring.Context;
 using Spring.Context.Support;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
+using Common.Utility;
+using Common.TopicMessage;
 
 namespace Common.LinkLayer
 {
@@ -249,6 +254,10 @@ namespace Common.LinkLayer
                         TIBCO.Rendezvous.MessageField field = message.GetFieldByIndex(i);
                         TibcoMessageDictionary.Add(field.Name, field.Value.ToString());
                     }
+                    if (TibcoMessageDictionary.Keys.Count == 0)
+                    {
+                    return;
+                    }
                     foreach (string key in TibcoMessageDictionary.Keys)
                     {
                         Message += key + "=" + TibcoMessageDictionary[key] + ";";
@@ -303,7 +312,7 @@ namespace Common.LinkLayer
                             return;
                         }
                     }
-                        //驗證MessageID是否存在
+                    //驗證MessageID是否存在
                     if (!TibcoMessageDictionary.ContainsKey(MessageID))
                     {
                         _ErrMsg = "MessageID Of Message in MessageBody is not exist";
@@ -318,7 +327,7 @@ namespace Common.LinkLayer
                         DT = Util.CreateTableSchema(_DicTagType, _FixTagType);
                         DicMessageBody.Add(TibcoMessageDictionary[MessageID].ToString(), new MessageBody(DT, System.DateTime.Now));
                     }
-                        //匯入每筆message到屬於此MessageID的MessageBody
+                    //匯入每筆message到屬於此MessageID的MessageBody
                     MessageBody MB = DicMessageBody[TibcoMessageDictionary[MessageID].ToString()];
                     DataRow MessageRow;
                     MessageRow = Util.AddMessageToRow(TibcoMessageDictionary, _DicTagType, _FixTagType, MB.Messages);
