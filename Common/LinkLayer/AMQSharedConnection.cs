@@ -2,7 +2,6 @@
 using Apache.NMS.ActiveMQ;
 //using Apache.NMS.Stomp;
 using Common.Utility;
-using System;
 
 namespace Common.LinkLayer
 {

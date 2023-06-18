@@ -11,59 +11,9 @@ using TIBCO.EMS;
 
 namespace Common.LinkLayer
 {
-    /// <summary>
-    /// Tibco EMS處理完所有回應相同RequestID資料的事件參數類別
-    /// </summary>
-    public class EMSResponseFinishedEventArgs : EventArgs
-    {
-        private string _errorMessage;
-        private DataTable _ResponseResultTable;
-        public EMSResponseFinishedEventArgs()
-        {
-            _errorMessage = "";
-        }
-        public EMSResponseFinishedEventArgs(string errorMessage, DataTable ResponseResultTable)
-        {
-            _errorMessage = errorMessage;
-            _ResponseResultTable = ResponseResultTable;
-        }
-        public string errorMessage
-        {
-            get { return _errorMessage; }
-            set { _errorMessage = value; }
-        }
-        public DataTable ResponseResultTable
-        {
-            get { return _ResponseResultTable; }
-            set { _ResponseResultTable = value; }
-        }
-    }
-    /// <summary>
-    /// MessageHeader's Count與MessageBody's DataRow Count不符合事件參數類別
-    /// </summary>
-    public class EMSResponseMismatchedEventArgs : EventArgs
-    {
-        private string _MismatchedMessage;
-        public EMSResponseMismatchedEventArgs()
-        {
-            _MismatchedMessage = "";
-        }
-        public EMSResponseMismatchedEventArgs(string MismatchedMessage)
-        {
-            _MismatchedMessage = MismatchedMessage;
-        }
-        public string MismatchedMessage
-        {
-            get { return _MismatchedMessage; }
-            set { _MismatchedMessage = value; }
-        }
-    }
-    [Serializable]
-
-    public class RequestEMSAdapter : BaseEMSAdapter
+    public class RequestEMSAdapter1 : BaseEMSAdapter1
     {
         // Delegate
-        public delegate void ResponseFinishedEventHandler(object sender, EMSResponseFinishedEventArgs e);
         List<ResponseFinishedEventHandler> ResponseFinishedEventDelegates = new List<ResponseFinishedEventHandler>();
         private event ResponseFinishedEventHandler _ResponseFinished;
         public event ResponseFinishedEventHandler ResponseFinished
@@ -80,7 +30,6 @@ namespace Common.LinkLayer
             }
         }
 
-        protected delegate void ResponseMismatchedEventHandler(object sender, EMSResponseMismatchedEventArgs e);
         List<ResponseMismatchedEventHandler> ResponseMismatchedEventDelegates = new List<ResponseMismatchedEventHandler>();
         private event ResponseMismatchedEventHandler _ResponseMismatched;
         protected event ResponseMismatchedEventHandler ResponseMismatched
@@ -101,11 +50,11 @@ namespace Common.LinkLayer
         Config config;
 
         /// <summary>
-        /// Tibco EMS完成所有相同RequestID的資料處理時事件
+        /// 完成所有相同RequestID的資料處理時事件
         /// </summary>
         protected virtual void OnResponseFinished(object state)
         {
-            EMSResponseFinishedEventArgs e = state as EMSResponseFinishedEventArgs;
+            ResponseFinishedEventArgs e = state as ResponseFinishedEventArgs;
             if (_ResponseFinished != null)
             {
                 _ResponseFinished(this, e);
@@ -117,7 +66,7 @@ namespace Common.LinkLayer
         /// <param name="state"></param>
         protected virtual void OnResponseMismatched(object state)
         {
-            EMSResponseMismatchedEventArgs e = state as EMSResponseMismatchedEventArgs;
+            ResponseMismatchedEventArgs e = state as ResponseMismatchedEventArgs;
             if (_ResponseMismatched != null)
             {
                 _ResponseMismatched(this, e);
@@ -132,40 +81,40 @@ namespace Common.LinkLayer
         //protected Dictionary<string, MessageHeader> DicMessageHeader = new Dictionary<string, MessageHeader>();
         protected Dictionary<string, MessageBody> DicMessageBody = new Dictionary<string, MessageBody>();
 
-        private static RequestEMSAdapter singleton;
+        private static RequestEMSAdapter1 singleton;
 
-        public RequestEMSAdapter() : base() { config = (Config)applicationContext.GetObject("Config"); this.ResponseMismatched += new ResponseMismatchedEventHandler(RequestEMSAdapter_ResponseMismatched); }
+        public RequestEMSAdapter1() : base() { config = (Config)applicationContext.GetObject("Config"); this.ResponseMismatched += new ResponseMismatchedEventHandler(RequestEMSAdapter_ResponseMismatched); }
 
-        public RequestEMSAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
+        public RequestEMSAdapter1(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
             : base(Uri, DestinationFeature, ListenName, SendName) { config = (Config)applicationContext.GetObject("Config"); this.ResponseMismatched += new ResponseMismatchedEventHandler(RequestEMSAdapter_ResponseMismatched); }
 
-        public RequestEMSAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
+        public RequestEMSAdapter1(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
             : base(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd) { config = (Config)applicationContext.GetObject("Config"); this.ResponseMismatched += new ResponseMismatchedEventHandler(RequestEMSAdapter_ResponseMismatched); }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public static RequestEMSAdapter getSingleton()
+        public static RequestEMSAdapter1 getSingleton()
         {
             if (singleton == null)
             {
-                singleton = new RequestEMSAdapter();
+                singleton = new RequestEMSAdapter1();
             }
             return singleton;
         }
-
-        public static RequestEMSAdapter getSingleton(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public static RequestEMSAdapter1 getSingleton(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
         {
             if (singleton == null)
             {
-                singleton = new RequestEMSAdapter(Uri, DestinationFeature, ListenName, SendName);
+                singleton = new RequestEMSAdapter1(Uri, DestinationFeature, ListenName, SendName);
             }
             return singleton;
         }
-
-        public static RequestEMSAdapter getSingleton(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public static RequestEMSAdapter1 getSingleton(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
         {
             if (singleton == null)
             {
-                singleton = new RequestEMSAdapter(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd);
+                singleton = new RequestEMSAdapter1(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd);
             }
             return singleton;
         }
@@ -346,7 +295,7 @@ namespace Common.LinkLayer
                     {
                         string _ErrMsg = string.Format("Message Body Rows({0}) of Message ID:{1} is not match TotalRecords({2})", BodyCount, Guid, iTotalRecords);
                         if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                        OnResponseMismatched(new EMSResponseMismatchedEventArgs(_ErrMsg));
+                        OnResponseMismatched(new ResponseMismatchedEventArgs(_ErrMsg));
                     }
                     DicMessageBody.Remove(Guid);
                 }
@@ -361,7 +310,7 @@ namespace Common.LinkLayer
             DicMessageBody.Remove(Guid);
         }
 
-        void RequestEMSAdapter_ResponseMismatched(object sender, EMSResponseMismatchedEventArgs e)
+        void RequestEMSAdapter_ResponseMismatched(object sender, ResponseMismatchedEventArgs e)
         {
             if (log.IsInfoEnabled) log.Info(e.MismatchedMessage);
         }
@@ -370,11 +319,11 @@ namespace Common.LinkLayer
         {
             if (UISyncContext != null && IsEventInUIThread)
             {
-                UISyncContext.Post(OnMessageHandleFinished, new EMSMessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
+                UISyncContext.Post(OnMessageHandleFinished, new MessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
             }
             else
             {
-                OnMessageHandleFinished(new EMSMessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
+                OnMessageHandleFinished(new MessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
             }
         }
 
@@ -382,11 +331,11 @@ namespace Common.LinkLayer
         {
             if (UISyncContext != null && IsEventInUIThread)
             {
-                UISyncContext.Post(OnResponseFinished, new EMSResponseFinishedEventArgs(ErrorMessage, ResponseResultTable));
+                UISyncContext.Post(OnResponseFinished, new ResponseFinishedEventArgs(ErrorMessage, ResponseResultTable));
             }
             else
             {
-                OnResponseFinished(new EMSResponseFinishedEventArgs(ErrorMessage, ResponseResultTable));
+                OnResponseFinished(new ResponseFinishedEventArgs(ErrorMessage, ResponseResultTable));
             }
         }
     }

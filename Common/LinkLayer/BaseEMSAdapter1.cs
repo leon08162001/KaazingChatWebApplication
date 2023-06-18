@@ -3,7 +3,6 @@ using Common.HandlerLayer;
 using Common.Utility;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -11,49 +10,8 @@ using TIBCO.EMS;
 
 namespace Common.LinkLayer
 {
-    /// <summary>
-    ///收到一筆Message並完成資料處理時的事件參數類別
-    /// </summary>
-    public class EMSMessageHandleFinishedEventArgs : EventArgs
-    {
-        private string _errorMessage;
-        private DataRow _MessageRow;
-        public EMSMessageHandleFinishedEventArgs(string errorMessage, DataRow MessageRow)
-        {
-            _errorMessage = errorMessage;
-            _MessageRow = MessageRow;
-        }
-        public string errorMessage
-        {
-            get { return _errorMessage; }
-            set { _errorMessage = value; }
-        }
-        public DataRow MessageRow
-        {
-            get { return _MessageRow; }
-            set { _MessageRow = value; }
-        }
-    }
-
-    /// <summary>
-    ///非同步發送Message完成時的事件參數類別
-    /// </summary>
-    public class EMSMessageAsynSendFinishedEventArgs : EventArgs
-    {
-        private string _errorMessage;
-        public EMSMessageAsynSendFinishedEventArgs(string errorMessage)
-        {
-            _errorMessage = errorMessage;
-        }
-        public string errorMessage
-        {
-            get { return _errorMessage; }
-            set { _errorMessage = value; }
-        }
-    }
     [Serializable]
-
-    public abstract class BaseEMSAdapter : Common.LinkLayer.IEMSAdapter
+    public abstract class BaseEMSAdapter1 : Common.LinkLayer.IMQAdapter1, Common.LinkLayer.ITibcoEMSAdapter
     {
         protected readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         protected string _Uri = string.Empty;
@@ -95,7 +53,6 @@ namespace Common.LinkLayer
         protected bool _IsDurableConsumer = false;
         protected string _ClientID = "";
 
-        public delegate void MessageAsynSendFinishedEventHandler(object sender, EMSMessageAsynSendFinishedEventArgs e);
         List<MessageAsynSendFinishedEventHandler> MessageAsynSendFinishedEventDelegates = new List<MessageAsynSendFinishedEventHandler>();
         private event MessageAsynSendFinishedEventHandler _MessageAsynSendFinished;
         public event MessageAsynSendFinishedEventHandler MessageAsynSendFinished
@@ -112,7 +69,6 @@ namespace Common.LinkLayer
             }
         }
 
-        public delegate void MessageHandleFinishedEventHandler(object sender, EMSMessageHandleFinishedEventArgs e);
         List<MessageHandleFinishedEventHandler> MessageHandleFinishedEventDelegates = new List<MessageHandleFinishedEventHandler>();
         private event MessageHandleFinishedEventHandler _MessageHandleFinished;
         public event MessageHandleFinishedEventHandler MessageHandleFinished
@@ -134,7 +90,7 @@ namespace Common.LinkLayer
         /// </summary>
         protected virtual void OnMessageHandleFinished(object state)
         {
-            EMSMessageHandleFinishedEventArgs e = state as EMSMessageHandleFinishedEventArgs;
+            MessageHandleFinishedEventArgs e = state as MessageHandleFinishedEventArgs;
             if (_MessageHandleFinished != null)
             {
                 _MessageHandleFinished(this, e);
@@ -145,7 +101,7 @@ namespace Common.LinkLayer
         /// </summary>
         protected virtual void OnMessageSendFinished(object state)
         {
-            EMSMessageAsynSendFinishedEventArgs e = state as EMSMessageAsynSendFinishedEventArgs;
+            MessageAsynSendFinishedEventArgs e = state as MessageAsynSendFinishedEventArgs;
             if (_MessageAsynSendFinished != null)
             {
                 _MessageAsynSendFinished(this, e);
@@ -282,18 +238,18 @@ namespace Common.LinkLayer
             set { _Handler = value; }
         }
 
-        public BaseEMSAdapter()
+        public BaseEMSAdapter1()
         {
         }
 
-        public BaseEMSAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
+        public BaseEMSAdapter1(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
         {
             _Uri = Uri;
             _DestinationFeature = DestinationFeature;
             _ListenName = ListenName;
             _SendName = SendName;
         }
-        public BaseEMSAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
+        public BaseEMSAdapter1(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
         {
             _Uri = Uri;
             _DestinationFeature = DestinationFeature;
@@ -631,11 +587,11 @@ namespace Common.LinkLayer
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -693,11 +649,11 @@ namespace Common.LinkLayer
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -759,11 +715,11 @@ namespace Common.LinkLayer
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -828,11 +784,11 @@ namespace Common.LinkLayer
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -876,11 +832,11 @@ namespace Common.LinkLayer
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -914,11 +870,11 @@ namespace Common.LinkLayer
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -961,11 +917,11 @@ namespace Common.LinkLayer
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -1014,11 +970,11 @@ namespace Common.LinkLayer
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -1054,11 +1010,11 @@ namespace Common.LinkLayer
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
             return isSend;
@@ -1218,11 +1174,11 @@ namespace Common.LinkLayer
             {
                 if (_UISyncContext != null && IsEventInUIThread)
                 {
-                    _UISyncContext.Post(OnMessageSendFinished, new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    _UISyncContext.Post(OnMessageSendFinished, new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
                 else
                 {
-                    OnMessageSendFinished(new EMSMessageAsynSendFinishedEventArgs(ErrorMsg));
+                    OnMessageSendFinished(new MessageAsynSendFinishedEventArgs(ErrorMsg));
                 }
             }
         }

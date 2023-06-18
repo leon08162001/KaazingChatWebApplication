@@ -1,5 +1,6 @@
 ﻿using Common.LinkLayer;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading;
 
@@ -8,16 +9,22 @@ namespace Common.HandlerLayer
     public class WorkThreadsEventArgs<T> : EventArgs
     {
         private TopicType _TopicType;
+        private int _CurrentSendAmounts;
         private T _ListMessageData;
-        public WorkThreadsEventArgs(TopicType TopicType, T ListMessageData)
+        public WorkThreadsEventArgs(TopicType TopicType, int CurrentSendAmounts, T ListMessageData)
         {
             _TopicType = TopicType;
+            _CurrentSendAmounts = CurrentSendAmounts;
             _ListMessageData = ListMessageData;
         }
         public TopicType TopicType
         {
             get { return _TopicType; }
             set { _TopicType = value; }
+        }
+        public int CurrentSendAmounts
+        {
+            get { return _CurrentSendAmounts; }
         }
         public T ListMessageData
         {
@@ -29,11 +36,13 @@ namespace Common.HandlerLayer
     public class WorkThreadsErrorHappenedEventArgs<T> : EventArgs
     {
         private TopicType _TopicType;
+        private int _CurrentSendAmounts;
         private T _ListMessageData;
         private string _errorMessage;
-        public WorkThreadsErrorHappenedEventArgs(TopicType TopicType, T ListMessageData, string errorMessage)
+        public WorkThreadsErrorHappenedEventArgs(TopicType TopicType, int CurrentSendAmounts, T ListMessageData, string errorMessage)
         {
             _TopicType = TopicType;
+            _CurrentSendAmounts = CurrentSendAmounts;
             _ListMessageData = ListMessageData;
             _errorMessage = errorMessage;
         }
@@ -41,6 +50,10 @@ namespace Common.HandlerLayer
         {
             get { return _TopicType; }
             set { _TopicType = value; }
+        }
+        public int CurrentSendAmounts
+        {
+            get { return _CurrentSendAmounts; }
         }
         public T ListMessageData
         {
@@ -86,6 +99,334 @@ namespace Common.HandlerLayer
         #endregion
 
         /// <summary>
+        /// 使用新的執行緒執行一連串的工作(For ActiveMQ & ApolloMQ)
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2">DataTable</typeparam>
+        /// <typeparam name="T3">Type</typeparam>
+        /// <typeparam name="T4">struct</typeparam>
+        /// <typeparam name="TResult1">DataTable</typeparam>
+        /// <typeparam name="TResult2">List<List<MessageField>></typeparam>
+        /// <param name="MQAdapter"></param>
+        /// <param name="DoDBTask"></param>
+        /// <param name="ConvertTagToMessage"></param>
+        /// <param name="SendMessage"></param>
+        /// <param name="DoDBTask_arg1"></param>
+        /// <param name="DoDBTask_arg2"></param>
+        /// <param name="ConvertTagToMessage_arg1"></param>
+        /// <param name="SendMessage_arg1"></param>
+        public static void DoTask<T1, T2, T3, T4, TResult1, TResult2>(IMQAdapter MQAdapter,
+            Func<T1, T2, TResult1> DoDBTask, Func<T3, TResult1, TResult2> ConvertTagToMessage,
+            Func<T4, TResult2, int, int, bool> SendMessage, T1 DoDBTask_arg1, T2 DoDBTask_arg2, T3 ConvertTagToMessage_arg1,
+            T4 SendMessage_arg1)
+        {
+            _UISyncContext = MQAdapter.UISyncContext;
+            Action TaskDefinition = delegate ()
+            {
+                try
+                {
+                    TResult1 Result1 = default(TResult1);
+                    TResult2 Result2 = default(TResult2);
+                    Result1 = DoDBTask.Invoke(DoDBTask_arg1, DoDBTask_arg2);
+                    //if (_UISyncContext != null & IsEventInUIThread)
+                    //{
+                    //    _UISyncContext.Post(OnDoDBTaskFinished, new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, MQAdapter.CurrentSendAmounts, DoDBTask_arg2));
+                    //}
+                    //else
+                    //{
+                    //    OnDoDBTaskFinished(new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, MQAdapter.CurrentSendAmounts, DoDBTask_arg2));
+                    //}
+                    Result2 = ConvertTagToMessage.Invoke(ConvertTagToMessage_arg1, Result1);
+                    //if (_UISyncContext != null & IsEventInUIThread)
+                    //{
+                    //    _UISyncContext.Post(OnConvertTagToMessageFinished, new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, MQAdapter.CurrentSendAmounts, DoDBTask_arg2));
+                    //}
+                    //else
+                    //{
+                    //    OnConvertTagToMessageFinished(new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, MQAdapter.CurrentSendAmounts, DoDBTask_arg2));
+                    //}
+                    SendMessage.Invoke(SendMessage_arg1, Result2, 0, 0);
+                    if (_UISyncContext != null & IsEventInUIThread)
+                    {
+                        _UISyncContext.Post(OnSendMessageToClientFinished,
+                            new WorkThreadsEventArgs<T2>(MQAdapter.Handler.TopicType, MQAdapter.CurrentSendAmounts,
+                                DoDBTask_arg2));
+                    }
+                    else
+                    {
+                        OnSendMessageToClientFinished(new WorkThreadsEventArgs<T2>(MQAdapter.Handler.TopicType,
+                            MQAdapter.CurrentSendAmounts, DoDBTask_arg2));
+                    }
+                    //if (log.IsInfoEnabled) log.InfoFormat("Send {0} Message from Tibco Server Receive & Response Test", Enum.GetName(typeof(TopicType), TopicTypeHandler.TopicType));
+                }
+                catch (Exception ex)
+                {
+                    if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                    if (_UISyncContext != null & IsEventInUIThread)
+                    {
+                        _UISyncContext.Post(OnWorkThreadsErrorHappened,
+                            new WorkThreadsErrorHappenedEventArgs<T2>(MQAdapter.Handler.TopicType,
+                                MQAdapter.CurrentSendAmounts, DoDBTask_arg2, ex.Message));
+                    }
+                    else
+                    {
+                        OnWorkThreadsErrorHappened(new WorkThreadsErrorHappenedEventArgs<T2>(
+                            MQAdapter.Handler.TopicType, MQAdapter.CurrentSendAmounts, DoDBTask_arg2, ex.Message));
+                    }
+                }
+                finally
+                {
+                    if (!MQAdapter.Handler.EnabledThreadPool)
+                    {
+                        DecreasingWorkingThreads(MQAdapter.Handler);
+                    }
+                }
+            };
+            if (!MQAdapter.Handler.EnabledThreadPool)
+            {
+                var executionContext = ExecutionContext.Capture();
+                MQAdapter.Handler.Thread = new Thread(state =>
+                {
+                    ExecutionContext parentContext = (ExecutionContext)state;
+                    ExecutionContext.Run(parentContext, _ =>
+                    {
+                        TaskDefinition();
+                    }, null);
+                });
+                IncreasingWorkingThreads(MQAdapter.Handler);
+                MQAdapter.Handler.Thread.Priority = MQAdapter.Handler.Priority;
+                MQAdapter.Handler.Thread.Start(executionContext);
+            }
+            else
+            {
+                Amib.Threading.Action Task = new Amib.Threading.Action(() =>
+                {
+                    TaskDefinition();
+                });
+                MQAdapter.Handler.SmartThreadPool.QueueWorkItem(Task,
+                    (Amib.Threading.WorkItemPriority)MQAdapter.Handler.Priority);
+            }
+        }
+        /// <summary>
+        /// 使用新的執行緒執行一連串的工作
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2">DataTable</typeparam>
+        /// <typeparam name="T3">Type</typeparam>
+        /// <typeparam name="T4">struct</typeparam>
+        /// <typeparam name="TResult1">DataTable</typeparam>
+        /// <typeparam name="TResult2">List<List<MessageField>></typeparam>
+        /// <param name="MQAdapter"></param>
+        /// <param name="DoDBTask"></param>
+        /// <param name="ConvertTagToMessage"></param>
+        /// <param name="SendMessage"></param>
+        /// <param name="DoDBTask_arg1"></param>
+        /// <param name="DoDBTask_arg2"></param>
+        /// <param name="ConvertTagToMessage_arg1"></param>
+        /// <param name="SendMessage_arg1"></param>
+        public static void DoTask<T1, T2, T3, T4, TResult1, TResult2>(IMQAdapter1 MQAdapter,
+            Func<T1, T2, TResult1> DoDBTask, Func<T3, TResult1, TResult2> ConvertTagToMessage,
+            Func<T4, TResult2, int, int, bool> SendMessage, T1 DoDBTask_arg1, T2 DoDBTask_arg2, T3 ConvertTagToMessage_arg1,
+            T4 SendMessage_arg1)
+        {
+            _UISyncContext = MQAdapter.UISyncContext;
+            Action TaskDefinition = delegate ()
+            {
+                try
+                {
+                    TResult1 Result1 = default(TResult1);
+                    TResult2 Result2 = default(TResult2);
+                    Result1 = DoDBTask.Invoke(DoDBTask_arg1, DoDBTask_arg2);
+                    //if (_UISyncContext != null & IsEventInUIThread)
+                    //{
+                    //    _UISyncContext.Post(OnDoDBTaskFinished, new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, MQAdapter.CurrentSendAmounts, DoDBTask_arg2));
+                    //}
+                    //else
+                    //{
+                    //    OnDoDBTaskFinished(new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, MQAdapter.CurrentSendAmounts, DoDBTask_arg2));
+                    //}
+                    Result2 = ConvertTagToMessage.Invoke(ConvertTagToMessage_arg1, Result1);
+                    //if (_UISyncContext != null & IsEventInUIThread)
+                    //{
+                    //    _UISyncContext.Post(OnConvertTagToMessageFinished, new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, MQAdapter.CurrentSendAmounts, DoDBTask_arg2));
+                    //}
+                    //else
+                    //{
+                    //    OnConvertTagToMessageFinished(new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, MQAdapter.CurrentSendAmounts, DoDBTask_arg2));
+                    //}
+                    SendMessage.Invoke(SendMessage_arg1, Result2, 0, 0);
+                    if (_UISyncContext != null & IsEventInUIThread)
+                    {
+                        _UISyncContext.Post(OnSendMessageToClientFinished,
+                            new WorkThreadsEventArgs<T2>(MQAdapter.Handler.TopicType, MQAdapter.CurrentSendAmounts,
+                                DoDBTask_arg2));
+                    }
+                    else
+                    {
+                        OnSendMessageToClientFinished(new WorkThreadsEventArgs<T2>(MQAdapter.Handler.TopicType,
+                            MQAdapter.CurrentSendAmounts, DoDBTask_arg2));
+                    }
+                    //if (log.IsInfoEnabled) log.InfoFormat("Send {0} Message from Tibco Server Receive & Response Test", Enum.GetName(typeof(TopicType), TopicTypeHandler.TopicType));
+                }
+                catch (Exception ex)
+                {
+                    if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                    if (_UISyncContext != null & IsEventInUIThread)
+                    {
+                        _UISyncContext.Post(OnWorkThreadsErrorHappened,
+                            new WorkThreadsErrorHappenedEventArgs<T2>(MQAdapter.Handler.TopicType,
+                                MQAdapter.CurrentSendAmounts, DoDBTask_arg2, ex.Message));
+                    }
+                    else
+                    {
+                        OnWorkThreadsErrorHappened(new WorkThreadsErrorHappenedEventArgs<T2>(
+                            MQAdapter.Handler.TopicType, MQAdapter.CurrentSendAmounts, DoDBTask_arg2, ex.Message));
+                    }
+                }
+                finally
+                {
+                    if (!MQAdapter.Handler.EnabledThreadPool)
+                    {
+                        DecreasingWorkingThreads(MQAdapter.Handler);
+                    }
+                }
+            };
+            if (!MQAdapter.Handler.EnabledThreadPool)
+            {
+                var executionContext = ExecutionContext.Capture();
+                MQAdapter.Handler.Thread = new Thread(state =>
+                {
+                    ExecutionContext parentContext = (ExecutionContext)state;
+                    ExecutionContext.Run(parentContext, _ =>
+                    {
+                        TaskDefinition();
+                    }, null);
+                });
+                IncreasingWorkingThreads(MQAdapter.Handler);
+                MQAdapter.Handler.Thread.Priority = MQAdapter.Handler.Priority;
+                MQAdapter.Handler.Thread.Start(executionContext);
+            }
+            else
+            {
+                Amib.Threading.Action Task = new Amib.Threading.Action(() =>
+                {
+                    TaskDefinition();
+                });
+                MQAdapter.Handler.SmartThreadPool.QueueWorkItem(Task,
+                    (Amib.Threading.WorkItemPriority)MQAdapter.Handler.Priority);
+            }
+        }
+        /// <summary>
+        /// 使用新的執行緒執行一連串的工作(For Tibco EMS)
+        /// </summary>
+        /// <typeparam name="T1"></typeparam>
+        /// <typeparam name="T2">DataTable</typeparam>
+        /// <typeparam name="T3">Type</typeparam>
+        /// <typeparam name="T4">struct</typeparam>
+        /// <typeparam name="TResult1">DataTable</typeparam>
+        /// <typeparam name="TResult2">List<List<MessageField>></typeparam>
+        /// <param name="EMSAdapter"></param>
+        /// <param name="DoDBTask"></param>
+        /// <param name="ConvertTagToMessage"></param>
+        /// <param name="SendMessage"></param>
+        /// <param name="DoDBTask_arg1"></param>
+        /// <param name="DoDBTask_arg2"></param>
+        /// <param name="ConvertTagToMessage_arg1"></param>
+        /// <param name="SendMessage_arg1"></param>
+        public static void DoTask<T1, T2, T3, T4, TResult1, TResult2>(IEMSAdapter EMSAdapter,
+            Func<T1, T2, TResult1> DoDBTask, Func<T3, TResult1, TResult2> ConvertTagToMessage,
+            Func<T4, TResult2, int, int, bool> SendMessage, T1 DoDBTask_arg1, T2 DoDBTask_arg2, T3 ConvertTagToMessage_arg1,
+            T4 SendMessage_arg1)
+        {
+            _UISyncContext = EMSAdapter.UISyncContext;
+            Action TaskDefinition = delegate ()
+            {
+                try
+                {
+                    TResult1 Result1 = default(TResult1);
+                    TResult2 Result2 = default(TResult2);
+                    Result1 = DoDBTask.Invoke(DoDBTask_arg1, DoDBTask_arg2);
+                    //if (_UISyncContext != null & IsEventInUIThread)
+                    //{
+                    //    _UISyncContext.Post(OnDoDBTaskFinished, new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, EMSAdapter.CurrentSendAmounts, DoDBTask_arg2));
+                    //}
+                    //else
+                    //{
+                    //    OnDoDBTaskFinished(new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, EMSAdapter.CurrentSendAmounts, DoDBTask_arg2));
+                    //}
+                    Result2 = ConvertTagToMessage.Invoke(ConvertTagToMessage_arg1, Result1);
+                    //if (_UISyncContext != null & IsEventInUIThread)
+                    //{
+                    //    _UISyncContext.Post(OnConvertTagToMessageFinished, new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, EMSAdapter.CurrentSendAmounts, DoDBTask_arg2));
+                    //}
+                    //else
+                    //{
+                    //    OnConvertTagToMessageFinished(new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, EMSAdapter.CurrentSendAmounts, DoDBTask_arg2));
+                    //}
+                    SendMessage.Invoke(SendMessage_arg1, Result2, 0, 0);
+                    if (_UISyncContext != null & IsEventInUIThread)
+                    {
+                        _UISyncContext.Post(OnSendMessageToClientFinished,
+                            new WorkThreadsEventArgs<T2>(EMSAdapter.Handler.TopicType, EMSAdapter.CurrentSendAmounts,
+                                DoDBTask_arg2));
+                    }
+                    else
+                    {
+                        OnSendMessageToClientFinished(new WorkThreadsEventArgs<T2>(EMSAdapter.Handler.TopicType,
+                            EMSAdapter.CurrentSendAmounts, DoDBTask_arg2));
+                    }
+                    //if (log.IsInfoEnabled) log.InfoFormat("Send {0} Message from Tibco Server Receive & Response Test", Enum.GetName(typeof(TopicType), TopicTypeHandler.TopicType));
+                }
+                catch (Exception ex)
+                {
+                    if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                    if (_UISyncContext != null & IsEventInUIThread)
+                    {
+                        _UISyncContext.Post(OnWorkThreadsErrorHappened,
+                            new WorkThreadsErrorHappenedEventArgs<T2>(EMSAdapter.Handler.TopicType,
+                                EMSAdapter.CurrentSendAmounts, DoDBTask_arg2, ex.Message));
+                    }
+                    else
+                    {
+                        OnWorkThreadsErrorHappened(
+                            new WorkThreadsErrorHappenedEventArgs<T2>(EMSAdapter.Handler.TopicType,
+                                EMSAdapter.CurrentSendAmounts, DoDBTask_arg2, ex.Message));
+                    }
+                }
+                finally
+                {
+                    if (!EMSAdapter.Handler.EnabledThreadPool)
+                    {
+                        DecreasingWorkingThreads(EMSAdapter.Handler);
+                    }
+                }
+            };
+            if (!EMSAdapter.Handler.EnabledThreadPool)
+            {
+                var executionContext = ExecutionContext.Capture();
+                EMSAdapter.Handler.Thread = new Thread(state =>
+                {
+                    ExecutionContext parentContext = (ExecutionContext)state;
+                    ExecutionContext.Run(parentContext, _ =>
+                    {
+                        TaskDefinition();
+                    }, null);
+                });
+                IncreasingWorkingThreads(EMSAdapter.Handler);
+                EMSAdapter.Handler.Thread.Priority = EMSAdapter.Handler.Priority;
+                EMSAdapter.Handler.Thread.Start(executionContext);
+            }
+            else
+            {
+                Amib.Threading.Action Task = new Amib.Threading.Action(() =>
+                {
+                    TaskDefinition();
+                });
+                EMSAdapter.Handler.SmartThreadPool.QueueWorkItem(Task,
+                    (Amib.Threading.WorkItemPriority)EMSAdapter.Handler.Priority);
+            }
+        }
+        /// <summary>
         /// 使用新的執行緒執行一連串的工作(For Tibco)
         /// </summary>
         /// <typeparam name="T1"></typeparam>
@@ -103,41 +444,104 @@ namespace Common.HandlerLayer
         /// <param name="DoDBTask_arg2"></param>
         /// <param name="ConvertTagToMessage_arg1"></param>
         /// <param name="SendTibcoMessage_arg1"></param>
-        public static void DoTask<T1, T2, T3, T4, TResult1, TResult2>(ITibcoAdapter TibcoAdapter, TopicTypeHandler TopicTypeHandler, Func<T1, T2, TResult1> DoDBTask, Func<T3, TResult1, TResult2> ConvertTagToMessage, Action<T4, TResult2> SendTibcoMessage, T1 DoDBTask_arg1, T2 DoDBTask_arg2, T3 ConvertTagToMessage_arg1, T4 SendTibcoMessage_arg1)
+        //public static void DoTask<T1, T2, T3, T4, TResult1, TResult2>(ITibcoAdapter TibcoAdapter, TopicTypeHandler TopicTypeHandler, Func<T1, T2, TResult1> DoDBTask, Func<T3, TResult1, TResult2> ConvertTagToMessage, Action<T4, TResult2> SendTibcoMessage, T1 DoDBTask_arg1, T2 DoDBTask_arg2, T3 ConvertTagToMessage_arg1, T4 SendTibcoMessage_arg1)
+        //{
+        //    //_UISyncContext = TibcoAdapter.UISyncContext;
+        //    //Action TaskDefinition = delegate()
+        //    //{
+        //    //    try
+        //    //    {
+        //    //        TResult1 Result1 = default(TResult1);
+        //    //        TResult2 Result2 = default(TResult2);
+        //    //        Result1 = DoDBTask.Invoke(DoDBTask_arg1, DoDBTask_arg2);
+        //    //        if (_UISyncContext != null & IsEventInUIThread)
+        //    //        {
+        //    //            _UISyncContext.Post(OnDoDBTaskFinished, new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            OnDoDBTaskFinished(new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
+        //    //        }
+        //    //        Result2 = ConvertTagToMessage.Invoke(ConvertTagToMessage_arg1, Result1);
+        //    //        if (_UISyncContext != null & IsEventInUIThread)
+        //    //        {
+        //    //            _UISyncContext.Post(OnConvertTagToMessageFinished, new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            OnConvertTagToMessageFinished(new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
+        //    //        }
+        //    //        SendTibcoMessage.Invoke(SendTibcoMessage_arg1, Result2);
+        //    //        if (_UISyncContext != null & IsEventInUIThread)
+        //    //        {
+        //    //            _UISyncContext.Post(OnSendMessageToClientFinished, new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            OnSendMessageToClientFinished(new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
+        //    //        }
+        //    //        //if (log.IsInfoEnabled) log.InfoFormat("Send {0} Message from Tibco Server Receive & Response Test", Enum.GetName(typeof(TopicType), TopicTypeHandler.TopicType));
+        //    //    }
+        //    //    catch (Exception ex)
+        //    //    {
+        //    //        if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+        //    //        if (_UISyncContext != null & IsEventInUIThread)
+        //    //        {
+        //    //            _UISyncContext.Post(OnWorkThreadsErrorHappened, new WorkThreadsErrorHappenedEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2, ex.Message));
+        //    //        }
+        //    //        else
+        //    //        {
+        //    //            OnWorkThreadsErrorHappened(new WorkThreadsErrorHappenedEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2, ex.Message));
+        //    //        }
+        //    //    }
+        //    //    finally
+        //    //    {
+        //    //        if (!TopicTypeHandler.EnabledThreadPool)
+        //    //        {
+        //    //            DecreasingWorkingThreads(TopicTypeHandler);
+        //    //        }
+        //    //    }
+        //    //};
+        //    //if (!TopicTypeHandler.EnabledThreadPool)
+        //    //{
+        //    //    var executionContext = ExecutionContext.Capture();
+        //    //    TopicTypeHandler.Thread = new Thread(state =>
+        //    //    {
+        //    //        ExecutionContext parentContext = (ExecutionContext)state;
+        //    //        ExecutionContext.Run(parentContext, _ =>
+        //    //        {
+        //    //            TaskDefinition();
+        //    //        }, null);
+        //    //    });
+        //    //    IncreasingWorkingThreads(TopicTypeHandler);
+        //    //    TopicTypeHandler.Thread.Priority = TopicTypeHandler.Priority;
+        //    //    TopicTypeHandler.Thread.Start(executionContext);
+        //    //}
+        //    //else
+        //    //{
+        //    //    Amib.Threading.Action Task = new Amib.Threading.Action(() =>
+        //    //    {
+        //    //        TaskDefinition();
+        //    //    });
+        //    //    TopicTypeHandler.SmartThreadPool.QueueWorkItem(Task, (Amib.Threading.WorkItemPriority)TopicTypeHandler.Priority);
+        //    //}
+        //} 
+        public static void DoConvertSendTaskForJason(IMQAdapter MQAdapter, Func<Type, DataTable, List<List<MessageField>>> ConvertTableToMessage, DataTable ConvertTableToMessage_DT, string SendMessage_requestTag)
         {
-            _UISyncContext = TibcoAdapter.UISyncContext;
-            Action TaskDefinition = delegate()
+            _UISyncContext = MQAdapter.UISyncContext;
+            Action TaskDefinition = delegate ()
             {
                 try
                 {
-                    TResult1 Result1 = default(TResult1);
-                    TResult2 Result2 = default(TResult2);
-                    Result1 = DoDBTask.Invoke(DoDBTask_arg1, DoDBTask_arg2);
+                    List<List<MessageField>> Result1 = ConvertTableToMessage.Invoke((MQAdapter as BatchMQAdapter).DataType, ConvertTableToMessage_DT);
+                    MQAdapter.SendMessage(SendMessage_requestTag, Result1);
                     if (_UISyncContext != null & IsEventInUIThread)
                     {
-                        _UISyncContext.Post(OnDoDBTaskFinished, new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
+                        _UISyncContext.Post(OnSendMessageToClientFinished, new WorkThreadsEventArgs<DataTable>(MQAdapter.Handler.TopicType, MQAdapter.CurrentSendAmounts, ConvertTableToMessage_DT));
                     }
                     else
                     {
-                        OnDoDBTaskFinished(new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
-                    }
-                    Result2 = ConvertTagToMessage.Invoke(ConvertTagToMessage_arg1, Result1);
-                    if (_UISyncContext != null & IsEventInUIThread)
-                    {
-                        _UISyncContext.Post(OnConvertTagToMessageFinished, new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
-                    }
-                    else
-                    {
-                        OnConvertTagToMessageFinished(new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
-                    }
-                    SendTibcoMessage.Invoke(SendTibcoMessage_arg1, Result2);
-                    if (_UISyncContext != null & IsEventInUIThread)
-                    {
-                        _UISyncContext.Post(OnSendMessageToClientFinished, new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
-                    }
-                    else
-                    {
-                        OnSendMessageToClientFinished(new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
+                        OnSendMessageToClientFinished(new WorkThreadsEventArgs<DataTable>(MQAdapter.Handler.TopicType, MQAdapter.CurrentSendAmounts, ConvertTableToMessage_DT));
                     }
                     //if (log.IsInfoEnabled) log.InfoFormat("Send {0} Message from Tibco Server Receive & Response Test", Enum.GetName(typeof(TopicType), TopicTypeHandler.TopicType));
                 }
@@ -146,26 +550,25 @@ namespace Common.HandlerLayer
                     if (log.IsErrorEnabled) log.Error(ex.Message, ex);
                     if (_UISyncContext != null & IsEventInUIThread)
                     {
-                        _UISyncContext.Post(OnWorkThreadsErrorHappened, new WorkThreadsErrorHappenedEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2, ex.Message));
+                        _UISyncContext.Post(OnWorkThreadsErrorHappened, new WorkThreadsErrorHappenedEventArgs<DataTable>(MQAdapter.Handler.TopicType, MQAdapter.CurrentSendAmounts, ConvertTableToMessage_DT, ex.Message));
                     }
                     else
                     {
-                        OnWorkThreadsErrorHappened(new WorkThreadsErrorHappenedEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2, ex.Message));
+                        OnWorkThreadsErrorHappened(new WorkThreadsErrorHappenedEventArgs<DataTable>(MQAdapter.Handler.TopicType, MQAdapter.CurrentSendAmounts, ConvertTableToMessage_DT, ex.Message));
                     }
                 }
                 finally
                 {
-                    if (!TopicTypeHandler.EnabledThreadPool)
+                    if (!MQAdapter.Handler.EnabledThreadPool)
                     {
-                        DecreasingWorkingThreads(TopicTypeHandler);
+                        DecreasingWorkingThreads(MQAdapter.Handler);
                     }
                 }
             };
-            if (!TopicTypeHandler.EnabledThreadPool)
+            if (!MQAdapter.Handler.EnabledThreadPool)
             {
                 var executionContext = ExecutionContext.Capture();
-                //Thread thread = new Thread(state =>
-                TopicTypeHandler.Thread = new Thread(state =>
+                MQAdapter.Handler.Thread = new Thread(state =>
                 {
                     ExecutionContext parentContext = (ExecutionContext)state;
                     ExecutionContext.Run(parentContext, _ =>
@@ -173,9 +576,9 @@ namespace Common.HandlerLayer
                         TaskDefinition();
                     }, null);
                 });
-                IncreasingWorkingThreads(TopicTypeHandler);
-                TopicTypeHandler.Thread.Priority = TopicTypeHandler.Priority;
-                TopicTypeHandler.Thread.Start(executionContext);
+                IncreasingWorkingThreads(MQAdapter.Handler);
+                MQAdapter.Handler.Thread.Priority = MQAdapter.Handler.Priority;
+                MQAdapter.Handler.Thread.Start(executionContext);
             }
             else
             {
@@ -183,62 +586,25 @@ namespace Common.HandlerLayer
                 {
                     TaskDefinition();
                 });
-                TopicTypeHandler.SmartThreadPool.QueueWorkItem(Task, (Amib.Threading.WorkItemPriority)TopicTypeHandler.Priority);
+                MQAdapter.Handler.SmartThreadPool.QueueWorkItem(Task, (Amib.Threading.WorkItemPriority)MQAdapter.Handler.Priority);
             }
         }
-
-        /// <summary>
-        /// 使用新的執行緒執行一連串的工作
-        /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <typeparam name="T2"></typeparam>
-        /// <typeparam name="T3"></typeparam>
-        /// <typeparam name="T4"></typeparam>
-        /// <typeparam name="TResult1"></typeparam>
-        /// <typeparam name="TResult2"></typeparam>
-        /// <param name="TopicType"></param>
-        /// <param name="DoDBTask"></param>
-        /// <param name="ConvertTagToMessage"></param>
-        /// <param name="SendMQMessage"></param>
-        /// <param name="DoDBTask_arg1"></param>
-        /// <param name="DoDBTask_arg2"></param>
-        /// <param name="ConvertTagToMessage_arg1"></param>
-        /// <param name="SendMQMessage_arg1"></param>
-        public static void DoTask<T1, T2, T3, T4, TResult1, TResult2>(IWebSocketAdapter WebSocketAdapter, TopicTypeHandler TopicTypeHandler, Func<T1, T2, TResult1> DoDBTask, Func<T3, TResult1, TResult2> ConvertTagToMessage, Action<T4, TResult2> SendMessage, T1 DoDBTask_arg1, T2 DoDBTask_arg2, T3 ConvertTagToMessage_arg1, T4 SendMessage_arg1)
+        public static void DoConvertSendTaskForJason(IEMSAdapter EMSdapter, Func<Type, DataTable, List<List<MessageField>>> ConvertTableToMessage, DataTable ConvertTableToMessage_DT, string SendMessage_requestTag)
         {
-            _UISyncContext = WebSocketAdapter.UISyncContext;
-            Action TaskDefinition = delegate()
+            _UISyncContext = EMSdapter.UISyncContext;
+            Action TaskDefinition = delegate ()
             {
                 try
                 {
-                    TResult1 Result1 = default(TResult1);
-                    TResult2 Result2 = default(TResult2);
-                    Result1 = DoDBTask.Invoke(DoDBTask_arg1, DoDBTask_arg2);
+                    List<List<MessageField>> Result1 = ConvertTableToMessage.Invoke((EMSdapter as BatchEMSAdapter).DataType, ConvertTableToMessage_DT);
+                    EMSdapter.SendMessage(SendMessage_requestTag, Result1);
                     if (_UISyncContext != null & IsEventInUIThread)
                     {
-                        _UISyncContext.Post(OnDoDBTaskFinished, new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
+                        _UISyncContext.Post(OnSendMessageToClientFinished, new WorkThreadsEventArgs<DataTable>(EMSdapter.Handler.TopicType, EMSdapter.CurrentSendAmounts, ConvertTableToMessage_DT));
                     }
                     else
                     {
-                        OnDoDBTaskFinished(new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
-                    }
-                    Result2 = ConvertTagToMessage.Invoke(ConvertTagToMessage_arg1, Result1);
-                    if (_UISyncContext != null & IsEventInUIThread)
-                    {
-                        _UISyncContext.Post(OnConvertTagToMessageFinished, new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
-                    }
-                    else
-                    {
-                        OnConvertTagToMessageFinished(new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
-                    }
-                    //SendMessage.Invoke(SendMessage_arg1, Result2);
-                    if (_UISyncContext != null & IsEventInUIThread)
-                    {
-                        _UISyncContext.Post(OnSendMessageToClientFinished, new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
-                    }
-                    else
-                    {
-                        OnSendMessageToClientFinished(new WorkThreadsEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2));
+                        OnSendMessageToClientFinished(new WorkThreadsEventArgs<DataTable>(EMSdapter.Handler.TopicType, EMSdapter.CurrentSendAmounts, ConvertTableToMessage_DT));
                     }
                     //if (log.IsInfoEnabled) log.InfoFormat("Send {0} Message from Tibco Server Receive & Response Test", Enum.GetName(typeof(TopicType), TopicTypeHandler.TopicType));
                 }
@@ -247,26 +613,25 @@ namespace Common.HandlerLayer
                     if (log.IsErrorEnabled) log.Error(ex.Message, ex);
                     if (_UISyncContext != null & IsEventInUIThread)
                     {
-                        _UISyncContext.Post(OnWorkThreadsErrorHappened, new WorkThreadsErrorHappenedEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2, ex.Message));
+                        _UISyncContext.Post(OnWorkThreadsErrorHappened, new WorkThreadsErrorHappenedEventArgs<DataTable>(EMSdapter.Handler.TopicType, EMSdapter.CurrentSendAmounts, ConvertTableToMessage_DT, ex.Message));
                     }
                     else
                     {
-                        OnWorkThreadsErrorHappened(new WorkThreadsErrorHappenedEventArgs<T2>(TopicTypeHandler.TopicType, DoDBTask_arg2, ex.Message));
+                        OnWorkThreadsErrorHappened(new WorkThreadsErrorHappenedEventArgs<DataTable>(EMSdapter.Handler.TopicType, EMSdapter.CurrentSendAmounts, ConvertTableToMessage_DT, ex.Message));
                     }
                 }
                 finally
                 {
-                    if (!TopicTypeHandler.EnabledThreadPool)
+                    if (!EMSdapter.Handler.EnabledThreadPool)
                     {
-                        DecreasingWorkingThreads(TopicTypeHandler);
+                        DecreasingWorkingThreads(EMSdapter.Handler);
                     }
                 }
             };
-            if (!TopicTypeHandler.EnabledThreadPool)
+            if (!EMSdapter.Handler.EnabledThreadPool)
             {
                 var executionContext = ExecutionContext.Capture();
-                //Thread thread = new Thread(state =>
-                TopicTypeHandler.Thread = new Thread(state =>
+                EMSdapter.Handler.Thread = new Thread(state =>
                 {
                     ExecutionContext parentContext = (ExecutionContext)state;
                     ExecutionContext.Run(parentContext, _ =>
@@ -274,9 +639,9 @@ namespace Common.HandlerLayer
                         TaskDefinition();
                     }, null);
                 });
-                IncreasingWorkingThreads(TopicTypeHandler);
-                TopicTypeHandler.Thread.Priority = TopicTypeHandler.Priority;
-                TopicTypeHandler.Thread.Start(executionContext);
+                IncreasingWorkingThreads(EMSdapter.Handler);
+                EMSdapter.Handler.Thread.Priority = EMSdapter.Handler.Priority;
+                EMSdapter.Handler.Thread.Start(executionContext);
             }
             else
             {
@@ -284,10 +649,72 @@ namespace Common.HandlerLayer
                 {
                     TaskDefinition();
                 });
-                TopicTypeHandler.SmartThreadPool.QueueWorkItem(Task, (Amib.Threading.WorkItemPriority)TopicTypeHandler.Priority);
+                EMSdapter.Handler.SmartThreadPool.QueueWorkItem(Task, (Amib.Threading.WorkItemPriority)EMSdapter.Handler.Priority);
             }
         }
-        
+        public static void DoConvertSendTaskForJason(IMQAdapter1 MQAdapter, Func<Type, DataTable, List<List<MessageField>>> ConvertTableToMessage, DataTable ConvertTableToMessage_DT, string SendMessage_requestTag)
+        {
+            _UISyncContext = MQAdapter.UISyncContext;
+            Action TaskDefinition = delegate ()
+            {
+                try
+                {
+                    List<List<MessageField>> Result1 = ConvertTableToMessage.Invoke((MQAdapter as BatchMQAdapter).DataType, ConvertTableToMessage_DT);
+                    MQAdapter.SendMessage(SendMessage_requestTag, Result1);
+                    if (_UISyncContext != null & IsEventInUIThread)
+                    {
+                        _UISyncContext.Post(OnSendMessageToClientFinished, new WorkThreadsEventArgs<DataTable>(MQAdapter.Handler.TopicType, MQAdapter.CurrentSendAmounts, ConvertTableToMessage_DT));
+                    }
+                    else
+                    {
+                        OnSendMessageToClientFinished(new WorkThreadsEventArgs<DataTable>(MQAdapter.Handler.TopicType, MQAdapter.CurrentSendAmounts, ConvertTableToMessage_DT));
+                    }
+                    //if (log.IsInfoEnabled) log.InfoFormat("Send {0} Message from Tibco Server Receive & Response Test", Enum.GetName(typeof(TopicType), TopicTypeHandler.TopicType));
+                }
+                catch (Exception ex)
+                {
+                    if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                    if (_UISyncContext != null & IsEventInUIThread)
+                    {
+                        _UISyncContext.Post(OnWorkThreadsErrorHappened, new WorkThreadsErrorHappenedEventArgs<DataTable>(MQAdapter.Handler.TopicType, MQAdapter.CurrentSendAmounts, ConvertTableToMessage_DT, ex.Message));
+                    }
+                    else
+                    {
+                        OnWorkThreadsErrorHappened(new WorkThreadsErrorHappenedEventArgs<DataTable>(MQAdapter.Handler.TopicType, MQAdapter.CurrentSendAmounts, ConvertTableToMessage_DT, ex.Message));
+                    }
+                }
+                finally
+                {
+                    if (!MQAdapter.Handler.EnabledThreadPool)
+                    {
+                        DecreasingWorkingThreads(MQAdapter.Handler);
+                    }
+                }
+            };
+            if (!MQAdapter.Handler.EnabledThreadPool)
+            {
+                var executionContext = ExecutionContext.Capture();
+                MQAdapter.Handler.Thread = new Thread(state =>
+                {
+                    ExecutionContext parentContext = (ExecutionContext)state;
+                    ExecutionContext.Run(parentContext, _ =>
+                    {
+                        TaskDefinition();
+                    }, null);
+                });
+                IncreasingWorkingThreads(MQAdapter.Handler);
+                MQAdapter.Handler.Thread.Priority = MQAdapter.Handler.Priority;
+                MQAdapter.Handler.Thread.Start(executionContext);
+            }
+            else
+            {
+                Amib.Threading.Action Task = new Amib.Threading.Action(() =>
+                {
+                    TaskDefinition();
+                });
+                MQAdapter.Handler.SmartThreadPool.QueueWorkItem(Task, (Amib.Threading.WorkItemPriority)MQAdapter.Handler.Priority);
+            }
+        }
         /// <summary>
         /// 檢查工作中執行緒數量是否超過最大限制執行緒數量而等待或繼續執行
         /// </summary>
@@ -329,7 +756,7 @@ namespace Common.HandlerLayer
                 ConvertTagToMessageFinished(null, e);
             }
         }
-        
+
         /// <summary>
         /// 回應訊息給Client後引發的事件
         /// </summary>

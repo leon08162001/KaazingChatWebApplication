@@ -11,59 +11,10 @@ using System.Runtime.CompilerServices;
 
 namespace Common.LinkLayer
 {
-    /// <summary>
-    /// MQ處理完批次資料的事件參數類別
-    /// </summary>
-    public class MQBatchFinishedEventArgs : EventArgs
-    {
-        private string _errorMessage;
-        private DataTable _BatchResultTable;
-        public MQBatchFinishedEventArgs()
-        {
-            _errorMessage = "";
-        }
-        public MQBatchFinishedEventArgs(string errorMessage, DataTable BatchResultTable)
-        {
-            _errorMessage = errorMessage;
-            _BatchResultTable = BatchResultTable;
-        }
-        public string errorMessage
-        {
-            get { return _errorMessage; }
-            set { _errorMessage = value; }
-        }
-        public DataTable BatchResultTable
-        {
-            get { return _BatchResultTable; }
-            set { _BatchResultTable = value; }
-        }
-    }
-    /// <summary>
-    /// MessageHeader's Count與MessageBody's DataRow Count不符合事件參數類別
-    /// </summary>
-    public class MQBatchMismatchedEventArgs : EventArgs
-    {
-        private string _MismatchedMessage;
-        public MQBatchMismatchedEventArgs()
-        {
-            _MismatchedMessage = "";
-        }
-        public MQBatchMismatchedEventArgs(string MismatchedMessage)
-        {
-            _MismatchedMessage = MismatchedMessage;
-        }
-        public string MismatchedMessage
-        {
-            get { return _MismatchedMessage; }
-            set { _MismatchedMessage = value; }
-        }
-    }
     [Serializable]
-
-    public class BatchMQAdapter : BaseMQAdapter
+    public class BatchMQAdapter1 : BaseMQAdapter1
     {
         // Delegate
-        public delegate void BatchFinishedEventHandler(object sender, MQBatchFinishedEventArgs e);
         List<BatchFinishedEventHandler> BatchFinishedEventDelegates = new List<BatchFinishedEventHandler>();
         private event BatchFinishedEventHandler _BatchFinished;
         public event BatchFinishedEventHandler BatchFinished
@@ -80,7 +31,6 @@ namespace Common.LinkLayer
             }
         }
 
-        protected delegate void BatchMismatchedEventHandler(object sender, MQBatchMismatchedEventArgs e);
         List<BatchMismatchedEventHandler> BatchMismatchedEventDelegates = new List<BatchMismatchedEventHandler>();
         private event BatchMismatchedEventHandler _BatchMismatched;
         protected event BatchMismatchedEventHandler BatchMismatched
@@ -101,11 +51,11 @@ namespace Common.LinkLayer
         Config config;
 
         /// <summary>
-        /// MQ完成所有批次資料處理時事件
+        /// 完成所有批次資料處理時事件
         /// </summary>
         protected virtual void OnBatchFinished(object state)
         {
-            MQBatchFinishedEventArgs e = state as MQBatchFinishedEventArgs;
+            BatchFinishedEventArgs e = state as BatchFinishedEventArgs;
             if (_BatchFinished != null)
             {
                 _BatchFinished(this, e);
@@ -117,7 +67,7 @@ namespace Common.LinkLayer
         /// <param name="state"></param>
         protected virtual void OnBatchMismatched(object state)
         {
-            MQBatchMismatchedEventArgs e = state as MQBatchMismatchedEventArgs;
+            BatchMismatchedEventArgs e = state as BatchMismatchedEventArgs;
             if (_BatchMismatched != null)
             {
                 _BatchMismatched(this, e);
@@ -132,40 +82,40 @@ namespace Common.LinkLayer
         //protected Dictionary<string, MessageHeader> DicMessageHeader = new Dictionary<string,MessageHeader>();
         protected Dictionary<string, MessageBody> DicMessageBody = new Dictionary<string, MessageBody>();
 
-        private static BatchMQAdapter singleton;
+        private static BatchMQAdapter1 singleton;
 
-        public BatchMQAdapter() : base() { config = (Config)applicationContext.GetObject("Config"); this.BatchMismatched += new BatchMismatchedEventHandler(BatchMQAdapter_BatchMismatched); }
+        public BatchMQAdapter1() : base() { config = (Config)applicationContext.GetObject("Config"); this.BatchMismatched += new BatchMismatchedEventHandler(BatchMQAdapter_BatchMismatched); }
 
-        public BatchMQAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
+        public BatchMQAdapter1(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
             : base(Uri, DestinationFeature, ListenName, SendName) { config = (Config)applicationContext.GetObject("Config"); this.BatchMismatched += new BatchMismatchedEventHandler(BatchMQAdapter_BatchMismatched); }
 
-        public BatchMQAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
+        public BatchMQAdapter1(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
             : base(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd) { config = (Config)applicationContext.GetObject("Config"); this.BatchMismatched += new BatchMismatchedEventHandler(BatchMQAdapter_BatchMismatched); }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public static BatchMQAdapter getSingleton()
+        public static BatchMQAdapter1 getSingleton()
         {
             if (singleton == null)
             {
-                singleton = new BatchMQAdapter();
+                singleton = new BatchMQAdapter1();
             }
             return singleton;
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public static BatchMQAdapter getSingleton(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
+        public static BatchMQAdapter1 getSingleton(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
         {
             if (singleton == null)
             {
-                singleton = new BatchMQAdapter(Uri, DestinationFeature, ListenName, SendName);
+                singleton = new BatchMQAdapter1(Uri, DestinationFeature, ListenName, SendName);
             }
             return singleton;
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public static BatchMQAdapter getSingleton(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
+        public static BatchMQAdapter1 getSingleton(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
         {
             if (singleton == null)
             {
-                singleton = new BatchMQAdapter(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd);
+                singleton = new BatchMQAdapter1(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd);
             }
             return singleton;
         }
@@ -400,7 +350,7 @@ namespace Common.LinkLayer
                     {
                         string _ErrMsg = string.Format("Message Body Rows({0}) of Message ID:{1} is not match TotalRecords({2})", BodyCount, Guid, iTotalRecords);
                         if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                        OnBatchMismatched(new MQBatchMismatchedEventArgs(_ErrMsg));
+                        OnBatchMismatched(new BatchMismatchedEventArgs(_ErrMsg));
                     }
                     DicMessageBody.Remove(Guid);
                 }
@@ -415,7 +365,7 @@ namespace Common.LinkLayer
             DicMessageBody.Remove(Guid);
         }
 
-        void BatchMQAdapter_BatchMismatched(object sender, MQBatchMismatchedEventArgs e)
+        void BatchMQAdapter_BatchMismatched(object sender, BatchMismatchedEventArgs e)
         {
             if (log.IsInfoEnabled) log.Info(e.MismatchedMessage);
         }
@@ -424,11 +374,11 @@ namespace Common.LinkLayer
         {
             if (UISyncContext != null && IsEventInUIThread)
             {
-                UISyncContext.Post(OnMessageHandleFinished, new MQMessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
+                UISyncContext.Post(OnMessageHandleFinished, new MessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
             }
             else
             {
-                OnMessageHandleFinished(new MQMessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
+                OnMessageHandleFinished(new MessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
             }
         }
 
@@ -436,11 +386,11 @@ namespace Common.LinkLayer
         {
             if (UISyncContext != null && IsEventInUIThread)
             {
-                UISyncContext.Post(OnBatchFinished, new MQBatchFinishedEventArgs(ErrorMessage, BatchResultTable));
+                UISyncContext.Post(OnBatchFinished, new BatchFinishedEventArgs(ErrorMessage, BatchResultTable));
             }
             else
             {
-                OnBatchFinished(new MQBatchFinishedEventArgs(ErrorMessage, BatchResultTable));
+                OnBatchFinished(new BatchFinishedEventArgs(ErrorMessage, BatchResultTable));
             }
         }
     }

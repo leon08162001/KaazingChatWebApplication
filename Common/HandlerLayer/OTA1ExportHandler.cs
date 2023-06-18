@@ -30,15 +30,15 @@ namespace Common.HandlerLayer
         }
         public static OTA1ExportHandler getSingleton(bool EnabledThreadPool)
         {
-                if (_singleton == null)
+            if (_singleton == null)
+            {
+                lock (Mutex)
                 {
-                    lock (Mutex)
-                    {
-                        if (_singleton == null)
-                            _singleton = new OTA1ExportHandler(((Config)ContextRegistry.GetContext().GetObject("Config")).ota1ExportMaxThreads, EnabledThreadPool);
-                    }
+                    if (_singleton == null)
+                        _singleton = new OTA1ExportHandler(((Config)ContextRegistry.GetContext().GetObject("Config")).ota1ExportMaxThreads, EnabledThreadPool);
                 }
-                return _singleton;
+            }
+            return _singleton;
         }
         public static void Release()
         {

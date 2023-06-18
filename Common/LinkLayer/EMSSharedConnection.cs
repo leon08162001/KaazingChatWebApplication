@@ -87,7 +87,7 @@ namespace Common.LinkLayer
             {
                 List<string> urls = Urls.Split(new char[] { ',' }).ToList<string>();
                 ConnectionFactory.SetTargetHostName(urls[0]);
-                foreach(string CertPath in CertificatesPath)
+                foreach (string CertPath in CertificatesPath)
                 {
                     storeInfo.SetSSLTrustedCertificate(CertPath);
                 }

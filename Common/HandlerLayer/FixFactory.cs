@@ -9,7 +9,7 @@ namespace Common.HandlerLayer
 {
     public class FixFactory
     {
-        public static List<List<MessageField>> ConvertTagToMessage(Type FixTagType, DataTable Data)
+        public static List<List<MessageField>> ConvertTableToMessage(Type DataType, DataTable Data)
         {
             List<List<MessageField>> MqMessageRows = new List<List<MessageField>>();
             foreach (DataRow DR in Data.Rows)
@@ -19,7 +19,7 @@ namespace Common.HandlerLayer
                 string ColumnVal = "";
                 foreach (DataColumn DC in Data.Columns)
                 {
-                    ConstVal = GetConstantValueInClass(DC.ColumnName, FixTagType);
+                    ConstVal = GetConstantValueInClass(DC.ColumnName, DataType);
                     ColumnVal = DBNull.Value.Equals(DR[DC.ColumnName]) ? "" : DR[DC.ColumnName].ToString();
 
                     if (ConstVal != "")
@@ -49,6 +49,16 @@ namespace Common.HandlerLayer
                 if (fi.IsLiteral && !fi.IsInitOnly && fi.Name.ToLower() == ConstName.ToLower())
                 {
                     ConstVal = fi.GetValue(type).ToString();
+                    break;
+                }
+            }
+            //Gets property from entity class
+            PropertyInfo[] popertyInfos = type.GetProperties();
+            foreach (PropertyInfo pi in popertyInfos)
+            {
+                if (pi.Name.ToLower() == ConstName.ToLower())
+                {
+                    ConstVal = pi.Name;
                     break;
                 }
             }

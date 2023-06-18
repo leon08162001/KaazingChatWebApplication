@@ -11,15 +11,15 @@ namespace Common.HandlerLayer
         {
             switch (TopicType)
             {
-                case TopicType.JefferiesExcuReport :
+                case TopicType.JefferiesExcuReport:
                     return DoJefferiesExcuReport(DT);
-                case TopicType.OTAExport :
+                case TopicType.OTAExport:
                     return DoOTAExport(DT);
                 case TopicType.OTA1Export:
                     return DoOTA1Export(DT);
                 case TopicType.OTA2Export:
                     return DoOTA2Export(DT);
-                default :
+                default:
                     return new DataTable();
             }
         }
@@ -38,8 +38,8 @@ namespace Common.HandlerLayer
                 }
                 //lock (DB)
                 //{
-                    string Sql = DT.Rows[0]["Sql"].ToString();
-                    UserDT = DB.RunSQL(Sql, "App_user", "");
+                string Sql = DT.Rows[0]["Sql"].ToString();
+                UserDT = DB.RunSQL(Sql, "App_user", "");
                 //}
                 //UserDT.Columns.Add("MessageID", typeof(System.String));
                 //if (UserDT.Rows.Count > 0)
@@ -74,8 +74,8 @@ namespace Common.HandlerLayer
                 }
                 //lock (DB)
                 //{
-                    string Sql = DT.Rows[0]["Sql"].ToString();
-                    UserDT = DB.RunSQL(Sql, "App_user", "");
+                string Sql = DT.Rows[0]["Sql"].ToString();
+                UserDT = DB.RunSQL(Sql, "App_user", "");
                 //}
                 //UserDT.Columns.Add("MessageID", typeof(System.String));
                 //if (UserDT.Rows.Count > 0)
@@ -110,8 +110,8 @@ namespace Common.HandlerLayer
                 }
                 //lock (DB)
                 //{
-                    string Sql = DT.Rows[0]["Sql"].ToString();
-                    UserDT = DB.RunSQL(Sql, "App_user", "");
+                string Sql = DT.Rows[0]["Sql"].ToString();
+                UserDT = DB.RunSQL(Sql, "App_user", "");
                 //}
                 UserDT.Columns.Add("MessageID", typeof(System.String));
                 if (UserDT.Rows.Count > 0)
@@ -145,8 +145,8 @@ namespace Common.HandlerLayer
                 }
                 //lock (DB)
                 //{
-                    string Sql = DT.Rows[0]["Sql"].ToString();
-                    UserDT = DB.RunSQL(Sql, "App_user", "");
+                string Sql = DT.Rows[0]["Sql"].ToString();
+                UserDT = DB.RunSQL(Sql, "App_user", "");
                 //}
                 UserDT.Columns.Add("MessageID", typeof(System.String));
                 if (UserDT.Rows.Count > 0)

@@ -11,7 +11,7 @@ namespace Common.HandlerLayer
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         protected TopicType _TopicType;
         protected Type _ResponseTag;
-        protected bool _EnabledThreadPool = false;
+        protected bool _EnabledThreadPool = true;
         protected ThreadPriority _Priority = ThreadPriority.Normal;
         protected SmartThreadPool _Stp;
         protected Thread _Thread;
@@ -21,7 +21,7 @@ namespace Common.HandlerLayer
         protected volatile int _ActualMaxThreads;
         //加入佇列並分配給WorkThreads處理的機制
         protected CustomizedQueue<DataTable> _WorkItemQueue;
-        protected SmartThreadPool _WorkDispatcher = new SmartThreadPool(60 * 1000,1,1);
+        protected SmartThreadPool _WorkDispatcher = new SmartThreadPool(60 * 1000, 1, 1);
         protected bool _IsCallHandleTopic = false;
 
         public TopicType TopicType
@@ -32,7 +32,7 @@ namespace Common.HandlerLayer
         public Type ResponseTag
         {
             get { return _ResponseTag; }
-            set { _ResponseTag =value; }
+            set { _ResponseTag = value; }
         }
 
         public bool EnabledThreadPool
@@ -73,6 +73,15 @@ namespace Common.HandlerLayer
         {
             get { return _IsCallHandleTopic; }
             set { _IsCallHandleTopic = value; }
+        }
+
+        public TopicTypeHandler()
+        {
+            _MaxThreads = 1;
+            _EnabledThreadPool = true;
+            _Stp = new SmartThreadPool();
+            _Stp.MinThreads = 1;
+            _Stp.MaxThreads = _MaxThreads;
         }
 
         public TopicTypeHandler(string MaxThreads)

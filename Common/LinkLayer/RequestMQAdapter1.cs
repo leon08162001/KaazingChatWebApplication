@@ -11,89 +11,39 @@ using System.Runtime.CompilerServices;
 
 namespace Common.LinkLayer
 {
-    /// <summary>
-    /// MQ處理完所有回應相同RequestID資料的事件參數類別
-    /// </summary>
-    public class MQResponseFinishedEventArgs : EventArgs
-    {
-        private string _errorMessage;
-        private DataTable _ResponseResultTable;
-        public MQResponseFinishedEventArgs()
-        {
-            _errorMessage = "";
-        }
-        public MQResponseFinishedEventArgs(string errorMessage, DataTable ResponseResultTable)
-        {
-            _errorMessage = errorMessage;
-            _ResponseResultTable = ResponseResultTable;
-        }
-        public string errorMessage
-        {
-            get { return _errorMessage; }
-            set { _errorMessage = value; }
-        }
-        public DataTable ResponseResultTable
-        {
-            get { return _ResponseResultTable; }
-            set { _ResponseResultTable = value; }
-        }
-    }
-    /// <summary>
-    /// MessageHeader's Count與MessageBody's DataRow Count不符合事件參數類別
-    /// </summary>
-    public class MQResponseMismatchedEventArgs : EventArgs
-    {
-        private string _MismatchedMessage;
-        public MQResponseMismatchedEventArgs()
-        {
-            _MismatchedMessage = "";
-        }
-        public MQResponseMismatchedEventArgs(string MismatchedMessage)
-        {
-            _MismatchedMessage = MismatchedMessage;
-        }
-        public string MismatchedMessage
-        {
-            get { return _MismatchedMessage; }
-            set { _MismatchedMessage = value; }
-        }
-    }
     [Serializable]
-
-    public class RequestMQAdapter : BaseMQAdapter
+    public class RequestMQAdapter1 : BaseMQAdapter1
     {
         // Delegate
-        public delegate void MQResponseFinishedEventHandler(object sender, MQResponseFinishedEventArgs e);
-        List<MQResponseFinishedEventHandler> MQResponseFinishedEventDelegates = new List<MQResponseFinishedEventHandler>();
-        private event MQResponseFinishedEventHandler _MQResponseFinished;
-        public event MQResponseFinishedEventHandler MQResponseFinished
+        List<ResponseFinishedEventHandler> ResponseFinishedEventDelegates = new List<ResponseFinishedEventHandler>();
+        private event ResponseFinishedEventHandler _ResponseFinished;
+        public event ResponseFinishedEventHandler ResponseFinished
         {
             add
             {
-                _MQResponseFinished += value;
-                MQResponseFinishedEventDelegates.Add(value);
+                _ResponseFinished += value;
+                ResponseFinishedEventDelegates.Add(value);
             }
             remove
             {
-                _MQResponseFinished -= value;
-                MQResponseFinishedEventDelegates.Remove(value);
+                _ResponseFinished -= value;
+                ResponseFinishedEventDelegates.Remove(value);
             }
         }
 
-        protected delegate void MQResponseMismatchedEventHandler(object sender, MQResponseMismatchedEventArgs e);
-        List<MQResponseMismatchedEventHandler> MQResponseMismatchedEventDelegates = new List<MQResponseMismatchedEventHandler>();
-        private event MQResponseMismatchedEventHandler _MQResponseMismatched;
-        protected event MQResponseMismatchedEventHandler MQResponseMismatched
+        List<ResponseMismatchedEventHandler> ResponseMismatchedEventDelegates = new List<ResponseMismatchedEventHandler>();
+        private event ResponseMismatchedEventHandler _ResponseMismatched;
+        protected event ResponseMismatchedEventHandler ResponseMismatched
         {
             add
             {
-                _MQResponseMismatched += value;
-                MQResponseMismatchedEventDelegates.Add(value);
+                _ResponseMismatched += value;
+                ResponseMismatchedEventDelegates.Add(value);
             }
             remove
             {
-                _MQResponseMismatched -= value;
-                MQResponseMismatchedEventDelegates.Remove(value);
+                _ResponseMismatched -= value;
+                ResponseMismatchedEventDelegates.Remove(value);
             }
         }
 
@@ -101,14 +51,14 @@ namespace Common.LinkLayer
         Config config;
 
         /// <summary>
-        /// MQ完成所有相同RequestID的資料處理時事件
+        /// 完成所有相同RequestID的資料處理時事件
         /// </summary>
         protected virtual void OnResponseFinished(object state)
         {
-            MQResponseFinishedEventArgs e = state as MQResponseFinishedEventArgs;
-            if (_MQResponseFinished != null)
+            ResponseFinishedEventArgs e = state as ResponseFinishedEventArgs;
+            if (_ResponseFinished != null)
             {
-                _MQResponseFinished(this, e);
+                _ResponseFinished(this, e);
             }
         }
         /// <summary>
@@ -117,10 +67,10 @@ namespace Common.LinkLayer
         /// <param name="state"></param>
         protected virtual void OnResponseMismatched(object state)
         {
-            MQResponseMismatchedEventArgs e = state as MQResponseMismatchedEventArgs;
-            if (_MQResponseMismatched != null)
+            ResponseMismatchedEventArgs e = state as ResponseMismatchedEventArgs;
+            if (_ResponseMismatched != null)
             {
-                _MQResponseMismatched(this, e);
+                _ResponseMismatched(this, e);
             }
         }
 
@@ -132,40 +82,40 @@ namespace Common.LinkLayer
         //protected Dictionary<string, MessageHeader> DicMessageHeader = new Dictionary<string, MessageHeader>();
         protected Dictionary<string, MessageBody> DicMessageBody = new Dictionary<string, MessageBody>();
 
-        private static RequestMQAdapter singleton;
+        private static RequestMQAdapter1 singleton;
 
-        public RequestMQAdapter() : base() { config = (Config)applicationContext.GetObject("Config"); this.MQResponseMismatched += new MQResponseMismatchedEventHandler(RequestMQAdapter_MQResponseMismatched); }
+        public RequestMQAdapter1() : base() { config = (Config)applicationContext.GetObject("Config"); this.ResponseMismatched += new ResponseMismatchedEventHandler(RequestMQAdapter_ResponseMismatched); }
 
-        public RequestMQAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
-            : base(Uri, DestinationFeature, ListenName, SendName) { config = (Config)applicationContext.GetObject("Config"); this.MQResponseMismatched += new MQResponseMismatchedEventHandler(RequestMQAdapter_MQResponseMismatched); }
+        public RequestMQAdapter1(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
+            : base(Uri, DestinationFeature, ListenName, SendName) { config = (Config)applicationContext.GetObject("Config"); this.ResponseMismatched += new ResponseMismatchedEventHandler(RequestMQAdapter_ResponseMismatched); }
 
-        public RequestMQAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
-            : base(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd) { config = (Config)applicationContext.GetObject("Config"); this.MQResponseMismatched += new MQResponseMismatchedEventHandler(RequestMQAdapter_MQResponseMismatched); }
+        public RequestMQAdapter1(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
+            : base(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd) { config = (Config)applicationContext.GetObject("Config"); this.ResponseMismatched += new ResponseMismatchedEventHandler(RequestMQAdapter_ResponseMismatched); }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public static RequestMQAdapter getSingleton()
+        public static RequestMQAdapter1 getSingleton()
         {
             if (singleton == null)
             {
-                singleton = new RequestMQAdapter();
+                singleton = new RequestMQAdapter1();
             }
             return singleton;
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public static RequestMQAdapter getSingleton(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
+        public static RequestMQAdapter1 getSingleton(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
         {
             if (singleton == null)
             {
-                singleton = new RequestMQAdapter(Uri, DestinationFeature, ListenName, SendName);
+                singleton = new RequestMQAdapter1(Uri, DestinationFeature, ListenName, SendName);
             }
             return singleton;
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public static RequestMQAdapter getSingleton(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
+        public static RequestMQAdapter1 getSingleton(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
         {
             if (singleton == null)
             {
-                singleton = new RequestMQAdapter(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd);
+                singleton = new RequestMQAdapter1(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd);
             }
             return singleton;
         }
@@ -184,16 +134,16 @@ namespace Common.LinkLayer
         public override void RemoveAllEvents()
         {
             base.RemoveAllEvents();
-            foreach (MQResponseFinishedEventHandler eh in MQResponseFinishedEventDelegates)
+            foreach (ResponseFinishedEventHandler eh in ResponseFinishedEventDelegates)
             {
-                _MQResponseFinished -= eh;
+                _ResponseFinished -= eh;
             }
-            MQResponseFinishedEventDelegates.Clear();
-            foreach (MQResponseMismatchedEventHandler eh in MQResponseMismatchedEventDelegates)
+            ResponseFinishedEventDelegates.Clear();
+            foreach (ResponseMismatchedEventHandler eh in ResponseMismatchedEventDelegates)
             {
-                _MQResponseMismatched -= eh;
+                _ResponseMismatched -= eh;
             }
-            MQResponseMismatchedEventDelegates.Clear();
+            ResponseMismatchedEventDelegates.Clear();
         }
 
         public override void processMessage(IMessage message)
@@ -230,7 +180,7 @@ namespace Common.LinkLayer
                     {
                         _ErrMsg = "not yet assigned Tag Type of Tag Data";
                         if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                        RunOnMQMessageHandleFinished(_ErrMsg, null);
+                        RunOnMessageHandleFinished(_ErrMsg, null);
                         return;
                     }
                     _DicTagType = Util.ConvertTagClassConstants(_DataType);
@@ -245,7 +195,7 @@ namespace Common.LinkLayer
                         {
                             _ErrMsg = string.Format("Tag Data's Tag[{0}] Not in the assigned type[{1}]", key, _DataType.Name);
                             if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                            RunOnMQMessageHandleFinished(_ErrMsg, null);
+                            RunOnMessageHandleFinished(_ErrMsg, null);
                             return;
                         }
                     }
@@ -261,7 +211,7 @@ namespace Common.LinkLayer
                         {
                             _ErrMsg = "TotalRecords value must be digit";
                             if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                            RunOnMQMessageHandleFinished(_ErrMsg, null);
+                            RunOnMessageHandleFinished(_ErrMsg, null);
                             return;
                         }
                     }
@@ -270,7 +220,7 @@ namespace Common.LinkLayer
                     {
                         _ErrMsg = "MessageID Of Message in MessageBody is not exist";
                         if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                        RunOnMQMessageHandleFinished(_ErrMsg, null);
+                        RunOnMessageHandleFinished(_ErrMsg, null);
                         return;
                     }
                     //MessageID存在則檢查DicMessageBody內是否存在此MessageID,沒有則建立DataTable Schema並加入一筆MessageBody至DicMessageBody
@@ -288,13 +238,13 @@ namespace Common.LinkLayer
                     {
                         _ErrMsg = "";
                         MB.Messages.Rows.Add(MessageRow);
-                        RunOnMQMessageHandleFinished(_ErrMsg, MessageRow);
+                        RunOnMessageHandleFinished(_ErrMsg, MessageRow);
                     }
                     else
                     {
                         _ErrMsg = "Error happened when generate DataRow";
                         if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                        RunOnMQMessageHandleFinished(_ErrMsg, null);
+                        RunOnMessageHandleFinished(_ErrMsg, null);
                     }
                     if (DicMessageBody.ContainsKey(MQMessageDictionary[MessageID].ToString()) && MB.Messages.Rows.Count > 0)
                     {
@@ -328,7 +278,7 @@ namespace Common.LinkLayer
         }
 
         /// <summary>
-        /// 清除逾時的已接收的MQMessage
+        /// 清除逾時的已接收的Message
         /// </summary>
         public void ClearTimeOutMQReceivedMessage()
         {
@@ -345,7 +295,7 @@ namespace Common.LinkLayer
                     {
                         string _ErrMsg = string.Format("Message Body Rows({0}) of Message ID:{1} is not match TotalRecords({2})", BodyCount, Guid, iTotalRecords);
                         if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                        OnResponseMismatched(new MQResponseMismatchedEventArgs(_ErrMsg));
+                        OnResponseMismatched(new ResponseMismatchedEventArgs(_ErrMsg));
                     }
                     DicMessageBody.Remove(Guid);
                 }
@@ -360,20 +310,20 @@ namespace Common.LinkLayer
             DicMessageBody.Remove(Guid);
         }
 
-        void RequestMQAdapter_MQResponseMismatched(object sender, MQResponseMismatchedEventArgs e)
+        void RequestMQAdapter_ResponseMismatched(object sender, ResponseMismatchedEventArgs e)
         {
             if (log.IsInfoEnabled) log.Info(e.MismatchedMessage);
         }
 
-        private void RunOnMQMessageHandleFinished(string ErrorMessage, DataRow MessageRow)
+        private void RunOnMessageHandleFinished(string ErrorMessage, DataRow MessageRow)
         {
             if (UISyncContext != null && IsEventInUIThread)
             {
-                UISyncContext.Post(OnMessageHandleFinished, new MQMessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
+                UISyncContext.Post(OnMessageHandleFinished, new MessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
             }
             else
             {
-                OnMessageHandleFinished(new MQMessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
+                OnMessageHandleFinished(new MessageHandleFinishedEventArgs(ErrorMessage, MessageRow));
             }
         }
 
@@ -381,11 +331,11 @@ namespace Common.LinkLayer
         {
             if (UISyncContext != null && IsEventInUIThread)
             {
-                UISyncContext.Post(OnResponseFinished, new MQResponseFinishedEventArgs(ErrorMessage, ResponseResultTable));
+                UISyncContext.Post(OnResponseFinished, new ResponseFinishedEventArgs(ErrorMessage, ResponseResultTable));
             }
             else
             {
-                OnResponseFinished(new MQResponseFinishedEventArgs(ErrorMessage, ResponseResultTable));
+                OnResponseFinished(new ResponseFinishedEventArgs(ErrorMessage, ResponseResultTable));
             }
         }
     }
