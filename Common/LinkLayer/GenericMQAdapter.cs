@@ -11,7 +11,6 @@ namespace Common.LinkLayer
 
     public class GenericMQAdapter : BaseMQAdapter
     {
-        protected Type _DataType;
         protected Dictionary<string, string> _DicDataType = new Dictionary<string, string>();
         protected DataTable MessageDT = new DataTable(); //將Message資料轉換成DataTable所使用的DataTable
 
@@ -51,12 +50,6 @@ namespace Common.LinkLayer
                 singleton = new GenericMQAdapter(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd);
             }
             return singleton;
-        }
-
-        public Type DataType
-        {
-            set { _DataType = value; }
-            get { return _DataType; }
         }
 
         public override void processMessage(IMessage message)

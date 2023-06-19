@@ -74,7 +74,6 @@ namespace Common.LinkLayer
         }
 
         protected bool _IsBatchFinished = false;
-        protected Type _DataType;
         protected Dictionary<string, string> _DicTagType = new Dictionary<string, string>();
 
         //註解紀錄傳送筆數資訊的Dictionary
@@ -117,12 +116,6 @@ namespace Common.LinkLayer
                 singleton = new BatchEMSAdapter1(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd);
             }
             return singleton;
-        }
-
-        public Type DataType
-        {
-            set { _DataType = value; }
-            get { return _DataType; }
         }
 
         public bool IsBatchFinished

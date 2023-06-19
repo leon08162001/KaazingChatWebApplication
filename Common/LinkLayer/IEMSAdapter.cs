@@ -1,4 +1,5 @@
 ﻿using Common.HandlerLayer;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using TIBCO.EMS;
@@ -94,9 +95,8 @@ namespace Common.LinkLayer
         /// 取得UI執行緒同步上下文
         /// </summary>
         SynchronizationContext UISyncContext { get; }
-
         TopicTypeHandler Handler { get; set; }
-
+        Type DataType { get; set; }
         void Start(string ClientID = "", bool IsDurableConsumer = false);
         void Close();
         void processMessage(TIBCO.EMS.Message message);

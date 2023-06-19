@@ -533,7 +533,7 @@ namespace Common.HandlerLayer
             {
                 try
                 {
-                    List<List<MessageField>> Result1 = ConvertTableToMessage.Invoke((MQAdapter as BatchMQAdapter).DataType, ConvertTableToMessage_DT);
+                    List<List<MessageField>> Result1 = ConvertTableToMessage.Invoke(MQAdapter.DataType, ConvertTableToMessage_DT);
                     MQAdapter.SendMessage(SendMessage_requestTag, Result1);
                     if (_UISyncContext != null & IsEventInUIThread)
                     {
@@ -596,7 +596,7 @@ namespace Common.HandlerLayer
             {
                 try
                 {
-                    List<List<MessageField>> Result1 = ConvertTableToMessage.Invoke((EMSdapter as BatchEMSAdapter).DataType, ConvertTableToMessage_DT);
+                    List<List<MessageField>> Result1 = ConvertTableToMessage.Invoke(EMSdapter.DataType, ConvertTableToMessage_DT);
                     EMSdapter.SendMessage(SendMessage_requestTag, Result1);
                     if (_UISyncContext != null & IsEventInUIThread)
                     {
@@ -659,7 +659,7 @@ namespace Common.HandlerLayer
             {
                 try
                 {
-                    List<List<MessageField>> Result1 = ConvertTableToMessage.Invoke((MQAdapter as BatchMQAdapter).DataType, ConvertTableToMessage_DT);
+                    List<List<MessageField>> Result1 = ConvertTableToMessage.Invoke(MQAdapter.DataType, ConvertTableToMessage_DT);
                     MQAdapter.SendMessage(SendMessage_requestTag, Result1);
                     if (_UISyncContext != null & IsEventInUIThread)
                     {

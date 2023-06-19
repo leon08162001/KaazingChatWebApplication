@@ -1,5 +1,6 @@
 ﻿using Apache.NMS;
 using Common.HandlerLayer;
+using System;
 using System.Threading;
 
 namespace Common.LinkLayer
@@ -102,6 +103,7 @@ namespace Common.LinkLayer
         /// </summary>
         SynchronizationContext UISyncContext { get; }
         TopicTypeHandler Handler { get; set; }
+        Type DataType { get; set; }
         /// <summary>
         /// Qurue和Topic時,不須指定任何參數;VirtualTopic需指定第一個參數;Durable Topic則需指定兩個參數;MirrorQueue時若Durable則需指定兩個參數,若不Durable不須指定任何參數
         /// </summary>

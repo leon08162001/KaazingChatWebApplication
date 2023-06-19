@@ -81,6 +81,7 @@ namespace Common.LinkLayer
         protected SynchronizationContext _UISyncContext;
 
         protected TopicTypeHandler _Handler = null;
+        protected Type _DataType;
 
         protected bool _IsEventInUIThread = false;             //觸發事件時是否回到UI Thread預設為false
         protected bool _UseSSL = false;
@@ -280,6 +281,11 @@ namespace Common.LinkLayer
         {
             get { return _Handler; }
             set { _Handler = value; }
+        }
+        public Type DataType
+        {
+            set { _DataType = value; }
+            get { return _DataType; }
         }
 
         public BaseEMSAdapter()
