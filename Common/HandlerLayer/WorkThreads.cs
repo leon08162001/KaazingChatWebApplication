@@ -199,7 +199,7 @@ namespace Common.HandlerLayer
             }
             else
             {
-                Amib.Threading.Action Task = new Amib.Threading.Action(() =>
+                Action Task = new Action(() =>
                 {
                     TaskDefinition();
                 });
@@ -308,7 +308,7 @@ namespace Common.HandlerLayer
             }
             else
             {
-                Amib.Threading.Action Task = new Amib.Threading.Action(() =>
+                Action Task = new Action(() =>
                 {
                     TaskDefinition();
                 });
@@ -418,7 +418,7 @@ namespace Common.HandlerLayer
             }
             else
             {
-                Amib.Threading.Action Task = new Amib.Threading.Action(() =>
+                Action Task = new Action(() =>
                 {
                     TaskDefinition();
                 });
@@ -519,7 +519,7 @@ namespace Common.HandlerLayer
         //    //}
         //    //else
         //    //{
-        //    //    Amib.Threading.Action Task = new Amib.Threading.Action(() =>
+        //    //    Action Task = new Action(() =>
         //    //    {
         //    //        TaskDefinition();
         //    //    });
@@ -582,7 +582,7 @@ namespace Common.HandlerLayer
             }
             else
             {
-                Amib.Threading.Action Task = new Amib.Threading.Action(() =>
+                Action Task = new Action(() =>
                 {
                     TaskDefinition();
                 });
@@ -645,7 +645,7 @@ namespace Common.HandlerLayer
             }
             else
             {
-                Amib.Threading.Action Task = new Amib.Threading.Action(() =>
+                Action Task = new Action(() =>
                 {
                     TaskDefinition();
                 });
@@ -708,7 +708,7 @@ namespace Common.HandlerLayer
             }
             else
             {
-                Amib.Threading.Action Task = new Amib.Threading.Action(() =>
+                Action Task = new Action(() =>
                 {
                     TaskDefinition();
                 });
