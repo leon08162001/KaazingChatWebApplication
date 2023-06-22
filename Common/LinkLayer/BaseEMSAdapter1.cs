@@ -406,6 +406,8 @@ namespace Common.LinkLayer
             try
             {
                 Tibems.SetExceptionOnFTSwitch(true);
+                //若使用持久消費者,將強制不使用共享連線
+                _UseSharedConnection = _IsDurableConsumer ? false : _UseSharedConnection;
                 if (_UseSharedConnection)
                 {
                     if (Urls.Equals(""))
@@ -514,6 +516,10 @@ namespace Common.LinkLayer
                             _Connection = null;
                         }
                     }
+                }
+                else
+                {
+                    CloseSharedConnection();
                 }
                 EndHeartBeat();
             }
@@ -1117,6 +1123,10 @@ namespace Common.LinkLayer
                 if (_UseSharedConnection)
                 {
                     EMSSharedConnection.Close();
+                }
+                else
+                {
+                    Close();
                 }
             }
             catch (Exception exception)

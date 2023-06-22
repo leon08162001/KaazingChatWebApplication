@@ -415,6 +415,8 @@ namespace Common.LinkLayer
             {
                 Apache.NMS.ActiveMQ.Transport.Tcp.TcpTransportManager.SendBufferSize = (1024 * 128);
                 Apache.NMS.ActiveMQ.Transport.Tcp.TcpTransportManager.ReceiveBufferSize = (1024 * 1000);
+                //若使用持久消費者,將強制不使用共享連線
+                _UseSharedConnection = _IsDurableConsumer ? false : _UseSharedConnection;
                 if (_UseSharedConnection)
                 {
                     if (Urls.Equals(""))
@@ -510,6 +512,10 @@ namespace Common.LinkLayer
                             _Connection = null;
                         }
                     }
+                }
+                else
+                {
+                    CloseSharedConnection();
                 }
                 EndHeartBeat();
             }
@@ -1215,6 +1221,10 @@ namespace Common.LinkLayer
                 if (_UseSharedConnection)
                 {
                     AMQSharedConnection.Close();
+                }
+                else
+                {
+                    Close();
                 }
             }
             catch (Exception ex)
