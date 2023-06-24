@@ -20,6 +20,14 @@ namespace Common.LinkLayer
         /// 使用VirtualTopic時的訊息消費者數量
         /// </summary>
         int VirtualTopicConsumers { get; set; }
+        /// <summary>
+        /// 發送訊息緩衝區的大小
+        /// </summary>
+        int SendBufferSize { get; set; }
+        /// <summary>
+        /// 接收訊息緩衝區的大小
+        /// </summary>
+        int ReceiveBufferSize { get; set; }
         void processMessage(IMessage message);
     }
 }

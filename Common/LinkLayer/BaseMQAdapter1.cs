@@ -37,6 +37,8 @@ namespace Common.LinkLayer
         protected IMessageConsumer _Consumer = null;
         protected int _VirtualTopicConsumers = 1;  //當_DestinationFeature=DestinationFeature.Virtual_Topic則採用Virtual Topics 機制(Queue+Topic),多個Consumer的預設數量
         protected List<IMessageConsumer> _ListVirtualTopicConsumer = new List<IMessageConsumer>();
+        protected int _SendBufferSize = 1024 * 64;
+        protected int _ReceiveBufferSize = 1024 * 128;
 
         protected IMessageProducer _Producer = null;
 
@@ -184,6 +186,16 @@ namespace Common.LinkLayer
         {
             set { _VirtualTopicConsumers = value; }
             get { return _VirtualTopicConsumers; }
+        }
+        public int SendBufferSize
+        {
+            set { _SendBufferSize = value; }
+            get { return _SendBufferSize; }
+        }
+        public int ReceiveBufferSize
+        {
+            set { _ReceiveBufferSize = value; }
+            get { return _ReceiveBufferSize; }
         }
         public string MessageID
         {
@@ -413,8 +425,8 @@ namespace Common.LinkLayer
             //failover:tcp://localhost:61616?initialReconnectDelay=2000&maxReconnectAttempts=2
             try
             {
-                Apache.NMS.ActiveMQ.Transport.Tcp.TcpTransportManager.SendBufferSize = (1024 * 128);
-                Apache.NMS.ActiveMQ.Transport.Tcp.TcpTransportManager.ReceiveBufferSize = (1024 * 1000);
+                Apache.NMS.ActiveMQ.Transport.Tcp.TcpTransportManager.SendBufferSize = this.SendBufferSize;
+                Apache.NMS.ActiveMQ.Transport.Tcp.TcpTransportManager.ReceiveBufferSize = this.ReceiveBufferSize;
                 //若使用持久消費者,將強制不使用共享連線
                 _UseSharedConnection = _IsDurableConsumer ? false : _UseSharedConnection;
                 if (_UseSharedConnection)
