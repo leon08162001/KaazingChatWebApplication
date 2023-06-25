@@ -37,8 +37,8 @@ namespace Common.LinkLayer
         protected IMessageConsumer _Consumer = null;
         protected int _VirtualTopicConsumers = 1;  //當_DestinationFeature=DestinationFeature.Virtual_Topic則採用Virtual Topics 機制(Queue+Topic),多個Consumer的預設數量
         protected List<IMessageConsumer> _ListVirtualTopicConsumer = new List<IMessageConsumer>();
-        protected int _SendBufferSize = 1024 * 64;
-        protected int _ReceiveBufferSize = 1024 * 128;
+        protected int _SendBufferSize = 1024 * 1024;
+        protected int _ReceiveBufferSize = 1024 * 1024;
 
         protected IMessageProducer _Producer = null;
 
