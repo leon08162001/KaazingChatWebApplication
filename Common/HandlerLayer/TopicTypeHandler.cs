@@ -22,7 +22,6 @@ namespace Common.HandlerLayer
         //加入佇列並分配給WorkThreads處理的機制
         protected CustomizedQueue<DataTable> _WorkItemQueue;
         protected SmartThreadPool _WorkDispatcher = new SmartThreadPool(60 * 1000, 1, 1);
-        protected bool _IsCallHandleTopic = false;
 
         public TopicType TopicType
         {
@@ -67,12 +66,6 @@ namespace Common.HandlerLayer
         {
             get { return _WorkDispatcher; }
             set { _WorkDispatcher = value; }
-        }
-
-        public bool IsCallHandleTopic
-        {
-            get { return _IsCallHandleTopic; }
-            set { _IsCallHandleTopic = value; }
         }
 
         public TopicTypeHandler()
