@@ -882,8 +882,8 @@ namespace Common.LinkLayer
                 if (_Producer != null)
                 {
                     using (StreamReader sr = new StreamReader(FilePath))
-                    {
-                        byte[] bytes = new byte[1048576];
+                    {   
+                        byte[] bytes = sr.BaseStream.Length >= 1048576 ? new byte[1048576] : new byte[sr.BaseStream.Length];
                         long seq = 0;
                         long totalSequence = sr.BaseStream.Length % bytes.Length > 0 ? (sr.BaseStream.Length / bytes.Length) + 1 : (sr.BaseStream.Length / bytes.Length);
                         while ((sr.BaseStream.Read(bytes, 0, bytes.Length)) > 0)
