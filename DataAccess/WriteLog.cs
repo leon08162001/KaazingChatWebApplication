@@ -17,7 +17,7 @@ namespace DataAccess.DB
         /// <summary>
         /// Initializes a new instance of the <see cref="WriteLog"/> class.
         /// </summary>
-        public WriteLog(dbkind dbkind,string ConnString)
+        public WriteLog(dbkind dbkind, string ConnString)
         {
             db = new Dac(dbkind);
             Datatype = dbkind;

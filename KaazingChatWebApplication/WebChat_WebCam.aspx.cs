@@ -25,7 +25,8 @@ namespace KaazingChatWebApplication
         protected string EnCryptWebSocketPWD = "";
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.Form["login"] != null){
+            if (Request.Form["login"] != null)
+            {
                 listenFrom.Value = Request.Form["login"].ToString().ToUpper();
                 listenFrom.Disabled = true;
             }

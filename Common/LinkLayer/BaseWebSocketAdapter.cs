@@ -7,7 +7,6 @@ using Spring.Context;
 using Spring.Context.Support;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -166,9 +165,9 @@ namespace Common.LinkLayer
         public string MessageID
         {
             get { return _MessageID; }
-            set 
+            set
             {
-                _MessageID = value; 
+                _MessageID = value;
             }
         }
         public string Selector
@@ -204,12 +203,12 @@ namespace Common.LinkLayer
         /// <summary>
         /// 心跳訊息間隔(秒)
         /// </summary>
-         public int HeartBeatInterval
-         {
+        public int HeartBeatInterval
+        {
             set { _HeartBeatInterval = value; }
             get { return _HeartBeatInterval; }
-         }
-        
+        }
+
         public SynchronizationContext UISyncContext
         {
             get { return _UISyncContext; }
@@ -451,7 +450,7 @@ namespace Common.LinkLayer
                     }
                     try
                     {
-                        if(_Producer == null)
+                        if (_Producer == null)
                         {
                             return;
                         }
@@ -554,7 +553,7 @@ namespace Common.LinkLayer
         public void SendAsynMessage(string MessageIDTag, List<List<MessageField>> MultiMessage)
         {
             ThreadStart SendThreadStart = new ThreadStart(
-                delegate()
+                delegate ()
                 {
                     lock (this)
                     {

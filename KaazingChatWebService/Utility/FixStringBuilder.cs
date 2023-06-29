@@ -36,7 +36,7 @@ namespace KaazingChatWebService.Utility
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 if (log.IsErrorEnabled) log.Error(ex.Message, ex);
             }
@@ -125,7 +125,7 @@ namespace KaazingChatWebService.Utility
             return obj;
         }
 
-        public static void AddTypeToList<T>(T obj,ref List<T> TypeList) where T : class, new()
+        public static void AddTypeToList<T>(T obj, ref List<T> TypeList) where T : class, new()
         {
             TypeList.Add(obj);
         }

@@ -150,7 +150,7 @@ namespace Common.LinkLayer
             }
             return singleton;
         }
-		[MethodImpl(MethodImplOptions.Synchronized)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static RequestEMSAdapter getSingleton(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
         {
             if (singleton == null)
@@ -159,7 +159,7 @@ namespace Common.LinkLayer
             }
             return singleton;
         }
-		[MethodImpl(MethodImplOptions.Synchronized)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public static RequestEMSAdapter getSingleton(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
         {
             if (singleton == null)

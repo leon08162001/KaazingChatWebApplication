@@ -424,7 +424,7 @@ namespace Common.LinkLayer
                         OnWebSocketBatchMismatched(new WebSocketBatchMismatchedEventArgs(_ErrMsg));
                     }
                     DicMessageBody.Remove(Guid);
-                }  
+                }
             }
         }
         /// <summary>

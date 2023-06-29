@@ -53,7 +53,7 @@ namespace KaazingChatWebService
                 for (int i = 0; i < times; i++)
                 {
                     JefferiesExcuReport.SendMessage(message);
-                    if (log.IsInfoEnabled) log.InfoFormat("Send JefferiesExcuReport Text Message from {0}(Count:{1})", Assembly.GetExecutingAssembly().GetName().Name, (i+1).ToString());
+                    if (log.IsInfoEnabled) log.InfoFormat("Send JefferiesExcuReport Text Message from {0}(Count:{1})", Assembly.GetExecutingAssembly().GetName().Name, (i + 1).ToString());
                 }
 
                 //bool isArrayJson = ClientJS.IsArrayJson(jsonMessage);
@@ -195,7 +195,7 @@ namespace KaazingChatWebService
             //    Debugger.Launch();
             //test code begin
             bool isArrayJson = ClientJS.IsArrayJson(sJson);
-            if(!isArrayJson)
+            if (!isArrayJson)
             {
                 return false;
             }

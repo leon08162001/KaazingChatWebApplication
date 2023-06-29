@@ -34,7 +34,7 @@ namespace KaazingChatWebApi.Controllers
             /// <summary>
             /// 訊息內容
             /// </summary>
-            public string message { get;set;}
+            public string message { get; set; }
             /// <summary>
             /// 訊息發送次數
             /// </summary>
@@ -90,7 +90,7 @@ namespace KaazingChatWebApi.Controllers
                 for (int i = 0; i < Message.times; i++)
                 {
                     JefferiesExcuReport.SendMessage(Message.message);
-                    if (log.IsInfoEnabled) log.InfoFormat("Send JefferiesExcuReport Text Message from{0}(Count:{1})", Assembly.GetExecutingAssembly().GetName().Name, (i+1).ToString());
+                    if (log.IsInfoEnabled) log.InfoFormat("Send JefferiesExcuReport Text Message from{0}(Count:{1})", Assembly.GetExecutingAssembly().GetName().Name, (i + 1).ToString());
                 }
                 apiResult = Ok(new { success = true });
             }

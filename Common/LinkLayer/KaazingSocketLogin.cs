@@ -14,7 +14,7 @@ namespace Common.LinkLayer
         private const int maxRetries = 10;
         private int retry = 0;
         private string loginMsg = "";
-         public KaazingSocketLogin(string UserID, string Password)
+        public KaazingSocketLogin(string UserID, string Password)
         {
             _UserID = UserID;
             _Password = Password;

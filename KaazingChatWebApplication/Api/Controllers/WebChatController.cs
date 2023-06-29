@@ -1,25 +1,25 @@
 using Common;
 using Common.LinkLayer;
+using Common.Utility;
+using Dapper;
 using KaazingChatWebApplication.Connection;
+using KaazingChatWebApplication.Helper;
 using KaazingChatWebApplication.Models;
 using Spring.Context;
 using Spring.Context.Support;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using Dapper;
-using System.Linq;
-using KaazingChatWebApplication.Helper;
-using System.IO;
-using Common.Utility;
 using System.Web.Services.Description;
-using System.IO.Compression;
-using System.Threading.Tasks;
 
 namespace KaazingTestWebApplication.Controllers
 {
@@ -587,9 +587,10 @@ namespace KaazingTestWebApplication.Controllers
             }
             return apiResult;
         }
-        private void WriteVideoStreamToFile(string folderPath, byte[] streamByteAry, string VideoName){
+        private void WriteVideoStreamToFile(string folderPath, byte[] streamByteAry, string VideoName)
+        {
             DirectoryInfo folderInfo = new DirectoryInfo(folderPath);
-            if(!folderInfo.Exists)
+            if (!folderInfo.Exists)
             {
                 folderInfo.Create();
             }
@@ -850,7 +851,7 @@ namespace KaazingTestWebApplication.Controllers
                     //若快取不存在,需查資料表取得與之前相符的接收者
                     if (!MemoryCacher.Exist("geniuneReceiver"))
                     {
-                        string geniuneReceiver = GetGeniuneReceiverBySenderID(Message, MessageDate.Today);                       
+                        string geniuneReceiver = GetGeniuneReceiverBySenderID(Message, MessageDate.Today);
                         Message.receiver = string.IsNullOrEmpty(geniuneReceiver) ? Message.receiver : geniuneReceiver;
                         MemoryCacher.Add("geniuneReceiver", Message.receiver, DateTimeOffset.Now.AddMinutes(30));
                     }
@@ -949,7 +950,7 @@ namespace KaazingTestWebApplication.Controllers
                 {
                     sql = "select id,receiver,htmlMessage,[date] from [dbo].[ChatDialogue] where id=@id and [date]=@date order by receiver";
                 }
-                else if(MessageDate == MessageDate.History)
+                else if (MessageDate == MessageDate.History)
                 {
                     sql = "select id,receiver,htmlMessage,[date] from [dbo].[ChatDialogue] where id=@id and [date]<@date order by receiver";
                 }
@@ -960,7 +961,7 @@ namespace KaazingTestWebApplication.Controllers
                     if (chat.receiver.IndexOf(",") != -1)
                     {
                         string[] chatReceivers = chat.receiver.Split(new char[] { ',' });
-                        if(ScrambledEquals<string>(messageReceivers, chatReceivers))
+                        if (ScrambledEquals<string>(messageReceivers, chatReceivers))
                         {
                             result = chat.receiver;
                             break;
@@ -977,9 +978,9 @@ namespace KaazingTestWebApplication.Controllers
         private bool ScrambledEquals<T>(IEnumerable<T> list1, IEnumerable<T> list2)
         {
             var cnt = new Dictionary<T, int>();
-            foreach(T s in list1)
+            foreach (T s in list1)
             {
-                if(cnt.ContainsKey(s))
+                if (cnt.ContainsKey(s))
                 {
                     cnt[s]++;
                 }

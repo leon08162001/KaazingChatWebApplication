@@ -21,7 +21,7 @@ namespace KaazingChatWebService
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         IApplicationContext applicationContext = ContextRegistry.GetContext();
         IMQAdapter JefferiesExcuReport = TopicMQFactory.GetMQAdapterInstance(MQAdapterType.BatchMQAdapter);
- 
+
         //[WebMethod]
         //public bool UploadFile(string fileName, string topicOrQueueName, MessageType messageType)
         //{

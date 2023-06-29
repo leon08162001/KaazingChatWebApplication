@@ -11,7 +11,7 @@ namespace KaazingChatWebService.Utility
             try
             {
                 JToken JToken = JToken.Parse(Text);
-                if(JToken is JArray)
+                if (JToken is JArray)
                 {
                     isArrayJson = true;
                 }
@@ -20,7 +20,7 @@ namespace KaazingChatWebService.Utility
                     isArrayJson = false;
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 isArrayJson = false;
             }

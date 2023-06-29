@@ -1,5 +1,4 @@
 using Kaazing.JMS;
-using System;
 using System.Threading;
 namespace Common.LinkLayer
 {
@@ -63,7 +62,7 @@ namespace Common.LinkLayer
         /// <summary>
         /// 取得UI執行緒同步上下文
         /// </summary>
-        SynchronizationContext UISyncContext { get;}
+        SynchronizationContext UISyncContext { get; }
 
         void Start();
         void Close();

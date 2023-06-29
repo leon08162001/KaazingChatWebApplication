@@ -16,19 +16,19 @@ namespace Common.Utility
             _Queue = Queue;
             _EventTime = EventTime;
         }
-         public int Count
+        public int Count
         {
             get { return _Count; }
             set { _Count = value; }
         }
-         public T[] Queue
+        public T[] Queue
         {
             get { return _Queue; }
         }
-         public DateTime EventTime
-         {
-             get { return _EventTime; }
-         }
+        public DateTime EventTime
+        {
+            get { return _EventTime; }
+        }
     }
     public delegate void RecvCallBack(int pQueueLength, object msgItem);
     /// <summary>
