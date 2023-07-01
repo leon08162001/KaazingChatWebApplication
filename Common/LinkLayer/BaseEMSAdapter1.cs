@@ -835,6 +835,8 @@ namespace Common.LinkLayer
                         }
                     }
                 }
+
+                //SendFileByChunks(FileName, File.ReadAllBytes(FilePath), ID);
             }
             catch (Exception ex)
             {
