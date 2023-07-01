@@ -840,12 +840,14 @@ namespace Common.LinkLayer
                 {
                     using (StreamReader sr = new StreamReader(FilePath))
                     {
-                        byte[] bytes = sr.BaseStream.Length >= 1048576 ? new byte[1048576] : new byte[sr.BaseStream.Length];
+                        byte[] bytes = new byte[1048576];
+                        var bytesRead = default(int);
                         long seq = 0;
                         long totalSequence = sr.BaseStream.Length % bytes.Length > 0 ? (sr.BaseStream.Length / bytes.Length) + 1 : (sr.BaseStream.Length / bytes.Length);
-                        while ((sr.BaseStream.Read(bytes, 0, bytes.Length)) > 0)
+                        while ((bytesRead = sr.BaseStream.Read(bytes, 0, bytes.Length)) > 0)
                         {
                             seq++;
+                            bytes = bytes.Take(bytesRead).ToArray();
                             IBytesMessage msg = _Producer.CreateBytesMessage(bytes);
                             msg.Properties.SetString("id", ID);
                             msg.Properties.SetString("filename", FileName);

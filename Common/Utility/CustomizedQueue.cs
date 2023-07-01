@@ -8,9 +8,9 @@ namespace Common.Utility
     public class CustomizedQueueCountUpdateEventArgs<T> : EventArgs
     {
         private int _Count;
-        private readonly T[] _Queue;
+        private readonly T _Queue;
         private DateTime _EventTime;
-        public CustomizedQueueCountUpdateEventArgs(int Count, T[] Queue, DateTime EventTime)
+        public CustomizedQueueCountUpdateEventArgs(int Count, T Queue, DateTime EventTime)
         {
             _Count = Count;
             _Queue = Queue;
@@ -21,7 +21,7 @@ namespace Common.Utility
             get { return _Count; }
             set { _Count = value; }
         }
-        public T[] Queue
+        public T Queue
         {
             get { return _Queue; }
         }
@@ -118,7 +118,7 @@ namespace Common.Utility
                 lock (this)
                 {
                     base.Enqueue(obj);
-                    TriggerCustomizedQueueCountUpdated();
+                    TriggerCustomizedQueueCountUpdated(obj);
                 }
             }
             m_Signal.Set();
@@ -136,7 +136,7 @@ namespace Common.Utility
                         if (base.Count > 0)
                         {
                             qItem = (T)base.Dequeue();
-                            TriggerCustomizedQueueCountUpdated();
+                            TriggerCustomizedQueueCountUpdated(qItem);
                         }
                         if (base.Count <= 0)
                         {
@@ -161,11 +161,12 @@ namespace Common.Utility
 
         public new void Clear()
         {
+            T qItem = default(T);
             lock (this)
             {
                 m_Signal.Reset();
                 base.Clear();
-                TriggerCustomizedQueueCountUpdated();
+                TriggerCustomizedQueueCountUpdated(qItem);
             }
         }
 
@@ -184,15 +185,15 @@ namespace Common.Utility
             return false;
         }
 
-        protected virtual void TriggerCustomizedQueueCountUpdated()
+        protected virtual void TriggerCustomizedQueueCountUpdated(T obj)
         {
             if (_UISyncContext != null & IsEventInUIThread)
             {
-                _UISyncContext.Post(OnCustomizedQueueCountUpdated, new CustomizedQueueCountUpdateEventArgs<T>(base.Count, base.ToArray(), DateTime.Now));
+                _UISyncContext.Post(OnCustomizedQueueCountUpdated, new CustomizedQueueCountUpdateEventArgs<T>(base.Count, obj, DateTime.Now));
             }
             else
             {
-                OnCustomizedQueueCountUpdated(new CustomizedQueueCountUpdateEventArgs<T>(base.Count, base.ToArray(), DateTime.Now));
+                OnCustomizedQueueCountUpdated(new CustomizedQueueCountUpdateEventArgs<T>(base.Count, obj, DateTime.Now));
             }
         }
 
