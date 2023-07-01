@@ -914,7 +914,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                ErrorMsg = "BaseMQAdapter SendFile: Error(" + ex.Message + ")";
+                ErrorMsg = "BaseMQAdapter SendFileByChunks: Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
                 //System.Environment.Exit(-1);
             }
@@ -1013,7 +1013,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                ErrorMsg = "BaseMQAdapter SendFile: Error(" + ex.Message + ")";
+                ErrorMsg = "BaseMQAdapter SendFileByChunks: Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
                 //System.Environment.Exit(-1);
             }

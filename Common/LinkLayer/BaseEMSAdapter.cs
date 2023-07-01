@@ -884,7 +884,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                ErrorMsg = "BaseEMSAdapter SendFile() Error(" + ex.Message + ")";
+                ErrorMsg = "BaseEMSAdapter SendFileByChunks() Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
                 //System.Environment.Exit(-1);
             }
@@ -969,7 +969,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                ErrorMsg = "BaseEMSAdapter SendFile() Error(" + ex.Message + ")";
+                ErrorMsg = "BaseEMSAdapter SendFileByChunks() Error(" + ex.Message + ")";
                 if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
                 //System.Environment.Exit(-1);
             }
