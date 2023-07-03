@@ -866,7 +866,7 @@ namespace Common.LinkLayer
                         while ((bytesRead = sr.BaseStream.Read(bytes, 0, bytes.Length)) > 0)
                         {
                             seq++;
-                            bytes = bytes.Take(bytesRead).ToArray();
+                            if (seq == totalSequence) bytes = bytes.Take(bytesRead).ToArray();
                             BytesMessage msg = _Session.CreateBytesMessage();
                             msg.WriteBytes(bytes);
                             msg.SetStringProperty("id", ID);
@@ -947,14 +947,15 @@ namespace Common.LinkLayer
             {
                 if (!_Session.IsClosed)
                 {
-                    byte[] bytes;
                     int buffer = 1048576;
+                    byte[] bytes = new byte[buffer];
                     long seq = 0;
                     long totalSequence = FileBytes.Length % buffer > 0 ? (FileBytes.Length / buffer) + 1 : (FileBytes.Length / buffer);
-                    for (var i = 0; i < (float)FileBytes.Length / buffer; i++)
+                    for (var i = 0; i < totalSequence; i++)
                     {
                         seq++;
-                        bytes = FileBytes.Skip(i * buffer).Take(buffer).ToArray();
+                        if (seq == totalSequence) bytes = FileBytes.Skip(i * buffer).Take(buffer).ToArray();
+                        else Array.Copy(FileBytes, i * buffer, bytes, 0, buffer);
                         BytesMessage msg = _Session.CreateBytesMessage();
                         msg.WriteBytes(bytes);
                         msg.SetStringProperty("id", ID);
