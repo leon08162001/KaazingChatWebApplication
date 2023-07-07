@@ -204,6 +204,10 @@ namespace Common.LinkLayer
                         dr[0] = msg.Text;
                         ResultTable.Rows.Add(dr);
                         RunOnMessageHandleFinished(_ErrMsg, dr);
+                        if (this.Handler != null)
+                        {
+                            this.Handler.WorkItemQueue.Enqueue(ResultTable);
+                        }
                         _IsBatchFinished = true;
                         RunOnBatchFinished(_ErrMsg, ResultTable);
                         _IsBatchFinished = false;
