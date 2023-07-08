@@ -222,6 +222,12 @@ var handleConnectStarted = function (funcName) {
 var handleConnectFailed = function (funcName) {
     if (funcName === "聊天") {
         $('#openMessageClient').attr('disabled', false);
+        if ($("#divMsg").html() == "") {
+            getChatToday();
+        }
+        if ($("#divMsgHis").html() == "") {
+            getChatHistory();
+        }
     }
 }
 
