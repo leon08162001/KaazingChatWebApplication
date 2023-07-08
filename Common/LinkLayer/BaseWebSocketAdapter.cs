@@ -630,11 +630,13 @@ namespace Common.LinkLayer
                     using (StreamReader sr = new StreamReader(FilePath))
                     {
                         byte[] bytes = new byte[1048576];
+                        var bytesRead = default(int);
                         long seq = 0;
                         long totalSequence = sr.BaseStream.Length % bytes.Length > 0 ? (sr.BaseStream.Length / bytes.Length) + 1 : (sr.BaseStream.Length / bytes.Length);
-                        while ((sr.BaseStream.Read(bytes, 0, bytes.Length)) > 0)
+                        while ((bytesRead = sr.BaseStream.Read(bytes, 0, bytes.Length)) > 0)
                         {
                             seq++;
+                            if (seq == totalSequence) bytes = bytes.Take(bytesRead).ToArray();
                             IBytesMessage msg = _Session.CreateBytesMessage();
                             msg.SetStringProperty("id", ID);
                             msg.SetStringProperty("filename", FileName);
@@ -776,14 +778,15 @@ namespace Common.LinkLayer
             {
                 if (_Producer != null)
                 {
-                    byte[] bytes;
                     int buffer = 1048576;
+                    byte[] bytes = new byte[buffer];
                     long seq = 0;
                     long totalSequence = FileBytes.Length % buffer > 0 ? (FileBytes.Length / buffer) + 1 : (FileBytes.Length / buffer);
-                    for (var i = 0; i < (float)FileBytes.Length / buffer; i++)
+                    for (var i = 0; i < totalSequence; i++)
                     {
                         seq++;
-                        bytes = FileBytes.Skip(i * buffer).Take(buffer).ToArray();
+                        if (seq == totalSequence) bytes = FileBytes.Skip(i * buffer).Take(buffer).ToArray();
+                        else Array.Copy(FileBytes, i * buffer, bytes, 0, buffer);
                         IBytesMessage msg = _Session.CreateBytesMessage();
                         msg.SetStringProperty("id", ID);
                         msg.SetStringProperty("filename", FileName);
