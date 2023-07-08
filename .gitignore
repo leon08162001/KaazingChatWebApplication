@@ -260,3 +260,4 @@ paket-files/
 __pycache__/
 *.pyc
 /KaazingChatWebApplication/log_files
+/KaazingChatWebApi/log_files
