@@ -1,4 +1,4 @@
-var JmsServiceTypeEnum = {
+Ôªøvar JmsServiceTypeEnum = {
     ActiveMQ: 1,
     TibcoEMS: 2
 };
@@ -174,7 +174,7 @@ MessageClient.prototype = (function () {
 
     var handleException = function (e) {
         if (e.type == "ConnectionFailedException"){
-            errLog = "¬˜Ωuº“¶°®œ•Œ§§(EXCEPTION: " + e + ")";
+            errLog = "Èõ¢Á∑öÊ®°Âºè‰ΩøÁî®‰∏≠(EXCEPTION: " + e + ")";
             console.error(errLog);
             window.alert(errLog);
         }
