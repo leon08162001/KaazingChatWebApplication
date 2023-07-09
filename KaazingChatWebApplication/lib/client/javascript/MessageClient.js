@@ -1,4 +1,4 @@
-var JmsServiceTypeEnum = {
+﻿var JmsServiceTypeEnum = {
     ActiveMQ: 1,
     TibcoEMS: 2
 };
@@ -173,7 +173,12 @@ MessageClient.prototype = (function () {
     };
 
     var handleException = function (e) {
-        if (e.type !== "ConnectionDroppedException" && e.type !== "ConnectionRestoredException" && e.type !== "ReconnectFailedException" && e.type !== "IllegalStateException" && e.type !== "JMSException") {
+        if (e.type == "ConnectionFailedException"){
+            errLog = "離線模式使用中(EXCEPTION: " + e + ")";
+            console.error(errLog);
+            window.alert(errLog);
+        }
+        else if (e.type !== "ConnectionDroppedException" && e.type !== "ConnectionRestoredException" && e.type !== "ReconnectFailedException" && e.type !== "IllegalStateException" && e.type !== "JMSException") {
             errLog = "EXCEPTION: " + e;
             console.error(errLog);
             window.alert(errLog);
@@ -259,7 +264,7 @@ MessageClient.prototype = (function () {
                             });
                         } catch (e) {
                             handleException(e);
-                            triggerConnectionFailed.call(that, e);
+                            triggerConnectionFailed.call(that, funcName);
                             //triggerConnectionStarted.call(that, e);
                         }
                     } else {
@@ -268,13 +273,13 @@ MessageClient.prototype = (function () {
                             return;
                         }
                         handleException(connectionFuture.exception);
-                        triggerConnectionFailed.call(that, connectionFuture.exception);
+                        triggerConnectionFailed.call(that, funcName);
                         //triggerConnectionStarted.call(that, connectionFuture.exception);
                     }
                 });
             } catch (e) {
                 handleException(e);
-                triggerConnectionFailed.call(that, e);
+                triggerConnectionFailed.call(that, funcName);
                 //triggerConnectionStarted.call(that, e);
             }
         },
