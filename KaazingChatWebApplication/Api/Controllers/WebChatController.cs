@@ -227,7 +227,6 @@ namespace KaazingTestWebApplication.Controllers
             HttpContext.Current.Response.ContentType = "application/octet-stream";
             try
             {
-                throw new Exception("test error");
                 String sender = HttpContext.Current.Request["sender"].ToString();
                 String topicOrQueueName = HttpContext.Current.Request["topicOrQueueName"].ToString();
                 MessageType messageType = (MessageType)int.Parse(HttpContext.Current.Request["messageType"].ToString());
