@@ -132,9 +132,9 @@ namespace KaazingTestWebApplication.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
-                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                //throw ex;
+                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             finally
             {
@@ -179,9 +179,9 @@ namespace KaazingTestWebApplication.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
-                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                //throw ex;
+                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             finally
             {
@@ -209,9 +209,9 @@ namespace KaazingTestWebApplication.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
-                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                //throw ex;
+                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             finally
             {
@@ -227,6 +227,7 @@ namespace KaazingTestWebApplication.Controllers
             HttpContext.Current.Response.ContentType = "application/octet-stream";
             try
             {
+                throw new Exception("test error");
                 String sender = HttpContext.Current.Request["sender"].ToString();
                 String topicOrQueueName = HttpContext.Current.Request["topicOrQueueName"].ToString();
                 MessageType messageType = (MessageType)int.Parse(HttpContext.Current.Request["messageType"].ToString());
@@ -351,9 +352,9 @@ namespace KaazingTestWebApplication.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
-                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                //throw ex;
+                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             finally
             {
@@ -393,9 +394,9 @@ namespace KaazingTestWebApplication.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
-                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                //throw ex;
+                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             finally
             {
@@ -435,9 +436,9 @@ namespace KaazingTestWebApplication.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
-                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                //throw ex;
+                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             finally
             {
@@ -577,9 +578,9 @@ namespace KaazingTestWebApplication.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
-                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                //throw ex;
+                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             finally
             {
@@ -764,9 +765,9 @@ namespace KaazingTestWebApplication.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
-                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                //throw ex;
+                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             return apiResult;
         }
@@ -830,9 +831,9 @@ namespace KaazingTestWebApplication.Controllers
             }
             catch (Exception ex)
             {
-                throw ex;
-                //if (log.IsErrorEnabled) log.Error(ex.Message, ex);
-                //apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+                //throw ex;
+                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
             }
             return apiResult;
         }

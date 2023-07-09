@@ -1334,7 +1334,7 @@ $(document).ready(function () {
                     var uiObj = $("#divMsg")[0];
                     var brTag = document.createElement('br');
                     var spanTag = document.createElement('span');
-                    var responseText = xhr.readyState === 0 ? "readyState:" + xhr.readyState + "(" + xhr.statusText + ")" : JSON.parse(xhr.responseText).Message;
+                    var responseText = xhr.readyState === 0 ? "readyState:" + xhr.readyState + "(" + xhr.statusText + ")" : isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
                     spanTag.setAttribute("style", "background-color:yellow");
                     spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：檔案傳送失敗(" + messageTime + "):" + responseText;
                     uiObj.insertBefore(brTag, uiObj.firstChild);
