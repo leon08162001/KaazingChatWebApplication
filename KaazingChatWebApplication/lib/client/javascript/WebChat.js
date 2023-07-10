@@ -396,9 +396,10 @@ var chatUpdate = function (chat, isExit) {
                     window.alert("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
                 }
                 else {
-                    var obj = JSON.parse(xhr.responseText);
-                    console.log(obj.Message);
-                    window.alert(obj.Message);
+                    //var obj = JSON.parse(xhr.responseText);
+                    var result = isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
+                    console.log(result);
+                    window.alert(result);
                 }
             });
     }
@@ -424,9 +425,10 @@ var chatUpdate = function (chat, isExit) {
                         console.log("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
                     }
                     else {
-                        var obj = JSON.parse(xhr.responseText);
-                        console.log(obj.Message);
-                        window.alert(obj.Message);
+                        //var obj = JSON.parse(xhr.responseText);
+                        var result = isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
+                        console.log(result);
+                        window.alert(result);
                     }
                 });
         }
@@ -469,9 +471,10 @@ var sendAjaxTalkMessage1 = function () {
                 window.alert("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
             }
             else {
-                var obj = JSON.parse(xhr.responseText);
-                console.log(obj.Message);
-                window.alert(obj.Message);
+                //var obj = JSON.parse(xhr.responseText);
+                var result = isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
+                console.log(result);
+                window.alert(result);
             }
             //window.alert(err.Message);
         });
@@ -555,9 +558,10 @@ var sendAjaxTalkMessage = function () {
                 window.alert("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
             }
             else {
-                var obj = JSON.parse(xhr.responseText);
-                console.log(obj.Message);
-                window.alert(obj.Message);
+                //var obj = JSON.parse(xhr.responseText);
+                var result = isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
+                console.log(result);
+                window.alert(result);
             }
         },
         complete: function (XHR, TS) {
@@ -594,9 +598,10 @@ var sendAjaxMessage = function (message, ajaxMessageType) {
                 window.alert("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
             }
             else {
-                var obj = JSON.parse(xhr.responseText);
-                console.log(obj.Message);
-                window.alert(obj.Message);
+                //var obj = JSON.parse(xhr.responseText);
+                var result = isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
+                console.log(result);
+                window.alert(result);
             }
         },
         complete: function (XHR, TS) {
@@ -653,9 +658,10 @@ var getChatToday = function () {
                 window.alert("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
             }
             else {
-                var obj = JSON.parse(xhr.responseText);
-                console.log(obj.Message);
-                window.alert(obj.Message);
+                //var obj = JSON.parse(xhr.responseText);
+                var result = isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
+                console.log(result);
+                window.alert(result);
             }
         });
 };
@@ -691,9 +697,10 @@ var getChatHistory = function () {
                 window.alert("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
             }
             else {
-                var obj = JSON.parse(xhr.responseText);
-                console.log(obj.Message);
-                window.alert(obj.Message);
+                //var obj = JSON.parse(xhr.responseText);
+                var result = isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
+                console.log(result);
+                window.alert(result);
             }
         });
 };
@@ -1126,7 +1133,7 @@ function startLiveVideo() {
                                     var uiObj = $("#divMsg")[0];
                                     var brTag = document.createElement('br');
                                     var spanTag = document.createElement('span');
-                                    var responseText = xhr.readyState === 0 ? "readyState:" + xhr.readyState + "(" + xhr.statusText + ")" : JSON.parse(xhr.responseText).Message;
+                                    var responseText = xhr.readyState === 0 ? "readyState:" + xhr.readyState + "(" + xhr.statusText + ")" : isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
                                     spanTag.setAttribute("style", "background-color:yellow");
                                     spanTag.innerHTML = messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送失敗:" + textStatus + "(" + messageTime + "):" + responseText;
                                     uiObj.insertBefore(brTag, uiObj.firstChild);
