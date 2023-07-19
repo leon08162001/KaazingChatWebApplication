@@ -12,7 +12,7 @@ var screenMsg = "";
 var readedHtml = "<span class=\"tabbed\">已讀</span>";
 
 // WebSocket,JMS相關變數
-var messageClient;
+var messageClient = null;
 var jmsServiceType = JmsServiceTypeEnum.TibcoEMS;
 var messageType = MessageTypeEnum.Topic;
 var defaultMessageType = messageType;

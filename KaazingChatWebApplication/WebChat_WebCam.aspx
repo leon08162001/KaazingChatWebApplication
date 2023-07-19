@@ -117,7 +117,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <label for="message">Files:</label>
+                        <label for="fileUpload">Files:</label>
                     </td>
                     <td>
                         <div class="input-group">
