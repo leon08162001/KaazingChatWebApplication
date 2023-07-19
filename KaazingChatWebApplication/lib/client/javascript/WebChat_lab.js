@@ -15,7 +15,7 @@ var hadStartChat = false;   //是否已開啟聊天
 var newPendingChatDiv;      //開啟聊天時待接收的訊息區塊
 
 // WebSocket,JMS相關變數
-var messageClient;
+var messageClient = null;
 var jmsServiceType = JmsServiceTypeEnum.TibcoEMS;
 var messageType = MessageTypeEnum.Topic;
 var defaultMessageType = messageType;
