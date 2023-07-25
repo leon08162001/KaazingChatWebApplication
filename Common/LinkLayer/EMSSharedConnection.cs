@@ -79,7 +79,14 @@ namespace Common.LinkLayer
             if (Urls.IndexOf(",") == -1)
             {
                 ConnectionFactory.SetTargetHostName(Urls);
-                storeInfo.SetSSLTrustedCertificate(CertificatesPath[0]);
+                if (CertificatesPath != null)
+                {
+                    //storeInfo.SetSSLTrustedCertificate(CertificatesPath[0]);
+                    foreach (string CertPath in CertificatesPath)
+                    {
+                        storeInfo.SetSSLTrustedCertificate(CertPath);
+                    }
+                }
                 ConnectionFactory.SetCertificateStoreType(EMSSSLStoreType.EMSSSL_STORE_TYPE_FILE, storeInfo);
             }
             //代表多個IP
@@ -87,9 +94,12 @@ namespace Common.LinkLayer
             {
                 List<string> urls = Urls.Split(new char[] { ',' }).ToList<string>();
                 ConnectionFactory.SetTargetHostName(urls[0]);
-                foreach (string CertPath in CertificatesPath)
+                if (CertificatesPath != null)
                 {
-                    storeInfo.SetSSLTrustedCertificate(CertPath);
+                    foreach (string CertPath in CertificatesPath)
+                    {
+                        storeInfo.SetSSLTrustedCertificate(CertPath);
+                    }
                 }
                 ConnectionFactory.SetCertificateStoreType(EMSSSLStoreType.EMSSSL_STORE_TYPE_FILE, storeInfo);
             }
