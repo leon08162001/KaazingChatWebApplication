@@ -1,4 +1,6 @@
+using Common.HandlerLayer;
 using Kaazing.JMS;
+using System;
 using System.Threading;
 namespace Common.LinkLayer
 {
@@ -19,6 +21,10 @@ namespace Common.LinkLayer
         /// 是否是持久消費者
         /// </summary>
         bool IsDurableConsumer { get; set; }
+        /// <summary>
+        /// 是否使用ssl
+        /// </summary>
+        bool UseSSL { get; set; }
         /// <summary>
         /// 監聽的主題
         /// </summary>
@@ -60,9 +66,15 @@ namespace Common.LinkLayer
         /// </summary>
         string Selector { get; set; }
         /// <summary>
+        /// 訊息接收後保留在記憶體時間(秒)
+        /// </summary>
+        int ReceivedMessageTimeOut { get; set; }
+        /// <summary>
         /// 取得UI執行緒同步上下文
         /// </summary>
         SynchronizationContext UISyncContext { get; }
+        TopicTypeHandler Handler { get; set; }
+        Type DataType { get; set; }
 
         void Start();
         void Close();

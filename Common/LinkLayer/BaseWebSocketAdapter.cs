@@ -55,14 +55,16 @@ namespace Common.LinkLayer
         protected SynchronizationContext _UISyncContext;
 
         protected TopicTypeHandler _Handler = null;
+        protected Type _DataType;
 
         protected bool _IsEventInUIThread = false;             //觸發事件時是否回到UI Thread預設為false
-
+        protected bool _UseSSL = false;
         protected Timer HeartBeatTimer;
         protected bool _IsUseHeartBeat = false;
         protected int _HeartBeatInterval = 60;
         protected bool _IsDurableConsumer = false;
         protected string _Selector = "";
+        protected int _ReceivedMessageTimeOut = 20;
 
         public delegate void MessageHandleFinishedEventHandler(object sender, MessageHandleFinishedEventArgs e);
         List<MessageHandleFinishedEventHandler> MessageHandleFinishedEventDelegates = new List<MessageHandleFinishedEventHandler>();
@@ -178,6 +180,17 @@ namespace Common.LinkLayer
                 _Selector = value;
             }
         }
+        public int ReceivedMessageTimeOut
+        {
+            get
+            {
+                return _ReceivedMessageTimeOut;
+            }
+            set
+            {
+                _ReceivedMessageTimeOut = value;
+            }
+        }
         /// <summary>
         /// 觸發事件時是否回到UI Thread(預設false)
         /// </summary>
@@ -190,6 +203,11 @@ namespace Common.LinkLayer
         {
             get { return _IsDurableConsumer; }
             set { _IsDurableConsumer = value; }
+        }
+        public bool UseSSL
+        {
+            get { return _UseSSL; }
+            set { _UseSSL = value; }
         }
         /// <summary>
         /// 是否使用HeartBeat心跳
@@ -217,6 +235,11 @@ namespace Common.LinkLayer
         {
             get { return _Handler; }
             set { _Handler = value; }
+        }
+        public Type DataType
+        {
+            set { _DataType = value; }
+            get { return _DataType; }
         }
         public BaseWebSocketAdapter()
         {

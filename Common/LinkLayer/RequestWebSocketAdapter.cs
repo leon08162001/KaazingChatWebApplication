@@ -235,14 +235,7 @@ namespace Common.LinkLayer
                     {
                         _ErrMsg = "not yet assigned Tag Type of Tag Data";
                         if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                        if (UISyncContext != null && IsEventInUIThread)
-                        {
-                            UISyncContext.Post(OnMessageHandleFinished, new MessageHandleFinishedEventArgs(_ErrMsg, null));
-                        }
-                        else
-                        {
-                            OnMessageHandleFinished(new MessageHandleFinishedEventArgs(_ErrMsg, null));
-                        }
+                        RunOnMessageHandleFinished(_ErrMsg, null);
                         return;
                     }
                     _DicDataType = Util.ConvertTagClassConstants(_DataType);
@@ -253,25 +246,18 @@ namespace Common.LinkLayer
                         {
                             _ErrMsg = string.Format("Tag Data's Tag[{0}] Not in the assigned type[{1}]", key, _DataType.Name);
                             if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                            if (UISyncContext != null && IsEventInUIThread)
-                            {
-                                UISyncContext.Post(OnMessageHandleFinished, new MessageHandleFinishedEventArgs(_ErrMsg, null));
-                            }
-                            else
-                            {
-                                OnMessageHandleFinished(new MessageHandleFinishedEventArgs(_ErrMsg, null));
-                            }
+                            RunOnMessageHandleFinished(_ErrMsg, null);
                             return;
                         }
                     }
-                    string MessageID = _DataType.GetField("MessageID").GetValue(_DataType).ToString();
+                    string MessageID = _DataType.GetField("MessageID") == null ? "710" : _DataType.GetField("MessageID").GetValue(_DataType).ToString();
                     //3.驗證資料內容的Message總筆數
-                    string TotalRecords = _DataType.GetField("TotalRecords").GetValue(_DataType).ToString();
+                    string TotalRecords = _DataType.GetField("TotalRecords") == null ? "10038" : _DataType.GetField("TotalRecords").GetValue(_DataType).ToString();
                     if (MessageDictionary.ContainsKey(TotalRecords))
                     {
+                        int iTotalRecords;
                         //驗證筆數資料正確性
                         //如果筆數不是數值
-                        int iTotalRecords;
                         if (!int.TryParse(MessageDictionary[TotalRecords].ToString(), out iTotalRecords))
                         {
                             _ErrMsg = "TotalRecords value must be digit";
@@ -318,10 +304,15 @@ namespace Common.LinkLayer
                         if (iTotalRecords == DicMessageBody[MessageDictionary[MessageID].ToString()].Messages.Rows.Count)
                         {
                             _ErrMsg = "";
-                            DataTable ResultTable = DicMessageBody[MessageDictionary[MessageID].ToString()].Messages.Copy();
+                            //DataTable ResultTable = DicMessageBody[MessageDictionary[MessageID].ToString()].Messages.Copy();
+                            DataTable ResultTable = DicMessageBody[MessageDictionary[MessageID].ToString()].Messages;
                             if (ResultTable.Rows.Count > 0 && ResultTable.Columns.Contains("MacAddress") && !ResultTable.Rows[0].IsNull("MacAddress") && this.SendName.IndexOf("#") != -1)
                             {
                                 this.ReStartSender(this.SendName.Replace("#", ResultTable.Rows[0]["MacAddress"].ToString()));
+                            }
+                            if (this.Handler != null)
+                            {
+                                this.Handler.WorkItemQueue.Enqueue(ResultTable);
                             }
                             _IsResponseFinished = true;
                             RunOnResponseFinished(_ErrMsg, ResultTable);
@@ -342,25 +333,22 @@ namespace Common.LinkLayer
         /// </summary>
         public void ClearTimeOutReceivedMessage()
         {
-            int TimeOut = Convert.ToInt32(config.WebSocketReceivedMessageReservedSeconds);
+            int TimeOut = this.ReceivedMessageTimeOut;
             DateTime SysTime = System.DateTime.Now;
             foreach (string Guid in DicMessageBody.Keys.ToArray())
             {
                 if ((SysTime - DicMessageBody[Guid].CreatedTime).Seconds >= TimeOut)
                 {
-                    if ((SysTime - DicMessageBody[Guid].CreatedTime).Seconds >= TimeOut)
+                    MessageBody MB = DicMessageBody[Guid];
+                    int iTotalRecords = Convert.ToInt32(MB.Messages.Rows[0]["TotalRecords"].ToString());
+                    int BodyCount = MB.Messages.Rows.Count;
+                    if (iTotalRecords != BodyCount)
                     {
-                        MessageBody MB = DicMessageBody[Guid];
-                        int iTotalRecords = Convert.ToInt32(MB.Messages.Rows[0]["TotalRecords"].ToString());
-                        int BodyCount = MB.Messages.Rows.Count;
-                        if (iTotalRecords != BodyCount)
-                        {
-                            string _ErrMsg = string.Format("Message Body Rows({0}) of Message ID:{1} is not match TotalRecords({2})", BodyCount, Guid, iTotalRecords);
-                            if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                            OnWebSocketResponseMismatched(new WebSocketResponseMismatchedEventArgs(_ErrMsg));
-                        }
-                        DicMessageBody.Remove(Guid);
+                        string _ErrMsg = string.Format("Message Body Rows({0}) of Message ID:{1} is not match TotalRecords({2})", BodyCount, Guid, iTotalRecords);
+                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        OnWebSocketResponseMismatched(new WebSocketResponseMismatchedEventArgs(_ErrMsg));
                     }
+                    DicMessageBody.Remove(Guid);
                 }
             }
         }

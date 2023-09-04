@@ -189,8 +189,8 @@ namespace Common.LinkLayer
         private void CreateTableSchema(Dictionary<string, string> DicDataType)
         {
             MessageDT.Reset();
-            string MessageID = _DataType.GetField("MessageID").GetValue(_DataType).ToString();
-            string TotalRecords = _DataType.GetField("TotalRecords").GetValue(_DataType).ToString();
+            string MessageID = _DataType.GetField("MessageID") == null ? "710" : _DataType.GetField("MessageID").GetValue(_DataType).ToString();
+            string TotalRecords = _DataType.GetField("TotalRecords") == null ? "10038" : _DataType.GetField("TotalRecords").GetValue(_DataType).ToString();
             foreach (string key in DicDataType.Keys)
             {
                 //必須為非requestID的tag及非總筆數的tag才建立欄位(停用下列程式碼)
@@ -212,8 +212,8 @@ namespace Common.LinkLayer
         {
             try
             {
-                string MessageID = _DataType.GetField("MessageID").GetValue(_DataType).ToString();
-                string TotalRecords = _DataType.GetField("TotalRecords").GetValue(_DataType).ToString();
+                string MessageID = _DataType.GetField("MessageID") == null ? "710" : _DataType.GetField("MessageID").GetValue(_DataType).ToString();
+                string TotalRecords = _DataType.GetField("TotalRecords") == null ? "10038" : _DataType.GetField("TotalRecords").GetValue(_DataType).ToString();
                 DataRow tmpMessagRow = MessageDT.NewRow();
                 foreach (string key in DicMessage.Keys)
                 {
@@ -222,7 +222,7 @@ namespace Common.LinkLayer
                     //必須為非總筆數的tag才設定欄位值
                     if (!key.Equals(TotalRecords))
                     {
-                        tmpMessagRow[_DicDataType[key].ToString()] = DicMessage[key].ToString();
+                        tmpMessagRow[_DicDataType[key].ToString()] = DicMessage[key] == null ? DicMessage[key] : DicMessage[key].ToString();
                     }
                 }
                 MessageDT.Rows.Add(tmpMessagRow);

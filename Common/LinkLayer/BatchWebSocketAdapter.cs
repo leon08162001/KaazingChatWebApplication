@@ -260,6 +260,10 @@ namespace Common.LinkLayer
                         dr[0] = msg.Text;
                         ResultTable.Rows.Add(dr);
                         RunOnMessageHandleFinished(_ErrMsg, dr);
+                        if (this.Handler != null)
+                        {
+                            this.Handler.WorkItemQueue.Enqueue(ResultTable);
+                        }
                         _IsBatchFinished = true;
                         RunOnBatchFinished(_ErrMsg, ResultTable);
                         _IsBatchFinished = false;
@@ -302,14 +306,7 @@ namespace Common.LinkLayer
                     {
                         _ErrMsg = "not yet assigned Tag Type of Tag Data";
                         if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                        if (UISyncContext != null && IsEventInUIThread)
-                        {
-                            UISyncContext.Post(OnMessageHandleFinished, new MessageHandleFinishedEventArgs(_ErrMsg, null));
-                        }
-                        else
-                        {
-                            OnMessageHandleFinished(new MessageHandleFinishedEventArgs(_ErrMsg, null));
-                        }
+                        RunOnMessageHandleFinished(_ErrMsg, null);
                         return;
                     }
                     _DicDataType = Util.ConvertTagClassConstants(_DataType);
@@ -320,20 +317,13 @@ namespace Common.LinkLayer
                         {
                             _ErrMsg = string.Format("Tag Data's Tag[{0}] Not in the assigned type[{1}]", key, _DataType.Name);
                             if (log.IsInfoEnabled) log.Info(_ErrMsg);
-                            if (UISyncContext != null && IsEventInUIThread)
-                            {
-                                UISyncContext.Post(OnMessageHandleFinished, new MessageHandleFinishedEventArgs(_ErrMsg, null));
-                            }
-                            else
-                            {
-                                OnMessageHandleFinished(new MessageHandleFinishedEventArgs(_ErrMsg, null));
-                            }
+                            RunOnMessageHandleFinished(_ErrMsg, null);
                             return;
                         }
                     }
-                    string MessageID = _DataType.GetField("MessageID").GetValue(_DataType).ToString();
+                    string MessageID = _DataType.GetField("MessageID") == null ? "710" : _DataType.GetField("MessageID").GetValue(_DataType).ToString();
                     //3.驗證資料內容的Message總筆數
-                    string TotalRecords = _DataType.GetField("TotalRecords").GetValue(_DataType).ToString();
+                    string TotalRecords = _DataType.GetField("TotalRecords") == null ? "10038" : _DataType.GetField("TotalRecords").GetValue(_DataType).ToString();
                     if (MessageDictionary.ContainsKey(TotalRecords))
                     {
                         //驗證筆數資料正確性
@@ -353,6 +343,7 @@ namespace Common.LinkLayer
                         _ErrMsg = "MessageID Of Message in MessageBody is not exist";
                         if (log.IsInfoEnabled) log.Info(_ErrMsg);
                         RunOnMessageHandleFinished(_ErrMsg, null);
+                        return;
                     }
                     //MessageID存在則檢查DicMessageBody內是否存在此MessageID,沒有則建立DataTable Schema並加入一筆MessageBody至DicMessageBody
                     if (!DicMessageBody.ContainsKey(MessageDictionary[MessageID].ToString()))
@@ -384,10 +375,15 @@ namespace Common.LinkLayer
                         if (iTotalRecords == DicMessageBody[MessageDictionary[MessageID].ToString()].Messages.Rows.Count)
                         {
                             _ErrMsg = "";
-                            DataTable ResultTable = DicMessageBody[MessageDictionary[MessageID].ToString()].Messages.Copy();
+                            //DataTable ResultTable = DicMessageBody[MessageDictionary[MessageID].ToString()].Messages.Copy();
+                            DataTable ResultTable = DicMessageBody[MessageDictionary[MessageID].ToString()].Messages;
                             if (ResultTable.Rows.Count > 0 && ResultTable.Columns.Contains("MacAddress") && !ResultTable.Rows[0].IsNull("MacAddress") && this.SendName.IndexOf("#") != -1)
                             {
                                 this.ReStartSender(this.SendName.Replace("#", ResultTable.Rows[0]["MacAddress"].ToString()));
+                            }
+                            if (this.Handler != null)
+                            {
+                                this.Handler.WorkItemQueue.Enqueue(ResultTable);
                             }
                             _IsBatchFinished = true;
                             RunOnBatchFinished(_ErrMsg, ResultTable);
@@ -408,7 +404,7 @@ namespace Common.LinkLayer
         /// </summary>
         public void ClearTimeOutReceivedMessage()
         {
-            int TimeOut = Convert.ToInt32(config.WebSocketReceivedMessageReservedSeconds);
+            int TimeOut = this.ReceivedMessageTimeOut;
             DateTime SysTime = System.DateTime.Now;
             foreach (string Guid in DicMessageBody.Keys.ToArray())
             {
