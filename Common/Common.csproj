@@ -1,201 +1,82 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C2027887-2E05-482A-BF26-4FE86DFFAF99}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Common</RootNamespace>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>Common</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <UpgradeBackupLocation />
-    <TargetFrameworkProfile />
+    <RootNamespace>Common</RootNamespace>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Configurations>Debug;Release;EMS;MQ</Configurations>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0;DROID;IOS</DefineConstants>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile></DocumentationFile>
+    <Optimize>False</Optimize>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='EMS|AnyCPU'">
+    <Optimize>False</Optimize>
   </PropertyGroup>
-  <PropertyGroup>
-    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MQ|AnyCPU'">
+    <Optimize>False</Optimize>
   </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Apache.NMS, Version=1.8.0.0, Culture=neutral, PublicKeyToken=82756feee3957618, processorArchitecture=MSIL">
-      <HintPath>..\packages\Apache.NMS.1.8.0\lib\net40\Apache.NMS.dll</HintPath>
+    <Compile Remove="HandlerLayer\DBFactory.cs" />
+    <Compile Remove="HandlerLayer\OTA1ExportHandler.cs" />
+    <Compile Remove="HandlerLayer\OTA2ExportHandler.cs" />
+    <Compile Remove="HandlerLayer\OTAExportHandler.cs" />
+    <Compile Remove="LinkLayer\ITibcoAdapter.cs" />
+    <Compile Remove="Utility\Logger.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="DLL\Apache.NMS.ActiveMQ.dll" />
+    <Content Include="DLL\Apache.NMS.dll" />
+    <Content Include="DLL\log4net.dll" />
+    <Content Include="DLL\SmartThreadPool.dll" />
+    <Content Include="DLL\TIBCO.EMS.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ionic.Zlib.Core" Version="1.0.0" />
+    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Apache.NMS">
+      <HintPath>DLL\Apache.NMS.dll</HintPath>
     </Reference>
-    <Reference Include="Apache.NMS.ActiveMQ, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Apache.NMS.ActiveMQ.NetStd.1.8.0\lib\netstandard2.0\Apache.NMS.ActiveMQ.dll</HintPath>
+    <Reference Include="Apache.NMS.ActiveMQ">
+      <HintPath>DLL\Apache.NMS.ActiveMQ.dll</HintPath>
     </Reference>
     <Reference Include="Apache.NMS.Stomp">
       <HintPath>DLL\Apache.NMS.Stomp.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Logging, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.3.4.1\lib\net40\Common.Logging.dll</HintPath>
+    <Reference Include="Kaazing.Chai">
+      <HintPath>DLL\Kaazing.Chai.dll</HintPath>
     </Reference>
-    <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
+    <Reference Include="Kaazing.JMS">
+      <HintPath>DLL\Kaazing.JMS.dll</HintPath>
     </Reference>
-    <Reference Include="Ionic.Zlib.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ionic.Zlib.Core.1.0.0\lib\netstandard2.0\Ionic.Zlib.Core.dll</HintPath>
+    <Reference Include="Kaazing.WebSocket">
+      <HintPath>DLL\Kaazing.WebSocket.dll</HintPath>
     </Reference>
-    <Reference Include="Kaazing.Chai, Version=5.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Kaazing.Enterprise.5.0.3\lib\netstandard2.0\Kaazing.Chai.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>DLL\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Kaazing.JMS, Version=5.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Kaazing.Enterprise.5.0.3\lib\netstandard2.0\Kaazing.JMS.dll</HintPath>
+    <Reference Include="NLog">
+      <HintPath>DLL\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="Kaazing.WebSocket, Version=5.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Kaazing.Enterprise.5.0.3\lib\netstandard2.0\Kaazing.WebSocket.dll</HintPath>
+    <Reference Include="SmartThreadPool">
+      <HintPath>DLL\SmartThreadPool.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="SmartThreadPool, Version=2.3.0.0, Culture=neutral, PublicKeyToken=1126fe8b671e8a79, processorArchitecture=MSIL">
-      <HintPath>..\packages\SmartThreadPool.dll.2.3.0\lib\net46\SmartThreadPool.dll</HintPath>
-    </Reference>
-    <Reference Include="Spring.Core, Version=2.0.1.45000, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
-      <HintPath>..\packages\Spring.Core.2.0.1\lib\net45\Spring.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="TIBCO.EMS, Version=1.0.820.7, Culture=neutral, PublicKeyToken=5b83db8ff05c64ba, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="TIBCO.EMS">
       <HintPath>DLL\TIBCO.EMS.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="TIBCO.Rendezvous, Version=1.0.3818.29365, Culture=neutral, PublicKeyToken=1a696d1f90f6158a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>DLL\TIBCO.Rendezvous.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Config.cs" />
-    <Compile Include="Dictionary\MsgType.cs" />
-    <Compile Include="HandlerLayer\FixFactory.cs" />
-    <Compile Include="HandlerLayer\DBFactory.cs" />
-    <Compile Include="HandlerLayer\JefferiesExcuReportHandler.cs" />
-    <Compile Include="HandlerLayer\OTAExportHandler.cs" />
-    <Compile Include="HandlerLayer\TopicType.cs" />
-    <Compile Include="HandlerLayer\TopicTypeHandler.cs" />
-    <Compile Include="HandlerLayer\WorkThreads.cs" />
-    <Compile Include="HandlerLayer\OTA1ExportHandler.cs" />
-    <Compile Include="HandlerLayer\OTA2ExportHandler.cs" />
-    <Compile Include="LinkLayer\AMQSharedConnection.cs" />
-    <Compile Include="LinkLayer\BaseEMSAdapter.cs" />
-    <Compile Include="LinkLayer\BaseEMSAdapter1.cs" />
-    <Compile Include="LinkLayer\BaseMQAdapter.cs" />
-    <Compile Include="LinkLayer\BaseMQAdapter1.cs" />
-    <Compile Include="LinkLayer\BaseWebSocketAdapter.cs" />
-    <Compile Include="LinkLayer\BatchEMSAdapter.cs" />
-    <Compile Include="LinkLayer\BatchEMSAdapter1.cs" />
-    <Compile Include="LinkLayer\BatchMQAdapter1.cs" />
-    <Compile Include="LinkLayer\BatchWebSocketAdapter.cs" />
-    <Compile Include="LinkLayer\BatchMQAdapter.cs" />
-    <Compile Include="LinkLayer\EMSSharedConnection.cs" />
-    <Compile Include="LinkLayer\EventArgs\BatchFinishedEventArgs.cs" />
-    <Compile Include="LinkLayer\EventArgs\BatchMismatchedEventArgs.cs" />
-    <Compile Include="LinkLayer\EventArgs\MessageAsynSendFinishedEventArgs.cs" />
-    <Compile Include="LinkLayer\EventArgs\MessageHandleFinishedEventArgs.cs" />
-    <Compile Include="LinkLayer\EventArgs\ResponseFinishedEventArgs.cs" />
-    <Compile Include="LinkLayer\EventArgs\ResponseMismatchedEventArgs.cs" />
-    <Compile Include="LinkLayer\EventHandler\EventHandler.cs" />
-    <Compile Include="LinkLayer\GenericEMSAdapter.cs" />
-    <Compile Include="LinkLayer\GenericWebSocketAdapter.cs" />
-    <Compile Include="LinkLayer\GenericMQAdapter.cs" />
-    <Compile Include="LinkLayer\IActiveMQAdapter.cs" />
-    <Compile Include="LinkLayer\IEMSAdapter.cs" />
-    <Compile Include="LinkLayer\IMQAdapter.cs" />
-    <Compile Include="LinkLayer\IMQAdapter1.cs" />
-    <Compile Include="LinkLayer\ITibcoEMSAdapter.cs" />
-    <Compile Include="LinkLayer\IWebSocketAdapter.cs" />
-    <Compile Include="LinkLayer\KaazingSocketLogin.cs" />
-    <Compile Include="LinkLayer\LinkLayer_Enum.cs" />
-    <Compile Include="LinkLayer\RequestEMSAdapter.cs" />
-    <Compile Include="LinkLayer\RequestEMSAdapter1.cs" />
-    <Compile Include="LinkLayer\RequestMQAdapter1.cs" />
-    <Compile Include="LinkLayer\RequestWebSocketAdapter.cs" />
-    <Compile Include="LinkLayer\RequestMQAdapter.cs" />
-    <Compile Include="MQFactory.cs" />
-    <Compile Include="TopicEMSFactory.cs" />
-    <Compile Include="TopicMessage\MessageBody.cs" />
-    <Compile Include="TopicMessage\MessageHeader.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TopicMQFactory.cs" />
-    <Compile Include="Utility\AesHelper.cs" />
-    <Compile Include="Utility\JsonGenericDictionaryOrArrayConverter.cs" />
-    <Compile Include="WebSocketTopicFactory.cs" />
-    <Compile Include="Utility\CustomizedQueue.cs" />
-    <Compile Include="Utility\Util.cs" />
-    <Compile Include="TopicTibcoFactory.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="DLL\Apache.NMS.ActiveMQ.dll" />
-    <Content Include="DLL\Apache.NMS.dll" />
-    <Content Include="DLL\Kaazing.Gateway.dll" />
-    <Content Include="DLL\Kaazing.JMS.dll" />
-    <Content Include="DLL\log4net.dll" />
-    <Content Include="DLL\SmartThreadPool.dll" />
-    <Content Include="DLL\Spring.Core.dll" />
-    <Content Include="DLL\TIBCO.EMS.dll" />
-    <Content Include="DLL\TIBCO.Rendezvous.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="DLL\TIBCO.Rendezvous.netmodule" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DataAccess\DataAccess.csproj">
-      <Project>{cb01f498-3fc3-4f42-a8cd-71f1e48bb9af}</Project>
-      <Name>DataAccess</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

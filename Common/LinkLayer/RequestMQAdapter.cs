@@ -1,8 +1,6 @@
 ﻿using Apache.NMS;
 using Common.TopicMessage;
 using Common.Utility;
-using Spring.Context;
-using Spring.Context.Support;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -59,7 +57,6 @@ namespace Common.LinkLayer
         }
     }
     [Serializable]
-
     public class RequestMQAdapter : BaseMQAdapter
     {
         // Delegate
@@ -97,8 +94,8 @@ namespace Common.LinkLayer
             }
         }
 
-        IApplicationContext applicationContext = ContextRegistry.GetContext();
-        Config config;
+        //IApplicationContext applicationContext = ContextRegistry.GetContext();
+        //Config config;
 
         /// <summary>
         /// MQ完成所有相同RequestID的資料處理時事件
@@ -133,13 +130,25 @@ namespace Common.LinkLayer
 
         private static RequestMQAdapter singleton;
 
-        public RequestMQAdapter() : base() { config = (Config)applicationContext.GetObject("Config"); this.MQResponseMismatched += new MQResponseMismatchedEventHandler(RequestMQAdapter_MQResponseMismatched); }
+        public RequestMQAdapter() : base()
+        {
+            //config = (Config)applicationContext.GetObject("Config");
+            this.MQResponseMismatched += new MQResponseMismatchedEventHandler(RequestMQAdapter_MQResponseMismatched);
+        }
 
         public RequestMQAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
-            : base(Uri, DestinationFeature, ListenName, SendName) { config = (Config)applicationContext.GetObject("Config"); this.MQResponseMismatched += new MQResponseMismatchedEventHandler(RequestMQAdapter_MQResponseMismatched); }
+            : base(Uri, DestinationFeature, ListenName, SendName)
+        {
+            //config = (Config)applicationContext.GetObject("Config");
+            this.MQResponseMismatched += new MQResponseMismatchedEventHandler(RequestMQAdapter_MQResponseMismatched);
+        }
 
         public RequestMQAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
-            : base(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd) { config = (Config)applicationContext.GetObject("Config"); this.MQResponseMismatched += new MQResponseMismatchedEventHandler(RequestMQAdapter_MQResponseMismatched); }
+            : base(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd)
+        {
+            //config = (Config)applicationContext.GetObject("Config");
+            this.MQResponseMismatched += new MQResponseMismatchedEventHandler(RequestMQAdapter_MQResponseMismatched);
+        }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static RequestMQAdapter getSingleton()
@@ -222,7 +231,7 @@ namespace Common.LinkLayer
                     if (_DataType == null)
                     {
                         _ErrMsg = "not yet assigned Tag Type of Tag Data";
-                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        Common.LogHelper.Logger.LogInfo<RequestMQAdapter>(_ErrMsg);
                         RunOnMQMessageHandleFinished(_ErrMsg, null);
                         return;
                     }
@@ -237,7 +246,7 @@ namespace Common.LinkLayer
                         if (!_DicTagType.ContainsKey(key))
                         {
                             _ErrMsg = string.Format("Tag Data's Tag[{0}] Not in the assigned type[{1}]", key, _DataType.Name);
-                            if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                            Common.LogHelper.Logger.LogInfo<RequestMQAdapter>(_ErrMsg);
                             RunOnMQMessageHandleFinished(_ErrMsg, null);
                             return;
                         }
@@ -253,7 +262,7 @@ namespace Common.LinkLayer
                         if (!int.TryParse(MQMessageDictionary[TotalRecords].ToString(), out iTotalRecords))
                         {
                             _ErrMsg = "TotalRecords value must be digit";
-                            if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                            Common.LogHelper.Logger.LogInfo<RequestMQAdapter>(_ErrMsg);
                             RunOnMQMessageHandleFinished(_ErrMsg, null);
                             return;
                         }
@@ -262,7 +271,7 @@ namespace Common.LinkLayer
                     if (!MQMessageDictionary.ContainsKey(MessageID))
                     {
                         _ErrMsg = "MessageID Of Message in MessageBody is not exist";
-                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        Common.LogHelper.Logger.LogInfo<RequestMQAdapter>(_ErrMsg);
                         RunOnMQMessageHandleFinished(_ErrMsg, null);
                         return;
                     }
@@ -286,7 +295,7 @@ namespace Common.LinkLayer
                     else
                     {
                         _ErrMsg = "Error happened when generate DataRow";
-                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        Common.LogHelper.Logger.LogInfo<RequestMQAdapter>(_ErrMsg);
                         RunOnMQMessageHandleFinished(_ErrMsg, null);
                     }
                     if (DicMessageBody.ContainsKey(MQMessageDictionary[MessageID].ToString()) && MB.Messages.Rows.Count > 0)
@@ -316,7 +325,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                Common.LogHelper.Logger.LogError<RequestMQAdapter>(ex);
             }
         }
 
@@ -325,7 +334,7 @@ namespace Common.LinkLayer
         /// </summary>
         public void ClearTimeOutMQReceivedMessage()
         {
-            int TimeOut = this.ReceivedMessageTimeOut;
+            int TimeOut = Convert.ToInt32(Config.MQReceivedMessageReservedSeconds);
             DateTime SysTime = System.DateTime.Now;
             foreach (string Guid in DicMessageBody.Keys.ToArray())
             {
@@ -337,7 +346,7 @@ namespace Common.LinkLayer
                     if (iTotalRecords != BodyCount)
                     {
                         string _ErrMsg = string.Format("Message Body Rows({0}) of Message ID:{1} is not match TotalRecords({2})", BodyCount, Guid, iTotalRecords);
-                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        Common.LogHelper.Logger.LogInfo<RequestMQAdapter>(_ErrMsg);
                         OnResponseMismatched(new MQResponseMismatchedEventArgs(_ErrMsg));
                     }
                     DicMessageBody.Remove(Guid);
@@ -355,7 +364,7 @@ namespace Common.LinkLayer
 
         void RequestMQAdapter_MQResponseMismatched(object sender, MQResponseMismatchedEventArgs e)
         {
-            if (log.IsInfoEnabled) log.Info(e.MismatchedMessage);
+            Common.LogHelper.Logger.LogInfo<RequestMQAdapter>(e.MismatchedMessage);
         }
 
         private void RunOnMQMessageHandleFinished(string ErrorMessage, DataRow MessageRow)

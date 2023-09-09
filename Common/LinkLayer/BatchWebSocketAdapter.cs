@@ -1,8 +1,8 @@
 ﻿using Common.TopicMessage;
 using Common.Utility;
 using Kaazing.JMS;
-using Spring.Context;
-using Spring.Context.Support;
+//using Spring.Context;
+//using Spring.Context.Support;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -95,8 +95,8 @@ namespace Common.LinkLayer
             }
         }
 
-        IApplicationContext applicationContext = ContextRegistry.GetContext();
-        Config config;
+        //IApplicationContext applicationContext = ContextRegistry.GetContext();
+        //Config config;
 
         /// <summary>
         /// 完成所有批次資料處理時事件
@@ -132,13 +132,25 @@ namespace Common.LinkLayer
 
         private static BatchWebSocketAdapter singleton;
 
-        public BatchWebSocketAdapter() : base() { config = (Config)applicationContext.GetObject("Config"); this.WebSocketBatchMismatched += new WebSocketBatchMismatchedEventHandler(BatchWebSocketAdapter_WebSocketBatchMismatched); }
+        public BatchWebSocketAdapter() : base() 
+        { 
+            //config = (Config)applicationContext.GetObject("Config"); 
+            this.WebSocketBatchMismatched += new WebSocketBatchMismatchedEventHandler(BatchWebSocketAdapter_WebSocketBatchMismatched); 
+        }
 
         public BatchWebSocketAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
-            : base(Uri, DestinationFeature, ListenName, SendName) { config = (Config)applicationContext.GetObject("Config"); this.WebSocketBatchMismatched += new WebSocketBatchMismatchedEventHandler(BatchWebSocketAdapter_WebSocketBatchMismatched); }
+            : base(Uri, DestinationFeature, ListenName, SendName) 
+        { 
+            //config = (Config)applicationContext.GetObject("Config");
+            this.WebSocketBatchMismatched += new WebSocketBatchMismatchedEventHandler(BatchWebSocketAdapter_WebSocketBatchMismatched);
+        }
 
         public BatchWebSocketAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
-            : base(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd) { config = (Config)applicationContext.GetObject("Config"); this.WebSocketBatchMismatched += new WebSocketBatchMismatchedEventHandler(BatchWebSocketAdapter_WebSocketBatchMismatched); }
+            : base(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd) 
+        { 
+            //config = (Config)applicationContext.GetObject("Config");
+            this.WebSocketBatchMismatched += new WebSocketBatchMismatchedEventHandler(BatchWebSocketAdapter_WebSocketBatchMismatched);
+        }
 
         public static BatchWebSocketAdapter getSingleton()
         {
@@ -245,7 +257,7 @@ namespace Common.LinkLayer
                         _IsBatchFinished = true;
                         RunOnBatchFinished(_ErrMsg, MessageDT);
                         _IsBatchFinished = false;
-                        if (log.IsErrorEnabled) log.Error(ex1.Message, ex1);
+                        Common.LogHelper.Logger.LogError<BatchWebSocketAdapter>(ex1);
                     }
                 }
                 //接收文字訊息
@@ -305,7 +317,7 @@ namespace Common.LinkLayer
                     if (_DataType == null)
                     {
                         _ErrMsg = "not yet assigned Tag Type of Tag Data";
-                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        Common.LogHelper.Logger.LogInfo<BatchWebSocketAdapter>(_ErrMsg);
                         RunOnMessageHandleFinished(_ErrMsg, null);
                         return;
                     }
@@ -316,7 +328,7 @@ namespace Common.LinkLayer
                         if (!_DicDataType.ContainsKey(key))
                         {
                             _ErrMsg = string.Format("Tag Data's Tag[{0}] Not in the assigned type[{1}]", key, _DataType.Name);
-                            if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                            Common.LogHelper.Logger.LogInfo<BatchWebSocketAdapter>(_ErrMsg);
                             RunOnMessageHandleFinished(_ErrMsg, null);
                             return;
                         }
@@ -332,7 +344,7 @@ namespace Common.LinkLayer
                         if (!int.TryParse(MessageDictionary[TotalRecords].ToString(), out iTotalRecords))
                         {
                             _ErrMsg = "TotalRecords value must be digit";
-                            if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                            Common.LogHelper.Logger.LogInfo<BatchWebSocketAdapter>(_ErrMsg);
                             RunOnMessageHandleFinished(_ErrMsg, null);
                             return;
                         }
@@ -341,7 +353,7 @@ namespace Common.LinkLayer
                     if (!MessageDictionary.ContainsKey(MessageID))
                     {
                         _ErrMsg = "MessageID Of Message in MessageBody is not exist";
-                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        Common.LogHelper.Logger.LogInfo<BatchWebSocketAdapter>(_ErrMsg);
                         RunOnMessageHandleFinished(_ErrMsg, null);
                         return;
                     }
@@ -365,7 +377,7 @@ namespace Common.LinkLayer
                     else
                     {
                         _ErrMsg = "Error happened when generate DataRow";
-                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        Common.LogHelper.Logger.LogInfo<BatchWebSocketAdapter>(_ErrMsg);
                         RunOnMessageHandleFinished(_ErrMsg, null);
                     }
                     if (DicMessageBody.ContainsKey(MessageDictionary[MessageID].ToString()) && MB.Messages.Rows.Count > 0)
@@ -395,7 +407,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                Common.LogHelper.Logger.LogError<BatchWebSocketAdapter>(ex);
             }
         }
 
@@ -416,7 +428,7 @@ namespace Common.LinkLayer
                     if (iTotalRecords != BodyCount)
                     {
                         string _ErrMsg = string.Format("Message Body Rows({0}) of Message ID:{1} is not match TotalRecords({2})", BodyCount, Guid, iTotalRecords);
-                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        Common.LogHelper.Logger.LogInfo<BatchWebSocketAdapter>(_ErrMsg);
                         OnWebSocketBatchMismatched(new WebSocketBatchMismatchedEventArgs(_ErrMsg));
                     }
                     DicMessageBody.Remove(Guid);
@@ -434,7 +446,7 @@ namespace Common.LinkLayer
 
         void BatchWebSocketAdapter_WebSocketBatchMismatched(object sender, WebSocketBatchMismatchedEventArgs e)
         {
-            if (log.IsInfoEnabled) log.Info(e.MismatchedMessage);
+            Common.LogHelper.Logger.LogInfo<BatchWebSocketAdapter>(e.MismatchedMessage);
         }
 
         private void RunOnMessageHandleFinished(string ErrorMessage, DataRow MessageRow)

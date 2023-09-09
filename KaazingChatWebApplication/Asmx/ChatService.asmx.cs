@@ -36,14 +36,14 @@ namespace KaazingChatWebApplication
             //if (Debugger.IsAttached == false)
             //    Debugger.Launch();
 
-            Config config = (Config)applicationContext.GetObject("Config");
+            //Config config = (Config)applicationContext.GetObject("Config");
             bool SendMessageResult;
-            JefferiesExcuReport.WebSocketUri = config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service + "/jms";
+            JefferiesExcuReport.WebSocketUri = Config.KaazingWebSocket_network + ":" + Config.KaazingWebSocket_service + "/jms";
             //JefferiesExcuReport.WebSocketUri = config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service;
             JefferiesExcuReport.DestinationFeature = messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
             JefferiesExcuReport.SendName = topicOrQueueName;
-            JefferiesExcuReport.UserName = config.KaazingWebSocketUserID;
-            JefferiesExcuReport.PassWord = config.KaazingWebSocketPwd;
+            JefferiesExcuReport.UserName = Config.KaazingWebSocketUserID;
+            JefferiesExcuReport.PassWord = Config.KaazingWebSocketPwd;
             try
             {
                 JefferiesExcuReport.Start();
@@ -116,13 +116,13 @@ namespace KaazingChatWebApplication
         [WebMethod]
         public bool SendReadMessageToServer(string message, string topicOrQueueName, MessageType messageType)
         {
-            Config config = (Config)applicationContext.GetObject("Config");
+            //Config config = (Config)applicationContext.GetObject("Config");
             bool SendMessageResult;
-            JefferiesExcuReport.WebSocketUri = config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service + "/jms";
+            JefferiesExcuReport.WebSocketUri = Config.KaazingWebSocket_network + ":" + Config.KaazingWebSocket_service + "/jms";
             JefferiesExcuReport.DestinationFeature = messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
             JefferiesExcuReport.SendName = topicOrQueueName;
-            JefferiesExcuReport.UserName = config.KaazingWebSocketUserID;
-            JefferiesExcuReport.PassWord = config.KaazingWebSocketPwd;
+            JefferiesExcuReport.UserName = Config.KaazingWebSocketUserID;
+            JefferiesExcuReport.PassWord = Config.KaazingWebSocketPwd;
             try
             {
                 JefferiesExcuReport.Start();

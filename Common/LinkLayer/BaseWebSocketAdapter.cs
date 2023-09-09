@@ -3,8 +3,8 @@ using Common.Utility;
 using Kaazing.JMS;
 using Kaazing.JMS.Stomp;
 using Kaazing.Security;
-using Spring.Context;
-using Spring.Context.Support;
+//using Spring.Context;
+//using Spring.Context.Support;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,9 +32,9 @@ namespace Common.LinkLayer
 
     public abstract class BaseWebSocketAdapter : Common.LinkLayer.IWebSocketAdapter
     {
-        IApplicationContext applicationContext = ContextRegistry.GetContext();
-        Config config;
-        protected readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        //IApplicationContext applicationContext = ContextRegistry.GetContext();
+        //Config config;
+        //protected readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         protected string _WebSocketUri = string.Empty;
         protected string _ListenName = string.Empty;
         protected string _SendName = string.Empty;
@@ -264,7 +264,7 @@ namespace Common.LinkLayer
 
         public void Start()
         {
-            config = (Config)applicationContext.GetObject("Config");
+            //config = (Config)applicationContext.GetObject("Config");
             if (!_WebSocketUri.Equals("") && _WebSocketUri.IndexOf(":") > -1)
             {
                 string ip = _WebSocketUri.Substring(0, _WebSocketUri.IndexOf(":"));
@@ -272,7 +272,7 @@ namespace Common.LinkLayer
             }
             // Example connection strings:
             // ems:tcp://tibcohost:7222
-            Uri connecturi = config.IsUseSSL ? new Uri("wss://" + _WebSocketUri) : new Uri("ws://" + _WebSocketUri);
+            Uri connecturi = _UseSSL ? new Uri("wss://" + _WebSocketUri) : new Uri("ws://" + _WebSocketUri);
             try
             {
                 if (_Connection == null)
@@ -302,18 +302,18 @@ namespace Common.LinkLayer
                         string LoginMsg = (basicHandler.LoginHandler as KaazingSocketLogin).LoginMsg;
                         if (LoginMsg != "")
                         {
-                            if (log.IsErrorEnabled) log.ErrorFormat("BaseWebSocketAdapter Start() Error({0})", LoginMsg);
+                            Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(ex, String.Format("BaseWebSocketAdapter Start() Error({0})", LoginMsg));
                             throw new Exception(LoginMsg);
                         }
                         else
                         {
-                            if (log.IsErrorEnabled) log.Error("BaseWebSocketAdapter Start() Error", ex);
+                            Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(ex, "BaseWebSocketAdapter Start() Error");
                             throw ex;
                         }
                     }
                     catch (Exception ex)
                     {
-                        if (log.IsErrorEnabled) log.Error("BaseWebSocketAdapter Start() Error", ex);
+                        Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(ex, "BaseWebSocketAdapter Start() Error");
                         throw ex;
                     }
                     try
@@ -322,7 +322,7 @@ namespace Common.LinkLayer
                     }
                     catch (Kaazing.JMS.JMSException ex)
                     {
-                        if (log.IsErrorEnabled) log.Error("BaseWebSocketAdapter Start() Error", ex);
+                        Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(ex, "BaseWebSocketAdapter Start() Error");
                         throw ex;
                     }
                     _Session = _Connection.CreateSession(false, SessionConstants.AUTO_ACKNOWLEDGE);
@@ -337,7 +337,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error("BaseWebSocketAdapter Start() Error", ex);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(ex, "BaseWebSocketAdapter Start() Error");
                 throw ex;
             }
         }
@@ -367,7 +367,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error("BaseWebSocketAdapter Close() Error", ex);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(ex, "BaseWebSocketAdapter Close() Error");
                 throw ex;
             }
         }
@@ -424,7 +424,7 @@ namespace Common.LinkLayer
             catch (Exception exception)
             {
                 ErrorMsg = "BaseWebSocketAdapter SendMessage() Error(" + exception.Message + ")";
-                if (log.IsErrorEnabled) log.Error("BaseWebSocketAdapter SendMessage() Error", exception);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(exception, "BaseWebSocketAdapter SendMessage() Error");
             }
             finally
             {
@@ -488,7 +488,7 @@ namespace Common.LinkLayer
             catch (Exception exception)
             {
                 ErrorMsg = "BaseWebSocketAdapter SendMessage() Error(" + exception.Message + ")";
-                if (log.IsErrorEnabled) log.Error("BaseWebSocketAdapter SendMessage() Error", exception);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(exception, "BaseWebSocketAdapter SendMessage() Error");
             }
             finally
             {
@@ -559,7 +559,7 @@ namespace Common.LinkLayer
             catch (Exception exception)
             {
                 ErrorMsg = "BaseWebSocketAdapter SendMessage() Error(" + exception.Message + ")";
-                if (log.IsErrorEnabled) log.Error("BaseWebSocketAdapter SendMessage() Error", exception);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(exception, "BaseWebSocketAdapter SendMessage() Error");
             }
             finally
             {
@@ -626,8 +626,8 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseWebSocketAdapter SendFile: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(ex, ErrorMsg);
+                //System.Environment.Exit(-1);
             }
             finally
             {
@@ -677,8 +677,8 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseWebSocketAdapter SendFile: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(ex, ErrorMsg);
+                //System.Environment.Exit(-1);
             }
             finally
             {
@@ -740,8 +740,8 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseWebSocketAdapter SendFile: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(ex, ErrorMsg);
+                //System.Environment.Exit(-1);
             }
             finally
             {
@@ -777,8 +777,8 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseWebSocketAdapter SendFile: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(ex, ErrorMsg);
+                //System.Environment.Exit(-1);
             }
             finally
             {
@@ -826,8 +826,8 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseWebSocketAdapter SendFile: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(ex, ErrorMsg);
+                //System.Environment.Exit(-1);
             }
             finally
             {
@@ -865,8 +865,8 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseWebSocketAdapter SendFile: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(ex, ErrorMsg);
+                //System.Environment.Exit(-1);
             }
             finally
             {
@@ -904,8 +904,8 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseWebSocketAdapter SendFile: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(ex, ErrorMsg);
+                //System.Environment.Exit(-1);
             }
             finally
             {
@@ -952,8 +952,8 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseWebSocketAdapter SendFile: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(ex, ErrorMsg);
+                //System.Environment.Exit(-1);
             }
             finally
             {
@@ -1002,8 +1002,8 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseWebSocketAdapter SendBase64File: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(ex, ErrorMsg);
+                //System.Environment.Exit(-1);
             }
             finally
             {
@@ -1040,8 +1040,8 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseWebSocketAdapter SendBase64File: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
-                System.Environment.Exit(-1);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(ex, ErrorMsg);
+                //System.Environment.Exit(-1);
             }
             finally
             {
@@ -1106,7 +1106,7 @@ namespace Common.LinkLayer
             }
             catch (Exception exception)
             {
-                if (log.IsErrorEnabled) log.Error("BaseWebSocketAdapter ReStartListener() Error", exception);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(exception, "BaseWebSocketAdapter ReStartListener() Error");
             }
         }
 
@@ -1136,7 +1136,7 @@ namespace Common.LinkLayer
             }
             catch (Exception exception)
             {
-                if (log.IsErrorEnabled) log.Error("BaseWebSocketAdapter ReStartSender() Error", exception);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(exception, "BaseWebSocketAdapter ReStartSender() Error");
             }
         }
 
@@ -1195,7 +1195,7 @@ namespace Common.LinkLayer
             catch (Exception exception)
             {
                 ErrorMsg = "BaseWebSocketAdapter SendAsyn() Error(" + exception.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, exception);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(exception, ErrorMsg);
             }
             finally
             {
@@ -1313,7 +1313,7 @@ namespace Common.LinkLayer
             }
             catch (Exception exception)
             {
-                if (log.IsErrorEnabled) log.Error("BaseWebSocketAdapter StartListener() Error", exception);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(exception, "BaseWebSocketAdapter StartListener() Error");
             }
         }
 
@@ -1343,7 +1343,7 @@ namespace Common.LinkLayer
             }
             catch (Exception exception)
             {
-                if (log.IsErrorEnabled) log.Error("BaseWebSocketAdapter StartSender() Error", exception);
+                Common.LogHelper.Logger.LogError<BaseWebSocketAdapter>(exception, "BaseWebSocketAdapter StartSender() Error");
             }
         }
 

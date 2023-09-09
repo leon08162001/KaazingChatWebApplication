@@ -1,5 +1,7 @@
-﻿using KaazingTestWebApplication.Configuration;
+﻿using Common;
+using KaazingTestWebApplication.Configuration;
 using System;
+using System.IO;
 using System.Web.Http;
 
 namespace KaazingTestWebApplication
@@ -17,6 +19,12 @@ namespace KaazingTestWebApplication
             #region 系統Log啟動
             log4net.Config.XmlConfigurator.Configure(new System.IO.FileInfo(Server.MapPath(@"~\log4net.config")));
             #endregion
+            FileInfo IniFile = new FileInfo(Path.Combine(Server.MapPath(""), "common.ini"));
+            using (FileStream FS = IniFile.OpenRead())
+            {
+                Config.ConfigStream = FS;
+                Config.ReadParameter();
+            }
         }
 
         protected void Session_Start(object sender, EventArgs e)

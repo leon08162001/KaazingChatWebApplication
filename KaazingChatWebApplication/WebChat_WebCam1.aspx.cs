@@ -15,8 +15,8 @@ namespace KaazingChatWebApplication
 {
     public partial class WebChat_WebCam1 : System.Web.UI.Page
     {
-        IApplicationContext applicationContext;
-        Config config;
+        //IApplicationContext applicationContext;
+        //Config config;
 
         protected string ClientIp = "";
         protected string KaazingJmsSvc = "";
@@ -25,16 +25,16 @@ namespace KaazingChatWebApplication
         protected string EnCryptWebSocketPWD = "";
         protected void Page_Load(object sender, EventArgs e)
         {
-            applicationContext = ContextRegistry.GetContext();
-            config = (Config)applicationContext.GetObject("Config");
+            //applicationContext = ContextRegistry.GetContext();
+            //config = (Config)applicationContext.GetObject("Config");
             //KaazingJmsSvc = config.IsUseSSL ? 
             //                "wss://" + config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service + "/jms" : 
             //                "ws://" + config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service + "/jms";
-            IsSaveVideoStreamToServer = config.IsSaveVideoStreamToServer;
+            IsSaveVideoStreamToServer = Config.IsSaveVideoStreamToServer;
             GetWebSocketLoadBalancerUrl();
             ClientIp = GetClientIp();
-            EnCryptWebSocketUID = config.KaazingWebSocketUserID;
-            EnCryptWebSocketPWD = config.KaazingWebSocketPwd;
+            EnCryptWebSocketUID = Config.KaazingWebSocketUserID;
+            EnCryptWebSocketPWD = Config.KaazingWebSocketPwd;
         }
         private string GetClientIp()
         {
@@ -53,16 +53,16 @@ namespace KaazingChatWebApplication
             try
             {
                 List<string> LoadBalancerUrls = new List<string>();
-                if (config.KaazingWebSocket_network.IndexOf(",") != -1)
+                if (Config.KaazingWebSocket_network.IndexOf(",") != -1)
                 {
-                    foreach (var ip in config.KaazingWebSocket_network.Split(new char[] { ',' }))
+                    foreach (var ip in Config.KaazingWebSocket_network.Split(new char[] { ',' }))
                     {
-                        LoadBalancerUrls.Add(ip + ":" + config.KaazingWebSocket_service);
+                        LoadBalancerUrls.Add(ip + ":" + Config.KaazingWebSocket_service);
                     }
                 }
                 else
                 {
-                    LoadBalancerUrls.Add(config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service);
+                    LoadBalancerUrls.Add(Config.KaazingWebSocket_network + ":" + Config.KaazingWebSocket_service);
                 }
                 foreach (var lbUrl in LoadBalancerUrls)
                 {
@@ -87,7 +87,7 @@ namespace KaazingChatWebApplication
                         if (tcpClient.Connected)
                         {
                             tcpClient.Close();
-                            KaazingJmsSvc = config.IsUseSSL ? "wss://" + ip + ":" + port + "/jms" : "ws://" + ip + ":" + port + "/jms";
+                            KaazingJmsSvc = Config.IsUseSSL ? "wss://" + ip + ":" + port + "/jms" : "ws://" + ip + ":" + port + "/jms";
                             break;
                         }
                         KaazingJmsSvc = "";

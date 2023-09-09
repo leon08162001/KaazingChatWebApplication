@@ -7,7 +7,7 @@ namespace Common.LinkLayer
 {
     public class AMQSharedConnection
     {
-        protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        //protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         protected static IConnectionFactory _Factory = null;
         protected static IConnection _Connection = null;
         public static IConnection GetConnection()
@@ -33,7 +33,7 @@ namespace Common.LinkLayer
             }
             catch (NMSException ex)
             {
-                if (log.IsErrorEnabled) log.Error("AMQSharedConnection Oepn() Error", ex);
+                Common.LogHelper.Logger.LogError<AMQSharedConnection>(ex);
                 throw ex;
             }
             try
@@ -43,7 +43,7 @@ namespace Common.LinkLayer
             }
             catch (NMSException ex)
             {
-                if (log.IsErrorEnabled) log.Error(string.Format("AMQSharedConnection Open({0},{1},{2}) Error", serverUrl, userName, passWord), ex);
+                Common.LogHelper.Logger.LogError<AMQSharedConnection>(ex);
                 throw ex;
             }
             //}

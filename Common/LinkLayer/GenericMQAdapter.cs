@@ -96,7 +96,7 @@ namespace Common.LinkLayer
             if (_DataType == null)
             {
                 _ErrMsg = "not yet assigned Fix Tag Type of Fix Data";
-                if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                Common.LogHelper.Logger.LogInfo<GenericMQAdapter>(_ErrMsg);
                 if (UISyncContext != null && IsEventInUIThread)
                 {
                     UISyncContext.Post(OnMessageHandleFinished, new MQMessageHandleFinishedEventArgs(_ErrMsg, null));
@@ -114,7 +114,7 @@ namespace Common.LinkLayer
                 if (!_DicDataType.ContainsKey(key))
                 {
                     _ErrMsg = string.Format("Fix Data's Tag[{0}] Not in the assigned type[{1}]", key, _DataType.Name);
-                    if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                    Common.LogHelper.Logger.LogInfo<GenericMQAdapter>(_ErrMsg);
                     if (UISyncContext != null && IsEventInUIThread)
                     {
                         UISyncContext.Post(OnMessageHandleFinished, new MQMessageHandleFinishedEventArgs(_ErrMsg, null));
@@ -218,8 +218,7 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 MessagRow = null;
-                //_ErrMsg += ex.Message + ";";
-                if (log.IsErrorEnabled) log.Error("GenericMQAdapter AddMessageToTable: ", ex);
+                Common.LogHelper.Logger.LogError<GenericMQAdapter>(ex);
             }
         }
     }

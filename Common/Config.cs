@@ -1,273 +1,320 @@
+﻿//using Android.Content;
+using Common.LinkLayer;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Common
 {
-    public class Config
+    public static class Config
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-        private string _path;
+        //public static Context Context = null;
+        public static Stream ConfigStream = null;
 
         //Kaazing WebSocket Setting
-        public string KaazingWebSocketUserID = "";
-        public string KaazingWebSocketPwd = "";
-        public string KaazingWebSocket_service;
-        public string KaazingWebSocket_network;
-        public bool IsUseSSL = false;
-        public string WebSocketReceivedMessageReservedSeconds = "20";
-        public string Mq_port;
-        public string Ems_port;
+        public static string KaazingWebSocketUserID = "";
+        public static string KaazingWebSocketPwd = "";
+        public static string KaazingWebSocket_service;
+        public static string KaazingWebSocket_network;
+        public static bool IsUseSSL = false;
+        public static string WebSocketReceivedMessageReservedSeconds = "20";
+        public static string Mq_port;
+        public static string Ems_port;
 
         //WebChat Setting
-        public bool IsSaveVideoStreamToServer = false;
-        public string VideoStreamFileFolder = "";
-
-        //Tibco RV Setting
-        public string Tibco_service;
-        public string Tibco_network;
-        public string Tibco_daemon;
-        public string TibcoReceivedMessageReservedSeconds = "30";
+        public static bool IsSaveVideoStreamToServer = false;
+        public static string VideoStreamFileFolder = "";
 
         //ActiveMQ&ApolloMQ Setting
-        public string ApolloMQUserID;
-        public string ApolloMQPwd;
-        public string ApolloMQ_service;
-        public string ApolloMQ_network;
+        public static string MQUserID;
+        public static string MQPwd;
+        public static string MQ_service;
+        public static string MQ_network;
+        public static bool MQ_useSSL = false;
+        public static DestinationFeature MQType = DestinationFeature.Topic;
+        public static string MQReceivedMessageReservedSeconds = "30";
 
         //EMS Setting
-        public string EMSUserID;
-        public string EMSPwd;
-        public string EMS_service;
-        public string EMS_network;
+        public static string EMSUserID;
+        public static string EMSPwd;
+        public static string EMS_service;
+        public static string EMS_network;
+        public static bool EMS_useSSL = false;
+        public static DestinationFeature EMSType = DestinationFeature.Topic;
+        public static List<string> EMS_CertsPath = new List<string>();
+        public static string EMSReceivedMessageReservedSeconds = "30";
 
-        //Y77
-        public string jefferiesExcuReport_Sender_Topic;
-        public string jefferiesExcuReport_Listener_Topic;
-        public string jefferiesExcuReportMaxThreads = "0";
-        public bool isUsingThreadPoolThreadForY77 = true;
+        //DBWebService
+        public static string dbWebService;
+        public static int webServiceTimeOut = 60;
 
-        //OTAExport
-        public string otaExport_Sender_Topic;
-        public string otaExport_Listener_Topic;
-        public string otaExportMaxThreads = "0";
-        public bool isUsingThreadPoolThreadForOTA = true;
+        //LogFolder
+        public static string logDir = "";
+        public static int preservedDaysForLog = 10;
 
-        //OTA1Export
-        public string ota1Export_Sender_Topic;
-        public string ota1Export_Listener_Topic;
-        public string ota1ExportMaxThreads = "0";
-        public bool isUsingThreadPoolThreadForOTA1 = true;
+        //PreservedRowsOfMessges
+        public static int preservedRowsForMessage = 200;
 
-        //OTA2Export
-        public string ota2Export_Sender_Topic;
-        public string ota2Export_Listener_Topic;
-        public string ota2ExportMaxThreads = "0";
-        public bool isUsingThreadPoolThreadForOTA2 = true;
+        ////Y77
+        public static string jefferiesExcuReport_Sender_Topic;
+        public static string jefferiesExcuReport_Listener_Topic;
+        public static string jefferiesExcuReportMaxThreads = "0";
+        public static bool isUsingThreadPoolThreadForY77 = true;
 
-        public Config(string path)
+        //Folder App PackageName
+        public static string folderApp1;
+        public static string folderApp2;
+        public static string folderApp3;
+
+        //TaipeiStarBankWebSite
+        public static string taipeistarbankWebSite;
+
+        //WebChatUrl
+        public static string WebChatUrl;
+
+        //OtherAppPushNotification
+        public static string PushAppNames;
+
+        public static void ReadParameter()
         {
-            _path = AppDomain.CurrentDomain.BaseDirectory + path;
-        }
-
-        public void ReadParameter()
-        {
-            if (!File.Exists(_path))
+            if (ConfigStream == null)
             {
-                if (log.IsErrorEnabled) log.Error("Config.cs: can't find " + _path);
+                Common.LogHelper.Logger.LogInfo("Config.cs: not yet be assigned config");
                 return;
             }
-            using (StreamReader sr = new StreamReader(_path))
+
+            using (StreamReader sr = new StreamReader(ConfigStream))
             {
-                while (sr.Peek() > 0)
+                try
                 {
-                    string line = sr.ReadLine().Trim();
-
-                    if (line == "")
-                        continue;
-
-                    if (line[0] == '#')
-                        continue;
-
-                    int seperator = line.IndexOf("=");
-
-                    if (seperator <= 0)
-                        return;
-
-                    string config_name = line.Substring(0, seperator);
-
-                    string config_value = line.Substring(seperator + 1, line.Length - seperator - 1);
-                    config_name = config_name.ToUpper();
-
-                    switch (config_name)
+                    while (sr.Peek() > 0)
                     {
-                        //Kaazing WebSocket Setting
-                        case "KAAZINGWEBSOCKETUSERID":
-                            KaazingWebSocketUserID = config_value;
-                            break;
-                        case "KAAZINGWEBSOCKETPWD":
-                            KaazingWebSocketPwd = config_value;
-                            break;
-                        case "KAAZINGWEBSOCKET_SERVICE":
-                            KaazingWebSocket_service = config_value;
-                            break;
-                        case "MQ_PORT":
-                            Mq_port = config_value;
-                            break;
-                        case "EMS_PORT":
-                            Ems_port = config_value;
-                            break;
-                        case "KAAZINGWEBSOCKET_NETWORK":
-                            KaazingWebSocket_network = config_value;
-                            break;
-                        case "ISUSESSL":
-                            {
-                                bool TestValue;
-                                IsUseSSL = bool.TryParse(config_value, out TestValue) ? TestValue : IsUseSSL;
-                                break;
-                            }
-                        case "ISSAVEVIDEOSTREAMTOSERVER":
-                            {
-                                bool TestValue;
-                                IsSaveVideoStreamToServer = bool.TryParse(config_value, out TestValue) ? TestValue : IsSaveVideoStreamToServer;
-                                break;
-                            }
-                        case "VIDEOSTREAMFILEFOLDER":
-                            VideoStreamFileFolder = config_value;
-                            break;
-                        case "WEBSOCKETRECEIVEDMESSAGERESERVEDSECONDS":
-                            {
-                                int TestValue;
-                                WebSocketReceivedMessageReservedSeconds = int.TryParse(config_value, out TestValue) ? TestValue.ToString() : WebSocketReceivedMessageReservedSeconds;
-                                break;
-                            }
-                        //Tibco Setting
-                        case "TIBCO_SERVICE":
-                            Tibco_service = config_value;
-                            break;
-                        case "TIBCO_NETWORK":
-                            Tibco_network = config_value;
-                            break;
-                        case "TIBCO_DAEMON":
-                            Tibco_daemon = config_value;
-                            break;
-                        case "TIBCORECEIVEDMESSAGERESERVEDSECONDS":
-                            {
-                                int TestValue;
-                                TibcoReceivedMessageReservedSeconds = int.TryParse(config_value, out TestValue) ? TestValue.ToString() : TibcoReceivedMessageReservedSeconds;
-                                break;
-                            }
-                        //ActiveMQ&ApolloMQ Setting
-                        case "APOLLOMQUSERID":
-                            ApolloMQUserID = config_value;
-                            break;
-                        case "APOLLOMQPWD":
-                            ApolloMQPwd = config_value;
-                            break;
-                        case "APOLLOMQ_SERVICE":
-                            ApolloMQ_service = config_value;
-                            break;
-                        case "APOLLOMQ_NETWORK":
-                            ApolloMQ_network = config_value;
-                            break;
+                        string line = sr.ReadLine().Trim();
 
-                        //EMS Setting
-                        case "EMSUSERID":
-                            EMSUserID = config_value;
-                            break;
-                        case "EMSPWD":
-                            EMSPwd = config_value;
-                            break;
-                        case "EMS_SERVICE":
-                            EMS_service = config_value;
-                            break;
-                        case "EMS_NETWORK":
-                            EMS_network = config_value;
-                            break;
+                        if (line == "")
+                            continue;
 
-                        //Y77
-                        case "JEFFERIESEXCUREPORT_SENDER_TOPIC":
-                            jefferiesExcuReport_Sender_Topic = config_value;
-                            break;
-                        case "JEFFERIESEXCUREPORT_LISTENER_TOPIC":
-                            jefferiesExcuReport_Listener_Topic = config_value;
-                            break;
-                        case "JEFFERIESEXCUREPORTMAXTHREADS":
-                            {
-                                int ConfigValue;
-                                jefferiesExcuReportMaxThreads = int.TryParse(config_value, out ConfigValue) ? ConfigValue.ToString() : jefferiesExcuReportMaxThreads;
-                                break;
-                            }
-                        case "ISUSINGTHREADPOOLTHREADFORY77":
-                            {
-                                bool ConfigValue;
-                                isUsingThreadPoolThreadForY77 = bool.TryParse(config_value, out ConfigValue) ? ConfigValue : isUsingThreadPoolThreadForY77;
-                                break;
-                            }
+                        if (line[0] == '#')
+                            continue;
 
-                        //OTAExport
-                        case "OTAEXPORT_SENDER_TOPIC":
-                            otaExport_Sender_Topic = config_value;
-                            break;
-                        case "OTAEXPORT_LISTENER_TOPIC":
-                            otaExport_Listener_Topic = config_value;
-                            break;
-                        case "OTAEXPORTMAXTHREADS":
-                            {
-                                int ConfigValue;
-                                otaExportMaxThreads = int.TryParse(config_value, out ConfigValue) ? ConfigValue.ToString() : otaExportMaxThreads;
-                                break;
-                            }
-                        case "ISUSINGTHREADPOOLTHREADFOROTA":
-                            {
-                                bool ConfigValue;
-                                isUsingThreadPoolThreadForOTA = bool.TryParse(config_value, out ConfigValue) ? ConfigValue : isUsingThreadPoolThreadForOTA;
-                                break;
-                            }
+                        int seperator = line.IndexOf("=");
 
-                        //OTA1Export
-                        case "OTA1EXPORT_SENDER_TOPIC":
-                            ota1Export_Sender_Topic = config_value;
-                            break;
-                        case "OTA1EXPORT_LISTENER_TOPIC":
-                            ota1Export_Listener_Topic = config_value;
-                            break;
-                        case "OTA1EXPORTMAXTHREADS":
-                            {
-                                int ConfigValue;
-                                ota1ExportMaxThreads = int.TryParse(config_value, out ConfigValue) ? ConfigValue.ToString() : ota1ExportMaxThreads;
-                                break;
-                            }
-                        case "ISUSINGTHREADPOOLTHREADFOROTA1":
-                            {
-                                bool ConfigValue;
-                                isUsingThreadPoolThreadForOTA1 = bool.TryParse(config_value, out ConfigValue) ? ConfigValue : isUsingThreadPoolThreadForOTA1;
-                                break;
-                            }
+                        if (seperator <= 0)
+                            return;
 
-                        //OTA2Export
-                        case "OTA2EXPORT_SENDER_TOPIC":
-                            ota2Export_Sender_Topic = config_value;
-                            break;
-                        case "OTA2EXPORT_LISTENER_TOPIC":
-                            ota2Export_Listener_Topic = config_value;
-                            break;
-                        case "OTA2EXPORTMAXTHREADS":
-                            {
-                                int ConfigValue;
-                                ota2ExportMaxThreads = int.TryParse(config_value, out ConfigValue) ? ConfigValue.ToString() : ota2ExportMaxThreads;
+                        string config_name = line.Substring(0, seperator);
+                        string config_value = line.Substring(seperator + 1, line.Length - seperator - 1);
+                        //string config_value = line.Substring(seperator + 1, line.Length - seperator - 1)
+                        //    .Replace("#", string.IsNullOrEmpty(Util.GetMacAddress()) ? "#" : Util.GetMacAddress());
+
+                        config_name = config_name.ToUpper();
+
+                        switch (config_name)
+                        {
+                            //Kaazing WebSocket Setting
+                            case "KAAZINGWEBSOCKETUSERID":
+                                KaazingWebSocketUserID = config_value;
                                 break;
-                            }
-                        case "ISUSINGTHREADPOOLTHREADFOROTA2":
-                            {
-                                bool ConfigValue;
-                                isUsingThreadPoolThreadForOTA2 = bool.TryParse(config_value, out ConfigValue) ? ConfigValue : isUsingThreadPoolThreadForOTA2;
+                            case "KAAZINGWEBSOCKETPWD":
+                                KaazingWebSocketPwd = config_value;
                                 break;
-                            }
+                            case "KAAZINGWEBSOCKET_SERVICE":
+                                KaazingWebSocket_service = config_value;
+                                break;
+                            case "MQ_PORT":
+                                Mq_port = config_value;
+                                break;
+                            case "EMS_PORT":
+                                Ems_port = config_value;
+                                break;
+                            case "KAAZINGWEBSOCKET_NETWORK":
+                                KaazingWebSocket_network = config_value;
+                                break;
+                            case "ISUSESSL":
+                                {
+                                    bool TestValue;
+                                    IsUseSSL = bool.TryParse(config_value, out TestValue) ? TestValue : IsUseSSL;
+                                    break;
+                                }
+                            case "ISSAVEVIDEOSTREAMTOSERVER":
+                                {
+                                    bool TestValue;
+                                    IsSaveVideoStreamToServer = bool.TryParse(config_value, out TestValue) ? TestValue : IsSaveVideoStreamToServer;
+                                    break;
+                                }
+                            case "VIDEOSTREAMFILEFOLDER":
+                                VideoStreamFileFolder = config_value;
+                                break;
+                            case "WEBSOCKETRECEIVEDMESSAGERESERVEDSECONDS":
+                                {
+                                    int TestValue;
+                                    WebSocketReceivedMessageReservedSeconds = int.TryParse(config_value, out TestValue) ? TestValue.ToString() : WebSocketReceivedMessageReservedSeconds;
+                                    break;
+                                }
+                            //ActiveMQ&ApolloMQ Setting
+                            case "MQUSERID":
+                                MQUserID = config_value;
+                                break;
+                            case "MQPWD":
+                                MQPwd = config_value;
+                                break;
+                            case "MQ_SERVICE":
+                                MQ_service = config_value;
+                                break;
+                            case "MQ_NETWORK":
+                                MQ_network = config_value;
+                                break;
+                            case "MQ_USESSL":
+                                MQ_useSSL = Convert.ToBoolean(config_value);
+                                break;
+                            case "MQTYPE":
+                                {
+                                    int ConfigValue;
+                                    MQType = int.TryParse(config_value, out ConfigValue)
+                                        ? (DestinationFeature)ConfigValue : MQType;
+                                    break;
+                                }
+                            case "MQRECEIVEDMESSAGERESERVEDSECONDS":
+                                {
+                                    int TestValue;
+                                    MQReceivedMessageReservedSeconds = int.TryParse(config_value, out TestValue)
+                                        ? TestValue.ToString()
+                                        : MQReceivedMessageReservedSeconds;
+                                    break;
+                                }
+
+                            //EMS Setting
+                            case "EMSUSERID":
+                                EMSUserID = config_value;
+                                break;
+                            case "EMSPWD":
+                                EMSPwd = config_value;
+                                break;
+                            case "EMS_SERVICE":
+                                EMS_service = config_value;
+                                break;
+                            case "EMS_NETWORK":
+                                EMS_network = config_value;
+                                break;
+                            case "EMS_USESSL":
+                                EMS_useSSL = Convert.ToBoolean(config_value);
+                                break;
+                            case "EMSTYPE":
+                                {
+                                    int ConfigValue;
+                                    EMSType = int.TryParse(config_value, out ConfigValue)
+                                        ? (DestinationFeature)ConfigValue : EMSType;
+                                    break;
+                                }
+                            case "EMS_CERTSPATH":
+                                if (config_value.IndexOf(",") == -1)
+                                {
+                                    EMS_CertsPath.Add(config_value);
+                                }
+                                else
+                                {
+                                    EMS_CertsPath = config_value.Split(new char[] { ',' }).ToList<string>();
+                                }
+                                break;
+                            case "EMSRECEIVEDMESSAGERESERVEDSECONDS":
+                                {
+                                    int TestValue;
+                                    EMSReceivedMessageReservedSeconds = int.TryParse(config_value, out TestValue)
+                                        ? TestValue.ToString()
+                                        : EMSReceivedMessageReservedSeconds;
+                                    break;
+                                }
+
+                            //DBWebService
+                            case "DBWEBSERVICE":
+                                dbWebService = config_value;
+                                break;
+                            case "WEBSERVICETIMEOUT":
+                                {
+                                    int ConfigValue;
+                                    webServiceTimeOut = int.TryParse(config_value, out ConfigValue)
+                                        ? ConfigValue
+                                        : webServiceTimeOut;
+                                    break;
+                                }
+
+                            //LogFolder
+                            case "LOGDIR":
+                                logDir = config_value;
+                                break;
+                            case "PRESERVEDDAYSFORLOG":
+                                {
+                                    int ConfigValue;
+                                    preservedDaysForLog = int.TryParse(config_value, out ConfigValue)
+                                        ? ConfigValue
+                                        : preservedDaysForLog;
+                                    break;
+                                }
+
+                            //PreservedRowsOfMessges
+                            case "PRESERVEDROWSFORMESSAGE":
+                                {
+                                    int ConfigValue;
+                                    preservedRowsForMessage = int.TryParse(config_value, out ConfigValue)
+                                        ? ConfigValue
+                                        : preservedRowsForMessage;
+                                    break;
+                                }
+
+                            //Y77
+                            case "JEFFERIESEXCUREPORT_SENDER_TOPIC":
+                                jefferiesExcuReport_Sender_Topic = config_value;
+                                break;
+                            case "JEFFERIESEXCUREPORT_LISTENER_TOPIC":
+                                jefferiesExcuReport_Listener_Topic = config_value;
+                                break;
+                            case "JEFFERIESEXCUREPORTMAXTHREADS":
+                                {
+                                    int ConfigValue;
+                                    jefferiesExcuReportMaxThreads = int.TryParse(config_value, out ConfigValue)
+                                        ? ConfigValue.ToString()
+                                        : jefferiesExcuReportMaxThreads;
+                                    break;
+                                }
+                            case "ISUSINGTHREADPOOLTHREADFORY77":
+                                {
+                                    bool ConfigValue;
+                                    isUsingThreadPoolThreadForY77 = bool.TryParse(config_value, out ConfigValue)
+                                        ? ConfigValue
+                                        : isUsingThreadPoolThreadForY77;
+                                    break;
+                                }
+                            //Folder App PackageName
+                            case "FOLDERAPP1":
+                                folderApp1 = config_value;
+                                break;
+                            case "FOLDERAPP2":
+                                folderApp2 = config_value;
+                                break;
+                            case "FOLDERAPP3":
+                                folderApp3 = config_value;
+                                break;
+                            //MessageWebApiWebSite
+                            case "TAIPEISTARBANKWEBSITE":
+                                taipeistarbankWebSite = config_value;
+                                break;
+                            //WebChatUrl
+                            case "WEBCHATURL":
+                                WebChatUrl = config_value;
+                                break;
+                            //OtherAppPushNotification
+                            case "PUSHAPPNAMES":
+                                PushAppNames = config_value;
+                                break;
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    Common.LogHelper.Logger.LogError(ex);
                 }
             }
         }
-
     }
 }

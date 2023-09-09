@@ -10,7 +10,7 @@ namespace Common.LinkLayer
 
     public class EMSSharedConnection
     {
-        protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        //protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         protected static ConnectionFactory _Factory = null;
         protected static Connection _Connection = null;
 
@@ -48,7 +48,7 @@ namespace Common.LinkLayer
             }
             catch (TIBCO.EMS.EMSException ex)
             {
-                if (log.IsErrorEnabled) log.Error("EMSSharedConnection Oepn() Error", ex);
+                Common.LogHelper.Logger.LogError<EMSSharedConnection>(ex);
                 throw ex;
             }
             try
@@ -57,7 +57,7 @@ namespace Common.LinkLayer
             }
             catch (TIBCO.EMS.EMSException ex)
             {
-                if (log.IsErrorEnabled) log.Error(string.Format("EMSSharedConnection Open({0},{1},{2}) Error", serverUrl, userName, passWord), ex);
+                Common.LogHelper.Logger.LogError<EMSSharedConnection>(ex);
                 throw ex;
             }
             //}
