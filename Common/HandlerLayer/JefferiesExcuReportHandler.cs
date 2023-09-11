@@ -1,6 +1,5 @@
 ﻿using Common.Dictionary;
 using Common.Utility;
-using Spring.Context.Support;
 using System.Data;
 
 namespace Common.HandlerLayer
@@ -45,8 +44,9 @@ namespace Common.HandlerLayer
             {
                 lock (Mutex)
                 {
+
                     if (_singleton == null)
-                        _singleton = new JefferiesExcuReportHandler(((Config)ContextRegistry.GetContext().GetObject("Config")).jefferiesExcuReportMaxThreads, EnabledThreadPool);
+                        _singleton = new JefferiesExcuReportHandler(Config.jefferiesExcuReportMaxThreads, EnabledThreadPool);
                 }
             }
             return _singleton;

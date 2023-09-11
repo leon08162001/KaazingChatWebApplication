@@ -1,13 +1,12 @@
 ﻿using Common.TopicMessage;
 using Common.Utility;
-using Spring.Context;
-using Spring.Context.Support;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using TIBCO.EMS;
+
 namespace Common.LinkLayer
 {
     [Serializable]
@@ -46,8 +45,8 @@ namespace Common.LinkLayer
             }
         }
 
-        IApplicationContext applicationContext = ContextRegistry.GetContext();
-        Config config;
+        //IApplicationContext applicationContext = ContextRegistry.GetContext();
+        //Config config;
 
         /// <summary>
         /// 完成所有批次資料處理時事件
@@ -82,13 +81,25 @@ namespace Common.LinkLayer
 
         private static BatchEMSAdapter1 singleton;
 
-        public BatchEMSAdapter1() : base() { config = (Config)applicationContext.GetObject("Config"); this.BatchMismatched += new BatchMismatchedEventHandler(BatchEMSAdapter_BatchMismatched); }
+        public BatchEMSAdapter1() : base()
+        {
+            //config = (Config)applicationContext.GetObject("Config");
+            this.BatchMismatched += new BatchMismatchedEventHandler(BatchEMSAdapter_BatchMismatched);
+        }
 
         public BatchEMSAdapter1(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
-            : base(Uri, DestinationFeature, ListenName, SendName) { config = (Config)applicationContext.GetObject("Config"); this.BatchMismatched += new BatchMismatchedEventHandler(BatchEMSAdapter_BatchMismatched); }
+            : base(Uri, DestinationFeature, ListenName, SendName)
+        {
+            //config = (Config)applicationContext.GetObject("Config");
+            this.BatchMismatched += new BatchMismatchedEventHandler(BatchEMSAdapter_BatchMismatched);
+        }
 
         public BatchEMSAdapter1(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
-            : base(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd) { config = (Config)applicationContext.GetObject("Config"); this.BatchMismatched += new BatchMismatchedEventHandler(BatchEMSAdapter_BatchMismatched); }
+            : base(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd)
+        {
+            //config = (Config)applicationContext.GetObject("Config");
+            this.BatchMismatched += new BatchMismatchedEventHandler(BatchEMSAdapter_BatchMismatched);
+        }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public static BatchEMSAdapter1 getSingleton()
@@ -194,7 +205,7 @@ namespace Common.LinkLayer
                         _IsBatchFinished = true;
                         RunOnBatchFinished(_ErrMsg, MessageDT);
                         _IsBatchFinished = false;
-                        if (log.IsErrorEnabled) log.Error(ex1.Message, ex1);
+                        Common.LogHelper.Logger.LogError<BatchEMSAdapter>(ex1);
                     }
                 }
                 //接收文字訊息
@@ -243,7 +254,7 @@ namespace Common.LinkLayer
                     if (_DataType == null)
                     {
                         _ErrMsg = "not yet assigned Tag Type of Tag Data";
-                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        Common.LogHelper.Logger.LogInfo<BatchEMSAdapter>(_ErrMsg);
                         RunOnMessageHandleFinished(_ErrMsg, null);
                         return;
                     }
@@ -254,7 +265,7 @@ namespace Common.LinkLayer
                         if (!_DicTagType.ContainsKey(key))
                         {
                             _ErrMsg = string.Format("Tag Data's Tag[{0}] Not in the assigned type[{1}]", key, _DataType.Name);
-                            if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                            Common.LogHelper.Logger.LogInfo<BatchEMSAdapter>(_ErrMsg);
                             RunOnMessageHandleFinished(_ErrMsg, null);
                             return;
                         }
@@ -270,7 +281,7 @@ namespace Common.LinkLayer
                         if (!int.TryParse(MessageDictionary[TotalRecords].ToString(), out iTotalRecords))
                         {
                             _ErrMsg = "TotalRecords value must be digit";
-                            if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                            Common.LogHelper.Logger.LogInfo<BatchEMSAdapter>(_ErrMsg);
                             RunOnMessageHandleFinished(_ErrMsg, null);
                             return;
                         }
@@ -279,7 +290,7 @@ namespace Common.LinkLayer
                     if (!MessageDictionary.ContainsKey(MessageID))
                     {
                         _ErrMsg = "MessageID Of Message in MessageBody is not exist";
-                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        Common.LogHelper.Logger.LogInfo<BatchEMSAdapter>(_ErrMsg);
                         RunOnMessageHandleFinished(_ErrMsg, null);
                         return;
                     }
@@ -303,7 +314,7 @@ namespace Common.LinkLayer
                     else
                     {
                         _ErrMsg = "Error happened when generate DataRow";
-                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        Common.LogHelper.Logger.LogInfo<BatchEMSAdapter>(_ErrMsg);
                         RunOnMessageHandleFinished(_ErrMsg, null);
                     }
                     if (DicMessageBody.ContainsKey(MessageDictionary[MessageID].ToString()) && MB.Messages.Rows.Count > 0)
@@ -333,7 +344,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                Common.LogHelper.Logger.LogError<BatchEMSAdapter>(ex);
             }
         }
 
@@ -354,7 +365,7 @@ namespace Common.LinkLayer
                     if (iTotalRecords != BodyCount)
                     {
                         string _ErrMsg = string.Format("Message Body Rows({0}) of Message ID:{1} is not match TotalRecords({2})", BodyCount, Guid, iTotalRecords);
-                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        Common.LogHelper.Logger.LogInfo<BatchEMSAdapter>(_ErrMsg);
                         OnBatchMismatched(new BatchMismatchedEventArgs(_ErrMsg));
                     }
                     DicMessageBody.Remove(Guid);
@@ -372,7 +383,7 @@ namespace Common.LinkLayer
 
         void BatchEMSAdapter_BatchMismatched(object sender, BatchMismatchedEventArgs e)
         {
-            if (log.IsInfoEnabled) log.Info(e.MismatchedMessage);
+            Common.LogHelper.Logger.LogInfo<BatchEMSAdapter>(e.MismatchedMessage);
         }
 
         private void RunOnMessageHandleFinished(string ErrorMessage, DataRow MessageRow)

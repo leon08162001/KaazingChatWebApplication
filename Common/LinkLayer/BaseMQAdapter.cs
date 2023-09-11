@@ -55,7 +55,6 @@ namespace Common.LinkLayer
     [Serializable]
     public abstract class BaseMQAdapter : Common.LinkLayer.IMQAdapter
     {
-        protected readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         protected string _Uri = string.Empty;
         protected string _ListenName = string.Empty;
         protected string _SendName = string.Empty;
@@ -158,35 +157,43 @@ namespace Common.LinkLayer
                 _MessageAsynSendFinished(this, e);
             }
         }
+
         public string Uri
         {
             set { _Uri = value; }
             get { return _Uri; }
         }
+
         public MsgDeliveryMode DeliveryMode
         {
             set { _DeliveryMode = value; }
             get { return _DeliveryMode; }
         }
+
         public DestinationFeature DestinationFeature
         {
             set { _DestinationFeature = value; }
             get { return _DestinationFeature; }
         }
+
         public string ListenName
         {
             set { _ListenName = value; }
             get { return _ListenName; }
         }
+
         public string SendName
         {
             set { _SendName = value; }
             get { return _SendName; }
         }
+
+
         public string UserName
         {
             set { _UserName = value; }
         }
+
         public string PassWord
         {
             set { _PassWord = value; }
@@ -220,11 +227,13 @@ namespace Common.LinkLayer
             set { _MirroredQueuePrefix = value; }
             get { return _MirroredQueuePrefix; }
         }
+
         public string VirtualTopicPrefix
         {
             set { _VirtualTopicPrefix = value; }
             get { return _VirtualTopicPrefix; }
         }
+
         public int VirtualTopicConsumers
         {
             set { _VirtualTopicConsumers = value; }
@@ -266,6 +275,7 @@ namespace Common.LinkLayer
             get { return _UseSSL; }
             set { _UseSSL = value; }
         }
+
         /// <summary>
         /// 心跳訊息間隔(秒)
         /// </summary>
@@ -316,6 +326,7 @@ namespace Common.LinkLayer
         public BaseMQAdapter()
         {
         }
+
         public BaseMQAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
         {
             _Uri = Uri;
@@ -332,6 +343,7 @@ namespace Common.LinkLayer
             _UserName = UserName;
             _PassWord = Pwd;
         }
+
         public bool CheckMessageBrokerAlive()
         {
             string urls;
@@ -362,7 +374,7 @@ namespace Common.LinkLayer
                     }
                     catch (NMSException ex)
                     {
-                        if (log.IsErrorEnabled) log.Error("CheckMessageBrokerAlive() Error", ex);
+                        Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, "CheckMessageBrokerAlive() Error");
                         result = false;
                     }
                 }
@@ -388,7 +400,7 @@ namespace Common.LinkLayer
                         }
                         catch (NMSException ex)
                         {
-                            if (log.IsErrorEnabled) log.Error("CheckMessageBrokerAlive() Error", ex);
+                            Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, "CheckMessageBrokerAlive() Error");
                             continue;
                         }
                     }
@@ -431,7 +443,7 @@ namespace Common.LinkLayer
                     }
                     catch (NMSException ex)
                     {
-                        if (log.IsErrorEnabled) log.Error("CheckMessageBrokerAlive() Error", ex);
+                        Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, "CheckMessageBrokerAlive() Error");
                         continue;
                     }
                 }
@@ -462,7 +474,6 @@ namespace Common.LinkLayer
             if (!SingleUrl.Equals("") && SingleUrl.IndexOf(":") > -1)
             {
                 string ip = SingleUrl.Substring(0, SingleUrl.IndexOf(":"));
-                _MacAddress = Util.GetMacAddress();
             }
             // Example connection strings:
             //failover:tcp://localhost:61616?initialReconnectDelay=2000&maxReconnectAttempts=2
@@ -518,7 +529,7 @@ namespace Common.LinkLayer
                     }
                     catch (Apache.NMS.NMSConnectionException ex)
                     {
-                        if (log.IsErrorEnabled) log.Error("BaseMQAdapter Start() Error", ex);
+                        Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
                         throw ex;
                     }
                     try
@@ -528,7 +539,7 @@ namespace Common.LinkLayer
                     }
                     catch (BrokerException ex)
                     {
-                        if (log.IsErrorEnabled) log.Error("BaseMQAdapter Start() Error", ex);
+                        Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
                         throw ex;
                     }
                     _Session = _Connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
@@ -541,7 +552,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error("BaseMQAdapter Start() Error", ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
                 throw ex;
             }
         }
@@ -576,7 +587,7 @@ namespace Common.LinkLayer
             }
             catch (ConnectionClosedException ex)
             {
-                if (log.IsErrorEnabled) log.Error("BaseMQAdapter Close() Error", ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
                 throw ex;
             }
         }
@@ -610,7 +621,7 @@ namespace Common.LinkLayer
         {
             if (message.Properties.Count < 1)
             {
-                if (log.IsWarnEnabled) log.Warn("MQMessage Format is InCorrect");
+                Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("MQMessage Format is InCorrect");
             }
             else
             {
@@ -638,14 +649,14 @@ namespace Common.LinkLayer
                     }
                     else
                     {
-                        if (log.IsInfoEnabled) log.Info("Network connection or ActiveMQService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("Network connection or ActiveMQService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendMessage() Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -704,15 +715,14 @@ namespace Common.LinkLayer
                     }
                     else
                     {
-                        //throw new Exception("Network connection or ActiveMQService Has been closed!");
-                        if (log.IsInfoEnabled) log.Info("Network connection or ActiveMQService Has been closed!");
+                        throw new Exception("Network connection or ActiveMQService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendMessage() Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -773,16 +783,15 @@ namespace Common.LinkLayer
                         }
                         else
                         {
-                            //throw new Exception("Network connection or ActiveMQService Has been closed!");
-                            if (log.IsInfoEnabled) log.Info("Network connection or ActiveMQService Has been closed!");
+                            throw new Exception("Network connection or ActiveMQService Has been closed!");
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                ErrorMsg = "SendMessage: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                ErrorMsg = "BaseMQAdapter SendMessage: Error(" + ex.Message + ")";
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -850,14 +859,14 @@ namespace Common.LinkLayer
                     }
                     else
                     {
-                        if (log.IsInfoEnabled) log.Info("Network connection or ActiveMQService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("Network connection or ActiveMQService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendFile: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -904,7 +913,7 @@ namespace Common.LinkLayer
                             }
                             else
                             {
-                                if (log.IsInfoEnabled) log.Info("Network connection or ActiveMQService Has been closed!");
+                                Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("Network connection or ActiveMQService Has been closed!");
                             }
                         }
                     }
@@ -915,7 +924,7 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendFileByChunks: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -954,14 +963,14 @@ namespace Common.LinkLayer
                     }
                     else
                     {
-                        if (log.IsInfoEnabled) log.Info("Network connection or ActiveMQService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("Network connection or ActiveMQService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendFile: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -1007,7 +1016,7 @@ namespace Common.LinkLayer
                         }
                         else
                         {
-                            if (log.IsInfoEnabled) log.Info("Network connection or ActiveMQService Has been closed!");
+                            Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("Network connection or ActiveMQService Has been closed!");
                         }
                     }
                 }
@@ -1015,7 +1024,7 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendFileByChunks: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -1069,14 +1078,14 @@ namespace Common.LinkLayer
                     }
                     else
                     {
-                        if (log.IsInfoEnabled) log.Info("Network connection or ActiveMQService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("Network connection or ActiveMQService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendBase64File: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -1116,14 +1125,14 @@ namespace Common.LinkLayer
                     }
                     else
                     {
-                        if (log.IsInfoEnabled) log.Info("Network connection or ActiveMQService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("Network connection or ActiveMQService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendBase64File: Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -1241,7 +1250,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error("BaseMQAdapter ReStartListener() Error", ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
             }
         }
         public void ReStartSender(string SendName)
@@ -1271,7 +1280,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error("BaseMQAdapter ReStartSender() Error", ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
             }
         }
         public void CloseSharedConnection()
@@ -1289,7 +1298,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error("BaseMQAdapter CloseSharedConnection() Error", ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
             }
         }
         protected void SendAsyn(IMessageProducer Producer, string MessageIDTag, List<List<MessageField>> MultiMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
@@ -1332,8 +1341,7 @@ namespace Common.LinkLayer
                         }
                         else
                         {
-                            //throw new Exception("Network connection or ActiveMQService Has been closed!");
-                            if (log.IsInfoEnabled) log.Info("Network connection or ActiveMQService Has been closed!");
+                            throw new Exception("Network connection or ActiveMQService Has been closed!");
                         }
                     }
                 }
@@ -1341,7 +1349,7 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendAsyn() Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -1403,15 +1411,14 @@ namespace Common.LinkLayer
                     }
                     else
                     {
-                        //throw new Exception("Network connection or ActiveMQService Has been closed!");
-                        if (log.IsInfoEnabled) log.Info("Network connection or ActiveMQService Has been closed!");
+                        throw new Exception("Network connection or ActiveMQService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendCountMessage: Error happened(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             return isSend;
@@ -1513,7 +1520,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error("BaseMQAdapter StartListener() Error", ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
             }
         }
         private void StartSender()
@@ -1539,7 +1546,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error("BaseMQAdapter StartSender() Error", ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
             }
         }
         private void InitialHeartBeat()
@@ -1558,6 +1565,7 @@ namespace Common.LinkLayer
         {
             HeartBeatTimer = null;
         }
+
         private void SetHeartBeat()
         {
             string ErrorMsg = "";
@@ -1579,15 +1587,14 @@ namespace Common.LinkLayer
                     }
                     else
                     {
-                        //throw new Exception("Network connection or ActiveMQService Has been closed!");
-                        if (log.IsInfoEnabled) log.Info("Network connection or ActiveMQService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("Network connection or ActiveMQService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SetHeartBeat: Error happened(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
         }
@@ -1655,12 +1662,12 @@ namespace Common.LinkLayer
         private void _Connection_ConnectionResumedListener()
         {
             string ConnActiveUrl = (_Connection as Apache.NMS.ActiveMQ.Connection).ITransport.RemoteAddress.AbsoluteUri;
-            if (log.IsErrorEnabled) log.ErrorFormat("Connection has performed fault-tolerant switch to {0}", ConnActiveUrl);
+            Common.LogHelper.Logger.LogInfo<BaseMQAdapter>(string.Format("Connection has performed fault-tolerant switch to {0}", ConnActiveUrl));
         }
         private void _Connection_ExceptionListener(Exception exception)
         {
             string ConnActiveUrl = (_Connection as Apache.NMS.ActiveMQ.Connection).ITransport.RemoteAddress.AbsoluteUri;
-            if (log.IsErrorEnabled) log.ErrorFormat("Connection has performed fault-tolerant switch to {0}", ConnActiveUrl);
+            Common.LogHelper.Logger.LogInfo<BaseMQAdapter>(string.Format("Connection has performed fault-tolerant switch to {0}", ConnActiveUrl));
         }
     }
 }

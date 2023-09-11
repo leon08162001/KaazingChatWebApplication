@@ -8,7 +8,7 @@ namespace Common.HandlerLayer
 {
     public abstract class TopicTypeHandler
     {
-        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        //private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         protected TopicType _TopicType;
         protected Type _ResponseTag;
         protected bool _EnabledThreadPool = true;
@@ -108,7 +108,7 @@ namespace Common.HandlerLayer
         /// </summary>
         public void LogActualMaxThreads()
         {
-            if (!_EnabledThreadPool & log.IsInfoEnabled) log.InfoFormat("ActualMaxThreads for {0} is：{1}", Enum.GetName(typeof(TopicType), _TopicType), _ActualMaxThreads);
+            //if (!_EnabledThreadPool & log.IsInfoEnabled) log.InfoFormat("ActualMaxThreads for {0} is：{1}", Enum.GetName(typeof(TopicType), _TopicType), _ActualMaxThreads);
         }
         /// <summary>
         /// 增加一個工作中執行緒數量

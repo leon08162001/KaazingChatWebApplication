@@ -1,17 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿//using Java.Util;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.ServiceModel.Channels;
 using System.Text;
-using System.Web;
 
 namespace Common.Utility
 {
@@ -23,7 +21,7 @@ namespace Common.Utility
         static extern Int32 inet_addr(string ipaddr);
 
 
-        public static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        //public static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         /// <summary>
         /// 轉換MsgType.cs中Tag Class的常數名稱及常數值為Dictionary
         /// </summary>
@@ -63,7 +61,7 @@ namespace Common.Utility
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error("Util AddMessageToRow: ", ex);
+                Common.LogHelper.Logger.LogError<Util>(ex);
             }
             return DicTag;
         }
@@ -101,7 +99,7 @@ namespace Common.Utility
             catch (Exception ex)
             {
                 MessagRow = null;
-                if (log.IsErrorEnabled) log.Error("Util AddMessageToTable: ", ex);
+                Common.LogHelper.Logger.LogError<Util>(ex);
             }
             return MessageDT;
         }
@@ -118,7 +116,7 @@ namespace Common.Utility
             catch (Exception ex)
             {
                 tmpMessagRow = null;
-                if (log.IsErrorEnabled) log.Error("Util AddMessageToRow: ", ex);
+                Common.LogHelper.Logger.LogError<Util>(ex);
             }
             return tmpMessagRow;
         }
@@ -243,7 +241,7 @@ namespace Common.Utility
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error("Util AddMessageToRow: ", ex);
+                Common.LogHelper.Logger.LogError<Util>(ex);
             }
             return MessageMap;
         }
@@ -275,7 +273,7 @@ namespace Common.Utility
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error("Util AddMessageToRow: ", ex);
+                Common.LogHelper.Logger.LogError<Util>(ex);
             }
             return MessageMapList;
         }
@@ -315,7 +313,7 @@ namespace Common.Utility
             catch (Exception ex)
             {
                 strMacAddress = string.Empty;
-                if (log.IsErrorEnabled) log.Error("Util AddMessageToRow: ", ex);
+                Common.LogHelper.Logger.LogError<Util>(ex);
             }
             return strMacAddress;
         }
@@ -356,7 +354,7 @@ namespace Common.Utility
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                Common.LogHelper.Logger.LogError<Util>(ex);
             }
             return obj;
         }
@@ -383,7 +381,7 @@ namespace Common.Utility
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                Common.LogHelper.Logger.LogError<Util>(ex);
             }
             return value.ToString(); // Or throw an exception
         }
@@ -1151,27 +1149,6 @@ namespace Common.Utility
                 }
             }
             return FailOverConnString.ToString();
-        }
-
-        public static string GetClientIp(HttpRequestMessage request = null)
-        {
-            if (request.Properties.ContainsKey("MS_HttpContext"))
-            {
-                return ((HttpContextWrapper)request.Properties["MS_HttpContext"]).Request.UserHostAddress;
-            }
-            else if (request.Properties.ContainsKey(RemoteEndpointMessageProperty.Name))
-            {
-                RemoteEndpointMessageProperty prop = (RemoteEndpointMessageProperty)request.Properties[RemoteEndpointMessageProperty.Name];
-                return prop.Address;
-            }
-            else if (HttpContext.Current != null)
-            {
-                return HttpContext.Current.Request.UserHostAddress;
-            }
-            else
-            {
-                return null;
-            }
         }
         public static List<T> DataTableToList<T>(DataTable DT) where T : class, new()
         {

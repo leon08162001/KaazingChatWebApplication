@@ -53,8 +53,8 @@ namespace KaazingTestWebApplication.Controllers
             public string mqUrl { get; set; }
         }
         private readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        IApplicationContext applicationContext = ContextRegistry.GetContext();
-        Config config;
+        //IApplicationContext applicationContext = ContextRegistry.GetContext();
+        //Config config;
         IWebSocketAdapter JefferiesExcuReport = WebSocketTopicFactory.GetWebSocketAdapterInstance(WebSocketAdapterType.BatchWebSocketAdapter);
         IMQAdapter JefferiesExcuReport1 = TopicMQFactory.GetMQAdapterInstance(MQAdapterType.BatchMQAdapter);
         IEMSAdapter JefferiesExcuReport2 = TopicEMSFactory.GetEMSAdapterInstance(EMSAdapterType.BatchEMSAdapter);
@@ -73,12 +73,13 @@ namespace KaazingTestWebApplication.Controllers
             IHttpActionResult apiResult = null;
             //if (Debugger.IsAttached == false)
             //    Debugger.Launch();
-            config = (Config)applicationContext.GetObject("Config");
+            //config = (Config)applicationContext.GetObject("Config");
             JefferiesExcuReport.WebSocketUri = Message.mqUrl.Replace("ws://", "").Replace("wss://", "");
+            JefferiesExcuReport.UseSSL = Config.IsUseSSL;
             JefferiesExcuReport.DestinationFeature = Message.messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
             //JefferiesExcuReport.SendName = Message.topicOrQueueName;
-            JefferiesExcuReport.UserName = AesHelper.AesDecrpt(config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
-            JefferiesExcuReport.PassWord = AesHelper.AesDecrpt(config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
+            JefferiesExcuReport.UserName = AesHelper.AesDecrpt(Config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
+            JefferiesExcuReport.PassWord = AesHelper.AesDecrpt(Config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
             try
             {
                 JefferiesExcuReport.Start();
@@ -147,13 +148,14 @@ namespace KaazingTestWebApplication.Controllers
         public IHttpActionResult SendAjaxMessageToServer(MessageModel Message)
         {
             IHttpActionResult apiResult = null;
-            config = (Config)applicationContext.GetObject("Config");
+            //config = (Config)applicationContext.GetObject("Config");
             string ajaxMessageType = Message.ajaxMessageType == AjaxMessageType.read ? "readed" : Message.ajaxMessageType == AjaxMessageType.file ? "file" : "stream";
             JefferiesExcuReport.WebSocketUri = Message.mqUrl.Replace("ws://", "").Replace("wss://", "");
+            JefferiesExcuReport.UseSSL = Config.IsUseSSL;
             JefferiesExcuReport.DestinationFeature = Message.messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
             JefferiesExcuReport.SendName = Message.topicOrQueueName;
-            JefferiesExcuReport.UserName = AesHelper.AesDecrpt(config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
-            JefferiesExcuReport.PassWord = AesHelper.AesDecrpt(config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
+            JefferiesExcuReport.UserName = AesHelper.AesDecrpt(Config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
+            JefferiesExcuReport.PassWord = AesHelper.AesDecrpt(Config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
             try
             {
                 JefferiesExcuReport.Start();
@@ -194,12 +196,13 @@ namespace KaazingTestWebApplication.Controllers
         public IHttpActionResult SendReadMessageToServerOld(MessageModel Message)
         {
             IHttpActionResult apiResult = null;
-            config = (Config)applicationContext.GetObject("Config");
+            //config = (Config)applicationContext.GetObject("Config");
             JefferiesExcuReport.WebSocketUri = Message.mqUrl.Replace("ws://", "").Replace("wss://", "");
+            JefferiesExcuReport.UseSSL = Config.IsUseSSL;
             JefferiesExcuReport.DestinationFeature = Message.messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
             JefferiesExcuReport.SendName = Message.topicOrQueueName;
-            JefferiesExcuReport.UserName = AesHelper.AesDecrpt(config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
-            JefferiesExcuReport.PassWord = AesHelper.AesDecrpt(config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
+            JefferiesExcuReport.UserName = AesHelper.AesDecrpt(Config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
+            JefferiesExcuReport.PassWord = AesHelper.AesDecrpt(Config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
             try
             {
                 JefferiesExcuReport.Start();
@@ -234,12 +237,13 @@ namespace KaazingTestWebApplication.Controllers
                 int times = Convert.ToInt32(HttpContext.Current.Request["times"].ToString());
                 HttpFileCollection Files = HttpContext.Current.Request.Files;
 
-                config = (Config)applicationContext.GetObject("Config");
+                //config = (Config)applicationContext.GetObject("Config");
                 JefferiesExcuReport.WebSocketUri = mqUrl.Replace("ws://", "").Replace("wss://", "");
+                JefferiesExcuReport.UseSSL = Config.IsUseSSL;
                 JefferiesExcuReport.DestinationFeature = messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
                 //JefferiesExcuReport.SendName = topicOrQueueName;
-                JefferiesExcuReport.UserName = AesHelper.AesDecrpt(config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
-                JefferiesExcuReport.PassWord = AesHelper.AesDecrpt(config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
+                JefferiesExcuReport.UserName = AesHelper.AesDecrpt(Config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
+                JefferiesExcuReport.PassWord = AesHelper.AesDecrpt(Config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
                 JefferiesExcuReport.Start();
                 //多個人
                 if (topicOrQueueName.IndexOf(",") != -1)
@@ -374,13 +378,13 @@ namespace KaazingTestWebApplication.Controllers
                 MessageType messageType = (MessageType)int.Parse(HttpContext.Current.Request["messageType"].ToString());
                 HttpFileCollection Files = HttpContext.Current.Request.Files;
 
-                config = (Config)applicationContext.GetObject("Config");
-                JefferiesExcuReport1.Uri = config.KaazingWebSocket_network + ":" + config.Mq_port;
+                //config = (Config)applicationContext.GetObject("Config");
+                JefferiesExcuReport1.Uri = Config.KaazingWebSocket_network + ":" + Config.Mq_port;
                 JefferiesExcuReport1.DestinationFeature = messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
                 JefferiesExcuReport1.SendName = topicOrQueueName;
-                JefferiesExcuReport1.UserName = AesHelper.AesDecrpt(config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
-                JefferiesExcuReport1.PassWord = AesHelper.AesDecrpt(config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
-                JefferiesExcuReport1.UseSSL = config.IsUseSSL;
+                JefferiesExcuReport1.UserName = AesHelper.AesDecrpt(Config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
+                JefferiesExcuReport1.PassWord = AesHelper.AesDecrpt(Config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
+                JefferiesExcuReport1.UseSSL = Config.IsUseSSL;
                 JefferiesExcuReport1.Start();
                 for (var i = 0; i < Files.Count; i++)
                 {
@@ -416,12 +420,12 @@ namespace KaazingTestWebApplication.Controllers
                 MessageType messageType = (MessageType)int.Parse(HttpContext.Current.Request["messageType"].ToString());
                 HttpFileCollection Files = HttpContext.Current.Request.Files;
 
-                config = (Config)applicationContext.GetObject("Config");
-                JefferiesExcuReport2.Uri = config.KaazingWebSocket_network + ":" + config.Ems_port;
+                //config = (Config)applicationContext.GetObject("Config");
+                JefferiesExcuReport2.Uri = Config.KaazingWebSocket_network + ":" + Config.Ems_port;
                 JefferiesExcuReport2.DestinationFeature = messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
                 JefferiesExcuReport2.SendName = topicOrQueueName;
-                JefferiesExcuReport2.UserName = AesHelper.AesDecrpt(config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
-                JefferiesExcuReport2.PassWord = AesHelper.AesDecrpt(config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
+                JefferiesExcuReport2.UserName = AesHelper.AesDecrpt(Config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
+                JefferiesExcuReport2.PassWord = AesHelper.AesDecrpt(Config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
                 JefferiesExcuReport2.UseSSL = false;
                 JefferiesExcuReport2.Start();
                 for (var i = 0; i < Files.Count; i++)
@@ -461,12 +465,13 @@ namespace KaazingTestWebApplication.Controllers
                 HttpPostedFile File = HttpContext.Current.Request.Files["stream"];
                 String videoName = HttpContext.Current.Request["videoname"] != null ? HttpContext.Current.Request["videoname"].ToString() : "";
 
-                config = (Config)applicationContext.GetObject("Config");
+                //config = (Config)applicationContext.GetObject("Config");
                 JefferiesExcuReport.WebSocketUri = mqUrl.Replace("ws://", "").Replace("wss://", "");
+                JefferiesExcuReport.UseSSL = Config.IsUseSSL;
                 JefferiesExcuReport.DestinationFeature = messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
                 //JefferiesExcuReport.SendName = topicOrQueueName;
-                JefferiesExcuReport.UserName = AesHelper.AesDecrpt(config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
-                JefferiesExcuReport.PassWord = AesHelper.AesDecrpt(config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
+                JefferiesExcuReport.UserName = AesHelper.AesDecrpt(Config.KaazingWebSocketUserID, "taipei-star-bank", "taipei-star-bank");
+                JefferiesExcuReport.PassWord = AesHelper.AesDecrpt(Config.KaazingWebSocketPwd, "taipei-star-bank", "taipei-star-bank");
                 JefferiesExcuReport.Start();
 
                 //多個人
@@ -565,7 +570,7 @@ namespace KaazingTestWebApplication.Controllers
                             byte[] bytes = br.ReadBytes(File.ContentLength);
                             if (!videoName.Equals(""))
                             {
-                                WriteVideoStreamToFile(config.VideoStreamFileFolder, bytes, videoName);
+                                WriteVideoStreamToFile(Config.VideoStreamFileFolder, bytes, videoName);
                             }
                             JefferiesExcuReport.SendStreamByChunks("STREAM." + mimetype.Split(new char[] { '/' })[1], bytes, sender);
                         }
@@ -603,22 +608,22 @@ namespace KaazingTestWebApplication.Controllers
         [Route("GetWebSocketLoadBalancerUrlOld")]
         public IHttpActionResult GetWebSocketLoadBalancerUrlOld()
         {
-            config = (Config)applicationContext.GetObject("Config");
+            //config = (Config)applicationContext.GetObject("Config");
             string WebSocketUrl = string.Empty;
             IHttpActionResult apiResult = null;
             try
             {
                 List<string> LoadBalancerUrls = new List<string>();
-                if (config.KaazingWebSocket_network.IndexOf(",") != -1)
+                if (Config.KaazingWebSocket_network.IndexOf(",") != -1)
                 {
-                    foreach (var ip in config.KaazingWebSocket_network.Split(new char[] { ',' }))
+                    foreach (var ip in Config.KaazingWebSocket_network.Split(new char[] { ',' }))
                     {
-                        LoadBalancerUrls.Add(ip + ":" + config.KaazingWebSocket_service);
+                        LoadBalancerUrls.Add(ip + ":" + Config.KaazingWebSocket_service);
                     }
                 }
                 else
                 {
-                    LoadBalancerUrls.Add(config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service);
+                    LoadBalancerUrls.Add(Config.KaazingWebSocket_network + ":" + Config.KaazingWebSocket_service);
                 }
                 foreach (var lbUrl in LoadBalancerUrls)
                 {
@@ -643,7 +648,7 @@ namespace KaazingTestWebApplication.Controllers
                         if (tcpClient.Connected)
                         {
                             tcpClient.Close();
-                            WebSocketUrl = config.IsUseSSL ? "wss://" + ip + ":" + port + "/jms" : "ws://" + ip + ":" + port + "/jms";
+                            WebSocketUrl = Config.IsUseSSL ? "wss://" + ip + ":" + port + "/jms" : "ws://" + ip + ":" + port + "/jms";
                             break;
                         }
                         WebSocketUrl = "";
@@ -662,21 +667,21 @@ namespace KaazingTestWebApplication.Controllers
         public IHttpActionResult GetWebSocketLoadBalancerUrl()
         {
             List<string> availWebSocketUrls = new List<string>();
-            config = (Config)applicationContext.GetObject("Config");
+            //config = (Config)applicationContext.GetObject("Config");
             IHttpActionResult apiResult = null;
             try
             {
                 List<string> LoadBalancerUrls = new List<string>();
-                if (config.KaazingWebSocket_network.IndexOf(",") != -1)
+                if (Config.KaazingWebSocket_network.IndexOf(",") != -1)
                 {
-                    foreach (var ip in config.KaazingWebSocket_network.Split(new char[] { ',' }))
+                    foreach (var ip in Config.KaazingWebSocket_network.Split(new char[] { ',' }))
                     {
-                        LoadBalancerUrls.Add(ip + ":" + config.KaazingWebSocket_service);
+                        LoadBalancerUrls.Add(ip + ":" + Config.KaazingWebSocket_service);
                     }
                 }
                 else
                 {
-                    LoadBalancerUrls.Add(config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service);
+                    LoadBalancerUrls.Add(Config.KaazingWebSocket_network + ":" + Config.KaazingWebSocket_service);
                 }
                 foreach (var lbUrl in LoadBalancerUrls)
                 {
@@ -700,7 +705,7 @@ namespace KaazingTestWebApplication.Controllers
                         if (tcpClient.Connected)
                         {
                             tcpClient.Close();
-                            availWebSocketUrls.Add(config.IsUseSSL ? "wss://" + ip + ":" + port + "/jms" : "ws://" + ip + ":" + port + "/jms");
+                            availWebSocketUrls.Add(Config.IsUseSSL ? "wss://" + ip + ":" + port + "/jms" : "ws://" + ip + ":" + port + "/jms");
                         }
                     }
                 }

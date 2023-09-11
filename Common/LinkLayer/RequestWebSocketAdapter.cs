@@ -1,8 +1,8 @@
 ﻿using Common.TopicMessage;
 using Common.Utility;
 using Kaazing.JMS;
-using Spring.Context;
-using Spring.Context.Support;
+//using Spring.Context;
+//using Spring.Context.Support;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -95,8 +95,8 @@ namespace Common.LinkLayer
             }
         }
 
-        IApplicationContext applicationContext = ContextRegistry.GetContext();
-        Config config;
+        //IApplicationContext applicationContext = ContextRegistry.GetContext();
+        //Config config;
 
         /// <summary>
         /// 完成所有相同RequestID的資料處理時事件
@@ -132,13 +132,25 @@ namespace Common.LinkLayer
 
         private static RequestWebSocketAdapter singleton;
 
-        public RequestWebSocketAdapter() : base() { config = (Config)applicationContext.GetObject("Config"); this.WebSocketResponseMismatched += new WebSocketResponseMismatchedEventHandler(RequestWebSocketAdapter_WebSocketResponseMismatched); }
+        public RequestWebSocketAdapter() : base() 
+        { 
+            //config = (Config)applicationContext.GetObject("Config");
+            this.WebSocketResponseMismatched += new WebSocketResponseMismatchedEventHandler(RequestWebSocketAdapter_WebSocketResponseMismatched);
+        }
 
         public RequestWebSocketAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName)
-            : base(Uri, DestinationFeature, ListenName, SendName) { config = (Config)applicationContext.GetObject("Config"); this.WebSocketResponseMismatched += new WebSocketResponseMismatchedEventHandler(RequestWebSocketAdapter_WebSocketResponseMismatched); }
+            : base(Uri, DestinationFeature, ListenName, SendName) 
+        { 
+            //config = (Config)applicationContext.GetObject("Config");
+            this.WebSocketResponseMismatched += new WebSocketResponseMismatchedEventHandler(RequestWebSocketAdapter_WebSocketResponseMismatched);
+        }
 
         public RequestWebSocketAdapter(string Uri, DestinationFeature DestinationFeature, string ListenName, string SendName, string UserName, string Pwd)
-            : base(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd) { config = (Config)applicationContext.GetObject("Config"); this.WebSocketResponseMismatched += new WebSocketResponseMismatchedEventHandler(RequestWebSocketAdapter_WebSocketResponseMismatched); }
+            : base(Uri, DestinationFeature, ListenName, SendName, UserName, Pwd) 
+        { 
+            //config = (Config)applicationContext.GetObject("Config");
+            this.WebSocketResponseMismatched += new WebSocketResponseMismatchedEventHandler(RequestWebSocketAdapter_WebSocketResponseMismatched);
+        }
 
         public static RequestWebSocketAdapter getSingleton()
         {
@@ -234,7 +246,7 @@ namespace Common.LinkLayer
                     if (_DataType == null)
                     {
                         _ErrMsg = "not yet assigned Tag Type of Tag Data";
-                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        Common.LogHelper.Logger.LogInfo<RequestWebSocketAdapter>(_ErrMsg);
                         RunOnMessageHandleFinished(_ErrMsg, null);
                         return;
                     }
@@ -245,7 +257,7 @@ namespace Common.LinkLayer
                         if (!_DicDataType.ContainsKey(key))
                         {
                             _ErrMsg = string.Format("Tag Data's Tag[{0}] Not in the assigned type[{1}]", key, _DataType.Name);
-                            if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                            Common.LogHelper.Logger.LogInfo<RequestWebSocketAdapter>(_ErrMsg);
                             RunOnMessageHandleFinished(_ErrMsg, null);
                             return;
                         }
@@ -261,7 +273,7 @@ namespace Common.LinkLayer
                         if (!int.TryParse(MessageDictionary[TotalRecords].ToString(), out iTotalRecords))
                         {
                             _ErrMsg = "TotalRecords value must be digit";
-                            if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                            Common.LogHelper.Logger.LogInfo<RequestWebSocketAdapter>(_ErrMsg);
                             RunOnMessageHandleFinished(_ErrMsg, null);
                             return;
                         }
@@ -270,7 +282,7 @@ namespace Common.LinkLayer
                     if (!MessageDictionary.ContainsKey(MessageID))
                     {
                         _ErrMsg = "MessageID Of Message in MessageBody is not exist";
-                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        Common.LogHelper.Logger.LogInfo<RequestWebSocketAdapter>(_ErrMsg);
                         RunOnMessageHandleFinished(_ErrMsg, null);
                         return;
                     }
@@ -294,7 +306,7 @@ namespace Common.LinkLayer
                     else
                     {
                         _ErrMsg = "Error happened when generate DataRow";
-                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        Common.LogHelper.Logger.LogInfo<RequestWebSocketAdapter>(_ErrMsg);
                         RunOnMessageHandleFinished(_ErrMsg, null);
                     }
                     if (DicMessageBody.ContainsKey(MessageDictionary[MessageID].ToString()) && MB.Messages.Rows.Count > 0)
@@ -324,7 +336,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                Common.LogHelper.Logger.LogError<RequestWebSocketAdapter>(ex);
             }
         }
 
@@ -345,7 +357,7 @@ namespace Common.LinkLayer
                     if (iTotalRecords != BodyCount)
                     {
                         string _ErrMsg = string.Format("Message Body Rows({0}) of Message ID:{1} is not match TotalRecords({2})", BodyCount, Guid, iTotalRecords);
-                        if (log.IsInfoEnabled) log.Info(_ErrMsg);
+                        Common.LogHelper.Logger.LogInfo<RequestWebSocketAdapter>(_ErrMsg);
                         OnWebSocketResponseMismatched(new WebSocketResponseMismatchedEventArgs(_ErrMsg));
                     }
                     DicMessageBody.Remove(Guid);
@@ -363,7 +375,7 @@ namespace Common.LinkLayer
 
         void RequestWebSocketAdapter_WebSocketResponseMismatched(object sender, WebSocketResponseMismatchedEventArgs e)
         {
-            if (log.IsInfoEnabled) log.Info(e.MismatchedMessage);
+            Common.LogHelper.Logger.LogInfo<RequestWebSocketAdapter>(e.MismatchedMessage);
         }
 
         private void RunOnMessageHandleFinished(string ErrorMessage, DataRow MessageRow)

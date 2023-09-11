@@ -30,12 +30,12 @@ namespace KaazingChatWebApplication
                 MessageType messageType = (MessageType)int.Parse(HttpContext.Current.Request["messageType"].ToString());
                 HttpFileCollection Files = HttpContext.Current.Request.Files;
 
-                Config config = (Config)applicationContext.GetObject("Config");
-                JefferiesExcuReport.WebSocketUri = config.KaazingWebSocket_network + ":" + config.KaazingWebSocket_service + "/jms";
+                //Config config = (Config)applicationContext.GetObject("Config");
+                JefferiesExcuReport.WebSocketUri = Config.KaazingWebSocket_network + ":" + Config.KaazingWebSocket_service + "/jms";
                 JefferiesExcuReport.DestinationFeature = messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;
                 JefferiesExcuReport.SendName = topicOrQueueName;
-                JefferiesExcuReport.UserName = config.KaazingWebSocketUserID;
-                JefferiesExcuReport.PassWord = config.KaazingWebSocketPwd;
+                JefferiesExcuReport.UserName = Config.KaazingWebSocketUserID;
+                JefferiesExcuReport.PassWord = Config.KaazingWebSocketPwd;
                 JefferiesExcuReport.Start();
                 for (var i = 0; i < Files.Count; i++)
                 {

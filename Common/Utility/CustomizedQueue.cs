@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+//using System.Diagnostics;
 using System.Threading;
 
 namespace Common.Utility
@@ -56,7 +56,6 @@ namespace Common.Utility
 
         public CustomizedQueue()
         {
-            name = Thread.CurrentThread.ToString() + ":" + new StackTrace().ToString();
             _UISyncContext = SynchronizationContext.Current;
             //TimerCallback TCB = new TimerCallback(state => { TriggerCustomizedQueueCountUpdated(); });
             //CountUpdateEventTimer = new Timer(TCB, DateTime.Now, 0, 100);

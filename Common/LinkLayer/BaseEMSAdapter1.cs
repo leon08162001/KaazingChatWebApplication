@@ -13,7 +13,7 @@ namespace Common.LinkLayer
     [Serializable]
     public abstract class BaseEMSAdapter1 : Common.LinkLayer.IMQAdapter1, Common.LinkLayer.ITibcoEMSAdapter
     {
-        protected readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        //protected readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         protected string _Uri = string.Empty;
         protected string _ListenName = string.Empty;
         protected string _SendName = string.Empty;
@@ -294,7 +294,7 @@ namespace Common.LinkLayer
                     }
                     catch (EMSException ex)
                     {
-                        if (log.IsErrorEnabled) log.Error("CheckMessageBrokerAlive() Error", ex);
+                        Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex, "CheckMessageBrokerAlive() Error");
                         result = false;
                     }
                 }
@@ -320,7 +320,7 @@ namespace Common.LinkLayer
                         }
                         catch (EMSException ex)
                         {
-                            if (log.IsErrorEnabled) log.Error("CheckMessageBrokerAlive() Error", ex);
+                            Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex, "CheckMessageBrokerAlive() Error");
                             continue;
                         }
                     }
@@ -363,7 +363,7 @@ namespace Common.LinkLayer
                     }
                     catch (NMSException ex)
                     {
-                        if (log.IsErrorEnabled) log.Error("CheckMessageBrokerAlive() Error", ex);
+                        Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex, "CheckMessageBrokerAlive() Error");
                         continue;
                     }
                 }
@@ -395,7 +395,6 @@ namespace Common.LinkLayer
             if (!SingleUrl.Equals("") && SingleUrl.IndexOf(":") > -1)
             {
                 string ip = SingleUrl.Substring(0, SingleUrl.IndexOf(":"));
-                _MacAddress = Util.GetMacAddress();
             }
 
 
@@ -464,7 +463,7 @@ namespace Common.LinkLayer
                     }
                     catch (TIBCO.EMS.EMSException ex)
                     {
-                        if (log.IsErrorEnabled) log.Error("BaseEMSAdapter Start() Error", ex);
+                        Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex);
                         throw ex;
                     }
                     try
@@ -473,7 +472,7 @@ namespace Common.LinkLayer
                     }
                     catch (TIBCO.EMS.EMSException ex)
                     {
-                        if (log.IsErrorEnabled) log.Error("BaseEMSAdapter Start() Error", ex);
+                        Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex);
                         throw ex;
                     }
                     _Session = _Connection.CreateSession(false, SessionMode.AutoAcknowledge);
@@ -486,7 +485,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                if (log.IsErrorEnabled) log.Error("BaseEMSAdapter Start() Error", ex);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex);
                 throw ex;
             }
         }
@@ -525,7 +524,7 @@ namespace Common.LinkLayer
             }
             catch (TIBCO.EMS.EMSException ex)
             {
-                if (log.IsErrorEnabled) log.Error("BaseEMSAdapter Close() Error", ex);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex);
                 throw ex;
             }
         }
@@ -585,14 +584,14 @@ namespace Common.LinkLayer
                     else
                     {
                         //throw new Exception("Network connection or TibcoEMSService Has been closed!");
-                        if (log.IsInfoEnabled) log.Info("Network connection or TibcoEMSService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseEMSAdapter>("Network connection or TibcoEMSService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseEMSAdapter SendMessage() Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -646,15 +645,14 @@ namespace Common.LinkLayer
                     }
                     else
                     {
-                        //throw new Exception("Network connection or TibcoEMSService Has been closed!");
-                        if (log.IsInfoEnabled) log.Info("Network connection or TibcoEMSService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseEMSAdapter>("Network connection or TibcoEMSService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseEMSAdapter SendMessage() Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -712,15 +710,14 @@ namespace Common.LinkLayer
                     }
                     else
                     {
-                        //throw new Exception("Network connection or TibcoEMSService Has been closed!");
-                        if (log.IsInfoEnabled) log.Info("Network connection or TibcoEMSService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseEMSAdapter>("Network connection or TibcoEMSService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseEMSAdapter SendMessage() Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -789,7 +786,7 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseEMSAdapter SendFile() Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -841,7 +838,7 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseEMSAdapter SendFileByChunks() Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -879,7 +876,7 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseEMSAdapter SendFile() Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -927,7 +924,7 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseEMSAdapter SendFileByChunks() Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -980,7 +977,7 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseEMSAdapter SendFile() Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -1020,7 +1017,7 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseEMSAdapter SendFile() Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -1091,7 +1088,7 @@ namespace Common.LinkLayer
             }
             catch (Exception exception)
             {
-                if (log.IsErrorEnabled) log.Error("BaseEMSAdapter ReStartListener() Error", exception);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(exception);
             }
         }
 
@@ -1117,7 +1114,7 @@ namespace Common.LinkLayer
             }
             catch (Exception exception)
             {
-                if (log.IsErrorEnabled) log.Error("BaseEMSAdapter ReStartSender() Error", exception);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(exception);
             }
         }
 
@@ -1136,7 +1133,7 @@ namespace Common.LinkLayer
             }
             catch (Exception exception)
             {
-                if (log.IsErrorEnabled) log.Error("BaseEMSAdapter CloseSharedConnection() Error", exception);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(exception);
             }
         }
 
@@ -1180,15 +1177,14 @@ namespace Common.LinkLayer
                     }
                     else
                     {
-                        //throw new Exception("Network connection or TibcoEMSService Has been closed!");
-                        if (log.IsInfoEnabled) log.Info("Network connection or TibcoEMSService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseEMSAdapter>("Network connection or TibcoEMSService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseEMSAdapter SendAsyn() Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -1248,15 +1244,14 @@ namespace Common.LinkLayer
                     }
                     else
                     {
-                        //throw new Exception("Network connection or TibcoEMSService Has been closed!");
-                        if (log.IsInfoEnabled) log.Info("Network connection or TibcoEMSService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseEMSAdapter>("Network connection or TibcoEMSService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseEMSAdapter SendCountMessage() Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             return isSend;
@@ -1312,7 +1307,7 @@ namespace Common.LinkLayer
             }
             catch (Exception exception)
             {
-                if (log.IsErrorEnabled) log.Error("BaseEMSAdapter StartListener() Error", exception);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(exception);
             }
         }
 
@@ -1334,7 +1329,7 @@ namespace Common.LinkLayer
             }
             catch (Exception exception)
             {
-                if (log.IsErrorEnabled) log.Error("BaseEMSAdapter StartSender() Error", exception);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(exception);
             }
         }
 
@@ -1375,15 +1370,14 @@ namespace Common.LinkLayer
                     }
                     else
                     {
-                        //throw new Exception("Network connection or TibcoEMSService Has been closed!");
-                        if (log.IsInfoEnabled) log.Info("Network connection or TibcoEMSService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseEMSAdapter>("Network connection or TibcoEMSService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseEMSAdapter SetHeartBeat() Error(" + ex.Message + ")";
-                if (log.IsErrorEnabled) log.Error(ErrorMsg, ex);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
         }
@@ -1460,11 +1454,11 @@ namespace Common.LinkLayer
                     Restart();
                 }
                 string ConnActiveUrl = Tibems.GetConnectionActiveURL(_Connection);
-                if (log.IsErrorEnabled) log.ErrorFormat(ex.Message + "(Connection has performed fault-tolerant switch to {0})", ConnActiveUrl, ex);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(string.Format(ex.Message + "(Connection has performed fault-tolerant switch to {0})", ConnActiveUrl));
             }
             else
             {
-                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                Common.LogHelper.Logger.LogError<BaseEMSAdapter>(ex);
             }
         }
     }
