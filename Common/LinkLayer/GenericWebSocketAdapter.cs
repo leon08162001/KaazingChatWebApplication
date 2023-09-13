@@ -8,7 +8,6 @@ namespace Common.LinkLayer
 {
     public class GenericWebSocketAdapter : BaseWebSocketAdapter
     {
-        protected Type _DataType;
         protected Dictionary<string, string> _DicDataType = new Dictionary<string, string>();
         protected DataTable MessageDT = new DataTable(); //將Message資料轉換成DataTable所使用的DataTable
 

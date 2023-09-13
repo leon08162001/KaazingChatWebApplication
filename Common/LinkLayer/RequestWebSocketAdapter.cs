@@ -123,7 +123,6 @@ namespace Common.LinkLayer
         }
 
         protected bool _IsResponseFinished = false;
-        protected Type _DataType;
         protected Dictionary<string, string> _DicDataType = new Dictionary<string, string>();
 
         //註解紀錄傳送筆數資訊的Dictionary
