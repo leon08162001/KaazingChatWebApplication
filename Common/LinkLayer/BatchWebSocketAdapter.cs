@@ -178,12 +178,6 @@ namespace Common.LinkLayer
             return singleton;
         }
 
-        public Type DataType
-        {
-            set { _DataType = value; }
-            get { return _DataType; }
-        }
-
         public bool IsBatchFinished
         {
             get { return _IsBatchFinished; }

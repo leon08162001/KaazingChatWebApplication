@@ -48,12 +48,6 @@ namespace Common.LinkLayer
             return singleton;
         }
 
-        public Type DataType
-        {
-            set { DataType = value; }
-            get { return DataType; }
-        }
-
         public override void processMessage(IMessage message)
         {
             string Message = "";
