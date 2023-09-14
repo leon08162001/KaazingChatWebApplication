@@ -1097,7 +1097,8 @@ namespace Common.LinkLayer
                     {
                         if (!ListenName.StartsWith("/queue/"))
                         {
-                            ListenName = "/queue/" + ListenName + "?consumer.exclusive=true";
+                            ListenName = "/queue/" + ListenName;
+                            //ListenName = "/queue/" + ListenName + "?consumer.exclusive=true";
                         }
                         _Consumer = _Session.CreateConsumer(_Session.CreateQueue(ListenName));
                         _Consumer.MessageListener = new WebSocketMessageHandler(this);
@@ -1304,7 +1305,8 @@ namespace Common.LinkLayer
                     {
                         if (!_ListenName.StartsWith("/queue/"))
                         {
-                            _ListenName = "/queue/" + _ListenName + "?consumer.exclusive=true";
+                            _ListenName = "/queue/" + _ListenName;
+                            //_ListenName = "/queue/" + _ListenName + "?consumer.exclusive=true";
                         }
                         _Consumer = _Session.CreateConsumer(_Session.CreateQueue(_ListenName));
                         _Consumer.MessageListener = new WebSocketMessageHandler(this);
