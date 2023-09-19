@@ -296,6 +296,7 @@ namespace Common.LinkLayer
                         //    _Connection = _Factory.CreateConnection();
                         //}
                         _Connection = _Factory.CreateConnection();
+                        if (_IsDurableConsumer) _Connection.ClientID = "durable";
                     }
                     catch (Kaazing.JMS.JMSException ex)
                     {
@@ -1063,6 +1064,7 @@ namespace Common.LinkLayer
                 if (ListenName != "" && _Session != null)
                 {
                     _ListenName = ListenName;
+                    string originListenName = _ListenName;
                     if (_DestinationFeature == DestinationFeature.Topic)
                     {
                         if (!_ListenName.StartsWith("/topic/"))
@@ -1073,11 +1075,11 @@ namespace Common.LinkLayer
                         {
                             if (_Selector.Equals(""))
                             {
-                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), _ListenName + ".Durable", null, false);
+                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), originListenName + ".durable", null, false);
                             }
                             else
                             {
-                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), _ListenName + ".Durable", _Selector, false);
+                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), originListenName + ".durable", _Selector, false);
                             }
                         }
                         else
@@ -1270,6 +1272,7 @@ namespace Common.LinkLayer
             {
                 if (_ListenName != "" && _Session != null)
                 {
+                    string originListenName = _ListenName;
                     if (_DestinationFeature == DestinationFeature.Topic)
                     {
                         if (!_ListenName.StartsWith("/topic/"))
@@ -1281,11 +1284,11 @@ namespace Common.LinkLayer
                         {
                             if (_Selector.Equals(""))
                             {
-                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), _ListenName + ".Durable", null, false);
+                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), originListenName + ".durable", null, false);
                             }
                             else
                             {
-                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), _ListenName + ".Durable", _Selector, false);
+                                _Consumer = _Session.CreateDurableSubscriber(_Session.CreateTopic(_ListenName), originListenName + ".durable", _Selector, false);
                             }
                         }
                         else

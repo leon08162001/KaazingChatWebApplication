@@ -1110,12 +1110,12 @@ namespace Common.LinkLayer
                         {
                             if (_Selector.Equals(""))
                             {
-                                _Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_ListenName), _ListenName + ".Durable", null, false);
+                                _Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_ListenName), _ListenName + ".durable", null, false);
                                 //_Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_ListenName), _Connection.ClientId, null, false);
                             }
                             else
                             {
-                                _Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_ListenName), _ListenName + ".Durable", _Selector, false);
+                                _Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_ListenName), _ListenName + ".durable", _Selector, false);
                                 //_Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_ListenName), _Connection.ClientId, _Selector, false);
                             }
                         }
@@ -1157,12 +1157,12 @@ namespace Common.LinkLayer
                         {
                             if (_Selector.Equals(""))
                             {
-                                _Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_MirroredQueuePrefix + _ListenName), _MirroredQueuePrefix + _ListenName + ".Durable", null, false);
+                                _Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_MirroredQueuePrefix + _ListenName), _MirroredQueuePrefix + _ListenName + ".durable", null, false);
                                 //_Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_MirroredQueuePrefix + _ListenName), _Connection.ClientId, null, false);
                             }
                             else
                             {
-                                _Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_MirroredQueuePrefix + _ListenName), _MirroredQueuePrefix + _ListenName + ".Durable", _Selector, false);
+                                _Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_MirroredQueuePrefix + _ListenName), _MirroredQueuePrefix + _ListenName + ".durable", _Selector, false);
                                 //_Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_MirroredQueuePrefix + _ListenName), _Connection.ClientId, _Selector, false);
                             }
                         }
@@ -1380,12 +1380,12 @@ namespace Common.LinkLayer
                         {
                             if (_Selector.Equals(""))
                             {
-                                _Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_ListenName), _ListenName + ".Durable", null, false);
+                                _Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_ListenName), _ListenName + ".durable", null, false);
                                 //_Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_ListenName), _Connection.ClientId, null, false);
                             }
                             else
                             {
-                                _Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_ListenName), _ListenName + ".Durable", _Selector, false);
+                                _Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_ListenName), _ListenName + ".durable", _Selector, false);
                                 //_Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_ListenName), _Connection.ClientId, _Selector, false);
                             }
                         }
@@ -1427,12 +1427,12 @@ namespace Common.LinkLayer
                         {
                             if (_Selector.Equals(""))
                             {
-                                _Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_MirroredQueuePrefix + _ListenName), _MirroredQueuePrefix + _ListenName + ".Durable", null, false);
+                                _Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_MirroredQueuePrefix + _ListenName), _MirroredQueuePrefix + _ListenName + ".durable", null, false);
                                 //_Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_MirroredQueuePrefix + _ListenName), _Connection.ClientId, null, false);
                             }
                             else
                             {
-                                _Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_MirroredQueuePrefix + _ListenName), _MirroredQueuePrefix + _ListenName + ".Durable", _Selector, false);
+                                _Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_MirroredQueuePrefix + _ListenName), _MirroredQueuePrefix + _ListenName + ".durable", _Selector, false);
                                 //_Consumer = _Session.CreateDurableConsumer(new ActiveMQTopic(_MirroredQueuePrefix + _ListenName), _Connection.ClientId, _Selector, false);
                             }
                         }
