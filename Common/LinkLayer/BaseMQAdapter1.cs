@@ -319,7 +319,7 @@ namespace Common.LinkLayer
                     }
                     catch (NMSException ex)
                     {
-                        Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, "CheckMessageBrokerAlive() Error");
+                        Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex, "CheckMessageBrokerAlive() Error");
                         result = false;
                     }
                 }
@@ -345,7 +345,7 @@ namespace Common.LinkLayer
                         }
                         catch (NMSException ex)
                         {
-                            Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, "CheckMessageBrokerAlive() Error");
+                            Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex, "CheckMessageBrokerAlive() Error");
                             continue;
                         }
                     }
@@ -388,7 +388,7 @@ namespace Common.LinkLayer
                     }
                     catch (NMSException ex)
                     {
-                        Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, "CheckMessageBrokerAlive() Error");
+                        Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex, "CheckMessageBrokerAlive() Error");
                         continue;
                     }
                 }
@@ -474,7 +474,7 @@ namespace Common.LinkLayer
                     }
                     catch (Apache.NMS.NMSConnectionException ex)
                     {
-                        Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
+                        Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex);
                         throw ex;
                     }
                     try
@@ -484,7 +484,7 @@ namespace Common.LinkLayer
                     }
                     catch (BrokerException ex)
                     {
-                        Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
+                        Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex);
                         throw ex;
                     }
                     _Session = _Connection.CreateSession(AcknowledgementMode.AutoAcknowledge);
@@ -497,7 +497,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex);
                 throw ex;
             }
         }
@@ -532,7 +532,7 @@ namespace Common.LinkLayer
             }
             catch (ConnectionClosedException ex)
             {
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex);
                 throw ex;
             }
         }
@@ -566,7 +566,7 @@ namespace Common.LinkLayer
         {
             if (message.Properties.Count < 1)
             {
-                Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("MQMessage Format is InCorrect");
+                Common.LogHelper.Logger.LogInfo<BaseMQAdapter1>("MQMessage Format is InCorrect");
             }
             else
             {
@@ -589,19 +589,20 @@ namespace Common.LinkLayer
                         msg.NMSType = "text";
                         msg.Text = Text;
                         TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter1>(string.Format("Sending a message(message：{0}", Text));
                         _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                         _sendAmounnts += 1;
                     }
                     else
                     {
-                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("Network connection or ActiveMQService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter1>("Network connection or ActiveMQService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendMessage() Error(" + ex.Message + ")";
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -667,7 +668,7 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendMessage() Error(" + ex.Message + ")";
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -736,7 +737,7 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "SendMessage: Error(" + ex.Message + ")";
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -798,20 +799,21 @@ namespace Common.LinkLayer
                     if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                     {
                         TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter1>(string.Format("Sending a file(filename：{0})", FileName));
                         _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                         //_Producer.Send(msg1, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                         isSend = true;
                     }
                     else
                     {
-                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("Network connection or ActiveMQService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter1>("Network connection or ActiveMQService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendFile: Error(" + ex.Message + ")";
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -853,12 +855,13 @@ namespace Common.LinkLayer
                             if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                             {
                                 TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
+                                Common.LogHelper.Logger.LogInfo<BaseMQAdapter1>(string.Format("Sending a file by chunks(filename：{0}，sequence：{1}，totalSequence：{2})", FileName, seq.ToString(), totalSequence.ToString()));
                                 _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                                 isSend = true;
                             }
                             else
                             {
-                                Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("Network connection or ActiveMQService Has been closed!");
+                                Common.LogHelper.Logger.LogInfo<BaseMQAdapter1>("Network connection or ActiveMQService Has been closed!");
                             }
                         }
                     }
@@ -869,7 +872,7 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendFileByChunks: Error(" + ex.Message + ")";
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -902,20 +905,21 @@ namespace Common.LinkLayer
                     if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                     {
                         TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter1>(string.Format("Sending a file(filename：{0})", FileName));
                         _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                         //_Producer.Send(msg1, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                         isSend = true;
                     }
                     else
                     {
-                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("Network connection or ActiveMQService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter1>("Network connection or ActiveMQService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendFile: Error(" + ex.Message + ")";
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -956,12 +960,13 @@ namespace Common.LinkLayer
                         if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                         {
                             TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
+                            Common.LogHelper.Logger.LogInfo<BaseMQAdapter1>(string.Format("Sending a file by chunks(filename：{0}，sequence：{1}，totalSequence：{2})", FileName, seq.ToString(), totalSequence.ToString()));
                             _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                             isSend = true;
                         }
                         else
                         {
-                            Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("Network connection or ActiveMQService Has been closed!");
+                            Common.LogHelper.Logger.LogInfo<BaseMQAdapter1>("Network connection or ActiveMQService Has been closed!");
                         }
                     }
                 }
@@ -969,7 +974,7 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendFileByChunks: Error(" + ex.Message + ")";
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -1023,14 +1028,14 @@ namespace Common.LinkLayer
                     }
                     else
                     {
-                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("Network connection or ActiveMQService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter1>("Network connection or ActiveMQService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendBase64File: Error(" + ex.Message + ")";
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -1070,14 +1075,14 @@ namespace Common.LinkLayer
                     }
                     else
                     {
-                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("Network connection or ActiveMQService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter1>("Network connection or ActiveMQService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendBase64File: Error(" + ex.Message + ")";
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -1195,7 +1200,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex);
             }
         }
         public void ReStartSender(string SendName)
@@ -1225,7 +1230,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex);
             }
         }
         public void CloseSharedConnection()
@@ -1243,7 +1248,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex);
             }
         }
         protected void SendAsyn(IMessageProducer Producer, string MessageIDTag, List<List<MessageField>> MultiMessage, int DelayedPerWhenNumber = 0, int DelayedMillisecond = 0)
@@ -1294,7 +1299,7 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendAsyn() Error(" + ex.Message + ")";
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             finally
@@ -1363,7 +1368,7 @@ namespace Common.LinkLayer
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SendCountMessage: Error happened(" + ex.Message + ")";
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
             return isSend;
@@ -1465,7 +1470,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex);
             }
         }
         private void StartSender()
@@ -1491,7 +1496,7 @@ namespace Common.LinkLayer
             }
             catch (Exception ex)
             {
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex);
             }
         }
         private void InitialHeartBeat()
@@ -1531,14 +1536,14 @@ namespace Common.LinkLayer
                     }
                     else
                     {
-                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter>("Network connection or ActiveMQService Has been closed!");
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter1>("Network connection or ActiveMQService Has been closed!");
                     }
                 }
             }
             catch (Exception ex)
             {
                 ErrorMsg = "BaseMQAdapter SetHeartBeat: Error happened(" + ex.Message + ")";
-                Common.LogHelper.Logger.LogError<BaseMQAdapter>(ex, ErrorMsg);
+                Common.LogHelper.Logger.LogError<BaseMQAdapter1>(ex, ErrorMsg);
                 //System.Environment.Exit(-1);
             }
         }
@@ -1606,12 +1611,12 @@ namespace Common.LinkLayer
         private void _Connection_ConnectionResumedListener()
         {
             string ConnActiveUrl = (_Connection as Apache.NMS.ActiveMQ.Connection).ITransport.RemoteAddress.AbsoluteUri;
-            Common.LogHelper.Logger.LogInfo<BaseMQAdapter>(string.Format("Connection has performed fault-tolerant switch to {0}", ConnActiveUrl));
+            Common.LogHelper.Logger.LogInfo<BaseMQAdapter1>(string.Format("Connection has performed fault-tolerant switch to {0}", ConnActiveUrl));
         }
         private void _Connection_ExceptionListener(Exception exception)
         {
             string ConnActiveUrl = (_Connection as Apache.NMS.ActiveMQ.Connection).ITransport.RemoteAddress.AbsoluteUri;
-            Common.LogHelper.Logger.LogInfo<BaseMQAdapter>(string.Format("Connection has performed fault-tolerant switch to {0}", ConnActiveUrl));
+            Common.LogHelper.Logger.LogInfo<BaseMQAdapter1>(string.Format("Connection has performed fault-tolerant switch to {0}", ConnActiveUrl));
         }
     }
 }

@@ -644,6 +644,7 @@ namespace Common.LinkLayer
                         msg.NMSType = "text";
                         msg.Text = Text;
                         TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter>(string.Format("Sending a message(message：{0}", Text));
                         _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                         _sendAmounnts += 1;
                     }
@@ -853,6 +854,7 @@ namespace Common.LinkLayer
                     if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                     {
                         TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter>(string.Format("Sending a file(filename：{0})", FileName));
                         _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                         //_Producer.Send(msg1, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                         isSend = true;
@@ -908,6 +910,7 @@ namespace Common.LinkLayer
                             if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                             {
                                 TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
+                                Common.LogHelper.Logger.LogInfo<BaseMQAdapter>(string.Format("Sending a file by chunks(filename：{0}，sequence：{1}，totalSequence：{2})", FileName, seq.ToString(), totalSequence.ToString()));
                                 _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                                 isSend = true;
                             }
@@ -957,6 +960,7 @@ namespace Common.LinkLayer
                     if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                     {
                         TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
+                        Common.LogHelper.Logger.LogInfo<BaseMQAdapter>(string.Format("Sending a file(filename：{0})", FileName));
                         _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                         //_Producer.Send(msg1, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                         isSend = true;
@@ -1011,6 +1015,7 @@ namespace Common.LinkLayer
                         if ((_Session as Apache.NMS.ActiveMQ.Session).Started)
                         {
                             TimeSpan TS = _MessageTimeOut == 0 ? TimeSpan.Zero : TimeSpan.FromDays(_MessageTimeOut);
+                            Common.LogHelper.Logger.LogInfo<BaseMQAdapter>(string.Format("Sending a file by chunks(filename：{0}，sequence：{1}，totalSequence：{2})", FileName, seq.ToString(), totalSequence.ToString()));
                             _Producer.Send(msg, _DeliveryMode, Apache.NMS.MsgPriority.Highest, TS);
                             isSend = true;
                         }

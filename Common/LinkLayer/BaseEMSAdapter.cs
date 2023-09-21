@@ -629,6 +629,7 @@ namespace Common.LinkLayer
                         msg.MsgType = "text";
                         msg.Text = Text;
                         long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
+                        Common.LogHelper.Logger.LogInfo<BaseEMSAdapter>(string.Format("Sending a message(message：{0}", Text));
                         _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
                         _sendAmounnts += 1;
                     }
@@ -830,6 +831,7 @@ namespace Common.LinkLayer
                     msg.MsgType = "file";
 
                     long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
+                    Common.LogHelper.Logger.LogInfo<BaseEMSAdapter>(string.Format("Sending a file(filename：{0})", FileName));
                     _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
                     isSend = true;
                 }
@@ -878,6 +880,7 @@ namespace Common.LinkLayer
                             msg.SetStringProperty("sequence", seq.ToString());
                             msg.SetStringProperty("totalSequence", totalSequence.ToString());
                             long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
+                            Common.LogHelper.Logger.LogInfo<BaseEMSAdapter>(string.Format("Sending a file by chunks(filename：{0}，sequence：{1}，totalSequence：{2})", FileName, seq.ToString(), totalSequence.ToString()));
                             _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
                             isSend = true;
                         }
@@ -920,6 +923,7 @@ namespace Common.LinkLayer
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.MsgType = "file";
                     long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
+                    Common.LogHelper.Logger.LogInfo<BaseEMSAdapter>(string.Format("Sending a file(filename：{0})", FileName));
                     _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
                     isSend = true;
                 }
@@ -967,6 +971,7 @@ namespace Common.LinkLayer
                         msg.SetStringProperty("sequence", seq.ToString());
                         msg.SetStringProperty("totalSequence", totalSequence.ToString());
                         long MessageOut = _MessageTimeOut == 0 ? Convert.ToInt64(_MessageTimeOut) : Convert.ToInt64(_MessageTimeOut * 24 * 60 * 60 * 1000);
+                        Common.LogHelper.Logger.LogInfo<BaseEMSAdapter>(string.Format("Sending a file by chunks(filename：{0}，sequence：{1}，totalSequence：{2})", FileName, seq.ToString(), totalSequence.ToString()));
                         _Producer.Send(msg, _DeliveryMode, 9, MessageOut);
                         isSend = true;
                     }

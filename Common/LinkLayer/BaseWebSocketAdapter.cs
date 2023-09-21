@@ -3,13 +3,16 @@ using Common.Utility;
 using Kaazing.JMS;
 using Kaazing.JMS.Stomp;
 using Kaazing.Security;
+using Org.BouncyCastle.Ocsp;
 //using Spring.Context;
 //using Spring.Context.Support;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Common.LinkLayer
 {
@@ -414,6 +417,7 @@ namespace Common.LinkLayer
                         {
                             return;
                         }
+                        Common.LogHelper.Logger.LogInfo<BaseWebSocketAdapter>(string.Format("Sending a message(message：{0}", Text));
                         _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, 9, 0);
                     }
                     catch (Kaazing.JMS.JMSException ex)
@@ -620,6 +624,7 @@ namespace Common.LinkLayer
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.JMSType = "file";
                     msg.WriteBytes(bytes);
+                    Common.LogHelper.Logger.LogInfo<BaseWebSocketAdapter>(string.Format("Sending a file(filename：{0})", FileName));
                     _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
                     isSend = true;
                 }
@@ -669,6 +674,7 @@ namespace Common.LinkLayer
                             msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                             msg.JMSType = "file";
                             msg.WriteBytes(bytes);
+                            Common.LogHelper.Logger.LogInfo<BaseWebSocketAdapter>(string.Format("Sending a file by chunks(filename：{0}，sequence：{1}，totalSequence：{2})", FileName, seq.ToString(), totalSequence.ToString()));
                             _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
                             isSend = true;
                         }
@@ -729,7 +735,7 @@ namespace Common.LinkLayer
                                 read = sr.BaseStream.Read(lstBuffer, 0, lstBuffer.Length);
                                 msg.WriteBytes(lstBuffer);
                             }
-
+                            Common.LogHelper.Logger.LogInfo<BaseWebSocketAdapter>(string.Format("Sending a file(filename：{0}，sequence：{1}，totalSequence：{2})", FileName, sequence.ToString(), totalSequence.ToString()));
                             _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
                             remaining -= read;
                             sequence++;
@@ -771,6 +777,7 @@ namespace Common.LinkLayer
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.JMSType = "file";
                     msg.WriteBytes(FileBytes);
+                    Common.LogHelper.Logger.LogInfo<BaseWebSocketAdapter>(string.Format("Sending a file(filename：{0})", FileName));
                     _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
                     isSend = true;
                 }
@@ -819,6 +826,7 @@ namespace Common.LinkLayer
                         msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                         msg.JMSType = "file";
                         msg.WriteBytes(bytes);
+                        Common.LogHelper.Logger.LogInfo<BaseWebSocketAdapter>(string.Format("Sending a file by chunks(filename：{0}，sequence：{1}，totalSequence：{2})", FileName, seq.ToString(), totalSequence.ToString()));
                         _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
                         isSend = true;
                     }
@@ -859,6 +867,7 @@ namespace Common.LinkLayer
                     msg.SetStringProperty("datatype", Util.GetMimeType(@"C:\" + FileName));
                     msg.JMSType = "file";
                     msg.WriteBytes(FileBytes);
+                    Common.LogHelper.Logger.LogInfo<BaseWebSocketAdapter>(string.Format("Sending a file(filename：{0}，sequence：{1}，totalSequence：{2})", FileName, Sequence.ToString(), TotalSequence.ToString()));
                     _Producer.Send(msg, DeliveryModeConstants.NON_PERSISTENT, MessageConstants.DEFAULT_DELIVERY_MODE, 0);
                     isSend = true;
                 }
