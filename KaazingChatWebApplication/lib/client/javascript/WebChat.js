@@ -10,6 +10,7 @@ var DEBUG_TO_SCREEN = true;
 var runningOnJSFiddle = true;
 var screenMsg = "";
 var readedHtml = "<span class=\"tabbed\">已讀</span>";
+var receivedHtml = "<span class=\"tabbed\">已收</span>";
 
 // WebSocket,JMS相關變數
 var messageClient = null;
@@ -103,14 +104,20 @@ var handleException = function (e) {
 var handleMessage = function (uiObj, message) {
     if (Object.prototype.toString.call(message) === '[object String]') {
         var hasReadedHtml = message.indexOf(readedHtml) === -1 ? false : true;
+        var hasReceivedHtml = message.indexOf(receivedHtml) === -1 ? false : true;
+        //加入接收檔案後回覆發送方已收檔的訊息
         if (hasReadedHtml) {
             bindMessageToUI(uiObj, "<span style=\"background-color: yellow;\">" + message + "</span><br>");
         }
-        else {
+        if (hasReceivedHtml) {
+            bindMessageToUI(uiObj, message + "<br>");
+        }
+        if (!hasReadedHtml && !hasReceivedHtml) {
             var messageTime = getNowFormatDate();
             sendAjaxMessage(message + readedHtml + "(" + messageTime + ")", ajaxMessageTypeEnum.read);
             bindMessageToUI(uiObj, message + "<br>");
         }
+        //加入接收檔案後回覆發送方已收檔的訊息
     }
     else if (Object.prototype.toString.call(message) === '[object Array]') {
         for (var key in message) {
@@ -169,6 +176,11 @@ var handleMessage = function (uiObj, message) {
             }
             uiObj.insertBefore(link, uiObj.firstChild);
             uiObj.insertBefore(spanTag, uiObj.firstChild);
+
+            //加入接收檔案後回覆發送方已收檔的訊息
+            sendAjaxMessage($.trim($("#listenFrom").val()).toUpperCase() + "：" + link.innerHTML + receivedHtml + "(" + messageTime + ")", ajaxMessageTypeEnum.read);
+            //加入接收檔案後回覆發送方已收檔的訊息
+
             //added by leonlee 20210526
             if ($("#divMsg").html().length > 0) {
                 chat = getChat();
