@@ -299,7 +299,6 @@ namespace Common.LinkLayer
                         //    _Connection = _Factory.CreateConnection();
                         //}
                         _Connection = _Factory.CreateConnection();
-                        if (_IsDurableConsumer) _Connection.ClientID = "durable";
                     }
                     catch (Kaazing.JMS.JMSException ex)
                     {
