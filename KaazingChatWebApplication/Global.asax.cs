@@ -19,12 +19,13 @@ namespace KaazingTestWebApplication
             #region 系統Log啟動
             log4net.Config.XmlConfigurator.Configure(new System.IO.FileInfo(Server.MapPath(@"~\log4net.config")));
             #endregion
-            FileInfo IniFile = new FileInfo(Path.Combine(Server.MapPath(""), "common.ini"));
-            using (FileStream FS = IniFile.OpenRead())
-            {
-                Config.ConfigStream = FS;
-                Config.ReadParameter();
-            }
+            //FileInfo IniFile = new FileInfo(Path.Combine(Server.MapPath(""), "common.ini"));
+            //using (FileStream FS = IniFile.OpenRead())
+            //{
+            //    Config.ConfigStream = FS;
+            //    Config.ReadParameter();
+            //    Common.LogHelper.Logger.logPath = Path.Combine(Server.MapPath(""), Config.logDir);
+            //}
         }
 
         protected void Session_Start(object sender, EventArgs e)

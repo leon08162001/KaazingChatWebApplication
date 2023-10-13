@@ -598,6 +598,7 @@ var sendAjaxMessage = function (message, ajaxMessageType) {
     }
     data.messageType = Number(messageClient.messageType);
     data.mqUrl = messageClient.uri;
+    //alert(JSON.stringify(data));
     ajaxProgress = $.ajax({
         url: messageAjaxServiceUrl,
         data: JSON.stringify(data),

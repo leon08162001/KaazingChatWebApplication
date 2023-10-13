@@ -4,6 +4,7 @@ using Spring.Context;
 using Spring.Context.Support;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Threading.Tasks;
@@ -25,6 +26,14 @@ namespace KaazingChatWebApplication
         protected string EnCryptWebSocketPWD = "";
         protected void Page_Load(object sender, EventArgs e)
         {
+            FileInfo IniFile = new FileInfo(Path.Combine(Server.MapPath(""), "common.ini"));
+            using (FileStream FS = IniFile.OpenRead())
+            {
+                Config.ConfigStream = FS;
+                Config.ReadParameter();
+                Common.LogHelper.Logger.logPath = Path.Combine(Server.MapPath(""), Config.logDir);
+            }
+
             if (Request.Form["login"] != null)
             {
                 listenFrom.Value = Request.Form["login"].ToString().ToUpper();
