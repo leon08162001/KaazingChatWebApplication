@@ -31,33 +31,33 @@ var fileName;
 
 //Web API相關 Url
 //var MY_WEBSOCKET_URL = "wss://192.168.43.114:9001/jms";
-//var messageTalkServiceUrl = "https://SI1374.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer";
-//var messageTalkServiceUrl = "https://SI1374.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/SendTalkMessageToServer";
+//var messageTalkServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer";
+//var messageTalkServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/SendTalkMessageToServer";
 //var messageTalkServiceUrl = "Asmx/ChatService.asmx/SendTalkMessageToServer";
 var messageTalkServiceUrl = "api/WebChat/SendTalkMessageToServer";
 var chkWebSocketLoadBalancerUrl = "api/WebChat/GetWebSocketLoadBalancerUrl";
 
-//var messageReadServiceUrl = "https://SI1374.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendReadMessageToServer";
-//var messageReadServiceUrl = "https://SI1374.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/SendReadMessageToServer";
+//var messageReadServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendReadMessageToServer";
+//var messageReadServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/SendReadMessageToServer";
 //var messageReadServiceUrl = "Asmx/ChatService.asmx/SendReadMessageToServer";
 var messageAjaxServiceUrl = "api/WebChat/SendAjaxMessageToServer";
 
 //因android 瀏覽器執行下列上傳檔案asmx會出現error,故改用呼叫ashx方式進行(暫查不出原因,因PC上瀏覽器執行上傳檔案asmx沒有問題)
-//var messageUploadFileUrl = "https://SI1374.asuscomm.com:1443/KaazingChatWebService/ChatService1.asmx/UploadFile";
+//var messageUploadFileUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService1.asmx/UploadFile";
 
 //WebSocketUploadFile
-//var messageUploadFileUrl = "https://SI1374.asuscomm.com:1443/KaazingChatWebService/UploadFile.ashx";
+//var messageUploadFileUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/UploadFile.ashx";
 //MQUploadFile
-//var messageUploadFileUrl = "https://SI1374.asuscomm.com:1443/KaazingChatWebService/UploadFile1.ashx";
+//var messageUploadFileUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/UploadFile1.ashx";
 //EMSUploadFile
-//var messageUploadFileUrl = "https://SI1374.asuscomm.com/KaazingChatWebService/UploadFile2.ashx";
+//var messageUploadFileUrl = "https://leonpc.asuscomm.com/KaazingChatWebService/UploadFile2.ashx";
 
 //WebSocketUploadFile
-//var messageUploadFileUrl = "https://SI1374.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/UploadFile";
+//var messageUploadFileUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/UploadFile";
 //MQUploadFile
-//var messageUploadFileUrl = "https://SI1374.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/UploadFile1";
+//var messageUploadFileUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/UploadFile1";
 //EMSUploadFile
-//var messageUploadFileUrl = "https://SI1374.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/UploadFile2";
+//var messageUploadFileUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/UploadFile2";
 
 //WebSocketUploadFile
 //var messageUploadFileUrl = "Ashx/UploadFile.ashx";
@@ -369,7 +369,7 @@ var sendMessage = function () {
     messageClient.sendMessage(JSON.stringify("<pre>" + $.trim($("#listenFrom").val()).toUpperCase() + "：" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span>"));
 };
 //../KaazingChatWebService/ChatService.asmx/SendMessageToServer
-//https://SI1374.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer
+//https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer
 
 var chatUpdate = function (chat, isExit) {
     var chatUpdateServiceUrl = "api/WebChat/ChatUpdate";

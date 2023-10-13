@@ -14,8 +14,8 @@
     <script type="text/javascript">
         // Variables you can change
         //
-        var MY_WEBSOCKET_URL = "wss://SI1374.asuscomm.com:9001/jms";
-        var messageServiceUrl = "https://SI1374.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendMessageToServer";
+        var MY_WEBSOCKET_URL = "wss://leonpc.asuscomm.com:9001/jms";
+        var messageServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendMessageToServer";
         var messageType = MessageTypeEnum.Topic;
         var LISTEN_NAME = "DEMO.NUOMS.JefferiesReport.Resp";
         var SEND_NAME = "DEMO.NUOMS.JefferiesReport.Req";
