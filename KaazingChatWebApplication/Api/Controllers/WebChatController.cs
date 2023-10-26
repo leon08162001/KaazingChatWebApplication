@@ -31,8 +31,9 @@ namespace KaazingTestWebApplication.Controllers
     public enum AjaxMessageType
     {
         read = 1,
-        file = 2,
-        stream = 3
+        receive = 2,
+        file = 3,
+        stream = 4
     }
     public enum MessageDate
     {
@@ -149,7 +150,7 @@ namespace KaazingTestWebApplication.Controllers
         {
             IHttpActionResult apiResult = null;
             //config = (Config)applicationContext.GetObject("Config");
-            string ajaxMessageType = Message.ajaxMessageType == AjaxMessageType.read ? "readed" : Message.ajaxMessageType == AjaxMessageType.file ? "file" : "stream";
+            string ajaxMessageType = Message.ajaxMessageType == AjaxMessageType.read ? "readed" : Message.ajaxMessageType == AjaxMessageType.receive ? "received" : Message.ajaxMessageType == AjaxMessageType.file ? "file" : "stream";
             JefferiesExcuReport.WebSocketUri = Message.mqUrl.Replace("ws://", "").Replace("wss://", "");
             JefferiesExcuReport.UseSSL = Config.IsUseSSL;
             JefferiesExcuReport.DestinationFeature = Message.messageType == MessageType.Topic ? DestinationFeature.Topic : DestinationFeature.Queue;

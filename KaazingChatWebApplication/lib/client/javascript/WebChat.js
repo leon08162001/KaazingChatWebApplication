@@ -1,8 +1,9 @@
 ﻿// Variables you can change
 var ajaxMessageTypeEnum = {
     read: 1,
-    file: 2,
-    stream: 3
+    receive: 2,
+    file: 3,
+    stream: 4
 };
 var ajaxProgress = null;
 var IN_DEBUG_MODE = true;
@@ -178,7 +179,7 @@ var handleMessage = function (uiObj, message) {
             uiObj.insertBefore(spanTag, uiObj.firstChild);
 
             //加入接收檔案後回覆發送方已收檔的訊息
-            sendAjaxMessage($.trim($("#listenFrom").val()).toUpperCase() + "：" + link.innerHTML + receivedHtml + "(" + messageTime + ")", ajaxMessageTypeEnum.read);
+            sendAjaxMessage($.trim($("#listenFrom").val()).toUpperCase() + "：" + link.innerHTML + receivedHtml + "(" + messageTime + ")", ajaxMessageTypeEnum.receive, message.id);
             //加入接收檔案後回覆發送方已收檔的訊息
 
             //added by leonlee 20210526
@@ -583,7 +584,7 @@ var sendAjaxTalkMessage = function () {
     });
 };
 
-var sendAjaxMessage = function (message, ajaxMessageType) {
+var sendAjaxMessage = function (message, ajaxMessageType, filePusherId) {
     var data = {};
     data.message = message;
     data.sender = messageClient.listenName.replace(/webchat./ig, "");
@@ -591,6 +592,11 @@ var sendAjaxMessage = function (message, ajaxMessageType) {
     //data.topicOrQueueName = messageClient.sendName;
     if (ajaxMessageType === ajaxMessageTypeEnum.read) {
         data.topicOrQueueName = messageClient.sendName.indexOf(",") > -1 ? ("webchat." + message.substr(0, message.indexOf("："))).toUpperCase() : messageClient.sendName;
+    }
+    else if (ajaxMessageType === ajaxMessageTypeEnum.receive) {
+        if (filePusherId !== 'undefined') {
+            data.topicOrQueueName = ("webchat." + filePusherId).toUpperCase();
+        }
     }
     else {
         //data.topicOrQueueName = $.trim($("#talkTo").val()).split(/[^a-zA-Z1-9-_.]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
