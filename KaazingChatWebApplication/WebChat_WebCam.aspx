@@ -77,6 +77,14 @@
                 </tr>
                 <tr>
                     <td>
+                        <label for="ddlAllFriends">Friends:</label>
+                    </td>
+                    <td>
+                        <asp:DropDownList ID="ddlAllFriends" runat="server" class="form-control form-control-sm" Height="2.2em" Width="12.3em" Font-Size="Small"></asp:DropDownList>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         <label for="talkTo">TalkTo:</label>
                     </td>
                     <td>
@@ -144,7 +152,7 @@
        
         <button id="closeLiveVideo" class="blue button" type="button" disabled="disabled">關閉即時視訊</button>&nbsp;
        
-        <%--        <button id="sendClientMessage" class="blue button" type="button" disabled="disabled" onclick="sendMessage();">傳送訊息(javascript)</button>--%>
+<%--        <button id="sendClientMessage" class="blue button" type="button" disabled="disabled" onclick="sendMessage();">傳送訊息(javascript)</button>--%>
     </div>
     <br />
     <div id="mediaZone" style="display: inline">

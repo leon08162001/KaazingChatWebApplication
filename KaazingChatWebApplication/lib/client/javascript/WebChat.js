@@ -724,8 +724,8 @@ var getChatHistory = function () {
         });
 };
 
-var getAllTalkers = function () {
-    var serviceUrl = "api/WebChat/GetAllTalkers";
+var GetAllTalkFriends = function () {
+    var serviceUrl = "api/WebChat/GetAllTalkFriends";
     var chat = {};
     chat.id = ($.trim($("#listenFrom").val())).toUpperCase()
     chat.name = ($.trim($("#listenFrom").val())).toUpperCase()
@@ -1322,7 +1322,7 @@ $(document).ready(function () {
         }
     });
     $('#listenFrom').change(function () {
-        getAllTalkers();
+        GetAllTalkFriends();
         if (messageClient) {
             var chat = getChat();
             chatUpdate(chat, true);

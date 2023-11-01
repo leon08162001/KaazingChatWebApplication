@@ -932,10 +932,41 @@ namespace KaazingTestWebApplication.Controllers
                 }
                 else
                 {
-                    sql = "select id,htmlMessage,[date] from [dbo].[ChatDialogue] where id=@id and [receiver]=@receiver and [date]>=@date order by [date] desc";
+                    sql = "select id,htmlMessage,[date] from [dbo].[ChatDialogue] where id=@id and [receiver]=@receiver and [date]<CONVERT(char(10), GetDate(),126) and [date]>=@date order by [date] desc";
                 }
                 var chatHistory = cn.Query<Chat>(sql, Message).ToList();
                 apiResult = Ok(chatHistory);
+            }
+            catch (Exception ex)
+            {
+                if (log.IsErrorEnabled) log.Error(ex.Message, ex);
+                apiResult = ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message));
+            }
+            return apiResult;
+        }
+        [HttpPost]
+        [Route("GetAllTalkFriends")]
+        public IHttpActionResult GetAllTalkFriends(Chat Chat)
+        {
+            IHttpActionResult apiResult = null;
+            try
+            {
+                var cn = cf.CreateConnection();
+                if (!Chat.id.Trim().Equals(""))
+                {
+                    var sql = "select distinct receiver from [dbo].[ChatDialogue]" + Environment.NewLine +
+                              "where[id] = @id AND(receiver is not null AND receiver<>'')" + Environment.NewLine +
+                              "order by receiver";
+                    var allTalkFriends = cn.Query<Chat>(sql, Chat).ToList();
+                    apiResult = Ok(allTalkFriends);
+                }
+                else
+                {
+                    Chat.receiver = "";
+                    var allTalkFriends = new List<Chat>();
+                    allTalkFriends.Add(Chat);
+                    apiResult = Ok(allTalkFriends);
+                }
             }
             catch (Exception ex)
             {
