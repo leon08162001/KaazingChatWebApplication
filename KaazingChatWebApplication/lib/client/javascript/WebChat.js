@@ -724,6 +724,41 @@ var getChatHistory = function () {
         });
 };
 
+var getAllTalkers = function () {
+    var serviceUrl = "api/WebChat/GetAllTalkers";
+    var chat = {};
+    chat.id = ($.trim($("#listenFrom").val())).toUpperCase()
+    chat.name = ($.trim($("#listenFrom").val())).toUpperCase()
+    CallAjax(serviceUrl, chat,
+        function (data) {
+            if (data || data.d) {
+                var ddlAllFriends = $("[id*=ddlAllFriends]");
+                ddlAllFriends.empty();
+                $.each(data, function () {
+                    ddlAllFriends.append($("<option></option>").val(this['receiver']).html(this['receiver']));
+                });
+                ddlAllFriends.prop('selectedIndex', 0);
+                $('#talkTo').val(ddlAllFriends.val()).change();
+            }
+            else if (!data || !data.d) {
+                console.log("getChatHistory fail!");
+                window.alert("getChatHistory fail!");
+            }
+        },
+        function (xhr, textStatus, errorThrown) {
+            if (xhr.readyState === 0) {
+                console.log("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
+                window.alert("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
+            }
+            else {
+                //var obj = JSON.parse(xhr.responseText);
+                var result = isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
+                console.log(result);
+                window.alert(result);
+            }
+        });
+}
+
 var b64toBlob = function (b64Data, contentType, sliceSize) {
     contentType !== undefined ? contentType : '';
     sliceSize !== undefined ? sliceSize : 512;
@@ -1263,6 +1298,9 @@ $(document).ready(function () {
             //$("#sendMessage").click();
         }
     });
+    $('#ddlAllFriends').change(function () {
+        $('#talkTo').val($('#ddlAllFriends option:selected').val()).change();
+    });
     $('#talkTo').change(function () {
         if (messageClient) {
             var chat = getChat();
@@ -1284,6 +1322,7 @@ $(document).ready(function () {
         }
     });
     $('#listenFrom').change(function () {
+        getAllTalkers();
         if (messageClient) {
             var chat = getChat();
             chatUpdate(chat, true);
