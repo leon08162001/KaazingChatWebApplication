@@ -68,10 +68,10 @@
             <input type="hidden" name="pwd" id="pwd" value="<%= EnCryptWebSocketPWD %>" />
             <table style="width: 100%">
                 <tr>
-                    <td style="width: 5%">
+                    <td style="width:8%">
                         <label for="listenFrom" class="text-nowrap">My Name:</label>
                     </td>
-                    <td style="width: 95%">
+                    <td style="width:92%">
                         <input type="text" name="listenFrom" id="listenFrom" class="form-control" style="width: 10em; height: 1.5em" value="" runat="server" />
                     </td>
                 </tr>

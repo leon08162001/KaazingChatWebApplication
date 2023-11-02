@@ -1434,4 +1434,8 @@ $(document).ready(function () {
         messageType = defaultMessageType;
         openMessageClient("聊天", true);
     });
+
+    if ($('#listenFrom').val() !== '') {
+        GetAllTalkFriends();
+    }
 });
