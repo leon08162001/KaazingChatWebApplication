@@ -22,13 +22,13 @@
     <script src="lib/client/javascript/aes.js" type="text/javascript"></script>
     <script src="lib/client/javascript/AesHelper.js" type="text/javascript"></script>
     <script src="lib/client/javascript/MediaStreamRecorder.min.js" type="text/javascript"></script>
-    <script src="lib/client/javascript/MessageClient.js" type="text/javascript"></script>
+    <script src="lib/client/javascript/MessageClient.js?timestamp=<%= timeStamp %>" type="text/javascript"></script>
     <script type="text/javascript">
         var clientIp = "<%= ClientIp %>";                                                                           //Client IP
         var MY_WEBSOCKET_URL = "<%= KaazingJmsSvc %>";                                                              //WebSocket Url
         var isSaveVideoStreamToServer = <%= IsSaveVideoStreamToServer.ToString().ToLower() %>;                      //是否將視訊會議串流資料儲存到server
         </script>
-    <script src="lib/client/javascript/WebChat.js" type="text/javascript"></script>
+    <script src="lib/client/javascript/WebChat.js?timestamp=<%= timeStamp %>" type="text/javascript"></script>
     <style>
         body {
             padding: 5px;
@@ -88,7 +88,7 @@
                         <label for="talkTo">TalkTo:</label>
                     </td>
                     <td>
-                        <input type="text" name="talkTo" id="talkTo" class="form-control" style="width: 10em; height: 1.5em" value="" />
+                        <input type="text" name="talkTo" id="talkTo" class="form-control" style="width: 10em; height: 1.5em" value="" runat="server" />
                     </td>
                 </tr>
                 <tr>

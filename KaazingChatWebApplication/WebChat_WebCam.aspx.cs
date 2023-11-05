@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using KaazingTestWebApplication.Controllers;
+using KaazingChatWebApplication.Models;
+using System.Web.Http;
+using System.Web.Http.Results;
 
 namespace KaazingChatWebApplication
 {
@@ -24,6 +28,7 @@ namespace KaazingChatWebApplication
         protected bool IsSaveVideoStreamToServer = false;
         protected string EnCryptWebSocketUID = "";
         protected string EnCryptWebSocketPWD = "";
+        protected string timeStamp = HttpContext.Current.Timestamp.ToString("yyyyMMddHHmmssfff");
         protected void Page_Load(object sender, EventArgs e)
         {
             FileInfo IniFile = new FileInfo(Path.Combine(Server.MapPath(""), "common.ini"));
@@ -38,12 +43,31 @@ namespace KaazingChatWebApplication
             {
                 listenFrom.Value = Request.Form["login"].ToString().ToUpper();
                 listenFrom.Disabled = true;
+                //WebChatController Wcc = new WebChatController();
+                //Chat chat = new Chat();
+                //chat.id = listenFrom.Value.Trim().ToUpper();
+                //chat.name = listenFrom.Value.Trim().ToUpper();
+                //IHttpActionResult result = Wcc.GetAllTalkFriends(chat);
+                //if (result is OkNegotiatedContentResult<List<Chat>>)
+                //{
+                //    // Here's how you can do it. 
+                //    List<Chat> friendsListForChat = (result as OkNegotiatedContentResult<List<Chat>>).Content;
+                //    ddlAllFriends.Items.Clear();
+                //    foreach (Chat friend in friendsListForChat)
+                //    {
+                //        ddlAllFriends.Items.Add(new ListItem(friend.receiver, friend.receiver));
+                //    }
+                //    ddlAllFriends.SelectedIndex = 0;
+                //    talkTo.Value = ddlAllFriends.SelectedValue;
+                //}
             }
             else
             {
                 listenFrom.Value = "";
                 listenFrom.Disabled = false;
             }
+            //ScriptManager.RegisterStartupScript(this, this.GetType(), "GetAllTalkFriends", "GetAllTalkFriends();", true);
+
             //applicationContext = ContextRegistry.GetContext();
             //config = (Config)applicationContext.GetObject("Config");
             //KaazingJmsSvc = config.IsUseSSL ? 
@@ -53,7 +77,7 @@ namespace KaazingChatWebApplication
             GetWebSocketLoadBalancerUrl();
             ClientIp = GetClientIp();
             EnCryptWebSocketUID = Config.KaazingWebSocketUserID;
-            EnCryptWebSocketPWD = Config.KaazingWebSocketPwd;
+            EnCryptWebSocketPWD = Config.KaazingWebSocketPwd; 
         }
         private string GetClientIp()
         {
