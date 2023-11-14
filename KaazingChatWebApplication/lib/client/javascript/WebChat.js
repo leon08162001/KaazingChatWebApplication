@@ -216,11 +216,11 @@ var handleConnectStarted = function (funcName) {
     if (funcName === "聊天") {
         $('#startLiveVideo').attr('disabled', false);
         $('#closeLiveVideo').attr('disabled', true);
-        if ($("#divMsg").html() == "") {
-            getChatToday();
-        }
         if ($("#divMsgHis").html() == "") {
             getChatHistory();
+        }
+        if ($("#divMsg").html() == "") {
+            getChatToday();
         }
     }
     else if (funcName === "視訊") {
@@ -235,11 +235,11 @@ var handleConnectStarted = function (funcName) {
 var handleConnectFailed = function (funcName) {
     if (funcName === "聊天") {
         $('#openMessageClient').attr('disabled', false);
-        if ($("#divMsg").html() == "") {
-            getChatToday();
-        }
         if ($("#divMsgHis").html() == "") {
             getChatHistory();
+        }
+        if ($("#divMsg").html() == "") {
+            getChatToday();
         }
     }
 }
@@ -370,10 +370,10 @@ var closeMessageClient = function () {
         }
         if (messageClient) {
             messageClient.close();
-            if ($("#divMsg").html().length > 0) {
-                var chat = getChat();
-                chatUpdate(chat, true);
-            }
+            //if ($("#divMsg").html().length > 0) {
+            //    var chat = getChat();
+            //    chatUpdate(chat, true);
+            //}
         }
     }
     catch (e) {
@@ -397,6 +397,9 @@ var sendMessage = function () {
 //https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer
 
 var chatUpdate = function (chat, isExit) {
+    if (chat.htmlMessage == "") {
+        return;
+    }
     var chatUpdateServiceUrl = "api/WebChat/ChatUpdate";
     if (!isExit) {
         CallAjax(chatUpdateServiceUrl, chat,
@@ -686,6 +689,7 @@ var getChatToday = function () {
 };
 
 var getChatHistory = function () {
+    $('#modal-loading').modal('show');
     var serviceUrl = "api/WebChat/GetChatHistory";
     var chatRecords = $('#chatRecords option:selected').val();
     var chat = {};
@@ -700,15 +704,21 @@ var getChatHistory = function () {
         function (data) {
             if (data || data.d) {
                 //$("#divMsgHis").html("");
+                var allHtmlMessage = "";
                 $.each(data, function () {
-                    $("#divMsgHis").html($("#divMsgHis").html() + "<span class=\"Rounded\">" + this.date.substring(0, 10) + "</span>");
-                    $("#divMsgHis").html($("#divMsgHis").html() + this.htmlMessage);
+                    allHtmlMessage += "<span class=\"Rounded\">" + this.date.substring(0, 10) + "</span>" + this.htmlMessage;
+                    //$("#divMsgHis").html($("#divMsgHis").html() + "<span class=\"Rounded\">" + this.date.substring(0, 10) + "</span>");
+                    //$("#divMsgHis").html($("#divMsgHis").html() + this.htmlMessage);
                 });
+                $("#divMsgHis").html(allHtmlMessage);
+                //$('#modal-loading').modal('hide');
             }
             else if (!data || !data.d) {
+                //$('#modal-loading').modal('hide');
                 console.log("getChatHistory fail!");
                 window.alert("getChatHistory fail!");
             }
+            $('#modal-loading').modal('hide');
         },
         function (xhr, textStatus, errorThrown) {
             if (xhr.readyState === 0) {
@@ -721,6 +731,7 @@ var getChatHistory = function () {
                 console.log(result);
                 window.alert(result);
             }
+            $('#modal-loading').modal('hide');
         });
 };
 
@@ -1310,10 +1321,11 @@ $(document).ready(function () {
             //messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z-]+/g).filter(function (v) {return v }).join(',').toUpperCase();
             //messageClient.sendName = $.trim($(this).val()).split(/[^a-zA-Z1-9-_.]+/g).filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
             messageClient.sendName = $.trim($(this).val()).split(',').filter(function (x) { return x; }).map(function (y) { return "webchat." + y; }).join(',').toUpperCase();
-            getChatToday();
             getChatHistory();
-            closeMessageClient();
-            openMessageClient("聊天", false);
+            getChatToday();
+            //closeMessageClient();
+            //openMessageClient("聊天", false);
+            messageClient.reStartSender();
         }
     });
     $('#chatRecords').change(function () {
@@ -1329,10 +1341,11 @@ $(document).ready(function () {
             $("#divMsg").html("");
             $("#divMsgHis").html("");
             messageClient.listenName = ("webchat." + $.trim($("#listenFrom").val())).toUpperCase();
-            getChatToday();
             getChatHistory();
+            getChatToday();
             closeMessageClient();
             openMessageClient("聊天", false);
+            //messageClient.reStartListener();
         }
     });
 

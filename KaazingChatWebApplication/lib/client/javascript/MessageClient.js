@@ -303,7 +303,40 @@ MessageClient.prototype = (function () {
                 //triggerConnectionClosed.call(that, e);
             }
         },
-
+        reStartSender: function () {
+            var jmsServiceType = this.jmsServiceType;
+            var messageType = this.messageType;
+            var sendName = messageType === 1 ? "/topic/" + this.sendName : "/queue/" + this.sendName;
+            var sendTopicOrQueue;
+            if (messageType === 1) {
+                sendTopicOrQueue = session.createTopic(sendName);
+            }
+            else {
+                sendTopicOrQueue = session.createQueue(sendName);
+            }
+            topicOrQueueProducer = session.createProducer(sendTopicOrQueue);
+        },
+        reStartListener: function () {
+            var jmsServiceType = this.jmsServiceType;
+            var messageType = this.messageType;
+            var userName = this.listenName;
+            var listenName = messageType === 1 ? "/topic/" + this.listenName : "/queue/" + this.listenName;
+            var listenTopicOrQueue;
+            if (messageType === 1) {
+                listenTopicOrQueue = session.createTopic(listenName);
+                if (jmsServiceType === 1) {
+                    topicOrQueueConsumer = session.createConsumer(listenTopicOrQueue);
+                }
+                else {
+                    var durableName = userName + "@" + clientIp + "_" + navigator.userAgent;
+                    topicOrQueueConsumer = session.createDurableSubscriber(listenTopicOrQueue, durableName);
+                }
+            }
+            else {
+                listenTopicOrQueue = session.createQueue(listenName);
+                topicOrQueueConsumer = session.createConsumer(listenTopicOrQueue);
+            }
+        },
         getErrorLog: function () {
             return errLog;
         },

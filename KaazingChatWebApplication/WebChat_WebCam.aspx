@@ -58,6 +58,23 @@
             text-align: center;
             display: block;
         }
+        .loading-spinner{
+            width:30px;
+            height:30px;
+            border:2px solid indigo;
+            border-radius:50%;
+            border-top-color:#0001;
+            display:inline-block;
+            animation:loadingspinner .7s linear infinite;
+        }
+        @keyframes loadingspinner{
+            0%{
+            transform:rotate(0deg)
+            }
+            100%{
+            transform:rotate(360deg)
+            }
+        }
     </style>
 </head>
 <body>
@@ -68,10 +85,10 @@
             <input type="hidden" name="pwd" id="pwd" value="<%= EnCryptWebSocketPWD %>" />
             <table style="width: 100%">
                 <tr>
-                    <td style="width:8%">
+                    <td style="width:10%">
                         <label for="listenFrom" class="text-nowrap">My Name:</label>
                     </td>
-                    <td style="width:92%">
+                    <td style="width:90%">
                         <input type="text" name="listenFrom" id="listenFrom" class="form-control" style="width: 10em; height: 1.5em" value="" runat="server" />
                     </td>
                 </tr>
@@ -173,5 +190,15 @@
     <div id="divToday" class="defaultfont" style="display:none;"><span class="Rounded">今日</span></div>
     <div id="divMsg" class="defaultfont"></div>
     <div id="divMsgHis" class="defaultfont"></div>
+    <div class="modal" id="modal-loading" data-backdrop="static" style="position:absolute;left:0%;top:25%;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <div class="loading-spinner mb-2"></div>
+                    <div>Loading</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
