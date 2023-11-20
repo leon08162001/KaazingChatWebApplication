@@ -8,11 +8,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaazingChatWebService", "KaazingChatWebService\KaazingChatWebService.csproj", "{FBDB7CAF-0549-4420-BF91-1165D1E970CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaazingChatWebApplication", "KaazingChatWebApplication\KaazingChatWebApplication.csproj", "{1295ACF0-A29C-4913-A58E-1418560688E3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaazingChatWebApi", "KaazingChatWebApi\KaazingChatWebApi.csproj", "{ADB29489-EAAA-44B1-9EC5-8F779E0DF447}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Chat", "Chat\Chat.sqlproj", "{CAEBA99A-A468-43BE-8EC7-B17A344BB8AC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KaazingChatApi", "KaazingChatApi\KaazingChatApi.csproj", "{9C67B9E2-1F23-41AE-A9F0-F512BAF35EEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KaazingChatWebApplication", "KaazingChatWebApplication\KaazingChatWebApplication.csproj", "{1295ACF0-A29C-4913-A58E-1418560688E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,14 +48,6 @@ Global
 		{FBDB7CAF-0549-4420-BF91-1165D1E970CC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FBDB7CAF-0549-4420-BF91-1165D1E970CC}.Release|x86.ActiveCfg = Release|Any CPU
 		{FBDB7CAF-0549-4420-BF91-1165D1E970CC}.Release|x86.Build.0 = Release|Any CPU
-		{1295ACF0-A29C-4913-A58E-1418560688E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1295ACF0-A29C-4913-A58E-1418560688E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1295ACF0-A29C-4913-A58E-1418560688E3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1295ACF0-A29C-4913-A58E-1418560688E3}.Debug|x86.Build.0 = Debug|Any CPU
-		{1295ACF0-A29C-4913-A58E-1418560688E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1295ACF0-A29C-4913-A58E-1418560688E3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1295ACF0-A29C-4913-A58E-1418560688E3}.Release|x86.ActiveCfg = Release|Any CPU
-		{1295ACF0-A29C-4913-A58E-1418560688E3}.Release|x86.Build.0 = Release|Any CPU
 		{ADB29489-EAAA-44B1-9EC5-8F779E0DF447}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ADB29489-EAAA-44B1-9EC5-8F779E0DF447}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADB29489-EAAA-44B1-9EC5-8F779E0DF447}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -74,6 +68,22 @@ Global
 		{CAEBA99A-A468-43BE-8EC7-B17A344BB8AC}.Release|x86.ActiveCfg = Release|Any CPU
 		{CAEBA99A-A468-43BE-8EC7-B17A344BB8AC}.Release|x86.Build.0 = Release|Any CPU
 		{CAEBA99A-A468-43BE-8EC7-B17A344BB8AC}.Release|x86.Deploy.0 = Release|Any CPU
+		{9C67B9E2-1F23-41AE-A9F0-F512BAF35EEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C67B9E2-1F23-41AE-A9F0-F512BAF35EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C67B9E2-1F23-41AE-A9F0-F512BAF35EEE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9C67B9E2-1F23-41AE-A9F0-F512BAF35EEE}.Debug|x86.Build.0 = Debug|Any CPU
+		{9C67B9E2-1F23-41AE-A9F0-F512BAF35EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C67B9E2-1F23-41AE-A9F0-F512BAF35EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C67B9E2-1F23-41AE-A9F0-F512BAF35EEE}.Release|x86.ActiveCfg = Release|Any CPU
+		{9C67B9E2-1F23-41AE-A9F0-F512BAF35EEE}.Release|x86.Build.0 = Release|Any CPU
+		{1295ACF0-A29C-4913-A58E-1418560688E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1295ACF0-A29C-4913-A58E-1418560688E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1295ACF0-A29C-4913-A58E-1418560688E3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1295ACF0-A29C-4913-A58E-1418560688E3}.Debug|x86.Build.0 = Debug|Any CPU
+		{1295ACF0-A29C-4913-A58E-1418560688E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1295ACF0-A29C-4913-A58E-1418560688E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1295ACF0-A29C-4913-A58E-1418560688E3}.Release|x86.ActiveCfg = Release|Any CPU
+		{1295ACF0-A29C-4913-A58E-1418560688E3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -36,13 +36,18 @@ var fileName;
 //var messageTalkServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer";
 //var messageTalkServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/SendTalkMessageToServer";
 //var messageTalkServiceUrl = "Asmx/ChatService.asmx/SendTalkMessageToServer";
+
 var messageTalkServiceUrl = "api/WebChat/SendTalkMessageToServer";
 var chkWebSocketLoadBalancerUrl = "api/WebChat/GetWebSocketLoadBalancerUrl";
+//var messageTalkServiceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/SendTalkMessageToServer";
+//var chkWebSocketLoadBalancerUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/GetWebSocketLoadBalancerUrl";
 
 //var messageReadServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendReadMessageToServer";
 //var messageReadServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/SendReadMessageToServer";
 //var messageReadServiceUrl = "Asmx/ChatService.asmx/SendReadMessageToServer";
+
 var messageAjaxServiceUrl = "api/WebChat/SendAjaxMessageToServer";
+//var messageAjaxServiceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/SendAjaxMessageToServer";
 
 //因android 瀏覽器執行下列上傳檔案asmx會出現error,故改用呼叫ashx方式進行(暫查不出原因,因PC上瀏覽器執行上傳檔案asmx沒有問題)
 //var messageUploadFileUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService1.asmx/UploadFile";
@@ -70,6 +75,7 @@ var messageAjaxServiceUrl = "api/WebChat/SendAjaxMessageToServer";
 
 //WebSocketUploadFile
 var messageUploadFileUrl = "api/WebChat/UploadFile";
+//var messageUploadFileUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/UploadFile";
 //MQUploadFile
 //var messageUploadFileUrl = "api/WebChat/UploadFile1";
 //EMSUploadFile
@@ -77,6 +83,7 @@ var messageUploadFileUrl = "api/WebChat/UploadFile";
 
 //WebSocketUploadStream
 var messageUploadStreamUrl = "api/WebChat/UploadStream";
+//var messageUploadStreamUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/UploadStream";
 
 // Used for development and debugging. All logging can be turned
 // off by modifying this function.
@@ -393,14 +400,13 @@ var sendMessage = function () {
     $("#divMsg").html("<span style=\"background-color: yellow;\"><pre>" + $.trim($("#listenFrom").val()).toUpperCase() + "：" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span></span><br>" + $("#divMsg").html());
     messageClient.sendMessage(JSON.stringify("<pre>" + $.trim($("#listenFrom").val()).toUpperCase() + "：" + $("#message").val().replace(/\n/g, '<br>') + "</pre><span class=\"tabbed\" id=\"" + uuid + "\">(" + messageTime + ")</span>"));
 };
-//../KaazingChatWebService/ChatService.asmx/SendMessageToServer
-//https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer
 
 var chatUpdate = function (chat, isExit) {
     if (chat.htmlMessage == "") {
         return;
     }
     var chatUpdateServiceUrl = "api/WebChat/ChatUpdate";
+    //var chatUpdateServiceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/ChatUpdate";
     if (!isExit) {
         CallAjax(chatUpdateServiceUrl, chat,
             function (result) {
@@ -422,6 +428,7 @@ var chatUpdate = function (chat, isExit) {
     else {
         if (navigator.sendBeacon) {
             chatUpdateServiceUrl = "api/WebChat/ChatUpdateWhenExit";
+            //chatUpdateServiceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/ChatUpdateWhenExit";
             var data = new FormData();
             data.append('id', chat.id);
             data.append('name', chat.name);
@@ -552,10 +559,12 @@ var sendAjaxTalkMessage = function () {
     }
     ajaxProgress = $.ajax({
         url: messageTalkServiceUrl,
-        data: JSON.stringify(data),
+        //data: JSON.stringify(data),
+        data: data,
         dataType: "json",
         type: "POST",
-        contentType: "application/json; charset=utf-8",
+        //contentType: "application/json; charset=utf-8",
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
         success: function (result) {
             if (result.MessageId === "0000") {
                 $("#message").val("");
@@ -610,10 +619,12 @@ var sendAjaxMessage = function (message, ajaxMessageType, filePusherId) {
     //alert(JSON.stringify(data));
     ajaxProgress = $.ajax({
         url: messageAjaxServiceUrl,
-        data: JSON.stringify(data),
+        //data: JSON.stringify(data),
+        data: data,
         dataType: "json",
         type: "POST",
-        contentType: "application/json; charset=utf-8",
+        //contentType: "application/json; charset=utf-8",
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
         error: function (xhr, textStatus, errorThrown) {
             if (xhr.readyState === 0) {
                 console.log("readyState:" + xhr.readyState + "(" + xhr.statusText + ")");
@@ -634,6 +645,7 @@ var sendAjaxMessage = function (message, ajaxMessageType, filePusherId) {
 
 var getChatToday = function () {
     var serviceUrl = "api/WebChat/GetChatToday";
+    //var serviceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/GetChatToday";
     var chat = {};
     chat.id = messageClient ? messageClient.listenName.replace(/webchat./ig, "") : "";
     chat.receiver = messageClient ? messageClient.sendName.replace(/webchat./ig, "") : "";
@@ -691,6 +703,7 @@ var getChatToday = function () {
 var getChatHistory = function () {
     $('#modal-loading').modal('show');
     var serviceUrl = "api/WebChat/GetChatHistory";
+    //var serviceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/GetChatHistory";
     var chatRecords = $('#chatRecords option:selected').val();
     var chat = {};
     chat.id = messageClient ? messageClient.listenName.replace(/webchat./ig, "") : "";
@@ -737,9 +750,10 @@ var getChatHistory = function () {
 
 var GetAllTalkFriends = function () {
     var serviceUrl = "api/WebChat/GetAllTalkFriends";
+    //var serviceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/GetAllTalkFriends";
     var chat = {};
-    chat.id = ($.trim($("#listenFrom").val())).toUpperCase()
-    chat.name = ($.trim($("#listenFrom").val())).toUpperCase()
+    chat.id = ($.trim($("#listenFrom").val())).toUpperCase();
+    chat.name = ($.trim($("#listenFrom").val())).toUpperCase();
     CallAjax(serviceUrl, chat,
         function (data) {
             if (data || data.d) {
@@ -1078,10 +1092,12 @@ function createDownloadFileLinkBase64(obj) {
 function CallAjax(url, data, okFunc, failFunc) {
     ajaxProgress = $.ajax({
         url: url,
-        data: JSON.stringify(data),
+        //data: JSON.stringify(data),
+        data: data,
         dataType: "json",
         type: "POST",
-        contentType: "application/json; charset=utf-8",
+        //contentType: "application/json; charset=utf-8",
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
         success: okFunc,
         error: failFunc,
         complete: function (XHR, TS) {
@@ -1093,11 +1109,13 @@ function CallAjax(url, data, okFunc, failFunc) {
 function CallSyncAjax(url, data, okFunc, failFunc) {
     ajaxProgress = $.ajax({
         url: url,
-        data: JSON.stringify(data),
+        //data: JSON.stringify(data),
+        data: data,
         dataType: "json",
         type: "POST",
         async: false,
-        contentType: "application/json; charset=utf-8",
+        //contentType: "application/json; charset=utf-8",
+        contentType: 'application/x-www-form-urlencoded; charset=utf-8',
         success: okFunc,
         error: failFunc,
         complete: function (XHR, TS) {

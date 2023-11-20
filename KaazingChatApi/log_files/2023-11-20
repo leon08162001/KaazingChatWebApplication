@@ -1,0 +1,243 @@
+2023-11-20 13:10:42.2172|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：K：<pre class="defaultfont" style="display: inline;">aaa</pre><span class="tabbed" id="91fded29-dc74-44c0-b2bd-d57cff312b19">(11-20 13:10:41)</span>
+
+2023-11-20 13:10:42.4603|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：K：<pre class="defaultfont" style="display: inline;">aaa</pre><span class="tabbed" id="91fded29-dc74-44c0-b2bd-d57cff312b19">(11-20 13:10:41)</span><span class="tabbed">已讀</span>(11-20 13:10:42)
+
+2023-11-20 13:10:50.6567|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：C：<pre class="defaultfont" style="display: inline;">ccc</pre><span class="tabbed" id="8c9d0704-96f7-41b4-a2b0-d28270cc87b7">(11-20 13:10:50)</span>
+
+2023-11-20 13:10:51.8410|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：C：<pre class="defaultfont" style="display: inline;">ccc</pre><span class="tabbed" id="8c9d0704-96f7-41b4-a2b0-d28270cc87b7">(11-20 13:10:50)</span><span class="tabbed">已讀</span>(11-20 13:10:50)
+
+2023-11-20 13:11:01.7573|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="7005bbde-0447-47e2-a762-4859bacf59f1">K：傳送檔案中，請稍後...(11-20 13:11:00)</span>
+
+2023-11-20 13:11:01.7828|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：F-網技工會退保通知函.pdf，sequence：1，totalSequence：1)
+
+2023-11-20 13:11:01.8131|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="7005bbde-0447-47e2-a762-4859bacf59f1">K：傳送檔案中，請稍後...(11-20 13:11:00)</span><span class="tabbed">已讀</span>(11-20 13:11:01)
+
+2023-11-20 13:11:02.1151|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：C：F-網技工會退保通知函.pdf<span class="tabbed">已收</span>(11-20 13:11:02)
+
+2023-11-20 13:11:16.6669|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="4f3603db-fe08-4f37-8356-1760d12035e1">C：傳送檔案中，請稍後...(11-20 13:11:16)</span>
+
+2023-11-20 13:11:17.0513|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：F-網技工會退保通知函.pdf，sequence：1，totalSequence：1)
+
+2023-11-20 13:11:17.0803|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：第一意外險100元-DM.pdf，sequence：1，totalSequence：1)
+
+2023-11-20 13:11:17.1097|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：五天幾年.mp3，sequence：1，totalSequence：4)
+
+2023-11-20 13:11:17.3780|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：五天幾年.mp3，sequence：2，totalSequence：4)
+
+2023-11-20 13:11:17.4841|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：五天幾年.mp3，sequence：3，totalSequence：4)
+
+2023-11-20 13:11:17.5932|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：五天幾年.mp3，sequence：4，totalSequence：4)
+
+2023-11-20 13:11:17.7912|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="4f3603db-fe08-4f37-8356-1760d12035e1">C：傳送檔案中，請稍後...(11-20 13:11:16)</span><span class="tabbed">已讀</span>(11-20 13:11:16)
+
+2023-11-20 13:11:18.2845|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：K：F-網技工會退保通知函.pdf<span class="tabbed">已收</span>(11-20 13:11:17)
+
+2023-11-20 13:11:18.2845|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：K：第一意外險100元-DM.pdf<span class="tabbed">已收</span>(11-20 13:11:17)
+
+2023-11-20 13:11:18.9469|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：K：五天幾年.mp3<span class="tabbed">已收</span>(11-20 13:11:17)
+
+2023-11-20 13:14:10.9594|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="ace576d0-9f59-472f-8aac-028577efd7e3">C：傳送檔案中，請稍後...(11-20 13:14:10)</span>
+
+2023-11-20 13:14:11.2134|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="ace576d0-9f59-472f-8aac-028577efd7e3">C：傳送檔案中，請稍後...(11-20 13:14:10)</span><span class="tabbed">已讀</span>(11-20 13:14:11)
+
+2023-11-20 13:14:23.6888|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：F-網技工會退保通知函.pdf，sequence：1，totalSequence：1)
+
+2023-11-20 13:14:23.8626|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：K：F-網技工會退保通知函.pdf<span class="tabbed">已收</span>(11-20 13:14:23)
+
+2023-11-20 13:33:13.0449|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="4f5dac3d-89a1-463a-bc80-6aa16e7a2e39">C：傳送檔案中，請稍後...(11-20 13:33:12)</span>
+
+2023-11-20 13:33:20.7475|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：第一意外險100元-DM.pdf，sequence：1，totalSequence：1)
+
+2023-11-20 13:35:37.1076|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="93a31c7e-63da-4cb1-ab10-51e3094f4bab">C：傳送檔案中，請稍後...(11-20 13:35:37)</span>
+
+2023-11-20 13:36:58.4841|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：第一意外險100元-DM.pdf，sequence：1，totalSequence：1)
+
+2023-11-20 13:38:47.0694|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="a0e589d8-67c0-4814-9e2c-dd542bf76dd6">C：傳送檔案中，請稍後...(11-20 13:38:47)</span>
+
+2023-11-20 13:38:55.6857|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：F-網技工會退保通知函.pdf，sequence：1，totalSequence：1)
+
+2023-11-20 13:40:30.0155|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="b4c56992-7d74-46fe-8249-3ad71d316566">K：傳送檔案中，請稍後...(11-20 13:40:29)</span>
+
+2023-11-20 13:40:32.0268|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：2000彭佳慧 - 不一定.mp3，sequence：1，totalSequence：5)
+
+2023-11-20 13:40:32.1152|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：2000彭佳慧 - 不一定.mp3，sequence：2，totalSequence：5)
+
+2023-11-20 13:40:32.2045|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：2000彭佳慧 - 不一定.mp3，sequence：3，totalSequence：5)
+
+2023-11-20 13:40:32.3652|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：2000彭佳慧 - 不一定.mp3，sequence：4，totalSequence：5)
+
+2023-11-20 13:40:32.5113|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：2000彭佳慧 - 不一定.mp3，sequence：5，totalSequence：5)
+
+2023-11-20 13:40:35.0488|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="b4c56992-7d74-46fe-8249-3ad71d316566">K：傳送檔案中，請稍後...(11-20 13:40:29)</span><span class="tabbed">已讀</span>(11-20 13:40:35)
+
+2023-11-20 13:40:38.2818|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：C：2000彭佳慧 - 不一定.mp3<span class="tabbed">已收</span>(11-20 13:40:38)
+
+2023-11-20 13:41:30.4399|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="07b66d59-b15e-43b4-a223-f66ee5905578">C：傳送檔案中，請稍後...(11-20 13:41:30)</span>
+
+2023-11-20 13:41:31.0636|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：2000彭佳慧 - 不一定.mp3，sequence：1，totalSequence：5)
+
+2023-11-20 13:41:31.1581|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：2000彭佳慧 - 不一定.mp3，sequence：2，totalSequence：5)
+
+2023-11-20 13:41:31.2157|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：2000彭佳慧 - 不一定.mp3，sequence：3，totalSequence：5)
+
+2023-11-20 13:41:31.2647|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：2000彭佳慧 - 不一定.mp3，sequence：4，totalSequence：5)
+
+2023-11-20 13:41:31.3134|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：2000彭佳慧 - 不一定.mp3，sequence：5，totalSequence：5)
+
+2023-11-20 13:43:03.6063|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="115eec3e-ff46-4fb7-b987-c79fba7a0e18">C：傳送檔案中，請稍後...(11-20 13:43:03)</span>
+
+2023-11-20 13:43:03.8741|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：F-網技工會退保通知函.pdf，sequence：1，totalSequence：1)
+
+2023-11-20 13:43:03.8778|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="115eec3e-ff46-4fb7-b987-c79fba7a0e18">C：傳送檔案中，請稍後...(11-20 13:43:03)</span><span class="tabbed">已讀</span>(11-20 13:43:03)
+
+2023-11-20 13:43:04.1658|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：K：F-網技工會退保通知函.pdf<span class="tabbed">已收</span>(11-20 13:43:03)
+
+2023-11-20 13:43:41.6872|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="3eabf4a9-b46f-4bdd-a07e-5943808e1240">K：傳送檔案中，請稍後...(11-20 13:43:41)</span>
+
+2023-11-20 13:43:41.8099|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="3eabf4a9-b46f-4bdd-a07e-5943808e1240">K：傳送檔案中，請稍後...(11-20 13:43:41)</span><span class="tabbed">已讀</span>(11-20 13:43:41)
+
+2023-11-20 13:43:43.0042|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：彭佳慧 - 心之火.mp3，sequence：1，totalSequence：7)
+
+2023-11-20 13:43:43.1451|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：彭佳慧 - 心之火.mp3，sequence：2，totalSequence：7)
+
+2023-11-20 13:43:43.2469|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：彭佳慧 - 心之火.mp3，sequence：3，totalSequence：7)
+
+2023-11-20 13:43:43.3054|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：彭佳慧 - 心之火.mp3，sequence：4，totalSequence：7)
+
+2023-11-20 13:43:43.3707|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：彭佳慧 - 心之火.mp3，sequence：5，totalSequence：7)
+
+2023-11-20 13:43:43.4819|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：彭佳慧 - 心之火.mp3，sequence：6，totalSequence：7)
+
+2023-11-20 13:43:43.5491|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：彭佳慧 - 心之火.mp3，sequence：7，totalSequence：7)
+
+2023-11-20 13:43:45.7667|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：C：彭佳慧 - 心之火.mp3<span class="tabbed">已收</span>(11-20 13:43:45)
+
+2023-11-20 13:43:54.9418|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="b47c49cb-3ccf-4b17-8eea-4424e461990b">C：傳送檔案中，請稍後...(11-20 13:43:54)</span>
+
+2023-11-20 13:43:55.3429|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：江美琪 - 親愛的 你怎麼不在身邊.mp3，sequence：1，totalSequence：4)
+
+2023-11-20 13:43:55.4039|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：江美琪 - 親愛的 你怎麼不在身邊.mp3，sequence：2，totalSequence：4)
+
+2023-11-20 13:43:55.4688|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：江美琪 - 親愛的 你怎麼不在身邊.mp3，sequence：3，totalSequence：4)
+
+2023-11-20 13:43:55.5347|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：江美琪 - 親愛的 你怎麼不在身邊.mp3，sequence：4，totalSequence：4)
+
+2023-11-20 13:43:56.0163|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：K：江美琪 - 親愛的 你怎麼不在身邊.mp3<span class="tabbed">已收</span>(11-20 13:43:55)
+
+2023-11-20 13:43:56.6660|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="b47c49cb-3ccf-4b17-8eea-4424e461990b">C：傳送檔案中，請稍後...(11-20 13:43:54)</span><span class="tabbed">已讀</span>(11-20 13:43:54)
+
+2023-11-20 14:28:06.1856|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：K：<pre class="defaultfont" style="display: inline;">qqq</pre><span class="tabbed" id="927e1a1c-839a-4153-9df2-332eeffe0dc2">(11-20 14:28:06)</span>
+
+2023-11-20 14:28:14.2336|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：C：<pre class="defaultfont" style="display: inline;">ccc</pre><span class="tabbed" id="ae72d91e-a99c-43a9-a9f1-e8365571cc23">(11-20 14:28:14)</span><span class="tabbed">已讀</span>(11-20 14:28:14)
+
+2023-11-20 14:28:19.2984|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：C：<pre class="defaultfont" style="display: inline;">wqe</pre><span class="tabbed" id="65d620a5-2900-415f-8cbb-497815aec471">(11-20 14:28:19)</span><span class="tabbed">已讀</span>(11-20 14:28:19)
+
+2023-11-20 14:28:26.0914|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="01f0aa75-18ef-40f6-b82c-5e26f03b17cd">K：傳送檔案中，請稍後...(11-20 14:28:26)</span>
+
+2023-11-20 14:28:28.1372|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：Tifa Cloud ～FF7 Remake～.mp3，sequence：1，totalSequence：5)
+
+2023-11-20 14:28:28.2385|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：Tifa Cloud ～FF7 Remake～.mp3，sequence：2，totalSequence：5)
+
+2023-11-20 14:28:28.3001|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：Tifa Cloud ～FF7 Remake～.mp3，sequence：3，totalSequence：5)
+
+2023-11-20 14:28:28.3623|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：Tifa Cloud ～FF7 Remake～.mp3，sequence：4，totalSequence：5)
+
+2023-11-20 14:28:28.4273|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：Tifa Cloud ～FF7 Remake～.mp3，sequence：5，totalSequence：5)
+
+2023-11-20 14:28:45.1626|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="d981037f-6605-4866-9319-6a721e468cdf">C：傳送檔案中，請稍後...(11-20 14:28:44)</span><span class="tabbed">已讀</span>(11-20 14:28:44)
+
+2023-11-20 14:28:45.5209|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：K：彭佳慧 - 心之火.mp3<span class="tabbed">已收</span>(11-20 14:28:45)
+
+2023-11-20 14:29:20.7163|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="015e4721-00f2-4ca9-b71a-9c132b69c185">K：傳送檔案中，請稍後...(11-20 14:29:20)</span>
+
+2023-11-20 14:29:20.7163|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="9874678c-a20a-41d6-b718-12c9c815f526">K：傳送檔案中，請稍後...(11-20 14:29:20)</span>
+
+2023-11-20 14:29:21.7166|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：F-網技工會退保通知函.pdf，sequence：1，totalSequence：1)
+
+2023-11-20 14:29:21.7894|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a file by chunks(filename：F-網技工會退保通知函.pdf，sequence：1，totalSequence：1)
+
+2023-11-20 14:29:57.0273|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：<span id="4bf8c530-60c5-4cfc-85ca-852232b0170f">C：傳送檔案中，請稍後...(11-20 14:29:56)</span><span class="tabbed">已讀</span>(11-20 14:29:56)
+
+2023-11-20 14:29:58.2245|INFO|Common.LogHelper.NLogProvider|Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Message:Sending a message(message：K：F-網技工會退保通知函.pdf<span class="tabbed">已收</span>(11-20 14:29:57)
+

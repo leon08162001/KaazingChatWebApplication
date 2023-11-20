@@ -1,0 +1,22 @@
+2023-11-19 11:28:07.9464|ERROR|Common.LogHelper.NLogProvider|WebSocket connection failed
+Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Source:Kaazing.JMS
+StackTrace:   at Kaazing.JMS.Stomp.GenericFuture`1.Await(Int64 timeout)
+   at Kaazing.JMS.Stomp.StompConnection.Connect()
+   at Kaazing.JMS.Stomp.StompConnectionFactory.CreateConnection(String username, String password, String clientID)
+   at Common.LinkLayer.BaseWebSocketAdapter.Start() in D:\LeonLee\Azure Git\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs:line 301
+Message:WebSocket connection failed(BaseWebSocketAdapter Start() Error)
+ErrorMessage:Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   at Kaazing.JMS.Stomp.GenericFuture`1.Await(Int64 timeout)
+   at Kaazing.JMS.Stomp.StompConnection.Connect()
+   at Kaazing.JMS.Stomp.StompConnectionFactory.CreateConnection(String username, String password, String clientID)
+   at Common.LinkLayer.BaseWebSocketAdapter.Start() in D:\LeonLee\Azure Git\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs:line 301
+inner Message:Null
+2023-11-19 11:28:08.0773|ERROR|Common.LogHelper.NLogProvider|WebSocket connection failed
+Exception Type:Common.LinkLayer.BaseWebSocketAdapter 
+Source:Kaazing.JMS
+StackTrace:   at Common.LinkLayer.BaseWebSocketAdapter.Start() in D:\LeonLee\Azure Git\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs:line 314
+Message:WebSocket connection failed(BaseWebSocketAdapter Start() Error)
+ErrorMessage:Kaazing.JMS.Stomp.ConnectionFailedException: WebSocket connection failed
+   at Common.LinkLayer.BaseWebSocketAdapter.Start() in D:\LeonLee\Azure Git\KaazingChatWebApplication\Common\LinkLayer\BaseWebSocketAdapter.cs:line 314
+inner Message:Null
