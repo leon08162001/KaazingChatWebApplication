@@ -74,6 +74,8 @@ builder.Services.AddSwaggerGen(c =>
     c.SchemaFilter<KaazingChatApi.Utility.EnumTypesSchemaFilter>(filePath);
 });
 
+//使用傳統路由方式時,需加入Package "Swashbuckle.AspNetCore.SwaggerGen.ConventionalRouting",
+//並使用下列程式碼讓swagger產生器使用傳統路由
 builder.Services.AddSwaggerGenWithConventionalRoutes(options =>
 {
     options.IgnoreTemplateFunc = (template) => template.StartsWith("api/");
@@ -85,7 +87,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseSession();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
