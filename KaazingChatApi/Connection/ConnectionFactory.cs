@@ -12,7 +12,7 @@ namespace KaazingChatWebApplication.Connection
             {
                 case "default":
                     {
-                        var ConnectionString = Startup.AppSettingManager.GetConnectionString("SQLConnectionString");
+                        var ConnectionString = Startup.AppSettingManager.GetConnectionString("default");
                         return new SqlConnection(ConnectionString);
                     }
                 default:

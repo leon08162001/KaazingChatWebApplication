@@ -2,9 +2,11 @@ using Common;
 using Common.LinkLayer;
 using Common.Utility;
 using Dapper;
+using KaazingChatApi.JWTAuthentication.Authentication;
 using KaazingChatWebApplication.Connection;
 using KaazingChatWebApplication.Helper;
 using KaazingChatWebApplication.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using System.Net.Sockets;
@@ -65,6 +67,7 @@ namespace KaazingChatApi.Controllers
     /// <summary>
     /// 網頁聊天對話所使用的web api
     /// </summary>
+    [Authorize]
     //[Route("KaazingChatWebApi/api/WebChat")]
     public class WebChatController : ControllerBase
     {

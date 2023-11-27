@@ -1,9 +1,17 @@
 using KaazingChatApi;
+using KaazingChatApi.JWTAuthentication.Authentication;
 using KaazingTestWebApplication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.SwaggerGen.ConventionalRouting;
+using System.ComponentModel.DataAnnotations;
+using System.Configuration;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -82,6 +90,37 @@ builder.Services.AddSwaggerGenWithConventionalRoutes(options =>
     options.SkipDefaults = true;
 });
 
+// For Entity Framework
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Startup.AppSettingManager.GetConnectionString("default")));
+
+// For Identity
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+// Adding Authentication
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+
+// Adding Jwt Bearer
+.AddJwtBearer(options =>
+             {
+                 options.SaveToken = true;
+                 options.RequireHttpsMetadata = false;
+                 options.TokenValidationParameters = new TokenValidationParameters()
+                 {
+                     ValidateIssuer = true,
+                     ValidateAudience = true,
+                     ValidAudience = Startup.AppSettingManager.GetSection("JWT:ValidAudience").Value,
+                     ValidIssuer = Startup.AppSettingManager.GetSection("JWT:ValidIssuer").Value,
+                     ValidateLifetime = true,
+                     ValidateIssuerSigningKey = true,
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Startup.AppSettingManager.GetSection("JWT:Secret").Value))
+                 };
+             });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -97,6 +136,7 @@ app.UseRouting();
 
 app.UseCors("AllowSpecificOrigin");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 //下面使用傳統路由方式時,Controller程式檔需拿掉Route屬性程式的引用，

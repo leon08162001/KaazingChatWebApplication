@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebChat_WebCam.aspx.cs" Inherits="KaazingChatWebApplication.WebChat_WebCam" %>
+﻿<%@ Page Language="C#" Async="true" AutoEventWireup="true" CodeBehind="WebChat_WebCam.aspx.cs" Inherits="KaazingChatWebApplication.WebChat_WebCam" %>
 
 <!DOCTYPE html>
 

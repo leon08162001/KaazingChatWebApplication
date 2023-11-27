@@ -15,6 +15,10 @@ using KaazingTestWebApplication.Controllers;
 using KaazingChatWebApplication.Models;
 using System.Web.Http;
 using System.Web.Http.Results;
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Configuration;
+using Spring.Expressions.Parser.antlr;
 
 namespace KaazingChatWebApplication
 {
@@ -29,7 +33,9 @@ namespace KaazingChatWebApplication
         protected string EnCryptWebSocketUID = "";
         protected string EnCryptWebSocketPWD = "";
         protected string timeStamp = HttpContext.Current.Timestamp.ToString("yyyyMMddHHmmssfff");
-        protected void Page_Load(object sender, EventArgs e)
+        String authenticationLoginServiceUrl = "api/Authenticate/Login";
+
+        protected async void Page_Load(object sender, EventArgs e)
         {
             FileInfo IniFile = new FileInfo(Path.Combine(Server.MapPath(""), "common.ini"));
             using (FileStream FS = IniFile.OpenRead())
@@ -77,7 +83,18 @@ namespace KaazingChatWebApplication
             GetWebSocketLoadBalancerUrl();
             ClientIp = GetClientIp();
             EnCryptWebSocketUID = Config.KaazingWebSocketUserID;
-            EnCryptWebSocketPWD = Config.KaazingWebSocketPwd; 
+            EnCryptWebSocketPWD = Config.KaazingWebSocketPwd;
+
+            //取得存取API的Token存入httpclient header Authorization
+            string accessToken = await GetAccessToken("leon", "1qaz!QAZ");
+            if (accessToken.Equals(""))
+            {
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "accessTokenLoss", "alert('權限不足無法取得聊天功能API的Token，系統功能無法使用')", true);
+            }
+            else
+            {
+                ClientScript.RegisterClientScriptBlock(this.GetType(), "accessToken", "sessionStorage.setItem('accessToken','" + accessToken + "');", true);
+            }
         }
         private string GetClientIp()
         {
@@ -141,6 +158,26 @@ namespace KaazingChatWebApplication
             {
                 KaazingJmsSvc = "";
             }
+        }
+        private async Task<string> GetAccessToken(string userName, string userPwd)
+        {
+            var accessToken = "";
+            var dict = new Dictionary<string, string>();
+            dict.Add("username", userName);
+            dict.Add("password", userPwd);
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(ConfigurationManager.AppSettings["WebChatApiUrl"]);
+                var content = new FormUrlEncodedContent(dict);
+                var response = await client.PostAsync(authenticationLoginServiceUrl, content);
+                var result = await response.Content.ReadAsStringAsync();
+                if (response.IsSuccessStatusCode)
+                {
+                    dynamic tokenObj = JsonConvert.DeserializeObject(result);
+                    accessToken = tokenObj["token"];
+                }
+            }
+            return accessToken;
         }
     }
 }

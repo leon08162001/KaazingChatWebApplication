@@ -34,7 +34,7 @@
     "IIS": {
       "commandName": "IIS",
       "launchBrowser": true,
-      "launchUrl": "https://si1374.asuscomm.com:1443/KaazingChatWebApplication/WebChat_WebCam.aspx",
+      "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Production"
       }
