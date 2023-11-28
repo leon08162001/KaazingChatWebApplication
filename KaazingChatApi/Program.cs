@@ -9,8 +9,6 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.SwaggerGen.ConventionalRouting;
-using System.ComponentModel.DataAnnotations;
-using System.Configuration;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -117,6 +115,7 @@ builder.Services.AddAuthentication(options =>
                      ValidIssuer = Startup.AppSettingManager.GetSection("JWT:ValidIssuer").Value,
                      ValidateLifetime = true,
                      ValidateIssuerSigningKey = true,
+                     ClockSkew = TimeSpan.Zero,
                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Startup.AppSettingManager.GetSection("JWT:Secret").Value))
                  };
              });
