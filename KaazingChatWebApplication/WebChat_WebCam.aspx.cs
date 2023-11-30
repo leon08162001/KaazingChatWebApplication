@@ -174,7 +174,7 @@ namespace KaazingChatWebApplication
                 if (response.IsSuccessStatusCode)
                 {
                     dynamic tokenObj = JsonConvert.DeserializeObject(result);
-                    accessToken = tokenObj["token"];
+                    accessToken = tokenObj["Token"];
                 }
             }
             return accessToken;
