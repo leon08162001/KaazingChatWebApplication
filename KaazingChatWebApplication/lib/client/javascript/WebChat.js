@@ -31,23 +31,26 @@ var allReceivedNum;
 var reader = new FileReader();
 var fileName;
 
+//accessToken
+var accessToken = "";
+
 //Web API相關 Url
 //var MY_WEBSOCKET_URL = "wss://192.168.43.114:9001/jms";
 //var messageTalkServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendTalkMessageToServer";
 //var messageTalkServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/SendTalkMessageToServer";
 //var messageTalkServiceUrl = "Asmx/ChatService.asmx/SendTalkMessageToServer";
 
-var messageTalkServiceUrl = "api/WebChat/SendTalkMessageToServer";
-var chkWebSocketLoadBalancerUrl = "api/WebChat/GetWebSocketLoadBalancerUrl";
-//var messageTalkServiceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/SendTalkMessageToServer";
-//var chkWebSocketLoadBalancerUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/GetWebSocketLoadBalancerUrl";
+//var messageTalkServiceUrl = "api/WebChat/SendTalkMessageToServer";
+//var chkWebSocketLoadBalancerUrl = "api/WebChat/GetWebSocketLoadBalancerUrl";
+var messageTalkServiceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/SendTalkMessageToServer";
+var chkWebSocketLoadBalancerUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/GetWebSocketLoadBalancerUrl";
 
 //var messageReadServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService.asmx/SendReadMessageToServer";
 //var messageReadServiceUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebApi/api/WebChat/SendReadMessageToServer";
 //var messageReadServiceUrl = "Asmx/ChatService.asmx/SendReadMessageToServer";
 
-var messageAjaxServiceUrl = "api/WebChat/SendAjaxMessageToServer";
-//var messageAjaxServiceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/SendAjaxMessageToServer";
+//var messageAjaxServiceUrl = "api/WebChat/SendAjaxMessageToServer";
+var messageAjaxServiceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/SendAjaxMessageToServer";
 
 //因android 瀏覽器執行下列上傳檔案asmx會出現error,故改用呼叫ashx方式進行(暫查不出原因,因PC上瀏覽器執行上傳檔案asmx沒有問題)
 //var messageUploadFileUrl = "https://leonpc.asuscomm.com:1443/KaazingChatWebService/ChatService1.asmx/UploadFile";
@@ -74,16 +77,16 @@ var messageAjaxServiceUrl = "api/WebChat/SendAjaxMessageToServer";
 //var messageUploadFileUrl = "Ashx/UploadFile2.ashx";
 
 //WebSocketUploadFile
-var messageUploadFileUrl = "api/WebChat/UploadFile";
-//var messageUploadFileUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/UploadFile";
+//var messageUploadFileUrl = "api/WebChat/UploadFile";
+var messageUploadFileUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/UploadFile";
 //MQUploadFile
 //var messageUploadFileUrl = "api/WebChat/UploadFile1";
 //EMSUploadFile
 //var messageUploadFileUrl = "api/WebChat/UploadFile2";
 
 //WebSocketUploadStream
-var messageUploadStreamUrl = "api/WebChat/UploadStream";
-//var messageUploadStreamUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/UploadStream";
+//var messageUploadStreamUrl = "api/WebChat/UploadStream";
+var messageUploadStreamUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/UploadStream";
 
 // Used for development and debugging. All logging can be turned
 // off by modifying this function.
@@ -405,8 +408,8 @@ var chatUpdate = function (chat, isExit) {
     if (chat.htmlMessage == "") {
         return;
     }
-    var chatUpdateServiceUrl = "api/WebChat/ChatUpdate";
-    //var chatUpdateServiceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/ChatUpdate";
+    //var chatUpdateServiceUrl = "api/WebChat/ChatUpdate";
+    var chatUpdateServiceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/ChatUpdate";
     if (!isExit) {
         CallAjax(chatUpdateServiceUrl, chat,
             function (result) {
@@ -420,15 +423,17 @@ var chatUpdate = function (chat, isExit) {
                 else {
                     //var obj = JSON.parse(xhr.responseText);
                     var result = isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
-                    console.log(result);
-                    window.alert(result);
+                    if (result !== "") {
+                        console.log(result);
+                        window.alert(result);
+                    }
                 }
             });
     }
     else {
         if (navigator.sendBeacon) {
-            chatUpdateServiceUrl = "api/WebChat/ChatUpdateWhenExit";
-            //chatUpdateServiceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/ChatUpdateWhenExit";
+            //chatUpdateServiceUrl = "api/WebChat/ChatUpdateWhenExit";
+            chatUpdateServiceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/ChatUpdateWhenExit";
             var data = new FormData();
             data.append('id', chat.id);
             data.append('name', chat.name);
@@ -496,8 +501,10 @@ var sendAjaxTalkMessage1 = function () {
             else {
                 //var obj = JSON.parse(xhr.responseText);
                 var result = isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
-                console.log(result);
-                window.alert(result);
+                if (result !== "") {
+                    console.log(result);
+                    window.alert(result);
+                }
             }
             //window.alert(err.Message);
         });
@@ -563,6 +570,7 @@ var sendAjaxTalkMessage = function () {
         data: data,
         dataType: "json",
         type: "POST",
+        headers: { Authorization: 'Bearer ' + accessToken },
         //contentType: "application/json; charset=utf-8",
         contentType: 'application/x-www-form-urlencoded; charset=utf-8',
         success: function (result) {
@@ -585,10 +593,13 @@ var sendAjaxTalkMessage = function () {
             else {
                 //var obj = JSON.parse(xhr.responseText);
                 var result = isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
-                console.log(result);
-                window.alert(result);
+                if (result !== "") {
+                    console.log(result);
+                    window.alert(result);
+                }
             }
         },
+        statusCode: { 401: function () { alert('呼叫API發生錯誤，因未授權使用。'); } },
         complete: function (XHR, TS) {
             $("#sendMessage").attr('disabled', false);
             XHR = null;
@@ -623,6 +634,7 @@ var sendAjaxMessage = function (message, ajaxMessageType, filePusherId) {
         data: data,
         dataType: "json",
         type: "POST",
+        headers: { Authorization: 'Bearer ' + accessToken },
         //contentType: "application/json; charset=utf-8",
         contentType: 'application/x-www-form-urlencoded; charset=utf-8',
         error: function (xhr, textStatus, errorThrown) {
@@ -633,10 +645,13 @@ var sendAjaxMessage = function (message, ajaxMessageType, filePusherId) {
             else {
                 //var obj = JSON.parse(xhr.responseText);
                 var result = isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
-                console.log(result);
-                window.alert(result);
+                if (result !== "") {
+                    console.log(result);
+                    window.alert(result);
+                }
             }
         },
+        statusCode: { 401: function () { alert('呼叫API發生錯誤，因未授權使用。'); } },
         complete: function (XHR, TS) {
             XHR = null;
         }
@@ -644,8 +659,8 @@ var sendAjaxMessage = function (message, ajaxMessageType, filePusherId) {
 };
 
 var getChatToday = function () {
-    var serviceUrl = "api/WebChat/GetChatToday";
-    //var serviceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/GetChatToday";
+    //var serviceUrl = "api/WebChat/GetChatToday";
+    var serviceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/GetChatToday";
     var chat = {};
     chat.id = messageClient ? messageClient.listenName.replace(/webchat./ig, "") : "";
     chat.receiver = messageClient ? messageClient.sendName.replace(/webchat./ig, "") : "";
@@ -694,16 +709,18 @@ var getChatToday = function () {
             else {
                 //var obj = JSON.parse(xhr.responseText);
                 var result = isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
-                console.log(result);
-                window.alert(result);
+                if (result !== "") {
+                    console.log(result);
+                    window.alert(result);
+                }
             }
         });
 };
 
 var getChatHistory = function () {
     $('#modal-loading').modal('show');
-    var serviceUrl = "api/WebChat/GetChatHistory";
-    //var serviceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/GetChatHistory";
+    //var serviceUrl = "api/WebChat/GetChatHistory";
+    var serviceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/GetChatHistory";
     var chatRecords = $('#chatRecords option:selected').val();
     var chat = {};
     chat.id = messageClient ? messageClient.listenName.replace(/webchat./ig, "") : "";
@@ -741,16 +758,18 @@ var getChatHistory = function () {
             else {
                 //var obj = JSON.parse(xhr.responseText);
                 var result = isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
-                console.log(result);
-                window.alert(result);
+                if (result !== "") {
+                    console.log(result);
+                    window.alert(result);
+                }
             }
             $('#modal-loading').modal('hide');
         });
 };
 
 var GetAllTalkFriends = function () {
-    var serviceUrl = "api/WebChat/GetAllTalkFriends";
-    //var serviceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/GetAllTalkFriends";
+    //var serviceUrl = "api/WebChat/GetAllTalkFriends";
+    var serviceUrl = "https://leonpc.asuscomm.com:2443/KaazingChatWebApi/api/WebChat/GetAllTalkFriends";
     var chat = {};
     chat.id = ($.trim($("#listenFrom").val())).toUpperCase();
     chat.name = ($.trim($("#listenFrom").val())).toUpperCase();
@@ -778,8 +797,10 @@ var GetAllTalkFriends = function () {
             else {
                 //var obj = JSON.parse(xhr.responseText);
                 var result = isJson(xhr.responseText) ? JSON.parse(xhr.responseText).Message : xhr.responseText;
-                console.log(result);
-                window.alert(result);
+                if (result !== "") {
+                    console.log(result);
+                    window.alert(result);
+                }
             }
         });
 }
@@ -810,6 +831,7 @@ var getWebSocketLoadBalancerUrlOld = function () {
     var ajaxProgress = $.ajax({
         type: "POST",
         url: chkWebSocketLoadBalancerUrl,
+        headers: { Authorization: 'Bearer ' + accessToken },
         contentType: "application/json; charset=utf-8",
         success: function (result) {
             if (MY_WEBSOCKET_URL !== result && MY_WEBSOCKET_URL.length > 0) {
@@ -833,6 +855,7 @@ var getWebSocketLoadBalancerUrl = function () {
     var ajaxProgress = $.ajax({
         type: "POST",
         url: chkWebSocketLoadBalancerUrl,
+        headers: { Authorization: 'Bearer ' + accessToken },
         contentType: "application/json; charset=utf-8",
         success: function (result) {
             if ((result.length > 0 && MY_WEBSOCKET_URL.length > 0 && result.indexOf(MY_WEBSOCKET_URL) === -1) || (result.length > 0 && MY_WEBSOCKET_URL.length === 0)) {
@@ -1096,10 +1119,12 @@ function CallAjax(url, data, okFunc, failFunc) {
         data: data,
         dataType: "json",
         type: "POST",
+        headers: { Authorization: 'Bearer ' + accessToken },
         //contentType: "application/json; charset=utf-8",
         contentType: 'application/x-www-form-urlencoded; charset=utf-8',
         success: okFunc,
         error: failFunc,
+        statusCode: { 401: function () { alert('呼叫API發生錯誤，因未授權使用。'); } },
         complete: function (XHR, TS) {
             XHR = null;
         }
@@ -1113,11 +1138,13 @@ function CallSyncAjax(url, data, okFunc, failFunc) {
         data: data,
         dataType: "json",
         type: "POST",
+        headers: { Authorization: 'Bearer ' + accessToken },
         async: false,
         //contentType: "application/json; charset=utf-8",
         contentType: 'application/x-www-form-urlencoded; charset=utf-8',
         success: okFunc,
         error: failFunc,
+        statusCode: { 401: function () { alert('呼叫API發生錯誤，因未授權使用。'); } },
         complete: function (XHR, TS) {
             XHR = null;
         }
@@ -1207,6 +1234,7 @@ function startLiveVideo() {
                                 type: "POST",
                                 url: messageUploadStreamUrl,
                                 data: data,
+                                headers: { Authorization: 'Bearer ' + accessToken },
                                 contentType: false,
                                 processData: false,
                                 success: function () {
@@ -1224,6 +1252,7 @@ function startLiveVideo() {
                                     sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：串流傳送失敗:" + textStatus + "(" + messageTime + "):" + responseText, ajaxMessageTypeEnum.stream);
                                     //alert('串流傳送失敗');
                                 },
+                                statusCode: { 401: function () { alert('呼叫API發生錯誤，因未授權使用。'); } },
                                 complete: function (XHR, TS) {
                                     XHR = null;
                                 }
@@ -1276,6 +1305,7 @@ function isContainHtml(str) {
 }
 
 $(document).ready(function () {
+    accessToken = sessionStorage.getItem('accessToken');
     var video2 = document.querySelector('#video2');
 
     //video2.onended = (event) => {
@@ -1411,6 +1441,7 @@ $(document).ready(function () {
                 type: "POST",
                 url: messageUploadFileUrl,
                 data: data,
+                headers: { Authorization: 'Bearer ' + accessToken },
                 contentType: false,
                 processData: false,
                 success: function () {
@@ -1438,6 +1469,7 @@ $(document).ready(function () {
                     sendAjaxMessage(messageClient.listenName.replace(/webchat./ig, "") + "：檔案傳送失敗(" + messageTime + "):" + responseText, ajaxMessageTypeEnum.file);
                     //alert('檔案傳送失敗');
                 },
+                statusCode: { 401: function () { alert('呼叫API發生錯誤，因未授權使用。'); } },
                 complete: function (XHR, TS) {
                     $("#fileUpload").attr('disabled', false);
                     $('#btnUploadFile').attr('disabled', false);

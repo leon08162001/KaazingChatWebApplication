@@ -111,11 +111,12 @@ builder.Services.AddAuthentication(options =>
                  {
                      ValidateIssuer = true,
                      ValidateAudience = true,
-                     ValidAudience = Startup.AppSettingManager.GetSection("JWT:ValidAudience").Value,
-                     ValidIssuer = Startup.AppSettingManager.GetSection("JWT:ValidIssuer").Value,
                      ValidateLifetime = true,
                      ValidateIssuerSigningKey = true,
                      ClockSkew = TimeSpan.Zero,
+
+                     ValidAudience = Startup.AppSettingManager.GetSection("JWT:ValidAudience").Value,
+                     ValidIssuer = Startup.AppSettingManager.GetSection("JWT:ValidIssuer").Value,
                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Startup.AppSettingManager.GetSection("JWT:Secret").Value))
                  };
              });
